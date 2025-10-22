@@ -24,6 +24,23 @@ main {
   backdrop-filter: blur(6px);
 }
 
+body.is-embedded {
+  padding: 0;
+  display: block;
+  background: transparent;
+}
+
+body.is-embedded main {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1rem;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 h1 {
   margin-top: 0;
   font-size: clamp(1.8rem, 2.5vw, 2.4rem);

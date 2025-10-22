@@ -21,5 +21,23 @@
 </head>
 <body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
   {{ content }}
+  <script>
+    (function () {
+      try {
+        if (window.self !== window.top) {
+          document.documentElement.classList.add('is-embedded');
+          if (document.body) {
+            document.body.classList.add('is-embedded');
+          } else {
+            document.addEventListener('DOMContentLoaded', function () {
+              document.body.classList.add('is-embedded');
+            });
+          }
+        }
+      } catch (error) {
+        console.warn('Embed detection failed', error);
+      }
+    })();
+  </script>
 </body>
 </html>
