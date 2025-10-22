@@ -1,0 +1,103 @@
+---
+title: Embed the P(doom) Calculator
+description: Quick instructions and live preview for embedding the calculator on another site.
+body_class: embed-page
+---
+<main>
+  <header class="embed-header">
+    <p class="eyebrow">Shareable widget</p>
+    <h1>Embed the P(doom) calculator on your site</h1>
+    <p class="description">
+      Drop the snippet below anywhere on your page (blog post, documentation, or landing page) to provide direct access to the calculator within an iframe.
+    </p>
+  </header>
+
+  <section class="embed-instructions">
+    <h2>Copy &amp; paste snippet</h2>
+    <p>
+      Paste this markup where you want the widget to appear. It keeps the calculator responsive and adds a subtle border that matches the original styling.
+    </p>
+    <div class="snippet-card">
+      <div class="snippet-actions">
+        <button id="copyEmbedButton" type="button" class="copy-button">Copy snippet</button>
+        <span id="copyStatus" class="copy-status" role="status" aria-live="polite"></span>
+      </div>
+      <pre><code id="embedCode">&lt;div style=&quot;max-width:960px;margin:0 auto;&quot;&gt;
+  &lt;iframe
+    src=&quot;https://neoneye.github.io/pdoom-calculator/&quot;
+    title=&quot;P(doom) Calculator&quot;
+    loading=&quot;lazy&quot;
+    referrerpolicy=&quot;strict-origin-when-cross-origin&quot;
+    allowtransparency=&quot;true&quot;
+    style=&quot;width:100%;min-height:760px;border:1px solid rgba(90,120,200,0.35);border-radius:18px;background:#0b1120;&quot;
+  &gt;&lt;/iframe&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="embed-preview">
+    <h2>Live preview</h2>
+    <p>
+      This is exactly what the embed looks like with the recommended wrapper class applied.
+    </p>
+    <div class="pdoom-calculator-embed demo-embed">
+      <iframe
+        src="https://neoneye.github.io/pdoom-calculator/"
+        title="P(doom) Calculator"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowtransparency="true"
+        style="width:100%;min-height:760px;border:1px solid rgba(90,120,200,0.35);border-radius:18px;background:#0b1120;"
+      >
+        Your browser does not support iframes. Please visit the calculator directly.
+      </iframe>
+    </div>
+  </section>
+
+  <section class="embed-tips">
+    <h2>Tips</h2>
+    <ul>
+      <li>Place the snippet inside a container that has enough vertical space (the calculator is roughly 740px tall at desktop widths).</li>
+      <li>You can override the default height by adding a custom class and setting <code>min-height</code> on the iframe.</li>
+      <li>For dark pages, keep the surrounding container dark so the calculator styling blends seamlessly.</li>
+      <li>If you use a Content Security Policy, allow <code>https://neoneye.github.io</code> for <code>frame-src</code>.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+  const copyButton = document.getElementById('copyEmbedButton');
+  const embedCode = document.getElementById('embedCode');
+  const copyStatus = document.getElementById('copyStatus');
+
+  if (copyButton && embedCode) {
+    copyButton.addEventListener('click', async () => {
+      const text = embedCode.textContent;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'absolute';
+          textarea.style.left = '-9999px';
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+        }
+        if (copyStatus) {
+          copyStatus.textContent = 'Copied!';
+          setTimeout(() => (copyStatus.textContent = ''), 2500);
+        }
+      } catch (error) {
+        console.error('Failed to copy embed snippet', error);
+        if (copyStatus) {
+          copyStatus.textContent = 'Press Ctrl+C / Cmd+C to copy manually.';
+          setTimeout(() => (copyStatus.textContent = ''), 4000);
+        }
+      }
+    });
+  }
+</script>

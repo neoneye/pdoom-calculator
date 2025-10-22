@@ -442,3 +442,121 @@ input[type="number"] {
     height: 280px;
   }
 }
+
+.embed-page main {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.embed-header .eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: rgba(230, 235, 255, 0.65);
+}
+
+.embed-page h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+}
+
+.embed-instructions,
+.embed-preview,
+.embed-tips {
+  display: grid;
+  gap: 1rem;
+}
+
+.snippet-card {
+  background: rgba(18, 26, 40, 0.92);
+  border: 1px solid rgba(90, 120, 200, 0.3);
+  border-radius: 14px;
+  padding: 1.4rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.snippet-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.copy-button {
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 186, 255, 0.6);
+  background: rgba(76, 131, 238, 0.2);
+  color: rgba(230, 235, 255, 0.85);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.copy-button:hover,
+.copy-button:focus {
+  background: rgba(110, 177, 255, 0.35);
+  border-color: rgba(120, 186, 255, 0.85);
+}
+
+.copy-status {
+  font-size: 0.85rem;
+  color: rgba(131, 232, 198, 0.9);
+}
+
+.snippet-card pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 1rem;
+  background: rgba(6, 12, 24, 0.85);
+  border-radius: 10px;
+  font-size: 0.85rem;
+}
+
+.snippet-card code {
+  color: rgba(230, 235, 255, 0.85);
+}
+
+.pdoom-calculator-embed {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.pdoom-calculator-embed iframe {
+  width: 100%;
+  min-height: 760px;
+  border: 1px solid rgba(90, 120, 200, 0.35);
+  border-radius: 18px;
+  background: rgba(12, 16, 24, 0.92);
+}
+
+.embed-page ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.6rem;
+  color: rgba(230, 235, 255, 0.75);
+}
+
+.demo-embed iframe {
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 720px) {
+  .embed-page main {
+    gap: 2rem;
+  }
+
+  .pdoom-calculator-embed iframe {
+    min-height: 640px;
+  }
+
+  .snippet-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
