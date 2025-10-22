@@ -1,0 +1,8 @@
+{% assign supabase = site.data.supabase %}
+{% if supabase %}
+<script>
+  window.SUPABASE_CONFIG = {{ supabase | jsonify }};
+  window.SUPABASE_URL = window.SUPABASE_CONFIG.url;
+  window.SUPABASE_ANON_KEY = window.SUPABASE_CONFIG.anon_key;
+</script>
+{% endif %}

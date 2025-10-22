@@ -52,8 +52,8 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = window.SUPABASE_URL || 'https://xkypfhwxzvxtgdfpksjm.supabase.co';
-    const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhreXBmaHd4enZ4dGdkZnBrc2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2NTk1MzcsImV4cCI6MjA3NTIzNTUzN30.cG3Jh1A-lNp9UTRvjgn0nFuOhQcv1jSeCDIS2yWeWkQ';
+  const SUPABASE_URL = window.SUPABASE_URL;
+  const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
     const SUBMISSIONS_TABLE = 'submissions';
     let supabaseClient = null;
     let latestSnapshot = null;
@@ -94,8 +94,8 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
     const state = new Map();
 
     function initSupabase() {
-      const missingUrl = !SUPABASE_URL || SUPABASE_URL.includes('YOUR-PROJECT-ID');
-      const missingKey = !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('YOUR-PUBLIC-ANON-KEY');
+    const missingUrl = !SUPABASE_URL;
+    const missingKey = !SUPABASE_ANON_KEY;
       if (missingUrl || missingKey) {
         console.info('Supabase client not initialized: configure SUPABASE_URL and SUPABASE_ANON_KEY.');
         return;

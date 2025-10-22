@@ -17,6 +17,7 @@
   {% endif %}
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
   {% include google-analytics.html %}
+  {% include supabase-config.html %}
 </head>
 <body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
   {{ content }}
