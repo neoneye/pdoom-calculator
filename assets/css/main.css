@@ -529,9 +529,6 @@ input[type="number"] {
 .pdoom-calculator-embed iframe {
   width: 100%;
   min-height: 760px;
-  border: 1px solid rgba(90, 120, 200, 0.35);
-  border-radius: 18px;
-  background: rgba(12, 16, 24, 0.92);
 }
 
 .embed-page ul {
