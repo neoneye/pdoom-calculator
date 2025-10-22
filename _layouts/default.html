@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  {% assign document_title = site.title %}
+  {% if page.title %}
+    {% assign document_title = page.title %}
+    {% if site.title and page.title != site.title %}
+      {% assign document_title = page.title | append: ' | ' | append: site.title %}
+    {% endif %}
+  {% endif %}
+  <title>{{ document_title | escape }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {% assign meta_description = page.description | default: site.description %}
+  {% if meta_description %}
+    <meta name="description" content="{{ meta_description | escape }}" />
+  {% endif %}
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
+  {% include google-analytics.html %}
+</head>
+<body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
+  {{ content }}
+</body>
+</html>

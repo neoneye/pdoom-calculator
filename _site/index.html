@@ -1,8 +1,21 @@
----
-title: P(doom) Calculator
-description: Interactively estimate overall P(doom) by setting stage-wise probabilities and uncertainty. Shows point estimate and 10-90% band.
----
-<main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  
+  
+  <title>P(doom) Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  
+    <meta name="description" content="Interactively estimate overall P(doom) by setting stage-wise probabilities and uncertainty. Shows point estimate and 10-90% band." />
+  
+  <link rel="stylesheet" href="/pdoom-calculator/assets/css/main.css" />
+  
+
+</head>
+<body>
+  <main>
     <h1>P(doom) Calculator</h1>
     <p class="description">
       Choose your best guess for each stage and how uncertain you are (± pts).
@@ -40,7 +53,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
     <section class="submission">
       <button class="primary-button" id="submitParametersButton" type="button">Submit your P(doom)</button>
       <p class="submission-note">
-        Share these parameters to contribute to aggregate stats. <a class="stats-link" href="{{ '/stats.html' | relative_url }}">View stats</a>.
+        Share these parameters to contribute to aggregate stats. <a class="stats-link" href="/pdoom-calculator/stats.html">View stats</a>.
       </p>
       <p class="submission-status" id="submissionStatus" aria-live="polite"></p>
     </section>
@@ -398,3 +411,6 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
     init();
   </script>
+
+</body>
+</html>

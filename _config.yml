@@ -1,0 +1,10 @@
+title: "P(doom) Calculator"
+description: "Interactively estimate overall P(doom) by setting stage-wise probabilities and uncertainty. Shows point estimate and 10-90% band."
+url: "https://neoneye.github.io"
+baseurl: "/pdoom-calculator"
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
