@@ -295,6 +295,7 @@ input[type="range"]::-webkit-slider-thumb {
   background: rgba(240, 245, 255, 0.95);
   box-shadow: 0 0 0 6px rgba(76, 131, 238, 0.18);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  margin-top: -11px;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
