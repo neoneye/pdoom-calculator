@@ -533,6 +533,14 @@ input[type="number"] {
   background: rgba(255, 255, 255, 0.02);
 }
 
+.data-table__label-mobile {
+  display: none;
+}
+
+.data-table__label-desktop {
+  display: inline;
+}
+
 .footer-note a {
   color: rgba(120, 186, 255, 0.95);
   text-decoration: none;
@@ -560,6 +568,14 @@ input[type="number"] {
 
   .chart-area {
     height: 280px;
+  }
+
+  .data-table__label-desktop {
+    display: none;
+  }
+
+  .data-table__label-mobile {
+    display: inline;
   }
 }
 
