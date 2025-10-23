@@ -254,6 +254,25 @@ p.description {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.01em;
   text-transform: none;
+  position: relative;
+}
+
+.slider-value--percent::after {
+  content: "%";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translate(0.25ch, -50%);
+  pointer-events: none;
+}
+
+.slider-value--spread::before {
+  content: "±";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translate(-0.25ch, -50%);
+  pointer-events: none;
 }
 
 input[type="range"] {

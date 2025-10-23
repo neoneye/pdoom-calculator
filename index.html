@@ -197,7 +197,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
               <label>
                 <span class="slider-caption">
                   <span>Unlikely</span>
-                  <span class="slider-value" data-role="midpointValue" data-key="${key}">${midpoint.toFixed(1)}%</span>
+                  <span class="slider-value slider-value--percent" data-role="midpointValue" data-key="${key}" aria-label="${midpoint.toFixed(1)} percent">${midpoint.toFixed(1)}</span>
                   <span>Likely</span>
                 </span>
                 <input type="range" min="0" max="100" step="0.5" value="${midpoint.toFixed(1)}" data-role="midpoint" data-key="${key}" aria-label="Midpoint for ${label}" />
@@ -207,7 +207,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
               <label>
                 <span class="slider-caption">
                   <span>Certain</span>
-                  <span class="slider-value" data-role="spreadValue" data-key="${key}">±${spread.toFixed(1)}</span>
+                  <span class="slider-value slider-value--spread" data-role="spreadValue" data-key="${key}" aria-label="±${spread.toFixed(1)}">${spread.toFixed(1)}</span>
                   <span>Uncertain</span>
                 </span>
                 <input type="range" min="0" max="${SPREAD_MAX.toFixed(1)}" step="0.5" value="${spread.toFixed(1)}" data-role="spread" data-key="${key}" aria-label="Uncertainty for ${label}" />
@@ -258,14 +258,20 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       const spreadValue = document.querySelector(`span[data-key="${key}"][data-role="spreadValue"]`);
 
       if (midpointRange) midpointRange.value = midpoint.toFixed(1);
-      if (midpointValue) midpointValue.textContent = `${midpoint.toFixed(1)}%`;
+      if (midpointValue) {
+        const midpointText = midpoint.toFixed(1);
+        midpointValue.textContent = midpointText;
+        midpointValue.setAttribute('aria-label', `${midpointText} percent`);
+      }
 
       if (spreadRange) {
         spreadRange.max = SPREAD_MAX.toFixed(1);
         spreadRange.value = clamp(spread, 0, SPREAD_MAX).toFixed(1);
       }
       if (spreadValue) {
-        spreadValue.textContent = `±${clamp(spread, 0, SPREAD_MAX).toFixed(1)}`;
+        const spreadText = clamp(spread, 0, SPREAD_MAX).toFixed(1);
+        spreadValue.textContent = spreadText;
+        spreadValue.setAttribute('aria-label', `±${spreadText}`);
       }
     }
 
