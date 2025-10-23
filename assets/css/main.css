@@ -211,9 +211,9 @@ p.description {
 }
 
 .slider-row {
-  display: grid;
-  grid-template-columns: minmax(180px, 1fr) minmax(60px, 80px);
-  gap: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
   font-size: 0.95rem;
   padding-right: 1rem;
 }
@@ -226,12 +226,34 @@ p.description {
 }
 
 .slider-caption {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   opacity: 0.8;
+  gap: 0.6rem;
+}
+
+.slider-caption span:first-child {
+  justify-self: start;
+  text-align: left;
+}
+
+.slider-caption span:last-child {
+  justify-self: end;
+  text-align: right;
+}
+
+.slider-value {
+  justify-self: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(230, 235, 255, 0.85);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }
 
 input[type="range"] {
@@ -239,26 +261,10 @@ input[type="range"] {
   accent-color: rgba(110, 177, 255, 0.9);
 }
 
-input[type="number"] {
-  width: 100%;
-  padding: 0.45rem 0.6rem;
-  border-radius: 8px;
-  border: 1px solid rgba(90, 120, 200, 0.4);
-  background: rgba(6, 12, 24, 0.6);
-  color: inherit;
-  font-size: 0.95rem;
-}
-
 @media (max-width: 640px) {
   .slider-row {
-    grid-template-columns: 1fr;
     padding-right: 0;
-    gap: 0.9rem;
-  }
-
-  .slider-row input[type="number"] {
-    max-width: 140px;
-    justify-self: end;
+    gap: 0.65rem;
   }
 }
 

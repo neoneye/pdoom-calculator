@@ -197,21 +197,21 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
               <label>
                 <span class="slider-caption">
                   <span>Unlikely</span>
+                  <span class="slider-value" data-role="midpointValue" data-key="${key}">${midpoint.toFixed(1)}%</span>
                   <span>Likely</span>
                 </span>
                 <input type="range" min="0" max="100" step="0.5" value="${midpoint.toFixed(1)}" data-role="midpoint" data-key="${key}" aria-label="Midpoint for ${label}" />
               </label>
-              <input type="number" min="0" max="100" step="0.1" value="${midpoint.toFixed(1)}" data-role="midpointInput" data-key="${key}" />
             </div>
             <div class="slider-row">
               <label>
                 <span class="slider-caption">
                   <span>Certain</span>
+                  <span class="slider-value" data-role="spreadValue" data-key="${key}">±${spread.toFixed(1)}</span>
                   <span>Uncertain</span>
                 </span>
                 <input type="range" min="0" max="${SPREAD_MAX.toFixed(1)}" step="0.5" value="${spread.toFixed(1)}" data-role="spread" data-key="${key}" aria-label="Uncertainty for ${label}" />
               </label>
-              <input type="number" min="0" max="${SPREAD_MAX.toFixed(1)}" step="0.1" value="${spread.toFixed(1)}" data-role="spreadInput" data-key="${key}" />
             </div>
           </div>
         </div>
@@ -253,20 +253,19 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
     function syncInputs(key) {
       const { midpoint, spread } = state.get(key);
       const midpointRange = document.querySelector(`input[data-key="${key}"][data-role="midpoint"]`);
-      const midpointInput = document.querySelector(`input[data-key="${key}"][data-role="midpointInput"]`);
+      const midpointValue = document.querySelector(`span[data-key="${key}"][data-role="midpointValue"]`);
       const spreadRange = document.querySelector(`input[data-key="${key}"][data-role="spread"]`);
-      const spreadInput = document.querySelector(`input[data-key="${key}"][data-role="spreadInput"]`);
+      const spreadValue = document.querySelector(`span[data-key="${key}"][data-role="spreadValue"]`);
 
       if (midpointRange) midpointRange.value = midpoint.toFixed(1);
-      if (midpointInput) midpointInput.value = midpoint.toFixed(1);
+      if (midpointValue) midpointValue.textContent = `${midpoint.toFixed(1)}%`;
 
       if (spreadRange) {
         spreadRange.max = SPREAD_MAX.toFixed(1);
         spreadRange.value = clamp(spread, 0, SPREAD_MAX).toFixed(1);
       }
-      if (spreadInput) {
-        spreadInput.max = SPREAD_MAX.toFixed(1);
-        spreadInput.value = clamp(spread, 0, SPREAD_MAX).toFixed(1);
+      if (spreadValue) {
+        spreadValue.textContent = `±${clamp(spread, 0, SPREAD_MAX).toFixed(1)}`;
       }
     }
 
@@ -358,13 +357,6 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       updateState(key, role, value);
     }
 
-    function handleNumberInput(event) {
-      const role = event.target.dataset.role?.replace('Input', '');
-      const key = event.target.dataset.key;
-      if (!role || !key) return;
-      updateState(key, role, Number(event.target.value));
-    }
-
     function init() {
       const list = document.getElementById('factorList');
       config.forEach((factor) => {
@@ -379,9 +371,6 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       document.addEventListener('input', (event) => {
         if (event.target.matches('input[type="range"]')) {
           handleRangeInput(event);
-        }
-        if (event.target.matches('input[type="number"]')) {
-          handleNumberInput(event);
         }
       });
 
