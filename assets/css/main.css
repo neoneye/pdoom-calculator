@@ -649,6 +649,12 @@ input[type="number"] {
 .pdoom-calculator-embed iframe {
   width: 100%;
   min-height: 760px;
+  border: 1px solid rgba(120, 186, 255, 0.35);
+  background: rgba(12, 16, 24, 0.92);
+}
+
+.demo-embed iframe {
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
 }
 
 .embed-page main ul {
@@ -657,10 +663,6 @@ input[type="number"] {
   display: grid;
   gap: 0.6rem;
   color: rgba(230, 235, 255, 0.75);
-}
-
-.demo-embed iframe {
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
 }
 
 @media (max-width: 720px) {
