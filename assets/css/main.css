@@ -6,6 +6,12 @@
   color: #f5f5f5;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 2rem;
@@ -14,6 +20,17 @@ body {
   align-items: center;
   gap: 1.5rem;
   background: linear-gradient(180deg, #101823, #050608);
+  overflow-x: hidden;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 1.2rem;
+  }
+
+  main {
+    padding: 2rem;
+  }
 }
 
 .site-nav {
@@ -239,6 +256,19 @@ input[type="number"] {
   background: rgba(6, 12, 24, 0.6);
   color: inherit;
   font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+  .slider-row {
+    grid-template-columns: 1fr;
+    padding-right: 0;
+    gap: 0.9rem;
+  }
+
+  .slider-row input[type="number"] {
+    max-width: 140px;
+    justify-self: end;
+  }
 }
 
 .metrics {
