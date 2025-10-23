@@ -699,3 +699,7 @@ input[type="number"] {
 .about-page .resource-list a:focus {
   text-decoration: underline;
 }
+
+.about-page .footer h2 {
+  margin-top: 2.4rem;
+}
