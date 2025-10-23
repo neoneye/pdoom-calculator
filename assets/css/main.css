@@ -10,8 +10,59 @@ body {
   margin: 0;
   padding: 2rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
   background: linear-gradient(180deg, #101823, #050608);
+}
+
+.site-nav {
+  width: min(960px, 100%);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.site-nav__links {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav__links li {
+  display: flex;
+}
+
+.site-nav__links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  color: rgba(220, 226, 255, 0.85);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.site-nav__links a:hover,
+.site-nav__links a:focus {
+  color: rgba(240, 245, 255, 0.95);
+  border-color: rgba(120, 186, 255, 0.4);
+  background: rgba(76, 131, 238, 0.25);
+}
+
+.site-nav__links a[aria-current="page"] {
+  border-color: rgba(120, 186, 255, 0.8);
+  background: rgba(76, 131, 238, 0.35);
+  color: rgba(240, 245, 255, 0.98);
+}
+
+.site-nav__links a:focus-visible {
+  outline: 2px solid rgba(120, 186, 255, 0.9);
+  outline-offset: 2px;
 }
 
 main {
@@ -28,6 +79,22 @@ body.is-embedded {
   padding: 0;
   display: block;
   background: transparent;
+}
+
+body.is-embedded .site-nav {
+  width: 100%;
+  margin: 0;
+  padding: 0.75rem 1rem 0.5rem;
+  box-sizing: border-box;
+  background: rgba(12, 16, 24, 0.92);
+}
+
+body.is-embedded .site-nav__links {
+  gap: 0.9rem;
+}
+
+body.is-embedded .site-nav__links a {
+  padding: 0.35rem 0.85rem;
 }
 
 body.is-embedded main {
@@ -548,7 +615,7 @@ input[type="number"] {
   min-height: 760px;
 }
 
-.embed-page ul {
+.embed-page main ul {
   margin: 0;
   padding-left: 1.2rem;
   display: grid;

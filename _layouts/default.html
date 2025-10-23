@@ -20,6 +20,20 @@
   {% include supabase-config.html %}
 </head>
 <body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
+  {% assign current_path = page.path | default: '' %}
+  <nav class="site-nav" aria-label="Primary">
+    <ul class="site-nav__links">
+      <li>
+        <a href="{{ '/' | relative_url }}"{% if current_path == 'index.html' or current_path == '' %} aria-current="page"{% endif %}>Calc</a>
+      </li>
+      <li>
+        <a href="{{ '/stats.html' | relative_url }}"{% if current_path == 'stats.html' %} aria-current="page"{% endif %}>Stats</a>
+      </li>
+      <li>
+        <a href="{{ '/about.html' | relative_url }}"{% if current_path == 'about.html' %} aria-current="page"{% endif %}>About</a>
+      </li>
+    </ul>
+  </nav>
   {{ content }}
   <script>
     (function () {
