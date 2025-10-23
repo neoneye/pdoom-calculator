@@ -1,0 +1,335 @@
+---
+title: P(doom) Stats
+description: Visualize aggregate P(doom) submissions captured from the calculator.
+body_class: stats-page
+permalink: /stats/
+---
+<main>
+    <header class="page-header">
+      <h1>Community Stats</h1>
+      <p class="description">
+        Live view of contributed P(doom) parameters.
+      </p>
+    </header>
+
+    <p class="status-message" id="statusMessage" aria-live="polite"></p>
+
+    <section class="summary-grid">
+      <article class="summary-card">
+        <h2>Total submissions</h2>
+        <div class="summary-value" id="submissionCount">--</div>
+      </article>
+      <article class="summary-card">
+        <h2>Average P(doom)</h2>
+        <div class="summary-value" id="averageMidpoint">--</div>
+      </article>
+      <article class="summary-card">
+        <h2>Last submission</h2>
+        <div class="summary-value" id="lastUpdated">--</div>
+      </article>
+    </section>
+
+    <section class="chart-card">
+      <h2>P(doom) Histogram</h2>
+      <div class="chart-area">
+        <canvas id="factorChart"></canvas>
+      </div>
+    </section>
+
+    <section>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Stage</th>
+            <th>Avg lower</th>
+            <th>Avg midpoint</th>
+            <th>Avg upper</th>
+          </tr>
+        </thead>
+        <tbody id="factorTableBody"></tbody>
+      </table>
+    </section>
+
+    <p class="footer-note">
+      For more context on P(doom), see the <a href="https://en.wikipedia.org/wiki/P(doom)">Wikipedia article</a> with estimates from various researchers.
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+  const SUPABASE_URL = window.SUPABASE_URL;
+  const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+    const SUBMISSIONS_TABLE = 'submissions';
+    const MAX_ROWS = 500;
+
+    let supabaseClient = null;
+    let factorChartInstance = null;
+
+    const config = [
+      {
+        key: 'powerfulAi',
+        label: 'P(powerful AI)'
+      },
+      {
+        key: 'dangerousBehavior',
+        label: 'P(dangerous behavior | powerful AI)'
+      },
+      {
+        key: 'globalCatastrophe',
+        label: 'P(global catastrophe | dangerous behavior)'
+      }
+    ];
+
+    function setStatus(message, tone = 'info') {
+      const statusEl = document.getElementById('statusMessage');
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.classList.remove('error', 'success');
+      if (tone === 'error') {
+        statusEl.classList.add('error');
+      } else if (tone === 'success') {
+        statusEl.classList.add('success');
+      }
+    }
+
+    function formatPercent(prob) {
+      if (typeof prob !== 'number' || !Number.isFinite(prob)) return '--';
+      return (prob * 100).toFixed(1) + '%';
+    }
+
+    function getMidpointValues(rows) {
+      return rows
+        .map((row) => {
+          const midpoint = row?.summary?.midpoint;
+          return typeof midpoint === 'number' ? midpoint : null;
+        })
+        .filter((value) => value !== null);
+    }
+
+    function initSupabase() {
+      const missingUrl = !SUPABASE_URL;
+      const missingKey = !SUPABASE_ANON_KEY;
+      if (missingUrl || missingKey) {
+        setStatus('Supabase is not configured. Update SUPABASE_URL and SUPABASE_ANON_KEY.', 'error');
+        return;
+      }
+      if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+        setStatus('Supabase library failed to load.', 'error');
+        return;
+      }
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    async function fetchSubmissions() {
+      if (!supabaseClient) return [];
+
+      const { data, error } = await supabaseClient
+        .from(SUBMISSIONS_TABLE)
+        .select('submitted_at, summary, factors')
+        .order('submitted_at', { ascending: true })
+        .limit(MAX_ROWS);
+
+      if (error) {
+        console.error('Supabase query failed', error);
+        setStatus('Failed to load stats. Please try again later.', 'error');
+        return [];
+      }
+      return Array.isArray(data) ? data : [];
+    }
+
+    function aggregateFactors(rows) {
+      const factors = new Map();
+      rows.forEach((row) => {
+        const entries = Array.isArray(row.factors) ? row.factors : [];
+        entries.forEach((factor) => {
+          const key = factor.key;
+          if (!factors.has(key)) {
+            factors.set(key, {
+              label: factor.label || key,
+              lower: [],
+              upper: [],
+              midpoint: []
+            });
+          }
+          const bucket = factors.get(key);
+          const lower = typeof factor.lower === 'number' ? factor.lower : null;
+          const upper = typeof factor.upper === 'number' ? factor.upper : null;
+          const midpoint = typeof factor.midpoint === 'number' ? factor.midpoint : null;
+          if (lower !== null) bucket.lower.push(lower);
+          if (upper !== null) bucket.upper.push(upper);
+          if (midpoint !== null) bucket.midpoint.push(midpoint);
+        });
+      });
+      return factors;
+    }
+
+    function average(values) {
+      if (!values.length) return null;
+      const total = values.reduce((sum, value) => sum + value, 0);
+      return total / values.length;
+    }
+
+    function buildFactorSeries(factors) {
+      return Array.from(factors.values()).map((factor) => ({
+        label: factor.label,
+        lower: average(factor.lower),
+        upper: average(factor.upper),
+        midpoint: average(factor.midpoint)
+      }));
+    }
+
+    function buildMidpointHistogram(values) {
+      const BIN_SIZE = 5;
+      const BIN_COUNT = Math.ceil(100 / BIN_SIZE);
+      const bins = Array.from({ length: BIN_COUNT }, (_, index) => {
+        const start = index * BIN_SIZE;
+        const end = start + BIN_SIZE;
+        return {
+          label: `${start}-${end}%`,
+          count: 0
+        };
+      });
+
+      values.forEach((value) => {
+        const percent = value * 100;
+        if (!Number.isFinite(percent) || percent < 0) return;
+        const binIndex = Math.min(bins.length - 1, Math.floor(percent / BIN_SIZE));
+        bins[binIndex].count += 1;
+      });
+
+      return bins;
+    }
+
+    function renderMidpointHistogram(bins) {
+      const canvas = document.getElementById('factorChart');
+      if (!canvas) return;
+
+      if (factorChartInstance) {
+        factorChartInstance.destroy();
+      }
+      factorChartInstance = new window.Chart(canvas, {
+        type: 'bar',
+        data: {
+          labels: bins.map((bin) => bin.label),
+          datasets: [
+            {
+              label: 'Submissions',
+              data: bins.map((bin) => bin.count),
+              backgroundColor: 'rgba(120, 186, 255, 0.7)',
+              borderColor: 'rgba(120, 186, 255, 1)',
+              borderWidth: 1.5
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              },
+              title: {
+                display: true,
+                text: 'Submissions'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'P(doom) midpoint (%)'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label(context) {
+                  const count = context.parsed.y;
+                  const noun = count === 1 ? 'submission' : 'submissions';
+                  return `${count} ${noun}`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function populateFactorTable(series) {
+      const tbody = document.getElementById('factorTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      series.forEach((item) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.label}</td>
+          <td>${formatPercent(item.lower)}</td>
+          <td>${formatPercent(item.midpoint)}</td>
+          <td>${formatPercent(item.upper)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderSummary(rows, midpointValues) {
+      const total = rows.length;
+      const totalEl = document.getElementById('submissionCount');
+      const averageEl = document.getElementById('averageMidpoint');
+      const lastEl = document.getElementById('lastUpdated');
+      if (totalEl) totalEl.textContent = String(total);
+
+      const average = midpointValues.length
+        ? midpointValues.reduce((sum, value) => sum + value, 0) / midpointValues.length
+        : null;
+      if (averageEl) averageEl.textContent = formatPercent(average);
+
+      const last = rows[rows.length - 1];
+      const timestamp = last && last.submitted_at ? new Date(last.submitted_at) : null;
+      if (lastEl) {
+        lastEl.textContent = timestamp ? timestamp.toLocaleString() : '--';
+      }
+    }
+
+    async function init() {
+      setStatus('Loading data...');
+      initSupabase();
+      if (!supabaseClient) {
+        return;
+      }
+      try {
+        const rows = await fetchSubmissions();
+        if (!rows.length) {
+          renderSummary([], []);
+          setStatus('No submissions yet. Share your first set from the calculator.', 'success');
+          return;
+        }
+        const midpointValues = getMidpointValues(rows);
+        renderSummary(rows, midpointValues);
+        if (midpointValues.length) {
+          const histogram = buildMidpointHistogram(midpointValues);
+          renderMidpointHistogram(histogram);
+        } else if (factorChartInstance) {
+          factorChartInstance.destroy();
+        }
+        const factorMap = aggregateFactors(rows);
+        const series = buildFactorSeries(factorMap);
+        populateFactorTable(series);
+        if (!midpointValues.length) {
+          setStatus('No midpoint data available to chart.', 'error');
+          return;
+        }
+        setStatus('');
+      } catch (error) {
+        console.error('Failed to load stats', error);
+        setStatus('Failed to load stats. Please try again later.', 'error');
+      }
+    }
+
+    init();
+  </script>
