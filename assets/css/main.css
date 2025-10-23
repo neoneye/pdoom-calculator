@@ -4,6 +4,7 @@
   line-height: 1.5;
   background: #111;
   color: #f5f5f5;
+  --border-color-primary: rgba(90, 120, 200, 0.3);
 }
 
 *,
@@ -21,16 +22,6 @@ body {
   gap: 1.5rem;
   background: linear-gradient(180deg, #101823, #050608);
   overflow-x: hidden;
-}
-
-@media (max-width: 640px) {
-  body {
-    padding: 1.2rem;
-  }
-
-  main {
-    padding: 2rem;
-  }
 }
 
 .site-nav {
@@ -85,7 +76,7 @@ body {
 main {
   width: min(960px, 100%);
   background: rgba(12, 16, 24, 0.92);
-  border: 1px solid rgba(90, 120, 200, 0.3);
+  border: 1px solid var(--border-color-primary);
   border-radius: 18px;
   padding: 2.5rem;
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
@@ -396,11 +387,21 @@ input[type="number"] {
 
 @media (max-width: 720px) {
   body {
-    padding: 1.2rem;
+    padding: 0;
+    gap: 0;
   }
 
   main {
     padding: 1.6rem;
+    border-radius: 0;
+    border-top: 1px solid var(--border-color-primary);
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .site-nav {
+    padding: 1rem;
   }
 
   .slider-row {
@@ -607,7 +608,7 @@ input[type="number"] {
 
 .snippet-card {
   background: rgba(18, 26, 40, 0.92);
-  border: 1px solid rgba(90, 120, 200, 0.3);
+  border: 1px solid var(--border-color-primary);
   border-radius: 14px;
   padding: 1.4rem;
   display: grid;
