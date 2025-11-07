@@ -481,6 +481,7 @@ input[type="range"]:active::-moz-range-thumb {
 
   .site-nav {
     padding: 1rem;
+    justify-content: center;
   }
 
   .slider-row {
