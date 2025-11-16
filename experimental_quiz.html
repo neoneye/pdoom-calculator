@@ -417,6 +417,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       if (!resultEl) return;
       let score = 0;
       let unanswered = 0;
+      let falseSelections = 0;
 
       quizQuestions.forEach((question) => {
         const questionEl = document.querySelector(`[data-question-id="${question.id}"]`);
@@ -448,6 +449,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             }
             if (!isAiRelated && isSelected) {
               perfect = false;
+              falseSelections += 1;
             }
             if (isAiRelated && isSelected) {
               score += 1;
@@ -510,9 +512,12 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
         return;
       }
 
-      const tier = knowledgeTiers.find(entry => score >= entry.minScore && score <= entry.maxScore) || knowledgeTiers[knowledgeTiers.length - 1];
+      const calibratedScore = Math.max(0, score - falseSelections);
+      const tier = knowledgeTiers.find(entry => calibratedScore >= entry.minScore && calibratedScore <= entry.maxScore) || knowledgeTiers[knowledgeTiers.length - 1];
       resultEl.innerHTML = `
-        You spotted <strong>${score}</strong> / ${maxQuizScore} AI signals.<br>
+        You spotted <strong>${score}</strong> / ${maxQuizScore} AI signals${falseSelections > 0
+          ? ` but tapped <strong>${falseSelections}</strong> decoy${falseSelections > 1 ? 's' : ''}, so your calibrated score is <strong>${calibratedScore}</strong>.`
+          : `, giving you a calibrated score of <strong>${calibratedScore}</strong>.`}<br>
         <span class="quiz-tier">${tier.label}</span> – ${tier.description} We set every uncertainty slider to ±${tier.recommendedSpread} pts.
       `;
       resultEl.classList.add('quiz-result--success');
