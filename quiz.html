@@ -1,0 +1,395 @@
+---
+title: P(doom) Calculator
+description: Interactively estimate overall P(doom) by setting stage-wise probabilities and uncertainty. Shows point estimate and 10-90% band.
+---
+<main>
+    <h1>P(doom) Calculator</h1>
+    <p class="description">
+      Choose your best guess for each stage and how uncertain you are (± pts).
+    </p>
+
+    <section class="factor-list" id="factorList"></section>
+
+    <section class="metrics">
+      <article class="metric-card">
+        <h2>P(doom)</h2>
+        <div class="metric-value" id="midpointEstimate">–</div>
+        <div class="uncertainty-note">Your best guess, ignoring uncertainty.</div>
+      </article>
+      <article class="metric-card">
+        <h2>10th percentile</h2>
+        <div class="metric-value" id="p10">–</div>
+        <div class="uncertainty-note">An optimistic outcome, given your uncertainty.</div>
+      </article>
+      <article class="metric-card">
+        <h2>90th percentile</h2>
+        <div class="metric-value" id="p90">–</div>
+        <div class="uncertainty-note">A pessimistic outcome, given your uncertainty.</div>
+      </article>
+      <article class="metric-card">
+        <h2>Range</h2>
+        <div class="metric-value" id="range">–</div>
+        <div class="uncertainty-note">Full range of possible outcomes.</div>
+      </article>
+    </section>
+
+    <section class="driver-message" id="driverMessage">
+      Stage with the widest probability range will be highlighted here.
+    </section>
+
+    <section class="submission">
+      <button class="primary-button" id="submitParametersButton" type="button">Submit your P(doom)</button>
+      <p class="submission-note">
+        Share these parameters to contribute to aggregate stats. <a class="stats-link" href="{{ '/stats/' | relative_url }}">View stats</a>.
+      </p>
+      <p class="submission-status" id="submissionStatus" aria-live="polite"></p>
+    </section>
+
+    <p class="footer-note">
+      Stephen Hawking cautioned: "The development of full artificial intelligence could spell the end of the human race."
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  const SUPABASE_URL = window.SUPABASE_URL;
+  const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+    const SUBMISSIONS_TABLE = 'submissions';
+    let supabaseClient = null;
+    let latestSnapshot = null;
+
+    const config = [
+      {
+        key: 'powerfulAi',
+        label: 'P(powerful AI)',
+        explanation: 'Probability that at least one deployable model or toolchain (model, agents, tools, scaling) reaches strategic capability.',
+        defaults: { lower: 0.4, upper: 0.6 }
+      },
+      {
+        key: 'dangerousBehavior',
+        label: 'P(dangerous behavior | powerful AI)',
+        explanation: 'Given such a system exists, what is the chance it is misaligned with human values?',
+        defaults: { lower: 0.4, upper: 0.6 }
+      },
+      {
+        key: 'globalCatastrophe',
+        label: 'P(global catastrophe | dangerous behavior)',
+        explanation: 'Probability that misalignment leads to an unrecoverable global catastrophe.',
+        defaults: { lower: 0.4, upper: 0.6 }
+      }
+    ];
+
+    const SAMPLES = 4000;
+    const SPREAD_MAX = 100;
+
+    function mulberry32(a) {
+      return function() {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+
+    const state = new Map();
+
+    function initSupabase() {
+    const missingUrl = !SUPABASE_URL;
+    const missingKey = !SUPABASE_ANON_KEY;
+      if (missingUrl || missingKey) {
+        console.info('Supabase client not initialized: configure SUPABASE_URL and SUPABASE_ANON_KEY.');
+        return;
+      }
+      if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+        console.error('Supabase library is not available.');
+        return;
+      }
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    function setSubmissionStatus(message, tone = 'info') {
+      const statusEl = document.getElementById('submissionStatus');
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.classList.remove('error', 'success');
+      if (tone === 'error') {
+        statusEl.classList.add('error');
+      } else if (tone === 'success') {
+        statusEl.classList.add('success');
+      }
+    }
+
+    function buildSubmissionPayload() {
+      if (!latestSnapshot) return null;
+      const { factors, lowerProduct, upperProduct, midpointProduct, p10, p90 } = latestSnapshot;
+      return {
+        submitted_at: new Date().toISOString(),
+        factors: factors.map(({ key, label, lower, upper, midpoint, spread }) => ({
+          key,
+          label,
+          lower,
+          upper,
+          midpoint,
+          spread
+        })),
+        summary: {
+          lower: lowerProduct,
+          upper: upperProduct,
+          midpoint: midpointProduct,
+          p10,
+          p90
+        }
+      };
+    }
+
+    async function submitParameters() {
+      const button = document.getElementById('submitParametersButton');
+      if (!supabaseClient) {
+        initSupabase();
+      }
+      if (!supabaseClient) {
+        setSubmissionStatus('Supabase is not configured. Update SUPABASE_URL and SUPABASE_ANON_KEY.', 'error');
+        return;
+      }
+
+      const payload = buildSubmissionPayload();
+      if (!payload) {
+        setSubmissionStatus('Nothing to submit yet. Adjust the sliders first.', 'error');
+        return;
+      }
+
+      setSubmissionStatus('Submitting...');
+      if (button) button.disabled = true;
+      try {
+        const { error } = await supabaseClient
+          .from(SUBMISSIONS_TABLE)
+          .insert({
+            factors: payload.factors,
+            summary: payload.summary,
+            submitted_at: payload.submitted_at
+          });
+        if (error) throw error;
+        setSubmissionStatus('Submitted! Thanks for contributing.', 'success');
+      } catch (error) {
+        console.error('Supabase submission failed', error);
+        setSubmissionStatus('Submission failed. Please try again later.', 'error');
+      } finally {
+        if (button) button.disabled = false;
+      }
+    }
+
+    function createFactorCard({ key, label, defaults, explanation }) {
+      const midpoint = ((defaults.lower + defaults.upper) / 2) * 100;
+      const spread = ((defaults.upper - defaults.lower) / 2) * 100;
+
+      const card = document.createElement('article');
+      card.className = 'factor-card';
+      card.id = `card-${key}`;
+
+      card.innerHTML = `
+        <div class="factor-content">
+          <div class="factor-header">
+            <div class="factor-name">${label}</div>
+            <div class="factor-explanation">${explanation}</div>
+          </div>
+          <div class="sliders">
+            <div class="slider-row">
+              <label>
+                <span class="slider-caption">
+                  <span>Unlikely</span>
+                  <span class="slider-value slider-value--percent" data-role="midpointValue" data-key="${key}" aria-label="${midpoint.toFixed(1)} percent">${midpoint.toFixed(1)}</span>
+                  <span>Likely</span>
+                </span>
+                <input type="range" min="0" max="100" step="0.5" value="${midpoint.toFixed(1)}" data-role="midpoint" data-key="${key}" aria-label="Midpoint for ${label}" />
+              </label>
+            </div>
+            <div class="slider-row">
+              <label>
+                <span class="slider-caption">
+                  <span>Certain</span>
+                  <span class="slider-value slider-value--spread" data-role="spreadValue" data-key="${key}" aria-label="±${spread.toFixed(1)}">${spread.toFixed(1)}</span>
+                  <span>Uncertain</span>
+                </span>
+                <input type="range" min="0" max="${SPREAD_MAX.toFixed(1)}" step="0.5" value="${spread.toFixed(1)}" data-role="spread" data-key="${key}" aria-label="Uncertainty for ${label}" />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="factor-bounds">
+          <div class="factor-bound">
+            <span class="factor-bound-label">Lower bound</span>
+            <span class="factor-bound-value" data-role="lowerBound" data-key="${key}">--%</span>
+          </div>
+          <div class="factor-bound">
+            <span class="factor-bound-label">Upper bound</span>
+            <span class="factor-bound-value" data-role="upperBound" data-key="${key}">--%</span>
+          </div>
+        </div>
+      `;
+
+      return card;
+    }
+
+    function clamp(value, min = 0, max = 100) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function formatPercent(prob) {
+      return `${(prob * 100).toFixed(1)}%`;
+    }
+
+    function updateState(key, role, percentage) {
+      const current = state.get(key) || { midpoint: 50, spread: 0 };
+      if (role === 'midpoint') {
+        current.midpoint = clamp(percentage);
+      } else if (role === 'spread') {
+        current.spread = clamp(percentage, 0, SPREAD_MAX);
+      }
+      state.set(key, current);
+      syncInputs(key);
+      recalc();
+    }
+
+    function syncInputs(key) {
+      const { midpoint, spread } = state.get(key);
+      const midpointRange = document.querySelector(`input[data-key="${key}"][data-role="midpoint"]`);
+      const midpointValue = document.querySelector(`span[data-key="${key}"][data-role="midpointValue"]`);
+      const spreadRange = document.querySelector(`input[data-key="${key}"][data-role="spread"]`);
+      const spreadValue = document.querySelector(`span[data-key="${key}"][data-role="spreadValue"]`);
+
+      if (midpointRange) midpointRange.value = midpoint.toFixed(1);
+      if (midpointValue) {
+        const midpointText = midpoint.toFixed(1);
+        midpointValue.textContent = midpointText;
+        midpointValue.setAttribute('aria-label', `${midpointText} percent`);
+      }
+
+      if (spreadRange) {
+        spreadRange.max = SPREAD_MAX.toFixed(1);
+        spreadRange.value = clamp(spread, 0, SPREAD_MAX).toFixed(1);
+      }
+      if (spreadValue) {
+        const spreadText = clamp(spread, 0, SPREAD_MAX).toFixed(1);
+        spreadValue.textContent = spreadText;
+        spreadValue.setAttribute('aria-label', `±${spreadText}`);
+      }
+    }
+
+    function recalc() {
+      const factors = config.map(({ key, label }) => {
+        const { midpoint, spread } = state.get(key);
+        const lower = Math.max(0, (midpoint - spread) / 100);
+        const upper = Math.min(1, (midpoint + spread) / 100);
+        return {
+          key,
+          label,
+          lower,
+          upper,
+          midpoint: midpoint / 100,
+          spread: spread / 100
+        };
+      });
+
+      factors.forEach(({ key, lower, upper }) => {
+        const lowerEl = document.querySelector(`span[data-key="${key}"][data-role="lowerBound"]`);
+        const upperEl = document.querySelector(`span[data-key="${key}"][data-role="upperBound"]`);
+        if (lowerEl) lowerEl.textContent = formatPercent(lower);
+        if (upperEl) upperEl.textContent = formatPercent(upper);
+      });
+
+      const lowerProduct = factors.reduce((acc, f) => acc * f.lower, 1);
+      const upperProduct = factors.reduce((acc, f) => acc * f.upper, 1);
+      const midpointProduct = factors.reduce((acc, f) => acc * f.midpoint, 1);
+
+      document.getElementById('range').textContent = `${formatPercent(lowerProduct)} → ${formatPercent(upperProduct)}`;
+      document.getElementById('midpointEstimate').textContent = formatPercent(midpointProduct);
+
+      updateUncertaintyDriver(factors);
+
+      const { p10, p90 } = simulateDistribution(factors);
+      document.getElementById('p10').textContent = formatPercent(p10);
+      document.getElementById('p90').textContent = formatPercent(p90);
+
+      latestSnapshot = {
+        factors,
+        lowerProduct,
+        upperProduct,
+        midpointProduct,
+        p10,
+        p90
+      };
+    }
+
+    function updateUncertaintyDriver(factors) {
+      const widest = Math.max(...factors.map(f => f.upper - f.lower));
+      const driverMessage = document.getElementById('driverMessage');
+      const labels = factors.filter(f => (f.upper - f.lower) === widest).map(f => f.label);
+
+      if (widest === 0) {
+        driverMessage.textContent = 'All stages have fixed probabilities; no single stage dominates uncertainty.';
+        return;
+      }
+
+      if (labels.length === 1) {
+        driverMessage.textContent = `${labels[0]} currently drives the overall uncertainty.`;
+      } else {
+        driverMessage.textContent = `${labels.join(' & ')} jointly drive the overall uncertainty.`;
+      }
+    }
+
+    function simulateDistribution(factors) {
+      const draw = mulberry32(0xC0D3C0DE);
+      const samples = [];
+      for (let i = 0; i < SAMPLES; i += 1) {
+        let value = 1;
+        for (const factor of factors) {
+          const rand = draw();
+          const sample = factor.lower + rand * (factor.upper - factor.lower);
+          value *= sample;
+        }
+        samples.push(value);
+      }
+      samples.sort((a, b) => a - b);
+      const p10Index = Math.floor(0.10 * (samples.length - 1));
+      const p90Index = Math.floor(0.90 * (samples.length - 1));
+      return { p10: samples[p10Index], p90: samples[p90Index] };
+    }
+
+    function handleRangeInput(event) {
+      const role = event.target.dataset.role;
+      const key = event.target.dataset.key;
+      if (!role || !key) return;
+      let value = Number(event.target.value);
+      updateState(key, role, value);
+    }
+
+    function init() {
+      const list = document.getElementById('factorList');
+      config.forEach((factor) => {
+        const card = createFactorCard(factor);
+        list.appendChild(card);
+        state.set(factor.key, {
+          midpoint: ((factor.defaults.lower + factor.defaults.upper) / 2) * 100,
+          spread: ((factor.defaults.upper - factor.defaults.lower) / 2) * 100
+        });
+      });
+
+      document.addEventListener('input', (event) => {
+        if (event.target.matches('input[type="range"]')) {
+          handleRangeInput(event);
+        }
+      });
+
+      config.forEach(({ key }) => syncInputs(key));
+      recalc();
+
+      initSupabase();
+
+      const submitButton = document.getElementById('submitParametersButton');
+      if (submitButton) {
+        submitButton.addEventListener('click', submitParameters);
+      }
+    }
+
+    init();
+  </script>
