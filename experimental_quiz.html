@@ -98,7 +98,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       {
         id: 'phase1',
         title: 'Phase 1: Assess how much you know about AI',
-        prompt: 'Q1. Identify the items that are AI related, beware of the decoys.',
+        prompt: 'Q1. Spot the AI-related terms, beware of the decoys.',
         instructions: 'Select every entry that is genuinely tied to artificial intelligence. Submit to reveal the facts and citations.',
         type: 'multi-select',
         options: [
@@ -173,13 +173,6 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             aiRelated: true
           },
           {
-            id: 'mechahitler',
-            text: 'MechaHitler',
-            fact: 'In mid 2025, Grok referred to itself as MechaHitler and behaving unaligned with human values.',
-            wikiUrl: 'https://en.wikipedia.org/wiki/Grok_(chatbot)',
-            aiRelated: true
-          },
-          {
             id: 'schrodingers-cat',
             text: "Schrödinger's cat",
             fact: 'A thought experiment in quantum mechanics by Erwin Schrödinger, not an AI concept.',
@@ -208,25 +201,39 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             aiRelated: false
           },
           {
+            id: 'red-team',
+            text: 'Red team',
+            fact: 'Red teaming is a technique used to test the robustness of a model or agent by exposing it to adversarial examples.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Red-teaming',
+            aiRelated: true
+          },
+          {
             id: 'standard-model',
             text: 'The Standard Model',
-            fact: 'The prevailing theory describing elementary particles in physics, unrelated to AI.',
+            fact: 'The prevailing theory describing elementary particles in physics. Unrelated to AI.',
             wikiUrl: 'https://en.wikipedia.org/wiki/Standard_Model',
             aiRelated: false
           },
           {
             id: 'wireframe-model',
             text: 'Wire-frame model',
-            fact: 'A computer-graphics technique for representing 3D shapes, not inherently AI.',
+            fact: 'A computer-graphics technique for representing 3D shapes. Unrelated to AI.',
             wikiUrl: 'https://en.wikipedia.org/wiki/Wire-frame_model',
             aiRelated: false
           },
           {
-            id: 'supermodel',
-            text: 'Supermodel',
-            fact: 'A high-profile fashion model, only accidentally related by name.',
-            wikiUrl: 'https://en.wikipedia.org/wiki/Supermodel',
-            aiRelated: false
+            id: 'latent-space',
+            text: 'Latent space',
+            fact: 'The hidden representation of data in a high-dimensional space. Used in AI.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Latent_space',
+            aiRelated: true
+          },
+          {
+            id: 'reward-hacking',
+            text: 'Reward hacking',
+            fact: 'When an AI system exploits flaws in its reward function or metrics to achieve high reward without doing what was intended.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Reward_hacking',
+            aiRelated: true
           },
           {
             id: 'training-data',
@@ -243,25 +250,25 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             aiRelated: false
           },
           {
-            id: 'false-positive',
-            text: 'False positive',
-            fact: 'A statistical error where a test incorrectly reports success; model evals watch for these.',
-            wikiUrl: 'https://en.wikipedia.org/wiki/False_positive',
-            aiRelated: true
-          },
-          {
-            id: 'out-of-distribution',
-            text: 'Out of distribution',
-            fact: 'Describes data that differs from training data, a core robustness problem.',
-            wikiUrl: 'https://en.wikipedia.org/wiki/Out-of-distribution_detection',
-            aiRelated: true
-          },
-          {
-            id: 'calculus',
-            text: 'Calculus',
-            fact: 'A foundational branch of mathematics spanning many fields, not AI on its own.',
-            wikiUrl: 'https://en.wikipedia.org/wiki/Calculus',
+            id: 'cherenkov-radiation',
+            text: 'Cherenkov Radiation',
+            fact: 'A type of radiation emitted when a charged particle travels faster than the speed of light in a medium.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Cherenkov_radiation',
             aiRelated: false
+          },
+          {
+            id: 'moire-pattern',
+            text: 'Moiré pattern',
+            fact: 'A pattern of interference fringes caused by the superposition of two periodic grids, not an AI concept.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Moir%C3%A9_pattern',
+            aiRelated: false
+          },
+          {
+            id: 'backpropagation',
+            text: 'Backpropagation',
+            fact: 'The standard algorithm for training neural networks by propagating error gradients backward through the layers.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Backpropagation',
+            aiRelated: true
           },
           {
             id: 'unsupervised-learning',
@@ -285,10 +292,10 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             aiRelated: true
           },
           {
-            id: 'regular-expression',
-            text: 'Regex',
-            fact: 'Pattern matching syntax for strings. Not AI.',
-            wikiUrl: 'https://en.wikipedia.org/wiki/Regular_expression',
+            id: 'magnus-effect',
+            text: 'Magnus effect',
+            fact: 'The effect of a spinning object being deflected by the air or fluid around it, not an AI concept.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Magnus_effect',
             aiRelated: false
           },
           {
@@ -303,13 +310,6 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             text: 'Hallucination',
             fact: 'In AI, this refers to a confident response by a model that is not justified by its training data.',
             wikiUrl: 'https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)',
-            aiRelated: true
-          },
-          {
-            id: 'red-team',
-            text: 'Red team',
-            fact: 'Red teaming is a technique used to test the robustness of a model or agent by exposing it to adversarial examples.',
-            wikiUrl: 'https://en.wikipedia.org/wiki/Red-teaming',
             aiRelated: true
           }
         ]
