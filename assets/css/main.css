@@ -185,6 +185,30 @@ p.description {
   line-height: 1.3;
 }
 
+.quiz-question__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.quiz-question__title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(120, 186, 255, 0.75);
+}
+
+.quiz-question__headline {
+  font-size: 1rem;
+  color: rgba(245, 248, 255, 0.95);
+}
+
+.quiz-question__instructions {
+  font-size: 0.85rem;
+  color: rgba(230, 235, 255, 0.65);
+  font-weight: 400;
+}
+
 .quiz-question__number {
   font-size: 0.85rem;
   letter-spacing: 0.08em;
@@ -210,12 +234,45 @@ p.description {
   cursor: pointer;
 }
 
-.quiz-option input[type="radio"] {
+.quiz-option input[type="radio"],
+.quiz-option input[type="checkbox"] {
   margin-top: 0.3rem;
+}
+
+.quiz-option__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.quiz-option__label {
+  font-size: 0.9rem;
+  color: rgba(245, 248, 255, 0.95);
 }
 
 .quiz-option:hover {
   border-color: rgba(120, 186, 255, 0.35);
+}
+
+.quiz-option__fact {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(230, 235, 255, 0.65);
+}
+
+.quiz-option--correct {
+  border-color: rgba(131, 232, 198, 0.85);
+  background: rgba(20, 48, 38, 0.65);
+}
+
+.quiz-option--incorrect {
+  border-color: rgba(255, 120, 120, 0.85);
+  background: rgba(56, 20, 20, 0.65);
+}
+
+.quiz-option--missed {
+  border-color: rgba(255, 209, 102, 0.8);
+  border-style: dashed;
 }
 
 .quiz-explanation {

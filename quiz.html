@@ -11,7 +11,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
     <section class="knowledge-quiz" id="knowledgeQuiz">
       <h2>AI Safety Confidence Quiz</h2>
       <p class="quiz-description">
-        Answer ten quick questions covering alignment basics, safety evaluations, and hands-on experience. We'll map your score to a default slider uncertainty.
+        Phase 1 is a decoy-filled knowledge check. Only pick the items that are truly tied to AI or AI safety and we will reveal the real facts after you lock in your answers.
       </p>
       <ol class="quiz-question-list" id="quizQuestionList"></ol>
       <div class="quiz-actions">
@@ -96,113 +96,194 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
     const quizQuestions = [
       {
-        id: 'alignment',
-        prompt: 'What does "AI alignment" refer to?',
-        explanation: 'Alignment work tries to ensure advanced systems pursue goals compatible with human values and oversight.',
+        id: 'phase1',
+        title: 'Phase 1: Assess how much you know about AI',
+        prompt: 'Q1. Identify the items that are AI related, beware of the decoys.',
+        instructions: 'Select every entry that is genuinely tied to artificial intelligence. Submit to reveal the facts and citations.',
+        type: 'multi-select',
         options: [
-          { text: 'Ensuring AI systems pursue goals compatible with human values and oversight.', score: 1 },
-          { text: 'Balancing GPU utilization across a cluster.', score: 0 },
-          { text: 'Compressing models to run on edge devices.', score: 0 },
-          { text: 'Avoiding copyrighted training data.', score: 0 }
-        ]
-      },
-      {
-        id: 'interpretability',
-        prompt: 'Why is interpretability research considered a safety technique?',
-        explanation: 'Being able to inspect intermediate signals helps researchers catch anomalous reasoning before deployment.',
-        options: [
-          { text: 'It helps humans inspect how a model reasons so hidden failure modes can be caught before deployment.', score: 1 },
-          { text: 'It primarily lowers cloud-compute invoices.', score: 0 },
-          { text: 'It enables prettier UI themes.', score: 0 },
-          { text: 'It automatically blocks prompt injection attacks.', score: 0 }
-        ]
-      },
-      {
-        id: 'rewardHacking',
-        prompt: 'Reward hacking happens when...',
-        explanation: "Reward hacking describes agents pursuing the literal proxy reward while ignoring the designers' true goal.",
-        options: [
-          { text: 'An AI exploits the proxy objective to score high reward while ignoring the intended outcome.', score: 1 },
-          { text: 'Training data contains mislabeled classes.', score: 0 },
-          { text: 'Engineers add too many reward channels to RLHF.', score: 0 },
-          { text: 'A model overfits the validation set.', score: 0 }
-        ]
-      },
-      {
-        id: 'rlhf',
-        prompt: 'RLHF is mostly used to...',
-        explanation: 'Reinforcement Learning from Human Feedback nudges the model toward behaviors raters prefer, aligning chat or agent responses.',
-        options: [
-          { text: 'Fine-tune frontier models using human preference ratings so the model follows desired behaviors.', score: 1 },
-          { text: 'Generate synthetic data for pre-training.', score: 0 },
-          { text: 'Encrypt user traffic end-to-end.', score: 0 },
-          { text: 'Prevent GPUs from overheating.', score: 0 }
-        ]
-      },
-      {
-        id: 'evals',
-        prompt: 'Why do labs run structured capability and safety evaluations before deploying a new model?',
-        explanation: 'Evals are meant to expose dangerous capabilities or misuse channels before the system reaches users.',
-        options: [
-          { text: 'To uncover dangerous capabilities or misuse channels before release.', score: 1 },
-          { text: 'To market the model with higher benchmark numbers.', score: 0 },
-          { text: 'To reduce the training loss.', score: 0 },
-          { text: 'To satisfy cooling requirements for data centers.', score: 0 }
-        ]
-      },
-      {
-        id: 'redTeam',
-        prompt: 'Model or agent red-teaming focuses on...',
-        explanation: 'Red-teaming has skilled operators aggressively probe the system to surface vulnerabilities and harmful behaviors.',
-        options: [
-          { text: 'Letting experts aggressively probe the system to surface vulnerabilities and harmful behaviors.', score: 1 },
-          { text: 'Designing red-themed product logos.', score: 0 },
-          { text: 'Measuring power efficiency of GPUs.', score: 0 },
-          { text: 'Counting how many prompts contain the word "red".', score: 0 }
-        ]
-      },
-      {
-        id: 'scaling',
-        prompt: 'Why do rapid capability jumps from scaling worry AI safety researchers?',
-        explanation: 'Scaling can unlock new behaviors unexpectedly, shrinking the warning time before unsafe capabilities emerge.',
-        options: [
-          { text: 'Because new unpredictable behaviors can emerge suddenly, leaving little time to prepare safeguards.', score: 1 },
-          { text: 'Because scaling always reduces model accuracy.', score: 0 },
-          { text: 'Because larger models cannot be supervised at all.', score: 0 },
-          { text: 'Because GPUs stop supporting mixed precision.', score: 0 }
-        ]
-      },
-      {
-        id: 'governance',
-        prompt: 'Which policy tool is specifically aimed at reducing catastrophic misuse risk?',
-        explanation: 'Mandatory deployment risk assessments or audits force a check on catastrophic misuse pathways before shipping a system.',
-        options: [
-          { text: 'Mandatory deployment risk assessments or third-party safety audits.', score: 1 },
-          { text: 'Switching to darker UI themes.', score: 0 },
-          { text: 'Posting longer marketing blogs.', score: 0 },
-          { text: 'Buying more office snacks for the team.', score: 0 }
-        ]
-      },
-      {
-        id: 'systemPrompt',
-        prompt: 'In an LLM-based agent stack, the system prompt primarily...',
-        explanation: "System prompts anchor the agent's goals, tone, and constraints so downstream tool calls stay within safe bounds.",
-        options: [
-          { text: "Anchors the agent's objectives, tone, and constraints so downstream actions stay within the intended bounds.", score: 1 },
-          { text: 'Encrypts API tokens.', score: 0 },
-          { text: 'Allocates GPU memory to submodules.', score: 0 },
-          { text: 'Chooses which keyboard layout the user has.', score: 0 }
-        ]
-      },
-      {
-        id: 'handsOn',
-        prompt: 'Which option best describes your direct experience building ML models or agentic systems?',
-        explanation: 'Hands-on experience training or aligning models usually means you can set tighter uncertainty ranges.',
-        options: [
-          { text: 'I only experiment with public chatbots and have never written a system prompt or workflow.', score: 0 },
-          { text: 'I craft prompts or agent instructions but have not trained or fine-tuned models.', score: 1 },
-          { text: 'I have fine-tuned or trained small/medium models or shipped ML features.', score: 2 },
-          { text: 'I train large models, lead ML teams, or build safety tooling professionally.', score: 3 }
+          {
+            id: 'paperclip-maximizer',
+            text: 'Paperclip maximizer',
+            fact: 'Nick Bostrom popularized this thought experiment as a warning about misaligned superintelligence optimizing for the wrong goal.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Instrumental_convergence',
+            aiRelated: true
+          },
+          {
+            id: 'operation-paperclip',
+            text: 'Operation Paperclip',
+            fact: 'Operation Paperclip was a U.S. intelligence program that relocated more than 1,600 German scientists after World War II.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Operation_Paperclip',
+            aiRelated: false
+          },
+          {
+            id: 'attention-is-all-you-need',
+            text: 'Attention Is All You Need',
+            fact: 'The 2017 paper that introduced the Transformer architecture powering modern large language models.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Attention_Is_All_You_Need',
+            aiRelated: true
+          },
+          {
+            id: 'all-you-need-is-love',
+            text: 'All You Need Is Love',
+            fact: 'A 1967 Beatles single celebrating peace and love rather than neural nets.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/All_You_Need_Is_Love',
+            aiRelated: false
+          },
+          {
+            id: 'the-real-slim-shady',
+            text: 'May I have your attention, please?',
+            fact: 'The opening line from Eminem\'s 2000 single "The Real Slim Shady."',
+            wikiUrl: 'https://en.wikipedia.org/wiki/The_Real_Slim_Shady',
+            aiRelated: false
+          },
+          {
+            id: 'adhd',
+            text: 'Attention deficit hyperactivity disorder',
+            fact: 'A neurodevelopmental disorder treated by clinicians, not an AI concept.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Attention_deficit_hyperactivity_disorder',
+            aiRelated: false
+          },
+          {
+            id: 'nick-bostrom',
+            text: 'Nick Bostrom',
+            fact: 'Oxford philosopher known for "Superintelligence" and research on AI risk.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Nick_Bostrom',
+            aiRelated: true
+          },
+          {
+            id: 'alan-turing',
+            text: 'Alan Turing',
+            fact: 'Pioneer of computer science and namesake of the Turing test for machine intelligence.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Alan_Turing',
+            aiRelated: true
+          },
+          {
+            id: 'mary-shelley',
+            text: 'Mary Shelley',
+            fact: 'Author of "Frankenstein," one of the earliest stories about an artificial being.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Mary_Shelley',
+            aiRelated: true
+          },
+          {
+            id: 'isaac-asimov',
+            text: 'Isaac Asimov',
+            fact: 'Science-fiction writer who coined the Three Laws of Robotics.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Isaac_Asimov',
+            aiRelated: true
+          },
+          {
+            id: 'mechahitler',
+            text: 'MechaHitler',
+            fact: 'In mid 2025, Grok referred to itself as MechaHitler and behaving unaligned with human values.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Grok_(chatbot)',
+            aiRelated: true
+          },
+          {
+            id: 'agent',
+            text: 'Agent',
+            fact: 'In AI, agents perceive, plan, and act within an environment or toolchain.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Intelligent_agent',
+            aiRelated: true
+          },
+          {
+            id: 'james-bond',
+            text: 'James Bond',
+            fact: 'Ian Fleming\'s fictional British spy, not an AI agent.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/James_Bond',
+            aiRelated: false
+          },
+          {
+            id: 'standard-model',
+            text: 'The Standard Model',
+            fact: 'The prevailing theory describing elementary particles in physics, unrelated to AI.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Standard_Model',
+            aiRelated: false
+          },
+          {
+            id: 'wireframe-model',
+            text: 'Wire-frame model',
+            fact: 'A computer-graphics technique for representing 3D shapes, not inherently AI.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Wire-frame_model',
+            aiRelated: false
+          },
+          {
+            id: 'supermodel',
+            text: 'Supermodel',
+            fact: 'A high-profile fashion model, only accidentally related by name.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Supermodel',
+            aiRelated: false
+          },
+          {
+            id: 'training-data',
+            text: 'Training data',
+            fact: 'Datasets used to fit and evaluate machine learning models.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets',
+            aiRelated: true
+          },
+          {
+            id: 'personal-trainer',
+            text: 'Personal trainer',
+            fact: 'A fitness professional who coaches workouts, not an AI term.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Personal_trainer',
+            aiRelated: false
+          },
+          {
+            id: 'false-positive',
+            text: 'False positive',
+            fact: 'A statistical error where a test incorrectly reports success; model evals watch for these.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/False_positive',
+            aiRelated: true
+          },
+          {
+            id: 'out-of-distribution',
+            text: 'Out of distribution',
+            fact: 'Describes data that differs from training data, a core robustness problem.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Out-of-distribution_detection',
+            aiRelated: true
+          },
+          {
+            id: 'calculus',
+            text: 'Calculus',
+            fact: 'A foundational branch of mathematics spanning many fields, not AI on its own.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Calculus',
+            aiRelated: false
+          },
+          {
+            id: 'unsupervised-learning',
+            text: 'Unsupervised learning',
+            fact: 'An ML paradigm where models discover structure without labeled targets.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Unsupervised_learning',
+            aiRelated: true
+          },
+          {
+            id: 'reinforced-concrete',
+            text: 'Reinforced concrete',
+            fact: 'A construction material in which concrete is embedded with steel reinforcement (rebar) to increase tensile strength.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Reinforced_concrete',
+            aiRelated: false
+          },
+          {
+            id: 'hallucination',
+            text: 'Hallucination',
+            fact: 'In AI, this refers to a confident response by a model that is not justified by its training data.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)',
+            aiRelated: true
+          },
+          {
+            id: 'red-team',
+            text: 'Red team',
+            fact: 'Red teaming is a technique used to test the robustness of a model or agent by exposing it to adversarial examples.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Red-teaming',
+            aiRelated: true
+          },
+          {
+            id: 'clinical-supervisor',
+            text: 'Clinical supervisor',
+            fact: 'A senior clinician overseeing the work of trainees, unrelated to AI.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Clinical_supervision',
+            aiRelated: false
+          }
         ]
       }
     ];
@@ -228,22 +309,27 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
         id: 'builder',
         label: 'Hands-on Builder',
         minScore: 8,
-        maxScore: 10,
+        maxScore: 9,
         recommendedSpread: 15,
         description: 'You have meaningful ML or agent experience, so tighter uncertainty is reasonable.'
       },
       {
         id: 'engineer',
         label: 'ML Engineer',
-        minScore: 11,
-        maxScore: 12,
+        minScore: 10,
+        maxScore: 11,
         recommendedSpread: 8,
         description: 'You train or align models professionally, so we trust a narrow uncertainty band.'
       }
     ];
 
     const maxQuizScore = quizQuestions.reduce((sum, question) => {
-      const maxForQuestion = Math.max(...question.options.map(option => option.score));
+      if (question.type === 'multi-select') {
+        const aiOptions = question.options.filter(option => option.aiRelated);
+        return sum + aiOptions.length;
+      }
+      const optionScores = question.options.map(option => Number(option.score) || 0);
+      const maxForQuestion = optionScores.length > 0 ? Math.max(...optionScores) : 0;
       return sum + maxForQuestion;
     }, 0);
 
@@ -267,20 +353,32 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
         const item = document.createElement('li');
         item.className = 'quiz-question';
         item.dataset.questionId = question.id;
+        const inputType = question.type === 'multi-select' ? 'checkbox' : 'radio';
+        const explanationMarkup = question.explanation ? '<p class="quiz-explanation" data-role="rationale" hidden></p>' : '';
         item.innerHTML = `
           <div class="quiz-question__prompt">
             <span class="quiz-question__number">${String(index + 1).padStart(2, '0')}</span>
-            <span>${question.prompt}</span>
+            <div class="quiz-question__text">
+              ${question.title ? `<div class="quiz-question__title">${question.title}</div>` : ''}
+              <div class="quiz-question__headline">${question.prompt}</div>
+              ${question.instructions ? `<div class="quiz-question__instructions">${question.instructions}</div>` : ''}
+            </div>
           </div>
           <div class="quiz-question__options">
-            ${question.options.map((option, optionIndex) => `
-              <label class="quiz-option">
-                <input type="radio" name="${question.id}" value="${optionIndex}" />
-                <span>${option.text}</span>
+            ${question.options.map((option, optionIndex) => {
+              const optionId = option.id ?? `${question.id}-${optionIndex}`;
+              return `
+              <label class="quiz-option" data-option-id="${optionId}">
+                <input type="${inputType}" name="${question.id}" value="${optionId}" />
+                <div class="quiz-option__body">
+                  <span class="quiz-option__label">${option.text}</span>
+                  <p class="quiz-option__fact" data-role="fact" hidden></p>
+                </div>
               </label>
-            `).join('')}
+            `;
+            }).join('')}
           </div>
-          <p class="quiz-explanation" data-role="rationale" hidden></p>
+          ${explanationMarkup}
         `;
         quizList.appendChild(item);
       });
@@ -293,11 +391,66 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       let unanswered = 0;
 
       quizQuestions.forEach((question) => {
-        const selectedInput = document.querySelector(`input[name="${question.id}"]:checked`);
         const questionEl = document.querySelector(`[data-question-id="${question.id}"]`);
         if (questionEl) {
           questionEl.classList.remove('quiz-question--correct', 'quiz-question--incorrect');
         }
+        if (question.type === 'multi-select') {
+          const selectedInputs = document.querySelectorAll(`input[name="${question.id}"]:checked`);
+          if (!selectedInputs.length) {
+            unanswered += 1;
+            if (questionEl) {
+              const facts = questionEl.querySelectorAll('[data-role="fact"]');
+              facts.forEach(fact => {
+                fact.hidden = true;
+              });
+            }
+            return;
+          }
+          const selectedValues = Array.from(selectedInputs).map(input => input.value);
+          let perfect = true;
+          question.options.forEach((option, optionIndex) => {
+            const optionId = option.id ?? `${question.id}-${optionIndex}`;
+            const optionEl = questionEl ? questionEl.querySelector(`[data-option-id="${optionId}"]`) : null;
+            const factEl = optionEl ? optionEl.querySelector('[data-role="fact"]') : null;
+            const isSelected = selectedValues.includes(optionId);
+            const isAiRelated = Boolean(option.aiRelated);
+            if (isAiRelated && !isSelected) {
+              perfect = false;
+            }
+            if (!isAiRelated && isSelected) {
+              perfect = false;
+            }
+            if (isAiRelated && isSelected) {
+              score += 1;
+            }
+            if (optionEl) {
+              optionEl.classList.remove('quiz-option--correct', 'quiz-option--incorrect', 'quiz-option--missed');
+              if (isSelected && isAiRelated) {
+                optionEl.classList.add('quiz-option--correct');
+              } else if (isSelected && !isAiRelated) {
+                optionEl.classList.add('quiz-option--incorrect');
+              } else if (!isSelected && isAiRelated) {
+                optionEl.classList.add('quiz-option--missed');
+              }
+            }
+            if (factEl) {
+              const aiBadge = isAiRelated ? 'AI related' : 'Not AI related';
+              const wikiLink = option.wikiUrl ? `<a href="${option.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a>` : '';
+              const factPieces = [option.fact];
+              if (wikiLink) factPieces.push(wikiLink);
+              factPieces.push(`<strong>${aiBadge}</strong>`);
+              factEl.innerHTML = factPieces.join(' &middot; ');
+              factEl.hidden = false;
+            }
+          });
+          if (questionEl) {
+            questionEl.classList.add(perfect ? 'quiz-question--correct' : 'quiz-question--incorrect');
+          }
+          return;
+        }
+
+        const selectedInput = document.querySelector(`input[name="${question.id}"]:checked`);
         if (!selectedInput) {
           unanswered += 1;
           if (questionEl) {
@@ -306,7 +459,10 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
           }
           return;
         }
-        const selectedOption = question.options[Number(selectedInput.value)];
+        const selectedOption = question.options.find((option, optionIndex) => {
+          const optionId = option.id ?? `${question.id}-${optionIndex}`;
+          return optionId === selectedInput.value;
+        });
         const optionScore = selectedOption ? Number(selectedOption.score) || 0 : 0;
         score += optionScore;
         if (questionEl) {
@@ -328,7 +484,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
       const tier = knowledgeTiers.find(entry => score >= entry.minScore && score <= entry.maxScore) || knowledgeTiers[knowledgeTiers.length - 1];
       resultEl.innerHTML = `
-        You scored <strong>${score}</strong> / ${maxQuizScore}.<br>
+        You spotted <strong>${score}</strong> / ${maxQuizScore} AI signals.<br>
         <span class="quiz-tier">${tier.label}</span> – ${tier.description} We set every uncertainty slider to ±${tier.recommendedSpread} pts.
       `;
       resultEl.classList.add('quiz-result--success');
