@@ -421,6 +421,8 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       let score = 0;
       let unanswered = 0;
       let falseSelections = 0;
+      let questionsCorrect = 0;
+      let questionItemsTotal = 0;
 
       quizQuestions.forEach((question) => {
         const questionEl = document.querySelector(`[data-question-id="${question.id}"]`);
@@ -437,6 +439,11 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             const factEl = optionEl ? optionEl.querySelector('[data-role="fact"]') : null;
             const isSelected = selectedValues.includes(optionId);
             const isAiRelated = Boolean(option.aiRelated);
+            questionItemsTotal += 1;
+            const optionIsCorrect = (isAiRelated && isSelected) || (!isAiRelated && !isSelected);
+            if (optionIsCorrect) {
+              questionsCorrect += 1;
+            }
             if (isAiRelated && !isSelected) {
               perfect = false;
             }
@@ -473,6 +480,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
           return;
         }
 
+        questionItemsTotal += 1;
         const selectedInput = document.querySelector(`input[name="${question.id}"]:checked`);
         if (!selectedInput) {
           unanswered += 1;
@@ -488,6 +496,9 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
         });
         const optionScore = selectedOption ? Number(selectedOption.score) || 0 : 0;
         score += optionScore;
+        if (optionScore > 0) {
+          questionsCorrect += 1;
+        }
         if (questionEl) {
           questionEl.classList.add(optionScore > 0 ? 'quiz-question--correct' : 'quiz-question--incorrect');
           const explanationEl = questionEl.querySelector('[data-role="rationale"]');
@@ -511,10 +522,13 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       const boundedScore = clamp(normalizedScore, 0, 1);
       const confidenceSpread = CONFIDENCE_HIGH + (1 - boundedScore) * (CONFIDENCE_LOW - CONFIDENCE_HIGH);
       const confidenceSpreadText = confidenceSpread.toFixed(1);
+      const totalQuestions = questionItemsTotal;
+      const percentCorrect = totalQuestions > 0 ? Math.max(0, Math.min(100, Math.round((questionsCorrect / totalQuestions) * 100))) : 0;
+      const scoreMessage = totalQuestions > 0 && questionsCorrect === totalQuestions
+        ? `You have ${totalQuestions} of ${totalQuestions} questions correct. Score 100%.`
+        : `You have ${questionsCorrect} of ${totalQuestions} questions correct. Score ${percentCorrect}%.`;
       resultEl.innerHTML = `
-        You spotted <strong>${score}</strong> / ${maxQuizScore} AI signals${falseSelections > 0
-          ? ` but tapped <strong>${falseSelections}</strong> decoy${falseSelections > 1 ? 's' : ''}, so your calibrated score is <strong>${calibratedScore}</strong>.`
-          : `, giving you a calibrated score of <strong>${calibratedScore}</strong>.`}<br>
+        ${scoreMessage}<br>
         <span class="quiz-tier">${tier.label}</span> – ${tier.description} We set every uncertainty slider to ±${confidenceSpreadText} pts.
       `;
       resultEl.classList.add('quiz-result--success');
