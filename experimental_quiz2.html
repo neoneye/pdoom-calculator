@@ -470,33 +470,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
                 link: 'https://en.wikipedia.org/wiki/There_are_unknown_unknowns'
               },
             ]
-          },
-          {
-            id: 'beginner-intuition',
-            prompt: 'How confident are you when describing p(doom) to someone else?',
-            options: [
-              { id: 'beginner-intuition-low', label: 'I need more context before I explain it.' },
-              { id: 'beginner-intuition-mid', label: 'I can share a high-level take but no numbers yet.' },
-              { id: 'beginner-intuition-ready', label: 'I have a perspective and want to sanity-check it.' }
-            ]
-          },
-          {
-            id: 'beginner-tools',
-            prompt: 'What best captures your experience with AI tools?',
-            options: [
-              { id: 'beginner-tools-user', label: 'I use consumer chatbots or copilots casually.' },
-              { id: 'beginner-tools-power', label: 'I tinker with prompt templates or automation tricks.' },
-              { id: 'beginner-tools-builder', label: 'I have built a small workflow or policy deck already.' }
-            ]
-          },
-          {
-            id: 'beginner-goal',
-            prompt: 'What do you want to get out of this quiz?',
-            options: [
-              { id: 'beginner-goal-define', label: 'Understand the vocabulary and stakes.' },
-              { id: 'beginner-goal-calibrate', label: 'Get a gut-check before sharing my number publicly.' },
-              { id: 'beginner-goal-share', label: 'Collect prompts to discuss with my team.' }
-            ]
           }
         ]
       },
@@ -887,10 +860,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         const inputName = `${flow.id}-${question.id}`;
         if (question.type === 'multi-select') {
           const selectedInputs = Array.from(document.querySelectorAll(`input[name="${inputName}"]:checked`));
-          if (selectedInputs.length === 0) {
-            unanswered += 1;
-            return;
-          }
           const optionIds = selectedInputs.map(input => input.value);
           const selectedOptions = question.options.filter(opt => optionIds.includes(opt.id));
           selections.push({ question, options: selectedOptions });
