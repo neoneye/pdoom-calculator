@@ -140,6 +140,10 @@ p.description {
   display: none !important;
 }
 
+.knowledge-quiz[hidden] {
+  display: none !important;
+}
+
 .knowledge-quiz {
   margin-bottom: 2.5rem;
   padding: 1.8rem 2rem;
