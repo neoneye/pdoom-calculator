@@ -371,6 +371,36 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         recommendedSpread: 65,
         completionMessage: 'Nice! This beginner path keeps uncertainty wide while you learn.',
         questions: [
+        {
+            id: 'beginner-movies',
+            type: 'multi-select',
+            prompt: 'Which AI-related books, games, movies or series have you encountered? (Select all that apply.)',
+            options: [
+              { id: 'beginner-movies-blackmirror', label: 'Black Mirror' },
+              { id: 'beginner-movies-matrix', label: 'The Matrix' },
+              { id: 'beginner-movies-terminator', label: 'Terminator' },
+              { id: 'beginner-movies-blade-runner', label: 'Blade Runner' },
+              { id: 'beginner-movies-alien', label: 'Alien (Ash, Bishop, Call, David, Walter)' },
+              { id: 'beginner-movies-ex-machina', label: 'Ex Machina' },
+              { id: 'beginner-movies-pantheon', label: 'Pantheon' },
+              { id: 'beginner-movies-irobot', label: 'I, Robot' },
+              { id: 'beginner-movies-her', label: 'Her' },
+              { id: 'beginner-movies-startrek', label: 'Star Trek (Data, The Borg)' },
+              { id: 'beginner-movies-starwars', label: 'Star Wars (R2-D2, C-3PO)' },
+              { id: 'beginner-movies-2001', label: '2001: A Space Odyssey (HAL 9000)' },
+              { id: 'beginner-movies-judgedredd', label: 'Judge Dredd' },
+              { id: 'beginner-movies-robocop', label: 'Robocop' },
+              { id: 'beginner-movies-ghostintheshell', label: 'Ghost in the Shell (Motoko Kusanagi)' },
+              { id: 'beginner-movies-westworld', label: 'Westworld (Arnold, Dolores, Bernard)' },
+              { id: 'beginner-movies-trumanshow', label: 'The Truman Show' },
+              { id: 'beginner-movies-wargames', label: 'Wargames' },
+              { id: 'beginner-movies-transcendence', label: 'Transcendence' },
+              { id: 'beginner-movies-wall-e', label: 'Wall-E' },
+              { id: 'beginner-movies-neuromancer', label: 'Neuromancer' },
+              { id: 'beginner-movies-portal', label: 'Portal (GlaDOS)' },
+              { id: 'beginner-movies-hitchhikersguide', label: 'The Hitchhiker\'s Guide to the Galaxy (Marvin)' }
+            ]
+          },
           {
             id: 'beginner-intuition',
             prompt: 'How confident are you when describing p(doom) to someone else?',
@@ -623,6 +653,31 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
           return;
         }
 
+        if (question.type === 'multi-select') {
+          const item = document.createElement('li');
+          item.className = 'wizard-question';
+          const optionsMarkup = question.options.map((option, optionIndex) => {
+            const optionId = `${inputName}-${optionIndex}`;
+            return `
+              <label class="wizard-checkbox">
+                <input type="checkbox" id="${optionId}" name="${inputName}" value="${option.id}" />
+                <span>${option.label}</span>
+              </label>
+            `;
+          }).join('');
+          item.innerHTML = `
+            <div class="wizard-question__prompt">
+              <span class="wizard-question__number">${questionNumber}</span>
+              <p class="wizard-question__label">${question.prompt}</p>
+            </div>
+            <div class="wizard-question__options">
+              ${optionsMarkup}
+            </div>
+          `;
+          questionList.appendChild(item);
+          return;
+        }
+
         const item = document.createElement('li');
         item.className = 'wizard-question';
         const optionsMarkup = question.options.map((option, optionIndex) => {
@@ -744,6 +799,17 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       let unanswered = 0;
       flow.questions.forEach((question) => {
         const inputName = `${flow.id}-${question.id}`;
+        if (question.type === 'multi-select') {
+          const selectedInputs = Array.from(document.querySelectorAll(`input[name="${inputName}"]:checked`));
+          if (selectedInputs.length === 0) {
+            unanswered += 1;
+            return;
+          }
+          const optionIds = selectedInputs.map(input => input.value);
+          const selectedOptions = question.options.filter(opt => optionIds.includes(opt.id));
+          selections.push({ question, options: selectedOptions });
+          return;
+        }
         const selected = document.querySelector(`input[name="${inputName}"]:checked`);
         if (!selected) {
           unanswered += 1;

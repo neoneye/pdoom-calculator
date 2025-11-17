@@ -165,7 +165,8 @@
   gap: 0.45rem;
 }
 
-.wizard-radio {
+.wizard-radio,
+.wizard-checkbox {
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -177,11 +178,13 @@
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
-.wizard-radio:hover {
+.wizard-radio:hover,
+.wizard-checkbox:hover {
   border-color: rgba(120, 186, 255, 0.6);
 }
 
-.wizard-radio input {
+.wizard-radio input,
+.wizard-checkbox input {
   accent-color: rgba(120, 186, 255, 0.95);
 }
 
