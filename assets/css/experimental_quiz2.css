@@ -219,6 +219,7 @@
   width: fit-content;
   margin-left: auto;
   white-space: nowrap;
+  align-self: center;
 }
 
 .wizard-option__link:hover,
