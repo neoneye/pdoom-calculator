@@ -426,16 +426,6 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
         }
         if (question.type === 'multi-select') {
           const selectedInputs = document.querySelectorAll(`input[name="${question.id}"]:checked`);
-          if (!selectedInputs.length) {
-            unanswered += 1;
-            if (questionEl) {
-              const facts = questionEl.querySelectorAll('[data-role="fact"]');
-              facts.forEach(fact => {
-                fact.hidden = true;
-              });
-            }
-            return;
-          }
           const selectedValues = Array.from(selectedInputs).map(input => input.value);
           let perfect = true;
           question.options.forEach((option, optionIndex) => {
