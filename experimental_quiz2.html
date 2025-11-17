@@ -405,6 +405,73 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
             ]
           },
           {
+            id: 'beginner-catastrophes',
+            type: 'multi-select',
+            prompt: 'Which catastrophic events do you know about? (Select all that apply.)',
+            options: [
+              {
+                id: 'catastrophe-supervulcano',
+                label: 'Supervolcano',
+                description: 'Mega-eruptions like Yellowstone that could blanket continents in ash.',
+                link: 'https://en.wikipedia.org/wiki/Supervolcano'
+              },
+              {
+                id: 'catastrophe-impactevent',
+                label: 'Asteroid or comet impact',
+                description: 'Throws dust into the atmosphere, disrupting climate.',
+                link: 'https://en.wikipedia.org/wiki/Impact_event'
+              },
+              {
+                id: 'catastrophe-geomagneticstorm',
+                label: 'Geomagnetic storm',
+                description: 'Damage satellites and collapse electrical grids.',
+                link: 'https://en.wikipedia.org/wiki/Geomagnetic_storm'
+              },
+              {
+                id: 'catastrophe-pandemic',
+                label: 'Pandemic',
+                description: 'Global spread of a highly transmissible or highly lethal pathogen.',
+                link: 'https://en.wikipedia.org/wiki/Pandemic'
+              },
+              {
+                id: 'catastrophe-climatechange',
+                label: 'Climate change',
+                description: 'Rising sea levels, extreme weather, disruptions to food systems, infrastructure, and habitability.',
+                link: 'https://en.wikipedia.org/wiki/Climate_change'
+              },
+              {
+                id: 'catastrophe-nuclearwar',
+                label: 'Nuclear war',
+                description: 'Large-scale nuclear conflict that could kill billions.',
+                link: 'https://en.wikipedia.org/wiki/Nuclear_warfare'
+              },
+              {
+                id: 'catastrophe-weaponofmassdestruction',
+                label: 'Weapon of mass destruction (WMD)',
+                description: 'Chemical, biological, radiological, nuclear, or any other weapon that can do great damage.',
+                link: 'https://en.wikipedia.org/wiki/Weapon_of_mass_destruction'
+              },
+              {
+                id: 'catastrophe-xriskai',
+                label: 'Extinction or collapse from AI',
+                description: 'Human extinction or irreversible civilizational collapse.',
+                link: 'https://en.wikipedia.org/wiki/Existential_risk_from_artificial_intelligence'
+              },
+              {
+                id: 'catastrophe-sriskai',
+                label: 'Astronomical suffering from AI (s-risks)',
+                description: 'AI locks in vast amounts of suffering for many beings over long timescales.',
+                link: 'https://en.wikipedia.org/wiki/Risk_of_astronomical_suffering'
+              },
+              {
+                id: 'catastrophe-unknownunknowns',
+                label: 'Unknown unknowns',
+                description: 'Things we don’t know that we don’t know.',
+                link: 'https://en.wikipedia.org/wiki/There_are_unknown_unknowns'
+              },
+            ]
+          },
+          {
             id: 'beginner-intuition',
             prompt: 'How confident are you when describing p(doom) to someone else?',
             options: [
@@ -662,11 +729,15 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
           const optionsMarkup = question.options.map((option, optionIndex) => {
             const optionId = `${inputName}-${optionIndex}`;
             const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
+            const optionDescriptionMarkup = option.description ? `<p class="wizard-option__description">${option.description}</p>` : '';
             return `
               <label class="wizard-checkbox">
                 <input type="checkbox" id="${optionId}" name="${inputName}" value="${option.id}" />
                 <div class="wizard-option__content">
-                  <span class="wizard-option__label">${option.label}</span>
+                  <div class="wizard-option__text">
+                    <span class="wizard-option__label">${option.label}</span>
+                    ${optionDescriptionMarkup}
+                  </div>
                   ${optionLinkMarkup}
                 </div>
               </label>
@@ -690,11 +761,15 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         const optionsMarkup = question.options.map((option, optionIndex) => {
           const optionId = `${inputName}-${optionIndex}`;
           const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
+          const optionDescriptionMarkup = option.description ? `<p class="wizard-option__description">${option.description}</p>` : '';
           return `
             <label class="wizard-radio">
               <input type="radio" id="${optionId}" name="${inputName}" value="${option.id}" />
               <div class="wizard-option__content">
-                <span class="wizard-option__label">${option.label}</span>
+                <div class="wizard-option__text">
+                  <span class="wizard-option__label">${option.label}</span>
+                  ${optionDescriptionMarkup}
+                </div>
                 ${optionLinkMarkup}
               </div>
             </label>

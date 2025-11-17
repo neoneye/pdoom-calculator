@@ -190,12 +190,26 @@
 
 .wizard-option__content {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+}
+
+.wizard-option__text {
+  display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.2rem;
 }
 
 .wizard-option__label {
   margin: 0;
+}
+
+.wizard-option__description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(230, 235, 255, 0.75);
 }
 
 .wizard-option__link {
@@ -203,6 +217,8 @@
   color: rgba(131, 232, 198, 0.95);
   text-decoration: underline;
   width: fit-content;
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 .wizard-option__link:hover,
