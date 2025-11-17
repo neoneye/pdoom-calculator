@@ -136,16 +136,7 @@ p.description {
   margin-bottom: 2.2rem;
 }
 
-.factor-list[hidden] {
-  display: none !important;
-}
-
-.metrics[hidden] {
-  display: none !important;
-}
-
-.driver-message[hidden],
-.submission[hidden] {
+.sliders-ui[hidden] {
   display: none !important;
 }
 

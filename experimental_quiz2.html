@@ -21,9 +21,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
 -->
 <main>
     <h1>P(doom) Calculator</h1>
-    <p class="description">
-      Choose your best guess for each stage and how uncertain you are (± pts).
-    </p>
 
     <section class="knowledge-quiz quiz-wizard" id="levelWizard">
       <header class="wizard-header">
@@ -49,42 +46,51 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       </div>
     </section>
 
-    <section class="factor-list" id="factorList" hidden></section>
-
-    <section class="metrics" id="metrics" hidden>
-      <article class="metric-card">
-        <h2>P(doom)</h2>
-        <div class="metric-value" id="midpointEstimate">–</div>
-        <div class="uncertainty-note">Your best guess, ignoring uncertainty.</div>
-      </article>
-      <article class="metric-card">
-        <h2>10th percentile</h2>
-        <div class="metric-value" id="p10">–</div>
-        <div class="uncertainty-note">An optimistic outcome, given your uncertainty.</div>
-      </article>
-      <article class="metric-card">
-        <h2>90th percentile</h2>
-        <div class="metric-value" id="p90">–</div>
-        <div class="uncertainty-note">A pessimistic outcome, given your uncertainty.</div>
-      </article>
-      <article class="metric-card">
-        <h2>Range</h2>
-        <div class="metric-value" id="range">–</div>
-        <div class="uncertainty-note">Full range of possible outcomes.</div>
-      </article>
-    </section>
-
-    <section class="driver-message" id="driverMessage" hidden>
-      Stage with the widest probability range will be highlighted here.
-    </section>
-
-    <section class="submission" id="submission" hidden>
-      <button class="primary-button" id="submitParametersButton" type="button">Submit your P(doom)</button>
-      <p class="submission-note">
-        Share these parameters to contribute to aggregate stats. <a class="stats-link" href="{{ '/stats/' | relative_url }}">View stats</a>.
+    <div class="sliders-ui" id="slidersUi" hidden>
+      <p class="description">
+        Choose your best guess for each stage and how uncertain you are (± pts).
       </p>
-      <p class="submission-status" id="submissionStatus" aria-live="polite"></p>
-    </section>
+  
+      <div class="sliders-ui__actions">
+        <button class="secondary-button" type="button" id="slidersBackButton">Back</button>
+      </div>
+      <section class="factor-list" id="factorList"></section>
+
+      <section class="metrics" id="metrics">
+        <article class="metric-card">
+          <h2>P(doom)</h2>
+          <div class="metric-value" id="midpointEstimate">–</div>
+          <div class="uncertainty-note">Your best guess, ignoring uncertainty.</div>
+        </article>
+        <article class="metric-card">
+          <h2>10th percentile</h2>
+          <div class="metric-value" id="p10">–</div>
+          <div class="uncertainty-note">An optimistic outcome, given your uncertainty.</div>
+        </article>
+        <article class="metric-card">
+          <h2>90th percentile</h2>
+          <div class="metric-value" id="p90">–</div>
+          <div class="uncertainty-note">A pessimistic outcome, given your uncertainty.</div>
+        </article>
+        <article class="metric-card">
+          <h2>Range</h2>
+          <div class="metric-value" id="range">–</div>
+          <div class="uncertainty-note">Full range of possible outcomes.</div>
+        </article>
+      </section>
+
+      <section class="driver-message" id="driverMessage">
+        Stage with the widest probability range will be highlighted here.
+      </section>
+
+      <section class="submission" id="submission">
+        <button class="primary-button" id="submitParametersButton" type="button">Submit your P(doom)</button>
+        <p class="submission-note">
+          Share these parameters to contribute to aggregate stats. <a class="stats-link" href="{{ '/stats/' | relative_url }}">View stats</a>.
+        </p>
+        <p class="submission-status" id="submissionStatus" aria-live="polite"></p>
+      </section>
+    </div>
 
     <p class="footer-note">
       Stephen Hawking cautioned: "The development of full artificial intelligence could spell the end of the human race."
@@ -599,7 +605,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
 
     const SAMPLES = 4000;
     const SPREAD_MAX = 100;
-    const SLIDER_SECTION_IDS = ['factorList', 'metrics', 'driverMessage', 'submission'];
+    const SLIDERS_CONTAINER_ID = 'slidersUi';
     const wizardState = {
       step: 'welcome',
       flowId: null
@@ -912,21 +918,30 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       }
     }
 
-    function setSectionVisibility(elementId, visible, { scroll } = {}) {
-      const section = document.getElementById(elementId);
-      if (!section) return;
-      const shouldScroll = visible && section.hidden && scroll;
-      section.hidden = !visible;
-      if (shouldScroll && typeof section.scrollIntoView === 'function') {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    function setSlidersVisibility(visible) {
+      const container = document.getElementById(SLIDERS_CONTAINER_ID);
+      const flowList = document.getElementById('wizardFlowList');
+      if (flowList) {
+        flowList.hidden = visible;
+        flowList.setAttribute('aria-hidden', visible ? 'true' : 'false');
+        flowList.classList.toggle('wizard-flow-grid--hidden', visible);
+      }
+      if (!container) return;
+      const wasHidden = container.hidden;
+      container.hidden = !visible;
+      if (visible && wasHidden) {
+        const focusTarget = document.getElementById('factorList') || container;
+        if (typeof focusTarget.scrollIntoView === 'function') {
+          focusTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
 
-    function setSlidersVisibility(visible) {
-      SLIDER_SECTION_IDS.forEach((id, index) => {
-        const scroll = visible && index === 0;
-        setSectionVisibility(id, visible, { scroll });
-      });
+    function handleSlidersBack() {
+      setSlidersVisibility(false);
+      wizardState.flowId = null;
+      setActiveFlowCard('');
+      goToWizardStep('welcome');
     }
 
     function handleFlowSelection(flowId) {
@@ -1307,6 +1322,10 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       const submitButton = document.getElementById('submitParametersButton');
       if (submitButton) {
         submitButton.addEventListener('click', submitParameters);
+      }
+      const slidersBackButton = document.getElementById('slidersBackButton');
+      if (slidersBackButton) {
+        slidersBackButton.addEventListener('click', handleSlidersBack);
       }
     }
 

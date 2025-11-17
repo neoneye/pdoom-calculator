@@ -47,6 +47,10 @@
   gap: 1rem;
 }
 
+.wizard-flow-grid--hidden {
+  display: none;
+}
+
 .wizard-flow-card {
   appearance: none;
   font: inherit;
@@ -186,6 +190,12 @@
 .wizard-radio input,
 .wizard-checkbox input {
   accent-color: rgba(120, 186, 255, 0.95);
+}
+
+.sliders-ui__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 }
 
 .wizard-option__content {
