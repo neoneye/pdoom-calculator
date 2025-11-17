@@ -649,13 +649,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       });
     }
 
-    function setActiveFlowCard(flowId) {
-      const cards = document.querySelectorAll('.wizard-flow-card');
-      cards.forEach((card) => {
-        card.classList.toggle('wizard-flow-card--active', card.dataset.flowId === flowId);
-      });
-    }
-
     function renderSelectedFlow(flow) {
       const selectedEl = document.getElementById('wizardSelectedFlow');
       if (!selectedEl) return;
@@ -926,6 +919,10 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         flowList.setAttribute('aria-hidden', visible ? 'true' : 'false');
         flowList.classList.toggle('wizard-flow-grid--hidden', visible);
       }
+      const wizardRoot = document.getElementById('levelWizard');
+      if (wizardRoot) {
+        wizardRoot.hidden = visible;
+      }
       if (!container) return;
       const wasHidden = container.hidden;
       container.hidden = !visible;
@@ -940,7 +937,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
     function handleSlidersBack() {
       setSlidersVisibility(false);
       wizardState.flowId = null;
-      setActiveFlowCard('');
       goToWizardStep('welcome');
     }
 
@@ -949,14 +945,12 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       if (!flow) return;
       if (flow.kind === 'sliders') {
         wizardState.flowId = flowId;
-        setActiveFlowCard(flowId);
         setSlidersVisibility(true);
         goToWizardStep('welcome');
         return;
       }
       setSlidersVisibility(false);
       wizardState.flowId = flowId;
-      setActiveFlowCard(flowId);
       renderSelectedFlow(flow);
       renderWizardQuestions(flow);
       resetWizardResult();
