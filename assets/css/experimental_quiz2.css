@@ -188,6 +188,28 @@
   accent-color: rgba(120, 186, 255, 0.95);
 }
 
+.wizard-option__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.wizard-option__label {
+  margin: 0;
+}
+
+.wizard-option__link {
+  font-size: 0.8rem;
+  color: rgba(131, 232, 198, 0.95);
+  text-decoration: underline;
+  width: fit-content;
+}
+
+.wizard-option__link:hover,
+.wizard-option__link:focus-visible {
+  color: rgba(131, 232, 198, 1);
+}
+
 .wizard-actions {
   display: flex;
   flex-wrap: wrap;

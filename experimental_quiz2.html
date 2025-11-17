@@ -376,32 +376,32 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
             type: 'multi-select',
             prompt: 'Which AI-related books, games, movies or series have you encountered? (Select all that apply.)',
             options: [
-              { id: 'entertainment-blackmirror', label: 'Black Mirror' },
-              { id: 'entertainment-matrix', label: 'The Matrix' },
-              { id: 'entertainment-terminator', label: 'Terminator' },
-              { id: 'entertainment-blade-runner', label: 'Blade Runner' },
-              { id: 'entertainment-alien', label: 'Alien (Ash, Bishop, Call, David, Walter)' },
-              { id: 'entertainment-ex-machina', label: 'Ex Machina' },
-              { id: 'entertainment-pantheon', label: 'Pantheon' },
-              { id: 'entertainment-irobot', label: 'I, Robot' },
-              { id: 'entertainment-her', label: 'Her' },
-              { id: 'entertainment-startrek', label: 'Star Trek (Data, The Borg)' },
-              { id: 'entertainment-starwars', label: 'Star Wars (R2-D2, C-3PO)' },
-              { id: 'entertainment-2001', label: '2001: A Space Odyssey (HAL 9000)' },
-              { id: 'entertainment-judgedredd', label: 'Judge Dredd' },
-              { id: 'entertainment-robocop', label: 'Robocop' },
-              { id: 'entertainment-ghostintheshell', label: 'Ghost in the Shell (Motoko Kusanagi)' },
-              { id: 'entertainment-westworld', label: 'Westworld (Arnold, Dolores, Bernard)' },
-              { id: 'entertainment-trumanshow', label: 'The Truman Show' },
-              { id: 'entertainment-wargames', label: 'Wargames' },
-              { id: 'entertainment-transcendence', label: 'Transcendence' },
-              { id: 'entertainment-wall-e', label: 'Wall-E' },
-              { id: 'entertainment-silo', label: 'Silo (The Algorithm)' },
-              { id: 'entertainment-neuromancer', label: 'Neuromancer' },
-              { id: 'entertainment-foundation', label: 'Foundation (Demerzel)' },
-              { id: 'entertainment-murderbot', label: 'Murderbot' },
-              { id: 'entertainment-portal', label: 'Portal (GlaDOS)' },
-              { id: 'entertainment-hitchhikersguide', label: 'The Hitchhiker\'s Guide to the Galaxy (Marvin)' }
+              { id: 'entertainment-blackmirror', label: 'Black Mirror', link: 'https://en.wikipedia.org/wiki/Black_Mirror' },
+              { id: 'entertainment-matrix', label: 'The Matrix', link: 'https://en.wikipedia.org/wiki/The_Matrix' },
+              { id: 'entertainment-terminator', label: 'Terminator', link: 'https://en.wikipedia.org/wiki/The_Terminator' },
+              { id: 'entertainment-blade-runner', label: 'Blade Runner', link: 'https://en.wikipedia.org/wiki/Blade_Runner' },
+              { id: 'entertainment-alien', label: 'Alien (Ash, Bishop, Call, David, Walter)', link: 'https://en.wikipedia.org/wiki/Alien_(franchise)' },
+              { id: 'entertainment-ex-machina', label: 'Ex Machina', link: 'https://en.wikipedia.org/wiki/Ex_Machina_(film)' },
+              { id: 'entertainment-pantheon', label: 'Pantheon', link: 'https://en.wikipedia.org/wiki/Pantheon_(TV_series)' },
+              { id: 'entertainment-irobot', label: 'I, Robot', link: 'https://en.wikipedia.org/wiki/I,_Robot_(film)' },
+              { id: 'entertainment-her', label: 'Her', link: 'https://en.wikipedia.org/wiki/Her_(2013_film)' },
+              { id: 'entertainment-startrek', label: 'Star Trek (Data, The Borg)', link: 'https://en.wikipedia.org/wiki/Star_Trek' },
+              { id: 'entertainment-starwars', label: 'Star Wars (R2-D2, C-3PO)', link: 'https://en.wikipedia.org/wiki/Star_Wars' },
+              { id: 'entertainment-2001', label: '2001: A Space Odyssey (HAL 9000)', link: 'https://en.wikipedia.org/wiki/2001:_A_Space_Odyssey_(film)' },
+              { id: 'entertainment-judgedredd', label: 'Judge Dredd', link: 'https://en.wikipedia.org/wiki/Judge_Dredd' },
+              { id: 'entertainment-robocop', label: 'RoboCop', link: 'https://en.wikipedia.org/wiki/RoboCop' },
+              { id: 'entertainment-ghostintheshell', label: 'Ghost in the Shell (Motoko Kusanagi)', link: 'https://en.wikipedia.org/wiki/Ghost_in_the_Shell' },
+              { id: 'entertainment-westworld', label: 'Westworld (Arnold, Dolores, Bernard)', link: 'https://en.wikipedia.org/wiki/Westworld_(TV_series)' },
+              { id: 'entertainment-trumanshow', label: 'The Truman Show', link: 'https://en.wikipedia.org/wiki/The_Truman_Show' },
+              { id: 'entertainment-wargames', label: 'Wargames', link: 'https://en.wikipedia.org/wiki/WarGames' },
+              { id: 'entertainment-transcendence', label: 'Transcendence', link: 'https://en.wikipedia.org/wiki/Transcendence_(2014_film)' },
+              { id: 'entertainment-wall-e', label: 'Wall-E', link: 'https://en.wikipedia.org/wiki/WALL-E' },
+              { id: 'entertainment-silo', label: 'Silo (The Algorithm)', link: 'https://en.wikipedia.org/wiki/Silo_(TV_series)' },
+              { id: 'entertainment-neuromancer', label: 'Neuromancer', link: 'https://en.wikipedia.org/wiki/Neuromancer' },
+              { id: 'entertainment-foundation', label: 'Foundation (Demerzel)', link: 'https://en.wikipedia.org/wiki/Foundation_(Asimov)' },
+              { id: 'entertainment-murderbot', label: 'Murderbot', link: 'https://en.wikipedia.org/wiki/The_Murderbot_Diaries' },
+              { id: 'entertainment-portal', label: 'Portal (GlaDOS)', link: 'https://en.wikipedia.org/wiki/Portal_(video_game)' },
+              { id: 'entertainment-hitchhikersguide', label: 'The Hitchhiker\'s Guide to the Galaxy (Marvin)', link: 'https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy' }
             ]
           },
           {
@@ -661,10 +661,14 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
           item.className = 'wizard-question';
           const optionsMarkup = question.options.map((option, optionIndex) => {
             const optionId = `${inputName}-${optionIndex}`;
+            const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
             return `
               <label class="wizard-checkbox">
                 <input type="checkbox" id="${optionId}" name="${inputName}" value="${option.id}" />
-                <span>${option.label}</span>
+                <div class="wizard-option__content">
+                  <span class="wizard-option__label">${option.label}</span>
+                  ${optionLinkMarkup}
+                </div>
               </label>
             `;
           }).join('');
@@ -685,10 +689,14 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         item.className = 'wizard-question';
         const optionsMarkup = question.options.map((option, optionIndex) => {
           const optionId = `${inputName}-${optionIndex}`;
+          const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
           return `
             <label class="wizard-radio">
               <input type="radio" id="${optionId}" name="${inputName}" value="${option.id}" />
-              <span>${option.label}</span>
+              <div class="wizard-option__content">
+                <span class="wizard-option__label">${option.label}</span>
+                ${optionLinkMarkup}
+              </div>
             </label>
           `;
         }).join('');
