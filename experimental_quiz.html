@@ -2,6 +2,16 @@
 title: P(doom) Calculator
 description: Interactively estimate overall P(doom) by setting stage-wise probabilities and uncertainty. Shows point estimate and 10-90% band.
 ---
+<!--
+The number of correct answers is used for assigning an initial value for the confidence sliders.
+If it's a person that has no experience with AI safety, they would get some of the decoys wrong. Thus their confidence lean towards uncertain.
+if it's a person that have experience with AI safety and knows the domain, they can avoid the decoys. Thus their confidence lean towards certain.
+
+The idea is to show a follow up quiz, based on the number of correct answers, like this:
+If the number of correct answers are 0..9 then show a **beginner** quiz.
+If the number of correct answers are 10..19 then show a **medium** quiz.
+If the number of correct answers are 20..30 then show an **expert** quiz.
+-->
 <main>
     <h1>P(doom) Calculator</h1>
     <p class="description">
