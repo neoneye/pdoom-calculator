@@ -1,0 +1,214 @@
+.quiz-wizard {
+  gap: 1.5rem;
+}
+
+.wizard-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.wizard-step {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  color: rgba(120, 186, 255, 0.85);
+}
+
+.wizard-intro {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(230, 235, 255, 0.75);
+}
+
+.wizard-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wizard-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: opacity 0.2s ease;
+}
+
+.wizard-panel[hidden] {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wizard-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.wizard-flow-card {
+  appearance: none;
+  font: inherit;
+  border: 1px solid rgba(90, 120, 200, 0.35);
+  border-radius: 18px;
+  background: rgba(5, 9, 16, 0.85);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.wizard-flow-card:hover,
+.wizard-flow-card:focus-visible {
+  border-color: rgba(120, 186, 255, 0.6);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.wizard-flow-card--recommended {
+  border-color: rgba(131, 232, 198, 0.8);
+  box-shadow: 0 18px 40px rgba(14, 74, 58, 0.4);
+}
+
+.wizard-flow-card--active {
+  background: rgba(18, 32, 52, 0.95);
+  border-color: rgba(120, 186, 255, 0.9);
+}
+
+.wizard-card-badge {
+  align-self: flex-start;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(131, 232, 198, 0.14);
+  color: rgba(131, 232, 198, 0.95);
+}
+
+.wizard-flow-card__title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.wizard-flow-card__description {
+  margin: 0;
+  color: rgba(230, 235, 255, 0.75);
+  font-size: 0.9rem;
+}
+
+.wizard-flow-card__meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(230, 235, 255, 0.6);
+}
+
+.wizard-selected {
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  border: 1px solid rgba(90, 120, 200, 0.35);
+  background: rgba(8, 12, 20, 0.85);
+}
+
+.wizard-selected__title {
+  margin: 0;
+}
+
+.wizard-selected__meta {
+  margin: 0.2rem 0 0;
+  color: rgba(230, 235, 255, 0.65);
+  font-size: 0.9rem;
+}
+
+.wizard-question-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.wizard-question {
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  border: 1px solid rgba(90, 120, 200, 0.2);
+  background: rgba(4, 6, 12, 0.85);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.wizard-question__prompt {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.wizard-question__number {
+  font-weight: 700;
+  color: rgba(120, 186, 255, 0.8);
+}
+
+.wizard-question__label {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.wizard-question__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.wizard-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(90, 120, 200, 0.15);
+  background: rgba(10, 14, 22, 0.8);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.wizard-radio:hover {
+  border-color: rgba(120, 186, 255, 0.6);
+}
+
+.wizard-radio input {
+  accent-color: rgba(120, 186, 255, 0.95);
+}
+
+.wizard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.secondary-button {
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 186, 255, 0.6);
+  background: transparent;
+  color: rgba(230, 235, 255, 0.85);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.secondary-button:hover {
+  background: rgba(120, 186, 255, 0.1);
+}
+
+.secondary-button:focus-visible {
+  outline: 2px solid rgba(120, 186, 255, 0.9);
+  outline-offset: 2px;
+}

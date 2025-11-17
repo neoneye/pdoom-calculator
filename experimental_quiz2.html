@@ -1,0 +1,1154 @@
+---
+title: P(doom) Calculator
+description: Interactively estimate overall P(doom) by setting stage-wise probabilities and uncertainty. Shows point estimate and 10-90% band.
+extra_styles: /assets/css/experimental_quiz2.css
+---
+<!--
+Similar to a **Windows Wizard**. First page is the welcome page.
+From there they can go through different flows, like this:
+
+Do the quiz in "beginner", "medium", "expert" mode, or "decide the right level for me" 
+and in they click "decide the right level for me" they are presented with a knowledge check.
+
+The number of correct answers is used for assigning an initial value for the confidence sliders.
+If it's a person that has no experience with AI safety, they would get some of the decoys wrong. Thus their confidence lean towards uncertain.
+if it's a person that have experience with AI safety and knows the domain, they can avoid the decoys. Thus their confidence lean towards certain.
+
+The idea is to show a follow up quiz, based on the number of correct answers, like this:
+If the number of correct answers are 0..9 then show a **beginner** quiz.
+If the number of correct answers are 10..19 then show a **medium** quiz.
+If the number of correct answers are 20..30 then show an **expert** quiz.
+-->
+<main>
+    <h1>P(doom) Calculator</h1>
+    <p class="description">
+      Choose your best guess for each stage and how uncertain you are (± pts).
+    </p>
+
+    <section class="knowledge-quiz quiz-wizard" id="levelWizard">
+      <header class="wizard-header">
+        <div class="wizard-step" id="wizardProgressText">Step 1 of 2 · Pick a flow</div>
+        <h2>Choose your quiz path</h2>
+        <p class="wizard-intro">
+          Like a wizard setup screen, start by selecting a lane: let us decide the right level (recommended) or jump directly into the beginner, medium, or expert quiz.
+        </p>
+      </header>
+      <div class="wizard-body">
+        <div class="wizard-panel wizard-panel--active" id="wizardStepWelcome" data-step="welcome">
+          <div class="wizard-flow-grid" id="wizardFlowList"></div>
+        </div>
+        <div class="wizard-panel" id="wizardStepQuiz" data-step="quiz" hidden>
+          <div class="wizard-selected" id="wizardSelectedFlow"></div>
+          <ol class="wizard-question-list" id="wizardQuestionList"></ol>
+          <div class="wizard-actions">
+            <button class="secondary-button" type="button" id="wizardBackButton">Back</button>
+            <button class="primary-button" type="button" id="wizardSubmitButton">Submit answers</button>
+          </div>
+          <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="factor-list" id="factorList"></section>
+
+    <section class="metrics">
+      <article class="metric-card">
+        <h2>P(doom)</h2>
+        <div class="metric-value" id="midpointEstimate">–</div>
+        <div class="uncertainty-note">Your best guess, ignoring uncertainty.</div>
+      </article>
+      <article class="metric-card">
+        <h2>10th percentile</h2>
+        <div class="metric-value" id="p10">–</div>
+        <div class="uncertainty-note">An optimistic outcome, given your uncertainty.</div>
+      </article>
+      <article class="metric-card">
+        <h2>90th percentile</h2>
+        <div class="metric-value" id="p90">–</div>
+        <div class="uncertainty-note">A pessimistic outcome, given your uncertainty.</div>
+      </article>
+      <article class="metric-card">
+        <h2>Range</h2>
+        <div class="metric-value" id="range">–</div>
+        <div class="uncertainty-note">Full range of possible outcomes.</div>
+      </article>
+    </section>
+
+    <section class="driver-message" id="driverMessage">
+      Stage with the widest probability range will be highlighted here.
+    </section>
+
+    <section class="submission">
+      <button class="primary-button" id="submitParametersButton" type="button">Submit your P(doom)</button>
+      <p class="submission-note">
+        Share these parameters to contribute to aggregate stats. <a class="stats-link" href="{{ '/stats/' | relative_url }}">View stats</a>.
+      </p>
+      <p class="submission-status" id="submissionStatus" aria-live="polite"></p>
+    </section>
+
+    <p class="footer-note">
+      Stephen Hawking cautioned: "The development of full artificial intelligence could spell the end of the human race."
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  const SUPABASE_URL = window.SUPABASE_URL;
+  const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+    const SUBMISSIONS_TABLE = 'submissions';
+    let supabaseClient = null;
+    let latestSnapshot = null;
+
+    const config = [
+      {
+        key: 'powerfulAi',
+        label: 'P(powerful AI)',
+        explanation: 'Probability that at least one deployable model or toolchain (model, agents, tools, scaling) reaches strategic capability.',
+        defaults: { lower: 0.4, upper: 0.6 }
+      },
+      {
+        key: 'dangerousBehavior',
+        label: 'P(dangerous behavior | powerful AI)',
+        explanation: 'Given such a system exists, what is the chance it is misaligned with human values?',
+        defaults: { lower: 0.4, upper: 0.6 }
+      },
+      {
+        key: 'globalCatastrophe',
+        label: 'P(global catastrophe | dangerous behavior)',
+        explanation: 'Probability that misalignment leads to an unrecoverable global catastrophe.',
+        defaults: { lower: 0.4, upper: 0.6 }
+      }
+    ];
+
+    const knowledgeCheckQuestions = [
+      {
+        id: 'phase1',
+        title: 'Phase 1: Assess how much you know about AI',
+        prompt: 'Q1. Spot the AI-related terms, beware of the decoys.',
+        instructions: 'Select every entry that is genuinely tied to artificial intelligence. Submit to reveal the facts and citations.',
+        type: 'multi-select',
+        options: [
+          {
+            id: 'paperclip-maximizer',
+            text: 'Paperclip maximizer',
+            fact: 'Nick Bostrom popularized this thought experiment as a warning about misaligned superintelligence optimizing for the wrong goal.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Instrumental_convergence',
+            aiRelated: true
+          },
+          {
+            id: 'operation-paperclip',
+            text: 'Operation Paperclip',
+            fact: 'Operation Paperclip was a U.S. intelligence program that relocated more than 1,600 German scientists after World War II.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Operation_Paperclip',
+            aiRelated: false
+          },
+          {
+            id: 'attention-is-all-you-need',
+            text: 'Attention Is All You Need',
+            fact: 'The 2017 paper that introduced the Transformer architecture powering modern large language models.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Attention_Is_All_You_Need',
+            aiRelated: true
+          },
+          {
+            id: 'all-you-need-is-love',
+            text: 'All You Need Is Love',
+            fact: 'A 1967 Beatles single celebrating peace and love rather than neural nets.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/All_You_Need_Is_Love',
+            aiRelated: false
+          },
+          {
+            id: 'the-real-slim-shady',
+            text: 'May I have your attention, please?',
+            fact: 'The opening line from Eminem\'s 2000 single "The Real Slim Shady."',
+            wikiUrl: 'https://en.wikipedia.org/wiki/The_Real_Slim_Shady',
+            aiRelated: false
+          },
+          {
+            id: 'adhd',
+            text: 'Attention deficit hyperactivity disorder',
+            fact: 'A neurodevelopmental disorder treated by clinicians, not an AI concept.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Attention_deficit_hyperactivity_disorder',
+            aiRelated: false
+          },
+          {
+            id: 'nick-bostrom',
+            text: 'Nick Bostrom',
+            fact: 'Oxford philosopher known for "Superintelligence" and research on AI risk.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Nick_Bostrom',
+            aiRelated: true
+          },
+          {
+            id: 'alan-turing',
+            text: 'Alan Turing',
+            fact: 'Pioneer of computer science and namesake of the Turing test for machine intelligence.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Alan_Turing',
+            aiRelated: true
+          },
+          {
+            id: 'mary-shelley',
+            text: 'Mary Shelley',
+            fact: 'Author of "Frankenstein," one of the earliest stories about an artificial being.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Mary_Shelley',
+            aiRelated: true
+          },
+          {
+            id: 'isaac-asimov',
+            text: 'Isaac Asimov',
+            fact: 'Science-fiction writer who coined the Three Laws of Robotics.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Isaac_Asimov',
+            aiRelated: true
+          },
+          {
+            id: 'schrodingers-cat',
+            text: "Schrödinger's cat",
+            fact: 'A thought experiment in quantum mechanics by Erwin Schrödinger, not an AI concept.',
+            wikiUrl: "https://en.wikipedia.org/wiki/Schr%C3%B6dinger's_cat",
+            aiRelated: false
+          },
+          {
+            id: 'james-bond',
+            text: 'James Bond',
+            fact: 'Ian Fleming\'s fictional British spy, not an AI agent.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/James_Bond',
+            aiRelated: false
+          },
+          {
+            id: 'agent',
+            text: 'Agent',
+            fact: 'In AI, agents perceive, plan, and act within an environment or toolchain.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Intelligent_agent',
+            aiRelated: true
+          },
+          {
+            id: 'agent-orange',
+            text: 'Agent Orange',
+            fact: 'A herbicide and defoliant used by the U.S. military during the Vietnam War, infamous for its health impacts, not an AI “agent.”',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Agent_Orange',
+            aiRelated: false
+          },
+          {
+            id: 'red-team',
+            text: 'Red team',
+            fact: 'Red teaming is a technique used to test the robustness of a model or agent by exposing it to adversarial examples.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Red-teaming',
+            aiRelated: true
+          },
+          {
+            id: 'standard-model',
+            text: 'The Standard Model',
+            fact: 'The prevailing theory describing elementary particles in physics. Unrelated to AI.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Standard_Model',
+            aiRelated: false
+          },
+          {
+            id: 'wireframe-model',
+            text: 'Wire-frame model',
+            fact: 'A computer-graphics technique for representing 3D shapes. Unrelated to AI.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Wire-frame_model',
+            aiRelated: false
+          },
+          {
+            id: 'latent-space',
+            text: 'Latent space',
+            fact: 'The hidden representation of data in a high-dimensional space. Used in AI.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Latent_space',
+            aiRelated: true
+          },
+          {
+            id: 'reward-hacking',
+            text: 'Reward hacking',
+            fact: 'When an AI system exploits flaws in its reward function or metrics to achieve high reward without doing what was intended.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Reward_hacking',
+            aiRelated: true
+          },
+          {
+            id: 'training-data',
+            text: 'Training data',
+            fact: 'Datasets used to fit and evaluate machine learning models.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets',
+            aiRelated: true
+          },
+          {
+            id: 'personal-trainer',
+            text: 'Personal trainer',
+            fact: 'A fitness professional who coaches workouts, not an AI term.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Personal_trainer',
+            aiRelated: false
+          },
+          {
+            id: 'cherenkov-radiation',
+            text: 'Cherenkov Radiation',
+            fact: 'A type of radiation emitted when a charged particle travels faster than the speed of light in a medium.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Cherenkov_radiation',
+            aiRelated: false
+          },
+          {
+            id: 'moire-pattern',
+            text: 'Moiré pattern',
+            fact: 'A pattern of interference fringes caused by the superposition of two periodic grids, not an AI concept.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Moir%C3%A9_pattern',
+            aiRelated: false
+          },
+          {
+            id: 'backpropagation',
+            text: 'Backpropagation',
+            fact: 'The standard algorithm for training neural networks by propagating error gradients backward through the layers.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Backpropagation',
+            aiRelated: true
+          },
+          {
+            id: 'unsupervised-learning',
+            text: 'Unsupervised learning',
+            fact: 'An ML paradigm where models discover structure without labeled targets.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Unsupervised_learning',
+            aiRelated: true
+          },
+          {
+            id: 'clinical-supervisor',
+            text: 'Clinical supervisor',
+            fact: 'A senior clinician overseeing the work of trainees, unrelated to AI.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Clinical_supervision',
+            aiRelated: false
+          },
+          {
+            id: 'overfitting',
+            text: 'Overfitting',
+            fact: 'Overfitting is a phenomenon in machine learning where a model learns the training data too well, resulting in poor performance on new data.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Overfitting',
+            aiRelated: true
+          },
+          {
+            id: 'magnus-effect',
+            text: 'Magnus effect',
+            fact: 'The effect of a spinning object being deflected by the air or fluid around it, not an AI concept.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Magnus_effect',
+            aiRelated: false
+          },
+          {
+            id: 'reinforced-concrete',
+            text: 'Reinforced concrete',
+            fact: 'A construction material in which concrete is embedded with steel reinforcement (rebar) to increase tensile strength.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Reinforced_concrete',
+            aiRelated: false
+          },
+          {
+            id: 'hallucination',
+            text: 'Hallucination',
+            fact: 'In AI, this refers to a confident response by a model that is not justified by its training data.',
+            wikiUrl: 'https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)',
+            aiRelated: true
+          }
+        ]
+      }
+    ];
+
+    const knowledgeCheckMaxScore = knowledgeCheckQuestions.reduce((sum, question) => {
+      if (question.type === 'multi-select') {
+        const aiOptions = question.options.filter(option => option.aiRelated);
+        return sum + aiOptions.length;
+      }
+      const optionScores = question.options.map(option => Number(option.score) || 0);
+      const maxForQuestion = optionScores.length > 0 ? Math.max(...optionScores) : 0;
+      return sum + maxForQuestion;
+    }, 0);
+
+    const quizFlows = [
+      {
+        id: 'decide',
+        label: 'Decide the right level for me',
+        description: 'Let us place you on the right lane with a bite-sized knowledge check.',
+        meta: '30 terms · ~5 minutes',
+        recommended: true,
+        kind: 'knowledge-check',
+        questions: knowledgeCheckQuestions
+      },
+      {
+        id: 'beginner',
+        label: 'Beginner quiz',
+        description: 'Perfect if you are just getting acquainted with AI risk language.',
+        meta: '3 questions · friendly pace',
+        kind: 'fixed',
+        recommendedSpread: 65,
+        completionMessage: 'Nice! This beginner path keeps uncertainty wide while you learn.',
+        questions: [
+          {
+            id: 'beginner-intuition',
+            prompt: 'How confident are you when describing p(doom) to someone else?',
+            options: [
+              { id: 'beginner-intuition-low', label: 'I need more context before I explain it.' },
+              { id: 'beginner-intuition-mid', label: 'I can share a high-level take but no numbers yet.' },
+              { id: 'beginner-intuition-ready', label: 'I have a perspective and want to sanity-check it.' }
+            ]
+          },
+          {
+            id: 'beginner-tools',
+            prompt: 'What best captures your experience with AI tools?',
+            options: [
+              { id: 'beginner-tools-user', label: 'I use consumer chatbots or copilots casually.' },
+              { id: 'beginner-tools-power', label: 'I tinker with prompt templates or automation tricks.' },
+              { id: 'beginner-tools-builder', label: 'I have built a small workflow or policy deck already.' }
+            ]
+          },
+          {
+            id: 'beginner-goal',
+            prompt: 'What do you want to get out of this quiz?',
+            options: [
+              { id: 'beginner-goal-define', label: 'Understand the vocabulary and stakes.' },
+              { id: 'beginner-goal-calibrate', label: 'Get a gut-check before sharing my number publicly.' },
+              { id: 'beginner-goal-share', label: 'Collect prompts to discuss with my team.' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'medium',
+        label: 'Medium quiz',
+        description: 'For folks who already debate drivers and timelines with friends.',
+        meta: '3 questions · thoughtful pace',
+        kind: 'fixed',
+        recommendedSpread: 35,
+        completionMessage: 'Welcome back! We tightened the sliders a bit to match your reps.',
+        questions: [
+          {
+            id: 'medium-tactics',
+            prompt: 'When a new foundation model drops, what do you do first?',
+            options: [
+              { id: 'medium-tactics-play', label: 'Skim demos and social chatter.' },
+              { id: 'medium-tactics-test', label: 'Test jailbreak prompts or evaluate for edge cases.' },
+              { id: 'medium-tactics-measure', label: 'Benchmark capabilities or assess deployment risk.' }
+            ]
+          },
+          {
+            id: 'medium-data',
+            prompt: 'How often do you look at training data, eval sets, or monitoring dashboards?',
+            options: [
+              { id: 'medium-data-rare', label: 'Mostly when a headline tells me to.' },
+              { id: 'medium-data-sometimes', label: 'Monthly or when I am assigned to review a launch.' },
+              { id: 'medium-data-weekly', label: 'Weekly because it is part of my job.' }
+            ]
+          },
+          {
+            id: 'medium-ownership',
+            prompt: 'Choose the scenario that fits your role in AI risk conversations.',
+            options: [
+              { id: 'medium-ownership-contributor', label: 'I share feedback in working groups or online forums.' },
+              { id: 'medium-ownership-facilitator', label: 'I facilitate tabletop exercises or P(doom) workshops.' },
+              { id: 'medium-ownership-lead', label: 'I translate technical findings into policy or product requirements.' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'expert',
+        label: 'Expert quiz',
+        description: 'Built for researchers, auditors, or policy leads owning mitigation plans.',
+        meta: '3 questions · fast lane',
+        kind: 'fixed',
+        recommendedSpread: 15,
+        completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
+        questions: [
+          {
+            id: 'expert-work',
+            prompt: 'What best describes your recent AI safety work?',
+            options: [
+              { id: 'expert-work-analysis', label: 'I publish analyses or run independent audits.' },
+              { id: 'expert-work-roadmap', label: 'I write safety roadmaps or evaluate research directions.' },
+              { id: 'expert-work-ownership', label: 'I approve launches or manage red/blue teams.' }
+            ]
+          },
+          {
+            id: 'expert-signal',
+            prompt: 'How do you keep your intuition sharp between major incidents?',
+            options: [
+              { id: 'expert-signal-briefs', label: 'Digest rapid-fire briefs from my network.' },
+              { id: 'expert-signal-models', label: 'Probe internal models and share eval templates.' },
+              { id: 'expert-signal-labs', label: 'Coordinate with labs, policymakers, and deployers.' }
+            ]
+          },
+          {
+            id: 'expert-need',
+            prompt: 'What do you want from this wizard?',
+            options: [
+              { id: 'expert-need-calibration', label: 'A fast calibration so I can compare with my peers.' },
+              { id: 'expert-need-docs', label: 'Docs that I can plug into a governance review.' },
+              { id: 'expert-need-share', label: 'Sharing-friendly visuals once I finalize my inputs.' }
+            ]
+          }
+        ]
+      }
+    ];
+
+    const knowledgeTiers = [
+      {
+        id: 'novice',
+        label: 'Curious Newcomer',
+        minScore: 0,
+        maxScore: 3,
+        recommendedSpread: 30,
+        description: 'You rely on consumer tools and are still forming intuitions, so the sliders stay wide.'
+      },
+      {
+        id: 'promptExplorer',
+        label: 'Prompt Explorer',
+        minScore: 4,
+        maxScore: 7,
+        recommendedSpread: 22,
+        description: 'You understand alignment basics and prompt craft, so we keep a moderate range.'
+      },
+      {
+        id: 'builder',
+        label: 'Hands-on Builder',
+        minScore: 8,
+        maxScore: 9,
+        recommendedSpread: 15,
+        description: 'You have meaningful ML or agent experience, so tighter uncertainty is reasonable.'
+      },
+      {
+        id: 'engineer',
+        label: 'ML Engineer',
+        minScore: 10,
+        maxScore: 11,
+        recommendedSpread: 8,
+        description: 'You train or align models professionally, so we trust a narrow uncertainty band.'
+      }
+    ];
+
+    const CONFIDENCE_HIGH = 20;
+    const CONFIDENCE_LOW = 80;
+
+    const SAMPLES = 4000;
+    const SPREAD_MAX = 100;
+    const wizardState = {
+      step: 'welcome',
+      flowId: null
+    };
+
+    function mulberry32(a) {
+      return function() {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+
+    function getFlowById(flowId) {
+      return quizFlows.find(flow => flow.id === flowId) || null;
+    }
+
+    function renderWizardFlowOptions() {
+      const listEl = document.getElementById('wizardFlowList');
+      if (!listEl) return;
+      listEl.innerHTML = '';
+      quizFlows.forEach((flow) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        const classes = ['wizard-flow-card'];
+        if (flow.recommended) {
+          classes.push('wizard-flow-card--recommended');
+        }
+        button.className = classes.join(' ');
+        button.dataset.flowId = flow.id;
+        const badge = flow.recommended ? '<span class="wizard-card-badge">Recommended</span>' : '';
+        button.innerHTML = `
+          ${badge}
+          <h3 class="wizard-flow-card__title">${flow.label}</h3>
+          <p class="wizard-flow-card__description">${flow.description}</p>
+          <p class="wizard-flow-card__meta">${flow.meta}</p>
+        `;
+        button.addEventListener('click', () => handleFlowSelection(flow.id));
+        listEl.appendChild(button);
+      });
+    }
+
+    function setActiveFlowCard(flowId) {
+      const cards = document.querySelectorAll('.wizard-flow-card');
+      cards.forEach((card) => {
+        card.classList.toggle('wizard-flow-card--active', card.dataset.flowId === flowId);
+      });
+    }
+
+    function renderSelectedFlow(flow) {
+      const selectedEl = document.getElementById('wizardSelectedFlow');
+      if (!selectedEl) return;
+      selectedEl.innerHTML = `
+        <p class="wizard-selected__meta">${flow.meta}</p>
+        <h3 class="wizard-selected__title">${flow.label}</h3>
+        <p class="wizard-selected__meta">${flow.description}</p>
+      `;
+      const submitButton = document.getElementById('wizardSubmitButton');
+      if (submitButton) {
+        submitButton.textContent = flow.kind === 'knowledge-check' ? 'Check my answers' : `Submit ${flow.label}`;
+      }
+    }
+
+    function renderWizardQuestions(flow) {
+      const questionList = document.getElementById('wizardQuestionList');
+      if (!questionList) return;
+      questionList.innerHTML = '';
+      flow.questions.forEach((question, index) => {
+        const questionNumber = String(index + 1).padStart(2, '0');
+        const inputName = `${flow.id}-${question.id}`;
+        if (flow.kind === 'knowledge-check' && question.type === 'multi-select') {
+          const item = document.createElement('li');
+          item.className = 'quiz-question';
+          item.dataset.questionId = question.id;
+          const explanationMarkup = question.explanation ? '<p class="quiz-explanation" data-role="rationale" hidden></p>' : '';
+          item.innerHTML = `
+            <div class="quiz-question__prompt">
+              <span class="quiz-question__number">${questionNumber}</span>
+              <div class="quiz-question__text">
+                ${question.title ? `<div class="quiz-question__title">${question.title}</div>` : ''}
+                <div class="quiz-question__headline">${question.prompt}</div>
+                ${question.instructions ? `<div class="quiz-question__instructions">${question.instructions}</div>` : ''}
+              </div>
+            </div>
+            <div class="quiz-question__options">
+              ${question.options.map((option, optionIndex) => {
+                const optionId = option.id ?? `${question.id}-${optionIndex}`;
+                return `
+                  <label class="quiz-option" data-option-id="${optionId}">
+                    <input type="checkbox" name="${question.id}" value="${optionId}" />
+                    <div class="quiz-option__body">
+                      <span class="quiz-option__label">${option.text}</span>
+                      <p class="quiz-option__fact" data-role="fact" hidden></p>
+                    </div>
+                  </label>
+                `;
+              }).join('')}
+            </div>
+            ${explanationMarkup}
+          `;
+          questionList.appendChild(item);
+          return;
+        }
+
+        const item = document.createElement('li');
+        item.className = 'wizard-question';
+        const optionsMarkup = question.options.map((option, optionIndex) => {
+          const optionId = `${inputName}-${optionIndex}`;
+          return `
+            <label class="wizard-radio">
+              <input type="radio" id="${optionId}" name="${inputName}" value="${option.id}" />
+              <span>${option.label}</span>
+            </label>
+          `;
+        }).join('');
+        item.innerHTML = `
+          <div class="wizard-question__prompt">
+            <span class="wizard-question__number">${questionNumber}</span>
+            <p class="wizard-question__label">${question.prompt}</p>
+          </div>
+          <div class="wizard-question__options">
+            ${optionsMarkup}
+          </div>
+        `;
+        questionList.appendChild(item);
+      });
+    }
+
+    function resetWizardResult() {
+      const resultEl = document.getElementById('wizardResult');
+      if (!resultEl) return;
+      resultEl.textContent = '';
+      resultEl.classList.remove('quiz-result--warning', 'quiz-result--success');
+    }
+
+    function runKnowledgeCheck() {
+      const resultEl = document.getElementById('wizardResult');
+      if (!resultEl) return;
+      let score = 0;
+      let falseSelections = 0;
+      let questionsCorrect = 0;
+      let questionItemsTotal = 0;
+
+      knowledgeCheckQuestions.forEach((question) => {
+        const questionEl = document.querySelector(`[data-question-id="${question.id}"]`);
+        if (questionEl) {
+          questionEl.classList.remove('quiz-question--correct', 'quiz-question--incorrect');
+        }
+        if (question.type !== 'multi-select') {
+          return;
+        }
+        const selectedInputs = document.querySelectorAll(`input[name="${question.id}"]:checked`);
+        const selectedValues = Array.from(selectedInputs).map(input => input.value);
+        let perfect = true;
+        question.options.forEach((option, optionIndex) => {
+          const optionId = option.id ?? `${question.id}-${optionIndex}`;
+          const optionEl = questionEl ? questionEl.querySelector(`[data-option-id="${optionId}"]`) : null;
+          const factEl = optionEl ? optionEl.querySelector('[data-role="fact"]') : null;
+          const isSelected = selectedValues.includes(optionId);
+          const isAiRelated = Boolean(option.aiRelated);
+          questionItemsTotal += 1;
+          const optionIsCorrect = (isAiRelated && isSelected) || (!isAiRelated && !isSelected);
+          if (optionIsCorrect) {
+            questionsCorrect += 1;
+          }
+          if (isAiRelated && !isSelected) {
+            perfect = false;
+          }
+          if (!isAiRelated && isSelected) {
+            perfect = false;
+            falseSelections += 1;
+          }
+          if (isAiRelated && isSelected) {
+            score += 1;
+          }
+          if (optionEl) {
+            optionEl.classList.remove('quiz-option--correct', 'quiz-option--incorrect', 'quiz-option--missed');
+            if (isSelected && isAiRelated) {
+              optionEl.classList.add('quiz-option--correct');
+            } else if (isSelected && !isAiRelated) {
+              optionEl.classList.add('quiz-option--incorrect');
+            } else if (!isSelected && isAiRelated) {
+              optionEl.classList.add('quiz-option--missed');
+            }
+          }
+          if (factEl) {
+            const aiBadge = isAiRelated ? 'AI related' : 'Not AI related';
+            const wikiLink = option.wikiUrl ? `<a href="${option.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a>` : '';
+            const factPieces = [option.fact];
+            if (wikiLink) factPieces.push(wikiLink);
+            factPieces.push(`<strong>${aiBadge}</strong>`);
+            factEl.innerHTML = factPieces.join(' &middot; ');
+            factEl.hidden = false;
+          }
+        });
+        if (questionEl) {
+          questionEl.classList.add(perfect ? 'quiz-question--correct' : 'quiz-question--incorrect');
+        }
+      });
+
+      const calibratedScore = Math.max(0, score - falseSelections);
+      const tier = knowledgeTiers.find(entry => calibratedScore >= entry.minScore && calibratedScore <= entry.maxScore) || knowledgeTiers[knowledgeTiers.length - 1];
+      const normalizedScore = knowledgeCheckMaxScore > 0 ? calibratedScore / knowledgeCheckMaxScore : 0;
+      const boundedScore = clamp(normalizedScore, 0, 1);
+      const confidenceSpread = CONFIDENCE_HIGH + (1 - boundedScore) * (CONFIDENCE_LOW - CONFIDENCE_HIGH);
+      const confidenceSpreadText = confidenceSpread.toFixed(1);
+      const percentCorrect = questionItemsTotal > 0 ? Math.max(0, Math.min(100, Math.round((questionsCorrect / questionItemsTotal) * 100))) : 0;
+      const scoreMessage = questionItemsTotal > 0 && questionsCorrect === questionItemsTotal
+        ? `You have ${questionItemsTotal} of ${questionItemsTotal} answers correct. Score 100%.`
+        : `You have ${questionsCorrect} of ${questionItemsTotal} answers correct. Score ${percentCorrect}%.`;
+
+      applyConfidenceCalibration(confidenceSpread);
+      resultEl.innerHTML = `
+        ${scoreMessage}<br>
+        <span class="quiz-tier">${tier.label}</span> – ${tier.description} We set every uncertainty slider to ±${confidenceSpreadText} pts.
+      `;
+      resultEl.classList.remove('quiz-result--warning');
+      resultEl.classList.add('quiz-result--success');
+    }
+
+    function collectWizardAnswers(flow) {
+      const selections = [];
+      let unanswered = 0;
+      flow.questions.forEach((question) => {
+        const inputName = `${flow.id}-${question.id}`;
+        const selected = document.querySelector(`input[name="${inputName}"]:checked`);
+        if (!selected) {
+          unanswered += 1;
+          return;
+        }
+        const option = question.options.find(opt => opt.id === selected.value) || null;
+        selections.push({ question, option });
+      });
+      return { selections, unanswered };
+    }
+
+    function updateWizardProgress(step, flow) {
+      const progressEl = document.getElementById('wizardProgressText');
+      if (!progressEl) return;
+      if (step === 'quiz' && flow) {
+        const count = flow.questions.length;
+        progressEl.textContent = `Step 2 of 2 · ${count} question${count === 1 ? '' : 's'}`;
+      } else {
+        progressEl.textContent = 'Step 1 of 2 · Pick a flow';
+      }
+    }
+
+    function goToWizardStep(step) {
+      const wizardRoot = document.getElementById('levelWizard');
+      if (!wizardRoot) return;
+      wizardState.step = step;
+      const flow = getFlowById(wizardState.flowId);
+      wizardRoot.querySelectorAll('.wizard-panel').forEach((panel) => {
+        const isActive = panel.dataset.step === step;
+        panel.hidden = !isActive;
+        panel.classList.toggle('wizard-panel--active', isActive);
+      });
+      updateWizardProgress(step, flow);
+      if (step === 'welcome') {
+        resetWizardResult();
+      }
+    }
+
+    function handleFlowSelection(flowId) {
+      const flow = getFlowById(flowId);
+      if (!flow) return;
+      wizardState.flowId = flowId;
+      setActiveFlowCard(flowId);
+      renderSelectedFlow(flow);
+      renderWizardQuestions(flow);
+      resetWizardResult();
+      goToWizardStep('quiz');
+    }
+
+    function handleWizardSubmit() {
+      const flow = getFlowById(wizardState.flowId);
+      const resultEl = document.getElementById('wizardResult');
+      if (!flow || !resultEl) return;
+
+      if (flow.kind === 'knowledge-check') {
+        runKnowledgeCheck();
+        return;
+      }
+
+      const { unanswered } = collectWizardAnswers(flow);
+      if (unanswered > 0) {
+        resultEl.textContent = `Answer the remaining ${unanswered} question${unanswered === 1 ? '' : 's'} to continue.`;
+        resultEl.classList.add('quiz-result--warning');
+        resultEl.classList.remove('quiz-result--success');
+        return;
+      }
+      resultEl.classList.remove('quiz-result--warning');
+      resultEl.classList.add('quiz-result--success');
+
+      if (typeof flow.recommendedSpread === 'number') {
+        applyConfidenceCalibration(flow.recommendedSpread);
+      }
+      const spreadText = typeof flow.recommendedSpread === 'number'
+        ? ` Sliders stay at ±${flow.recommendedSpread.toFixed(1)} pts.`
+        : '';
+      const completionText = flow.completionMessage || `Thanks for finishing the ${flow.label}.`;
+      resultEl.textContent = `${completionText}${spreadText}`;
+    }
+
+    function initWizard() {
+      const wizardRoot = document.getElementById('levelWizard');
+      if (!wizardRoot) return;
+      renderWizardFlowOptions();
+      goToWizardStep('welcome');
+      const backButton = document.getElementById('wizardBackButton');
+      if (backButton) {
+        backButton.addEventListener('click', () => goToWizardStep('welcome'));
+      }
+      const submitButton = document.getElementById('wizardSubmitButton');
+      if (submitButton) {
+        submitButton.addEventListener('click', handleWizardSubmit);
+      }
+    }
+
+    function applyConfidenceCalibration(spreadValue) {
+      const safeSpread = clamp(spreadValue, 0, SPREAD_MAX);
+      config.forEach(({ key }) => {
+        const factorState = state.get(key) || { midpoint: 50, spread: safeSpread };
+        factorState.spread = safeSpread;
+        state.set(key, factorState);
+        syncInputs(key);
+      });
+      recalc();
+    }
+
+    const state = new Map();
+
+    function initSupabase() {
+    const missingUrl = !SUPABASE_URL;
+    const missingKey = !SUPABASE_ANON_KEY;
+      if (missingUrl || missingKey) {
+        console.info('Supabase client not initialized: configure SUPABASE_URL and SUPABASE_ANON_KEY.');
+        return;
+      }
+      if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+        console.error('Supabase library is not available.');
+        return;
+      }
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    function setSubmissionStatus(message, tone = 'info') {
+      const statusEl = document.getElementById('submissionStatus');
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.classList.remove('error', 'success');
+      if (tone === 'error') {
+        statusEl.classList.add('error');
+      } else if (tone === 'success') {
+        statusEl.classList.add('success');
+      }
+    }
+
+    function buildSubmissionPayload() {
+      if (!latestSnapshot) return null;
+      const { factors, lowerProduct, upperProduct, midpointProduct, p10, p90 } = latestSnapshot;
+      return {
+        submitted_at: new Date().toISOString(),
+        factors: factors.map(({ key, label, lower, upper, midpoint, spread }) => ({
+          key,
+          label,
+          lower,
+          upper,
+          midpoint,
+          spread
+        })),
+        summary: {
+          lower: lowerProduct,
+          upper: upperProduct,
+          midpoint: midpointProduct,
+          p10,
+          p90
+        }
+      };
+    }
+
+    async function submitParameters() {
+      const button = document.getElementById('submitParametersButton');
+      if (!supabaseClient) {
+        initSupabase();
+      }
+      if (!supabaseClient) {
+        setSubmissionStatus('Supabase is not configured. Update SUPABASE_URL and SUPABASE_ANON_KEY.', 'error');
+        return;
+      }
+
+      const payload = buildSubmissionPayload();
+      if (!payload) {
+        setSubmissionStatus('Nothing to submit yet. Adjust the sliders first.', 'error');
+        return;
+      }
+
+      setSubmissionStatus('Submitting...');
+      if (button) button.disabled = true;
+      try {
+        const { error } = await supabaseClient
+          .from(SUBMISSIONS_TABLE)
+          .insert({
+            factors: payload.factors,
+            summary: payload.summary,
+            submitted_at: payload.submitted_at
+          });
+        if (error) throw error;
+        setSubmissionStatus('Submitted! Thanks for contributing.', 'success');
+      } catch (error) {
+        console.error('Supabase submission failed', error);
+        setSubmissionStatus('Submission failed. Please try again later.', 'error');
+      } finally {
+        if (button) button.disabled = false;
+      }
+    }
+
+    function createFactorCard({ key, label, defaults, explanation }) {
+      const midpoint = ((defaults.lower + defaults.upper) / 2) * 100;
+      const spread = ((defaults.upper - defaults.lower) / 2) * 100;
+
+      const card = document.createElement('article');
+      card.className = 'factor-card';
+      card.id = `card-${key}`;
+
+      card.innerHTML = `
+        <div class="factor-content">
+          <div class="factor-header">
+            <div class="factor-name">${label}</div>
+            <div class="factor-explanation">${explanation}</div>
+          </div>
+          <div class="sliders">
+            <div class="slider-row">
+              <label>
+                <span class="slider-caption">
+                  <span>Unlikely</span>
+                  <span class="slider-value slider-value--percent" data-role="midpointValue" data-key="${key}" aria-label="${midpoint.toFixed(1)} percent">${midpoint.toFixed(1)}</span>
+                  <span>Likely</span>
+                </span>
+                <input type="range" min="0" max="100" step="0.5" value="${midpoint.toFixed(1)}" data-role="midpoint" data-key="${key}" aria-label="Midpoint for ${label}" />
+              </label>
+            </div>
+            <div class="slider-row">
+              <label>
+                <span class="slider-caption">
+                  <span>Certain</span>
+                  <span class="slider-value slider-value--spread" data-role="spreadValue" data-key="${key}" aria-label="±${spread.toFixed(1)}">${spread.toFixed(1)}</span>
+                  <span>Uncertain</span>
+                </span>
+                <input type="range" min="0" max="${SPREAD_MAX.toFixed(1)}" step="0.5" value="${spread.toFixed(1)}" data-role="spread" data-key="${key}" aria-label="Uncertainty for ${label}" />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="factor-bounds">
+          <div class="factor-bound">
+            <span class="factor-bound-label">Lower bound</span>
+            <span class="factor-bound-value" data-role="lowerBound" data-key="${key}">--%</span>
+          </div>
+          <div class="factor-bound">
+            <span class="factor-bound-label">Upper bound</span>
+            <span class="factor-bound-value" data-role="upperBound" data-key="${key}">--%</span>
+          </div>
+        </div>
+      `;
+
+      return card;
+    }
+
+    function clamp(value, min = 0, max = 100) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function formatPercent(prob) {
+      return `${(prob * 100).toFixed(1)}%`;
+    }
+
+    function updateState(key, role, percentage) {
+      const current = state.get(key) || { midpoint: 50, spread: 0 };
+      if (role === 'midpoint') {
+        current.midpoint = clamp(percentage);
+      } else if (role === 'spread') {
+        current.spread = clamp(percentage, 0, SPREAD_MAX);
+      }
+      state.set(key, current);
+      syncInputs(key);
+      recalc();
+    }
+
+    function syncInputs(key) {
+      const { midpoint, spread } = state.get(key);
+      const midpointRange = document.querySelector(`input[data-key="${key}"][data-role="midpoint"]`);
+      const midpointValue = document.querySelector(`span[data-key="${key}"][data-role="midpointValue"]`);
+      const spreadRange = document.querySelector(`input[data-key="${key}"][data-role="spread"]`);
+      const spreadValue = document.querySelector(`span[data-key="${key}"][data-role="spreadValue"]`);
+
+      if (midpointRange) midpointRange.value = midpoint.toFixed(1);
+      if (midpointValue) {
+        const midpointText = midpoint.toFixed(1);
+        midpointValue.textContent = midpointText;
+        midpointValue.setAttribute('aria-label', `${midpointText} percent`);
+      }
+
+      if (spreadRange) {
+        spreadRange.max = SPREAD_MAX.toFixed(1);
+        spreadRange.value = clamp(spread, 0, SPREAD_MAX).toFixed(1);
+      }
+      if (spreadValue) {
+        const spreadText = clamp(spread, 0, SPREAD_MAX).toFixed(1);
+        spreadValue.textContent = spreadText;
+        spreadValue.setAttribute('aria-label', `±${spreadText}`);
+      }
+    }
+
+    function recalc() {
+      const factors = config.map(({ key, label }) => {
+        const { midpoint, spread } = state.get(key);
+        const lower = Math.max(0, (midpoint - spread) / 100);
+        const upper = Math.min(1, (midpoint + spread) / 100);
+        return {
+          key,
+          label,
+          lower,
+          upper,
+          midpoint: midpoint / 100,
+          spread: spread / 100
+        };
+      });
+
+      factors.forEach(({ key, lower, upper }) => {
+        const lowerEl = document.querySelector(`span[data-key="${key}"][data-role="lowerBound"]`);
+        const upperEl = document.querySelector(`span[data-key="${key}"][data-role="upperBound"]`);
+        if (lowerEl) lowerEl.textContent = formatPercent(lower);
+        if (upperEl) upperEl.textContent = formatPercent(upper);
+      });
+
+      const lowerProduct = factors.reduce((acc, f) => acc * f.lower, 1);
+      const upperProduct = factors.reduce((acc, f) => acc * f.upper, 1);
+      const midpointProduct = factors.reduce((acc, f) => acc * f.midpoint, 1);
+
+      document.getElementById('range').textContent = `${formatPercent(lowerProduct)} → ${formatPercent(upperProduct)}`;
+      document.getElementById('midpointEstimate').textContent = formatPercent(midpointProduct);
+
+      updateUncertaintyDriver(factors);
+
+      const { p10, p90 } = simulateDistribution(factors);
+      document.getElementById('p10').textContent = formatPercent(p10);
+      document.getElementById('p90').textContent = formatPercent(p90);
+
+      latestSnapshot = {
+        factors,
+        lowerProduct,
+        upperProduct,
+        midpointProduct,
+        p10,
+        p90
+      };
+    }
+
+    function updateUncertaintyDriver(factors) {
+      const widest = Math.max(...factors.map(f => f.upper - f.lower));
+      const driverMessage = document.getElementById('driverMessage');
+      const labels = factors.filter(f => (f.upper - f.lower) === widest).map(f => f.label);
+
+      if (widest === 0) {
+        driverMessage.textContent = 'All stages have fixed probabilities; no single stage dominates uncertainty.';
+        return;
+      }
+
+      if (labels.length === 1) {
+        driverMessage.textContent = `${labels[0]} currently drives the overall uncertainty.`;
+      } else {
+        driverMessage.textContent = `${labels.join(' & ')} jointly drive the overall uncertainty.`;
+      }
+    }
+
+    function simulateDistribution(factors) {
+      const draw = mulberry32(0xC0D3C0DE);
+      const samples = [];
+      for (let i = 0; i < SAMPLES; i += 1) {
+        let value = 1;
+        for (const factor of factors) {
+          const rand = draw();
+          const sample = factor.lower + rand * (factor.upper - factor.lower);
+          value *= sample;
+        }
+        samples.push(value);
+      }
+      samples.sort((a, b) => a - b);
+      const p10Index = Math.floor(0.10 * (samples.length - 1));
+      const p90Index = Math.floor(0.90 * (samples.length - 1));
+      return { p10: samples[p10Index], p90: samples[p90Index] };
+    }
+
+    function handleRangeInput(event) {
+      const role = event.target.dataset.role;
+      const key = event.target.dataset.key;
+      if (!role || !key) return;
+      let value = Number(event.target.value);
+      updateState(key, role, value);
+    }
+
+    function init() {
+      initWizard();
+      const list = document.getElementById('factorList');
+      config.forEach((factor) => {
+        const card = createFactorCard(factor);
+        list.appendChild(card);
+        state.set(factor.key, {
+          midpoint: ((factor.defaults.lower + factor.defaults.upper) / 2) * 100,
+          spread: ((factor.defaults.upper - factor.defaults.lower) / 2) * 100
+        });
+      });
+
+      document.addEventListener('input', (event) => {
+        if (event.target.matches('input[type="range"]')) {
+          handleRangeInput(event);
+        }
+      });
+
+      config.forEach(({ key }) => syncInputs(key));
+      recalc();
+
+      initSupabase();
+
+      const submitButton = document.getElementById('submitParametersButton');
+      if (submitButton) {
+        submitButton.addEventListener('click', submitParameters);
+      }
+    }
+
+    init();
+  </script>
