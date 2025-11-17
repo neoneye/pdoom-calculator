@@ -16,6 +16,15 @@
     <meta name="description" content="{{ meta_description | escape }}" />
   {% endif %}
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
+  {% if page.extra_styles %}
+    {% assign extra_styles = page.extra_styles | split: ',' %}
+    {% for style in extra_styles %}
+      {% assign trimmed_style = style | strip %}
+      {% if trimmed_style != '' %}
+        <link rel="stylesheet" href="{{ trimmed_style | relative_url }}" />
+      {% endif %}
+    {% endfor %}
+  {% endif %}
   {% include google-analytics.html %}
   {% include supabase-config.html %}
 </head>
