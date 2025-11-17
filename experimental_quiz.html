@@ -351,6 +351,9 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       }
     ];
 
+    const CONFIDENCE_HIGH = 20;
+    const CONFIDENCE_LOW = 80;
+
     const maxQuizScore = quizQuestions.reduce((sum, question) => {
       if (question.type === 'multi-select') {
         const aiOptions = question.options.filter(option => option.aiRelated);
@@ -504,15 +507,19 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
       const calibratedScore = Math.max(0, score - falseSelections);
       const tier = knowledgeTiers.find(entry => calibratedScore >= entry.minScore && calibratedScore <= entry.maxScore) || knowledgeTiers[knowledgeTiers.length - 1];
+      const normalizedScore = maxQuizScore > 0 ? calibratedScore / maxQuizScore : 0;
+      const boundedScore = clamp(normalizedScore, 0, 1);
+      const confidenceSpread = CONFIDENCE_HIGH + (1 - boundedScore) * (CONFIDENCE_LOW - CONFIDENCE_HIGH);
+      const confidenceSpreadText = confidenceSpread.toFixed(1);
       resultEl.innerHTML = `
         You spotted <strong>${score}</strong> / ${maxQuizScore} AI signals${falseSelections > 0
           ? ` but tapped <strong>${falseSelections}</strong> decoy${falseSelections > 1 ? 's' : ''}, so your calibrated score is <strong>${calibratedScore}</strong>.`
           : `, giving you a calibrated score of <strong>${calibratedScore}</strong>.`}<br>
-        <span class="quiz-tier">${tier.label}</span> – ${tier.description} We set every uncertainty slider to ±${tier.recommendedSpread} pts.
+        <span class="quiz-tier">${tier.label}</span> – ${tier.description} We set every uncertainty slider to ±${confidenceSpreadText} pts.
       `;
       resultEl.classList.add('quiz-result--success');
       resultEl.classList.remove('quiz-result--warning');
-      applyConfidenceCalibration(tier.recommendedSpread);
+      applyConfidenceCalibration(confidenceSpread);
     }
 
     function applyConfidenceCalibration(spreadValue) {
