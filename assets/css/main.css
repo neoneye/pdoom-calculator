@@ -136,6 +136,19 @@ p.description {
   margin-bottom: 2.2rem;
 }
 
+.factor-list[hidden] {
+  display: none !important;
+}
+
+.metrics[hidden] {
+  display: none !important;
+}
+
+.driver-message[hidden],
+.submission[hidden] {
+  display: none !important;
+}
+
 .knowledge-quiz {
   margin-bottom: 2.5rem;
   padding: 1.8rem 2rem;
