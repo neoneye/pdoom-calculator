@@ -521,7 +521,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         id: 'expert',
         label: 'Expert quiz',
         description: 'Built for researchers, auditors, or policy leads owning mitigation plans.',
-        meta: '3 questions · fast lane',
+        meta: '2 questions · fast lane',
         kind: 'fixed',
         recommendedSpread: 15,
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
@@ -542,15 +542,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
               { id: 'expert-signal-briefs', label: 'Digest rapid-fire briefs from my network.' },
               { id: 'expert-signal-models', label: 'Probe internal models and share eval templates.' },
               { id: 'expert-signal-labs', label: 'Coordinate with labs, policymakers, and deployers.' }
-            ]
-          },
-          {
-            id: 'expert-need',
-            prompt: 'What do you want from this wizard?',
-            options: [
-              { id: 'expert-need-calibration', label: 'A fast calibration so I can compare with my peers.' },
-              { id: 'expert-need-docs', label: 'Docs that I can plug into a governance review.' },
-              { id: 'expert-need-share', label: 'Sharing-friendly visuals once I finalize my inputs.' }
             ]
           }
         ]
