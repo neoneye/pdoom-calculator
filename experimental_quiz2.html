@@ -488,6 +488,27 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
                 link: 'https://en.wikipedia.org/wiki/There_are_unknown_unknowns'
               },
             ]
+          },
+          {
+            id: 'beginner-control',
+            prompt: 'If AI starts doing dangerous things, what is your gut reaction?',
+            options: [
+              { 
+                id: 'control-easy', 
+                label: 'The AI can easily be shut down.',
+                description: 'Humans control the electricity, internet, and physical access to the servers.' 
+              },
+              { 
+                id: 'control-medium', 
+                label: 'Takes some effort to stop, but is manageable.',
+                description: 'Backups will have to be destroyed so the AI cannot be restored. The power may have to be cut off for several days. It may span across multiple countries.' 
+              },
+              { 
+                id: 'control-impossible', 
+                label: 'It would likely outsmart our attempts to stop it.',
+                description: 'Like ants trying to capture a human.' 
+              }
+            ]
           }
         ]
       },
