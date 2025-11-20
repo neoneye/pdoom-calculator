@@ -372,7 +372,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         id: 'beginner',
         label: 'Beginner quiz',
         description: 'Perfect if you are just getting acquainted with AI risk language.',
-        meta: '2 multiple choice questions',
+        meta: '4 questions',
         kind: 'fixed',
         recommendedSpread: 65,
         completionMessage: 'Nice! This beginner path keeps uncertainty wide while you learn.',
@@ -487,6 +487,53 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
                 description: 'Things we don’t know that we don’t know.',
                 link: 'https://en.wikipedia.org/wiki/There_are_unknown_unknowns'
               },
+            ]
+          },
+          {
+            id: 'beginner-capability',
+            type: 'multi-select',
+            prompt: 'Which AI capabilities do you know about? (Select all that apply.)',
+            options: [
+              {
+                id: 'capability-protein-folding', 
+                label: 'Protein folding',
+                description: 'The process of a protein folding into its three-dimensional structure, for use in biology.'
+              },
+              {
+                id: 'capability-companion', 
+                label: 'Companion',
+                description: 'Act as your partner or friend.'
+              },
+              {
+                id: 'capability-warfare', 
+                label: 'Warfare',
+                description: 'Control weapons and kill people.'
+              },
+              { 
+                id: 'capability-programming', 
+                label: 'Programming',
+                description: 'Write code to solve problems.'
+              },
+              { 
+                id: 'capability-mass-surveillance', 
+                label: 'Mass surveillance',
+                description: 'Monitoring of large populations.'
+              },
+              { 
+                id: 'capability-trading', 
+                label: 'Trading',
+                description: 'Buy and sell stocks, commodities, and other assets.'
+              },
+              { 
+                id: 'capability-research', 
+                label: 'AI Research',
+                description: 'Conduct scientific research about AI.'
+              },
+              { 
+                id: 'capability-propaganda', 
+                label: 'Propaganda',
+                description: 'Write misinformation and propaganda to influence humans.'
+              }
             ]
           },
           {
