@@ -193,6 +193,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             <div class="factor-explanation">${explanation}</div>
           </div>
           <div class="sliders">
+            <canvas class="slider-bellcurve" data-role="distributionCanvas" data-key="${key}" aria-hidden="true"></canvas>
             <div class="slider-row">
               <label>
                 <span class="slider-caption">
@@ -213,7 +214,6 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
                 <input type="range" min="0" max="${SPREAD_MAX.toFixed(1)}" step="0.5" value="${spread.toFixed(1)}" data-role="spread" data-key="${key}" aria-label="Uncertainty for ${label}" />
               </label>
             </div>
-            <canvas class="slider-bellcurve" data-role="distributionCanvas" data-key="${key}" aria-hidden="true"></canvas>
           </div>
         </div>
         <div class="factor-bounds">
