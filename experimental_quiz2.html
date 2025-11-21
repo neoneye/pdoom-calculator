@@ -571,7 +571,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         id: 'medium',
         label: 'Medium quiz',
         description: 'For folks who use LLMs daily, or debate alignment with friends.',
-        meta: '3 questions · ~5 minutes',
+        meta: '4 questions · ~5 minutes',
         kind: 'fixed',
         recommendedSpread: 35,
         completionMessage: 'Welcome back! We tightened the sliders a bit to match your reps.',
@@ -730,6 +730,29 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
                 label: 'Bypassed safety filters',
                 description: 'I’ve intentionally pushed or jailbroken a model to produce clearly unsafe or disallowed content.'
               }
+            ]
+          },
+          {
+            id: 'medium-competition',
+            prompt: 'Competition and lower barriers to entry. How does it impact safety?',
+            link: 'https://en.wikipedia.org/wiki/Artificial_intelligence_arms_race',
+            options: [
+              {
+                id: 'medium-competition-positive',
+                label: 'It improves safety (Innovation)',
+                description: 'Competition generates resources. Profitable companies can afford to invest billions into alignment research and defensive measures.'
+              },
+              {
+                id: 'medium-competition-neutral',
+                label: 'Neutral / Unsure',
+                description: 'Some dynamics may improve safety and others may worsen it; overall impact is uncertain or roughly balanced.'
+              },
+              {
+                id: 'medium-competition-negative',
+                label: 'It degrades safety (Race to the Bottom)',
+                description: 'Reckless prioritizing of profit/speed over safe/slow.',
+                link: 'https://en.wikipedia.org/wiki/Race_to_the_bottom'
+              },
             ]
           },
         ]
