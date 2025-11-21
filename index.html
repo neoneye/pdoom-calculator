@@ -81,6 +81,8 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
     const SAMPLES = 4000;
     const SPREAD_MAX = 100;
+    const KEYBOARD_STEP = 1;
+    const KEYBOARD_BIG_STEP = 5;
 
     function mulberry32(a) {
       return function() {
@@ -193,15 +195,13 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             <div class="factor-explanation">${explanation}</div>
           </div>
           <div class="sliders">
-            <div class="slider-row">
-              <label>
-                <span class="slider-caption">
-                  <span>Unlikely</span>
-                  <span class="slider-value slider-value--percent" data-role="midpointValue" data-key="${key}" aria-label="${midpoint.toFixed(1)} percent">${midpoint.toFixed(1)}</span>
-                  <span>Likely</span>
-                </span>
-                <input type="range" min="0" max="100" step="0.5" value="${midpoint.toFixed(1)}" data-role="midpoint" data-key="${key}" aria-label="Midpoint for ${label}" />
-              </label>
+            <div class="bellcurve-control" data-role="midpointControl" data-key="${key}">
+              <div class="slider-caption slider-caption--canvas">
+                <span>Unlikely</span>
+                <span class="slider-value slider-value--percent" data-role="midpointValue" data-key="${key}" aria-label="${midpoint.toFixed(1)} percent">${midpoint.toFixed(1)}</span>
+                <span>Likely</span>
+              </div>
+              <canvas class="slider-bellcurve" data-role="distributionCanvas" data-key="${key}" aria-label="Midpoint for ${label}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${midpoint.toFixed(1)}" aria-valuetext="${midpoint.toFixed(1)} percent" role="slider" tabindex="0"></canvas>
             </div>
             <div class="slider-row">
               <label>
@@ -277,7 +277,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
     function recalc() {
       const factors = config.map(({ key, label }) => {
-        const { midpoint, spread } = state.get(key);
+        const { midpoint, spread } = state.get(key) || { midpoint: 50, spread: 0 };
         const lower = Math.max(0, (midpoint - spread) / 100);
         const upper = Math.min(1, (midpoint + spread) / 100);
         return {
@@ -286,7 +286,9 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
           lower,
           upper,
           midpoint: midpoint / 100,
-          spread: spread / 100
+          spread: spread / 100,
+          midpointPercent: midpoint,
+          spreadPercent: spread
         };
       });
 
@@ -296,6 +298,8 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
         if (lowerEl) lowerEl.textContent = formatPercent(lower);
         if (upperEl) upperEl.textContent = formatPercent(upper);
       });
+
+      drawDistributions(factors);
 
       const lowerProduct = factors.reduce((acc, f) => acc * f.lower, 1);
       const upperProduct = factors.reduce((acc, f) => acc * f.upper, 1);
@@ -355,6 +359,232 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
       return { p10: samples[p10Index], p90: samples[p90Index] };
     }
 
+    function prepareCanvas(canvas) {
+      if (!canvas) return null;
+      const ratio = window.devicePixelRatio || 1;
+      const displayWidth = canvas.clientWidth || canvas.width;
+      const displayHeight = canvas.clientHeight || canvas.height;
+      if (!displayWidth || !displayHeight) return null;
+      const requiredWidth = Math.round(displayWidth * ratio);
+      const requiredHeight = Math.round(displayHeight * ratio);
+      if (canvas.width !== requiredWidth || canvas.height !== requiredHeight) {
+        canvas.width = requiredWidth;
+        canvas.height = requiredHeight;
+      }
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(ratio, ratio);
+      return { ctx, width: displayWidth, height: displayHeight };
+    }
+
+    function renderBellCurve(canvas, midpoint, spread) {
+      const prepared = prepareCanvas(canvas);
+      if (!prepared) return;
+      const { ctx, width, height } = prepared;
+
+      const effectiveSpread = Math.max(spread, 0.1);
+      const sigma = Math.max(effectiveSpread / 2, 0.5);
+      const sampleCount = Math.max(80, Math.round(width));
+      const values = [];
+      let maxValue = 0;
+
+      for (let i = 0; i <= sampleCount; i += 1) {
+        const percent = (i / sampleCount) * 100;
+        const exponent = (percent - midpoint) / sigma;
+        const value = Math.exp(-0.5 * exponent * exponent);
+        values.push(value);
+        if (value > maxValue) {
+          maxValue = value;
+        }
+      }
+      if (maxValue === 0) return;
+
+      const heightRange = Math.max(height - 12, 4);
+
+      ctx.beginPath();
+      ctx.moveTo(0, height);
+      values.forEach((value, index) => {
+        const x = (index / sampleCount) * width;
+        const normalized = value / maxValue;
+        const y = height - normalized * heightRange;
+        ctx.lineTo(x, y);
+      });
+      ctx.lineTo(width, height);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(110, 177, 255, 0.18)';
+      ctx.fill();
+
+      ctx.beginPath();
+      values.forEach((value, index) => {
+        const x = (index / sampleCount) * width;
+        const normalized = value / maxValue;
+        const y = height - normalized * heightRange;
+        if (index === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      });
+      ctx.strokeStyle = 'rgba(110, 177, 255, 0.85)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      const lowerBound = Math.max(0, midpoint - spread);
+      const upperBound = Math.min(100, midpoint + spread);
+
+      ctx.strokeStyle = 'rgba(240, 245, 255, 0.35)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 6]);
+      [lowerBound, upperBound].forEach((bound) => {
+        const x = (bound / 100) * width;
+        ctx.beginPath();
+        ctx.moveTo(x, height);
+        ctx.lineTo(x, 8);
+        ctx.stroke();
+      });
+      ctx.setLineDash([]);
+
+      const midpointX = (clamp(midpoint, 0, 100) / 100) * width;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(midpointX, height);
+      ctx.lineTo(midpointX, 6);
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.beginPath();
+      ctx.arc(midpointX, 6, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawDistributions(factors) {
+      if (!Array.isArray(factors)) return;
+      factors.forEach(({ key, midpointPercent, spreadPercent }) => {
+        const canvas = document.querySelector(`canvas[data-role="distributionCanvas"][data-key="${key}"]`);
+        if (!canvas) return;
+        const fallbackState = state.get(key) || {};
+        const fallbackMidpoint = typeof fallbackState.midpoint === 'number' ? fallbackState.midpoint : 50;
+        const fallbackSpread = typeof fallbackState.spread === 'number' ? fallbackState.spread : 0;
+        const midpoint = typeof midpointPercent === 'number' ? midpointPercent : fallbackMidpoint;
+        const spread = typeof spreadPercent === 'number' ? spreadPercent : fallbackSpread;
+        const normalizedMidpoint = clamp(midpoint, 0, 100);
+        const normalizedSpread = clamp(spread, 0, SPREAD_MAX);
+        renderBellCurve(canvas, normalizedMidpoint, normalizedSpread);
+        const midpointText = normalizedMidpoint.toFixed(1);
+        canvas.setAttribute('aria-valuenow', midpointText);
+        canvas.setAttribute('aria-valuetext', `${midpointText} percent`);
+      });
+    }
+
+    function midpointFromCanvasEvent(canvas, clientX) {
+      if (!canvas || typeof clientX !== 'number') return null;
+      const rect = canvas.getBoundingClientRect();
+      if (!rect || rect.width === 0) return null;
+      const ratio = (clientX - rect.left) / rect.width;
+      if (!Number.isFinite(ratio)) return null;
+      return clamp(ratio * 100, 0, 100);
+    }
+
+    function setupCanvasInteraction(key) {
+      const canvas = document.querySelector(`canvas[data-role="distributionCanvas"][data-key="${key}"]`);
+      if (!canvas || canvas.dataset.canvasInteractive === 'true') return;
+      canvas.dataset.canvasInteractive = 'true';
+
+      let pointerActive = false;
+      let capturedPointerId = null;
+
+      const applyMidpoint = (event) => {
+        const percent = midpointFromCanvasEvent(canvas, event.clientX);
+        if (percent === null) return;
+        updateState(key, 'midpoint', percent);
+      };
+
+      const handlePointerDown = (event) => {
+        event.preventDefault();
+        pointerActive = true;
+        if (canvas.setPointerCapture) {
+          try {
+            canvas.setPointerCapture(event.pointerId);
+            capturedPointerId = event.pointerId;
+          } catch (error) {
+            capturedPointerId = null;
+          }
+        }
+        applyMidpoint(event);
+      };
+
+      const handlePointerMove = (event) => {
+        if (!pointerActive) return;
+        event.preventDefault();
+        applyMidpoint(event);
+      };
+
+      const handlePointerUp = (event) => {
+        if (!pointerActive) return;
+        event.preventDefault();
+        applyMidpoint(event);
+        pointerActive = false;
+        if (capturedPointerId !== null && canvas.releasePointerCapture) {
+          try {
+            canvas.releasePointerCapture(capturedPointerId);
+          } catch (error) {
+            // Ignore release errors
+          }
+          capturedPointerId = null;
+        }
+      };
+
+      const handlePointerCancel = (event) => {
+        if (!pointerActive) return;
+        pointerActive = false;
+        if (capturedPointerId !== null && canvas.releasePointerCapture) {
+          try {
+            canvas.releasePointerCapture(capturedPointerId);
+          } catch (error) {
+            // Ignore release errors
+          }
+          capturedPointerId = null;
+        }
+      };
+
+      canvas.addEventListener('pointerdown', handlePointerDown);
+      canvas.addEventListener('pointermove', handlePointerMove);
+      canvas.addEventListener('pointerup', handlePointerUp);
+      canvas.addEventListener('pointerleave', handlePointerCancel);
+      canvas.addEventListener('pointercancel', handlePointerCancel);
+
+      canvas.addEventListener('keydown', (event) => {
+        let delta = 0;
+        if (event.key === 'ArrowLeft') {
+          delta = -KEYBOARD_STEP;
+        } else if (event.key === 'ArrowRight') {
+          delta = KEYBOARD_STEP;
+        } else if (event.key === 'PageUp') {
+          delta = KEYBOARD_BIG_STEP;
+        } else if (event.key === 'PageDown') {
+          delta = -KEYBOARD_BIG_STEP;
+        } else if (event.key === 'Home') {
+          event.preventDefault();
+          updateState(key, 'midpoint', 0);
+          return;
+        } else if (event.key === 'End') {
+          event.preventDefault();
+          updateState(key, 'midpoint', 100);
+          return;
+        } else {
+          return;
+        }
+
+        event.preventDefault();
+        const current = state.get(key) || {};
+        const base = typeof current.midpoint === 'number' ? current.midpoint : 50;
+        updateState(key, 'midpoint', clamp(base + delta, 0, 100));
+      });
+    }
+
     function handleRangeInput(event) {
       const role = event.target.dataset.role;
       const key = event.target.dataset.key;
@@ -372,6 +602,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
           midpoint: ((factor.defaults.lower + factor.defaults.upper) / 2) * 100,
           spread: ((factor.defaults.upper - factor.defaults.lower) / 2) * 100
         });
+        setupCanvasInteraction(factor.key);
       });
 
       document.addEventListener('input', (event) => {
@@ -382,6 +613,10 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
       config.forEach(({ key }) => syncInputs(key));
       recalc();
+      window.addEventListener('resize', () => {
+        if (!latestSnapshot) return;
+        drawDistributions(latestSnapshot.factors);
+      });
 
       initSupabase();
 
