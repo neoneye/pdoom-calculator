@@ -679,6 +679,32 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
             ]
           },
           {
+            id: 'medium-system-prompts',
+            prompt: 'How familiar are you with system prompts?',
+            options: [
+              {
+                id: 'medium-system-prompts-none',
+                label: 'I have never used a custom system prompt',
+                description: 'I only use the default system prompt.'
+              },
+              {
+                id: 'medium-system-prompts-basic',
+                label: 'Basic understanding of system prompts',
+                description: 'I have used system prompts a few times.'
+              },
+              {
+                id: 'medium-system-prompts-medium',
+                label: 'I regularly use system prompts',
+                description: 'I have used system prompts many times.'
+              },
+              {
+                id: 'medium-system-prompts-expert',
+                label: 'I\'m an expert at using system prompts',
+                description: 'I can get the model to do whatever I want.'
+              }
+            ]
+          },
+          {
             id: 'medium-tactics',
             prompt: 'When a new foundation model drops, what do you do first?',
             options: [
