@@ -24,10 +24,10 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
 
     <section class="knowledge-quiz quiz-wizard" id="levelWizard">
       <header class="wizard-header">
-        <div class="wizard-step" id="wizardProgressText">Step 1 of 2 · Pick a flow</div>
+        <div class="wizard-step" id="wizardProgressText">Step 1 of 3 · Pick a flow</div>
         <h2>Choose your quiz path</h2>
         <p class="wizard-intro">
-          Like a wizard setup screen, start by selecting a lane: let us decide the right level (recommended) or jump directly into the beginner, medium, or expert quiz.
+          Start by selecting a path: let us decide the right level (recommended) or jump directly into the beginner, medium, or expert quiz.
         </p>
       </header>
       <div class="wizard-body">
@@ -655,8 +655,8 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       {
         id: 'sliders',
         label: 'Sliders',
-        description: 'Skip the quiz and jump straight to adjusting the probability sliders.',
-        meta: 'Manual control · tweak anytime',
+        description: 'Skip the quiz and jump straight to tweaking the P(doom) parameters.',
+        meta: 'Manual control',
         kind: 'sliders',
         questions: []
       }
@@ -986,9 +986,9 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       if (!progressEl) return;
       if (step === 'quiz' && flow) {
         const count = flow.questions.length;
-        progressEl.textContent = `Step 2 of 2 · ${count} question${count === 1 ? '' : 's'}`;
+        progressEl.textContent = `Step 2 of 3 · ${count} question${count === 1 ? '' : 's'}`;
       } else {
-        progressEl.textContent = 'Step 1 of 2 · Pick a flow';
+        progressEl.textContent = 'Step 1 of 3 · Pick a flow';
       }
     }
 
