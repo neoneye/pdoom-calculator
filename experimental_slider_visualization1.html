@@ -81,6 +81,8 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
 
     const SAMPLES = 4000;
     const SPREAD_MAX = 100;
+    const KEYBOARD_STEP = 1;
+    const KEYBOARD_BIG_STEP = 5;
 
     function mulberry32(a) {
       return function() {
@@ -193,16 +195,13 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
             <div class="factor-explanation">${explanation}</div>
           </div>
           <div class="sliders">
-            <canvas class="slider-bellcurve" data-role="distributionCanvas" data-key="${key}" aria-hidden="true"></canvas>
-            <div class="slider-row">
-              <label>
-                <span class="slider-caption">
-                  <span>Unlikely</span>
-                  <span class="slider-value slider-value--percent" data-role="midpointValue" data-key="${key}" aria-label="${midpoint.toFixed(1)} percent">${midpoint.toFixed(1)}</span>
-                  <span>Likely</span>
-                </span>
-                <input type="range" min="0" max="100" step="0.5" value="${midpoint.toFixed(1)}" data-role="midpoint" data-key="${key}" aria-label="Midpoint for ${label}" />
-              </label>
+            <div class="bellcurve-control" data-role="midpointControl" data-key="${key}">
+              <div class="slider-caption slider-caption--canvas">
+                <span>Unlikely</span>
+                <span class="slider-value slider-value--percent" data-role="midpointValue" data-key="${key}" aria-label="${midpoint.toFixed(1)} percent">${midpoint.toFixed(1)}</span>
+                <span>Likely</span>
+              </div>
+              <canvas class="slider-bellcurve" data-role="distributionCanvas" data-key="${key}" aria-label="Midpoint for ${label}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${midpoint.toFixed(1)}" aria-valuetext="${midpoint.toFixed(1)} percent" role="slider" tabindex="0"></canvas>
             </div>
             <div class="slider-row">
               <label>
@@ -446,6 +445,19 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
         ctx.stroke();
       });
       ctx.setLineDash([]);
+
+      const midpointX = (clamp(midpoint, 0, 100) / 100) * width;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(midpointX, height);
+      ctx.lineTo(midpointX, 6);
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.beginPath();
+      ctx.arc(midpointX, 6, 4, 0, Math.PI * 2);
+      ctx.fill();
     }
 
     function drawDistributions(factors) {
@@ -458,7 +470,118 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
         const fallbackSpread = typeof fallbackState.spread === 'number' ? fallbackState.spread : 0;
         const midpoint = typeof midpointPercent === 'number' ? midpointPercent : fallbackMidpoint;
         const spread = typeof spreadPercent === 'number' ? spreadPercent : fallbackSpread;
-        renderBellCurve(canvas, clamp(midpoint, 0, 100), clamp(spread, 0, SPREAD_MAX));
+        const normalizedMidpoint = clamp(midpoint, 0, 100);
+        const normalizedSpread = clamp(spread, 0, SPREAD_MAX);
+        renderBellCurve(canvas, normalizedMidpoint, normalizedSpread);
+        const midpointText = normalizedMidpoint.toFixed(1);
+        canvas.setAttribute('aria-valuenow', midpointText);
+        canvas.setAttribute('aria-valuetext', `${midpointText} percent`);
+      });
+    }
+
+    function midpointFromCanvasEvent(canvas, clientX) {
+      if (!canvas || typeof clientX !== 'number') return null;
+      const rect = canvas.getBoundingClientRect();
+      if (!rect || rect.width === 0) return null;
+      const ratio = (clientX - rect.left) / rect.width;
+      if (!Number.isFinite(ratio)) return null;
+      return clamp(ratio * 100, 0, 100);
+    }
+
+    function setupCanvasInteraction(key) {
+      const canvas = document.querySelector(`canvas[data-role="distributionCanvas"][data-key="${key}"]`);
+      if (!canvas || canvas.dataset.canvasInteractive === 'true') return;
+      canvas.dataset.canvasInteractive = 'true';
+
+      let pointerActive = false;
+      let capturedPointerId = null;
+
+      const applyMidpoint = (event) => {
+        const percent = midpointFromCanvasEvent(canvas, event.clientX);
+        if (percent === null) return;
+        updateState(key, 'midpoint', percent);
+      };
+
+      const handlePointerDown = (event) => {
+        event.preventDefault();
+        pointerActive = true;
+        if (canvas.setPointerCapture) {
+          try {
+            canvas.setPointerCapture(event.pointerId);
+            capturedPointerId = event.pointerId;
+          } catch (error) {
+            capturedPointerId = null;
+          }
+        }
+        applyMidpoint(event);
+      };
+
+      const handlePointerMove = (event) => {
+        if (!pointerActive) return;
+        event.preventDefault();
+        applyMidpoint(event);
+      };
+
+      const handlePointerUp = (event) => {
+        if (!pointerActive) return;
+        event.preventDefault();
+        applyMidpoint(event);
+        pointerActive = false;
+        if (capturedPointerId !== null && canvas.releasePointerCapture) {
+          try {
+            canvas.releasePointerCapture(capturedPointerId);
+          } catch (error) {
+            // Ignore release errors
+          }
+          capturedPointerId = null;
+        }
+      };
+
+      const handlePointerCancel = (event) => {
+        if (!pointerActive) return;
+        pointerActive = false;
+        if (capturedPointerId !== null && canvas.releasePointerCapture) {
+          try {
+            canvas.releasePointerCapture(capturedPointerId);
+          } catch (error) {
+            // Ignore release errors
+          }
+          capturedPointerId = null;
+        }
+      };
+
+      canvas.addEventListener('pointerdown', handlePointerDown);
+      canvas.addEventListener('pointermove', handlePointerMove);
+      canvas.addEventListener('pointerup', handlePointerUp);
+      canvas.addEventListener('pointerleave', handlePointerCancel);
+      canvas.addEventListener('pointercancel', handlePointerCancel);
+
+      canvas.addEventListener('keydown', (event) => {
+        let delta = 0;
+        if (event.key === 'ArrowLeft') {
+          delta = -KEYBOARD_STEP;
+        } else if (event.key === 'ArrowRight') {
+          delta = KEYBOARD_STEP;
+        } else if (event.key === 'PageUp') {
+          delta = KEYBOARD_BIG_STEP;
+        } else if (event.key === 'PageDown') {
+          delta = -KEYBOARD_BIG_STEP;
+        } else if (event.key === 'Home') {
+          event.preventDefault();
+          updateState(key, 'midpoint', 0);
+          return;
+        } else if (event.key === 'End') {
+          event.preventDefault();
+          updateState(key, 'midpoint', 100);
+          return;
+        } else {
+          return;
+        }
+
+        event.preventDefault();
+        const current = state.get(key) || {};
+        const base = typeof current.midpoint === 'number' ? current.midpoint : 50;
+        updateState(key, 'midpoint', clamp(base + delta, 0, 100));
       });
     }
 
@@ -479,6 +602,7 @@ description: Interactively estimate overall P(doom) by setting stage-wise probab
           midpoint: ((factor.defaults.lower + factor.defaults.upper) / 2) * 100,
           spread: ((factor.defaults.upper - factor.defaults.lower) / 2) * 100
         });
+        setupCanvasInteraction(factor.key);
       });
 
       document.addEventListener('input', (event) => {
