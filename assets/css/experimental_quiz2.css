@@ -148,6 +148,14 @@
   gap: 0.75rem;
 }
 
+.wizard-question__text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: baseline;
+  width: 100%;
+}
+
 .wizard-question__number {
   font-weight: 700;
   color: rgba(120, 186, 255, 0.8);
@@ -156,6 +164,32 @@
 .wizard-question__label {
   margin: 0;
   font-size: 1rem;
+  flex: 1 1 auto;
+}
+
+.wizard-question__link {
+  font-size: 0.8rem;
+  color: rgba(131, 232, 198, 0.95);
+  text-decoration: underline;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.wizard-question__link:hover,
+.wizard-question__link:focus-visible {
+  color: rgba(131, 232, 198, 1);
+}
+
+.quiz-question__link {
+  font-size: 0.8rem;
+  color: rgba(131, 232, 198, 0.95);
+  text-decoration: underline;
+  align-self: flex-start;
+}
+
+.quiz-question__link:hover,
+.quiz-question__link:focus-visible {
+  color: rgba(131, 232, 198, 1);
 }
 
 .wizard-question__options {

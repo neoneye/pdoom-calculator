@@ -681,6 +681,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
           {
             id: 'medium-system-prompts',
             prompt: 'How familiar are you with system prompts?',
+            link: 'https://en.wikipedia.org/wiki/Large_language_model',
             options: [
               {
                 id: 'medium-system-prompts-none',
@@ -745,18 +746,17 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
           {
             id: 'expert-speed',
             prompt: 'If AI can execute a complex financial attack in 1 second, can humans stop it in time?',
+            link: 'https://en.wikipedia.org/wiki/OODA_loop',
             options: [
               { 
                 id: 'expert-speed-no-risk', 
                 label: 'Yes, humans can stop it in time.',
-                description: 'There is no risk of the OODA loop collapsing.',
-                link: 'https://en.wikipedia.org/wiki/OODA_loop'
+                description: 'There is no risk of the OODA loop collapsing.'
               },
               { 
                 id: 'expert-speed-risk', 
                 label: 'No, humans cannot stop it in time.',
-                description: 'The "speed of the loop" determines the winner in a conflict.',
-                link: 'https://en.wikipedia.org/wiki/OODA_loop'
+                description: 'The "speed of the loop" determines the winner in a conflict.'
               }
             ]
           },
@@ -900,6 +900,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
           item.className = 'quiz-question';
           item.dataset.questionId = question.id;
           const explanationMarkup = question.explanation ? '<p class="quiz-explanation" data-role="rationale" hidden></p>' : '';
+          const questionLinkMarkup = question.link ? `<a class="quiz-question__link" href="${question.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
           item.innerHTML = `
             <div class="quiz-question__prompt">
               <span class="quiz-question__number">${questionNumber}</span>
@@ -907,6 +908,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
                 ${question.title ? `<div class="quiz-question__title">${question.title}</div>` : ''}
                 <div class="quiz-question__headline">${question.prompt}</div>
                 ${question.instructions ? `<div class="quiz-question__instructions">${question.instructions}</div>` : ''}
+                ${questionLinkMarkup}
               </div>
             </div>
             <div class="quiz-question__options">
@@ -932,6 +934,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         if (question.type === 'multi-select') {
           const item = document.createElement('li');
           item.className = 'wizard-question';
+          const questionLinkMarkup = question.link ? `<a class="wizard-question__link" href="${question.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
           const optionsMarkup = question.options.map((option, optionIndex) => {
             const optionId = `${inputName}-${optionIndex}`;
             const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
@@ -952,7 +955,10 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
           item.innerHTML = `
             <div class="wizard-question__prompt">
               <span class="wizard-question__number">${questionNumber}</span>
-              <p class="wizard-question__label">${question.prompt}</p>
+              <div class="wizard-question__text">
+                <p class="wizard-question__label">${question.prompt}</p>
+                ${questionLinkMarkup}
+              </div>
             </div>
             <div class="wizard-question__options">
               ${optionsMarkup}
@@ -964,6 +970,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
 
         const item = document.createElement('li');
         item.className = 'wizard-question';
+        const questionLinkMarkup = question.link ? `<a class="wizard-question__link" href="${question.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
         const optionsMarkup = question.options.map((option, optionIndex) => {
           const optionId = `${inputName}-${optionIndex}`;
           const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
@@ -984,7 +991,10 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         item.innerHTML = `
           <div class="wizard-question__prompt">
             <span class="wizard-question__number">${questionNumber}</span>
-            <p class="wizard-question__label">${question.prompt}</p>
+            <div class="wizard-question__text">
+              <p class="wizard-question__label">${question.prompt}</p>
+              ${questionLinkMarkup}
+            </div>
           </div>
           <div class="wizard-question__options">
             ${optionsMarkup}
