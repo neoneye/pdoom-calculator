@@ -705,6 +705,33 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
               }
             ]
           },
+          {
+            id: 'medium-off-the-rails',
+            prompt: 'Have you experienced AI going “off the rails” (unsafe, wrong, uncontrolled)?',
+            link: 'https://en.wikipedia.org/wiki/AI_alignment',
+            options: [
+              {
+                id: 'medium-off-the-rails-never',
+                label: 'Never',
+                description: 'I haven’t personally seen a model behave in a clearly wrong or unsafe way.'
+              },
+              {
+                id: 'medium-off-the-rails-low',
+                label: 'A few times',
+                description: 'I have seen a few questionable responses from thea model.'
+              },
+              {
+                id: 'medium-off-the-rails-high',
+                label: 'Several times',
+                description: 'I regularly see responses that are clearly wrong, harmful, or out of control.'
+              },
+              {
+                id: 'medium-off-the-rails-bypass',
+                label: 'Bypassed safety filters',
+                description: 'I’ve intentionally pushed or jailbroken a model to produce clearly unsafe or disallowed content.'
+              }
+            ]
+          },
         ]
       },
       {
