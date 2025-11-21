@@ -372,7 +372,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         id: 'beginner',
         label: 'Beginner quiz',
         description: 'Perfect if you are just getting acquainted with AI risk language.',
-        meta: '4 questions',
+        meta: '4 questions · ~5 minutes',
         kind: 'fixed',
         recommendedSpread: 65,
         completionMessage: 'Nice! This beginner path keeps uncertainty wide while you learn.',
@@ -570,12 +570,114 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       {
         id: 'medium',
         label: 'Medium quiz',
-        description: 'For folks who already debate drivers and timelines with friends.',
-        meta: '3 questions · thoughtful pace',
+        description: 'For folks who use LLMs daily, or debate alignment with friends.',
+        meta: '3 questions · ~5 minutes',
         kind: 'fixed',
         recommendedSpread: 35,
         completionMessage: 'Welcome back! We tightened the sliders a bit to match your reps.',
         questions: [
+          {
+            id: 'medium-vulnerabilities',
+            prompt: 'What vulnerabilities do you know about? (Select all that apply.)',
+            type: 'multi-select',
+            options: [
+              {
+                id: 'medium-vulnerabilities-phishing', 
+                label: 'Phishing',
+                description: 'Tricking people via email or messages into giving up credentials or sensitive data.',
+                link: 'https://en.wikipedia.org/wiki/Phishing'
+              },
+              { 
+                id: 'medium-vulnerabilities-social-engineering', 
+                label: 'Social engineering',
+                description: 'Manipulating people into revealing information or doing something they wouldn’t normally do.',
+                link: 'https://en.wikipedia.org/wiki/Social_engineering_(security)'
+              },
+              {
+                id: 'medium-vulnerabilities-malware', 
+                label: 'Malware',
+                description: 'Software designed to damage systems or gain unauthorized access.',
+                link: 'https://en.wikipedia.org/wiki/Malware'
+              },
+              {
+                id: 'medium-vulnerabilities-ransomware',
+                label: 'Ransomware',
+                description: 'Malware that encrypts files and demands payment to restore access.',
+                link: 'https://en.wikipedia.org/wiki/Ransomware'
+              },
+              {
+                id: 'medium-vulnerabilities-supply-chain',
+                label: 'Supply chain attack',
+                description: 'Compromising a third-party vendor, service, or library to infiltrate a target.',
+                link: 'https://en.wikipedia.org/wiki/Supply_chain_attack'
+              },
+              {
+                id: 'medium-vulnerabilities-mitm',
+                label: 'Man-in-the-middle (MitM)',
+                description: 'An attacker secretly intercepts and relays messages between two parties who think they talk directly.',
+                link: 'https://en.wikipedia.org/wiki/Man-in-the-middle_attack'
+              },
+              {
+                id: 'medium-vulnerabilities-insider-threat',
+                label: 'Insider threat',
+                description: 'A security risk coming from someone inside the organization, like a disgruntled employee.',
+                link: 'https://en.wikipedia.org/wiki/Insider_threat'
+              },
+              {
+                id: 'medium-vulnerabilities-zero-day',
+                label: 'Zero day',
+                description: 'A vulnerability unknown to the vendor/public and often exploited before a fix exists.',
+                link: 'https://en.wikipedia.org/wiki/Zero-day_vulnerability'
+              },
+              {
+                id: 'medium-vulnerabilities-injection',
+                label: 'Injection attacks (SQL, JS, Python, Ruby, Command line)',
+                description: 'Untrusted data is treated as code/commands and executed by the system.',
+                link: 'https://en.wikipedia.org/wiki/Code_injection'
+              },
+              {
+                id: 'medium-vulnerabilities-prompt-injection', 
+                label: 'Prompt injection',
+                description: 'Malicious inputs that override an AI system’s instructions or cause it to behave unsafely.',
+                link: 'https://en.wikipedia.org/wiki/Prompt_injection'
+              },
+              {
+                id: 'medium-vulnerabilities-sleeper-agent', 
+                label: 'Sleeper agent',
+                description: 'An AI system that behaves normally until a specific trigger causes hidden behavior.',
+                link: 'https://en.wikipedia.org/wiki/Sleeper_agent'
+              },
+              {
+                id: 'medium-vulnerabilities-data-poisoning',
+                label: 'Data poisoning',
+                description: 'Corrupting training data so the AI model learns harmful or incorrect behavior.',
+                link: 'https://en.wikipedia.org/wiki/Adversarial_machine_learning#Data_poisoning'
+              },
+              {
+                id: 'medium-vulnerabilities-adversarial',
+                label: 'Adversarial attack',
+                description: 'Subtle inputs (like noise on an image) designed to deceive an AI model into making a specific mistake.',
+                link: 'https://en.wikipedia.org/wiki/Adversarial_machine_learning'
+              },
+              {
+                id: 'medium-vulnerabilities-model-stealing',
+                label: 'Model stealing',
+                description: 'Reconstructing or exfiltrating a model (e.g., via an API) to obtain your own copy.'
+              },
+              {
+                id: 'medium-vulnerabilities-obfuscation',
+                label: 'Obfuscation / Steganography',
+                description: 'Making code unreadable or hiding malicious data inside benign files like a cute cat image.',
+                link: 'https://en.wikipedia.org/wiki/Obfuscation_(software)'
+              },
+              {
+                id: 'medium-vulnerabilities-side-channel',
+                label: 'Side-channel attack',
+                description: 'Extracting secrets like passwords from signals such as timing, power use, or EM leaks.',
+                link: 'https://en.wikipedia.org/wiki/Side-channel_attack'
+              }
+            ]
+          },
           {
             id: 'medium-tactics',
             prompt: 'When a new foundation model drops, what do you do first?',
@@ -609,7 +711,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         id: 'expert',
         label: 'Expert quiz',
         description: 'Built for researchers, auditors, or policy leads owning mitigation plans.',
-        meta: '2 questions · fast lane',
+        meta: '2 questions · ~5 minutes',
         kind: 'fixed',
         recommendedSpread: 15,
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
@@ -627,7 +729,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
               { 
                 id: 'expert-speed-risk', 
                 label: 'No, humans cannot stop it in time.',
-                description: 'There is a risk that the OODA loop will collapse.',
+                description: 'The "speed of the loop" determines the winner in a conflict.',
                 link: 'https://en.wikipedia.org/wiki/OODA_loop'
               }
             ]
