@@ -571,7 +571,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         id: 'medium',
         label: 'Medium quiz',
         description: 'For folks who use LLMs daily, or debate alignment with friends.',
-        meta: '3 questions · ~5 minutes',
+        meta: '2 questions · ~5 minutes',
         kind: 'fixed',
         recommendedSpread: 35,
         completionMessage: 'Welcome back! We tightened the sliders a bit to match your reps.',
@@ -705,33 +705,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
               }
             ]
           },
-          {
-            id: 'medium-tactics',
-            prompt: 'When a new foundation model drops, what do you do first?',
-            options: [
-              { id: 'medium-tactics-play', label: 'Skim demos and social chatter.' },
-              { id: 'medium-tactics-test', label: 'Test jailbreak prompts or evaluate for edge cases.' },
-              { id: 'medium-tactics-measure', label: 'Benchmark capabilities or assess deployment risk.' }
-            ]
-          },
-          {
-            id: 'medium-data',
-            prompt: 'How often do you look at training data, eval sets, or monitoring dashboards?',
-            options: [
-              { id: 'medium-data-rare', label: 'Mostly when a headline tells me to.' },
-              { id: 'medium-data-sometimes', label: 'Monthly or when I am assigned to review a launch.' },
-              { id: 'medium-data-weekly', label: 'Weekly because it is part of my job.' }
-            ]
-          },
-          {
-            id: 'medium-ownership',
-            prompt: 'Choose the scenario that fits your role in AI risk conversations.',
-            options: [
-              { id: 'medium-ownership-contributor', label: 'I share feedback in working groups or online forums.' },
-              { id: 'medium-ownership-facilitator', label: 'I facilitate tabletop exercises or P(doom) workshops.' },
-              { id: 'medium-ownership-lead', label: 'I translate technical findings into policy or product requirements.' }
-            ]
-          }
         ]
       },
       {
