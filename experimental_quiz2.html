@@ -607,6 +607,24 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
         questions: [
           {
+            id: 'expert-speed',
+            prompt: 'If AI can execute a complex financial attack in 1 second, can humans stop it in time?',
+            options: [
+              { 
+                id: 'expert-speed-no-risk', 
+                label: 'Yes, humans can stop it in time.',
+                description: 'There is no risk of the OODA loop collapsing.',
+                link: 'https://en.wikipedia.org/wiki/OODA_loop'
+              },
+              { 
+                id: 'expert-speed-risk', 
+                label: 'No, humans cannot stop it in time.',
+                description: 'There is a risk that the OODA loop will collapse.',
+                link: 'https://en.wikipedia.org/wiki/OODA_loop'
+              }
+            ]
+          },
+          {
             id: 'expert-work',
             prompt: 'What best describes your recent AI safety work?',
             options: [
