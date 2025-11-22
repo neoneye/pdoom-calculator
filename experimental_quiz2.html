@@ -572,7 +572,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         id: 'medium',
         label: 'Medium quiz',
         description: 'For folks who use LLMs daily, or debate alignment with friends.',
-        meta: '4 questions · ~5 minutes',
+        meta: '5 questions · ~5 minutes',
         kind: 'fixed',
         recommendedSpread: 35,
         completionMessage: 'Welcome back! We tightened the sliders a bit to match your reps.',
@@ -756,13 +756,30 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
               },
             ]
           },
+          {
+            id: 'medium-speed',
+            prompt: 'If AI can execute a complex financial attack in 1 second, can humans stop it in time?',
+            link: 'https://en.wikipedia.org/wiki/OODA_loop',
+            options: [
+              { 
+                id: 'medium-speed-no-risk', 
+                label: 'Yes, humans can stop it in time.',
+                description: 'There is no risk of the OODA loop collapsing.'
+              },
+              { 
+                id: 'medium-speed-risk', 
+                label: 'No, humans cannot stop it in time.',
+                description: 'The "speed of the loop" determines the winner in a conflict.'
+              }
+            ]
+          }
         ]
       },
       {
         id: 'expert',
         label: 'Expert quiz',
         description: 'For AI experts that already knows about threats and AI capabilities.',
-        meta: '2 questions · ~5 minutes',
+        meta: '3 questions · ~5 minutes',
         kind: 'fixed',
         recommendedSpread: 15,
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
@@ -858,23 +875,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
                 label: 'Von Neumann probe',
                 description: 'A self-replicating probe that can explore other planets and systems. Theoretical.',
                 link: 'https://en.wikipedia.org/wiki/Von_Neumann_probe'
-              }
-            ]
-          },
-          {
-            id: 'expert-speed',
-            prompt: 'If AI can execute a complex financial attack in 1 second, can humans stop it in time?',
-            link: 'https://en.wikipedia.org/wiki/OODA_loop',
-            options: [
-              { 
-                id: 'expert-speed-no-risk', 
-                label: 'Yes, humans can stop it in time.',
-                description: 'There is no risk of the OODA loop collapsing.'
-              },
-              { 
-                id: 'expert-speed-risk', 
-                label: 'No, humans cannot stop it in time.',
-                description: 'The "speed of the loop" determines the winner in a conflict.'
               }
             ]
           }
