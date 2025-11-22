@@ -767,6 +767,30 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
         questions: [
           {
+            id: 'expert-continuous-learning',
+            prompt: 'How familiar are you with "Continuous Learning"?',
+            link: 'https://en.wikipedia.org/wiki/Online_machine_learning',
+            options: [
+              {
+                id: 'expert-continuous-learning-rag',
+                label: 'Retrieval-augmented generation (RAG)',
+                description: 'Static knowledge cutoff, dynamic info, no weight updates; safer.',
+                link: 'https://en.wikipedia.org/wiki/Retrieval-augmented_generation'
+              },
+              {
+                id: 'expert-continuous-learning-tool-based',
+                label: 'Tool-based knowledge, call a search engine or API',
+                description: 'Static knowledge cutoff, dynamic capabilities, but still no weight updates.'
+              },
+              {
+                id: 'expert-continuous-learning-finetuning',
+                label: 'Continuous learning from user, logs, internet data, tool outputs',
+                description: 'Once a model keeps changing itself after you ship it, you stop knowing what the hell you’re actually running.',
+                link: 'https://en.wikipedia.org/wiki/Incremental_learning'
+              }
+            ]
+          },
+          {
             id: 'expert-speed',
             prompt: 'If AI can execute a complex financial attack in 1 second, can humans stop it in time?',
             link: 'https://en.wikipedia.org/wiki/OODA_loop',
