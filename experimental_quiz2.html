@@ -48,11 +48,11 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           </div>
           <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
           <div class="quiz-result-actions" id="wizardResultActions" hidden></div>
-          <div class="quiz-preview" id="beginnerLivePreview" hidden>
-            <div class="quiz-preview__title">Beginner calibration preview</div>
+          <div class="quiz-preview" id="quizPreview" hidden>
+            <div class="quiz-preview__title" id="quizPreviewTitle">Calibration preview</div>
             <div class="quiz-preview__values">
-              <span>Midpoint: <strong id="beginnerPreviewMidpoint">–</strong></span>
-              <span>Spread: <strong id="beginnerPreviewSpread">–</strong></span>
+              <span>Midpoint: <strong id="quizPreviewMidpoint">–</strong></span>
+              <span>Spread: <strong id="quizPreviewSpread">–</strong></span>
             </div>
           </div>
         </div>
@@ -760,18 +760,21 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
               {
                 id: 'medium-competition-positive',
                 label: 'It improves safety (Innovation)',
-                description: 'Competition generates resources. Profitable companies can afford to invest billions into alignment research and defensive measures.'
+                description: 'Competition generates resources. Profitable companies can afford to invest billions into alignment research and defensive measures.',
+                score: 1
               },
               {
                 id: 'medium-competition-neutral',
                 label: 'Neutral / Unsure',
-                description: 'Some dynamics may improve safety and others may worsen it; overall impact is uncertain or roughly balanced.'
+                description: 'Some dynamics may improve safety and others may worsen it; overall impact is uncertain or roughly balanced.',
+                score: 0
               },
               {
                 id: 'medium-competition-negative',
                 label: 'It degrades safety (Race to the Bottom)',
                 description: 'Reckless prioritizing of profit/speed over safe/slow.',
-                link: 'https://en.wikipedia.org/wiki/Race_to_the_bottom'
+                link: 'https://en.wikipedia.org/wiki/Race_to_the_bottom',
+                score: -1
               },
             ]
           },
@@ -783,12 +786,14 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
               { 
                 id: 'medium-speed-no-risk', 
                 label: 'Yes, humans can stop it in time.',
-                description: 'There is no risk of the OODA loop collapsing.'
+                description: 'There is no risk of the OODA loop collapsing.',
+                score: 1
               },
               { 
                 id: 'medium-speed-risk', 
                 label: 'No, humans cannot stop it in time.',
-                description: 'The "speed of the loop" determines the winner in a conflict.'
+                description: 'The "speed of the loop" determines the winner in a conflict.',
+                score: -1
               }
             ]
           }
@@ -1165,7 +1170,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       button.addEventListener('click', () => {
         setSlidersVisibility(true);
         wizardState.flowId = 'sliders';
-        updateBeginnerPreview();
+        updateCalibrationPreview();
       });
       actionsEl.appendChild(button);
       actionsEl.hidden = false;
@@ -1328,24 +1333,111 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       return clamp(Number(midpoint.toFixed(1)), selectedRange.low, selectedRange.high);
     }
 
-    function updateBeginnerPreview() {
-      const previewEl = document.getElementById('beginnerLivePreview');
-      const midpointEl = document.getElementById('beginnerPreviewMidpoint');
-      const spreadEl = document.getElementById('beginnerPreviewSpread');
-      if (!previewEl || !midpointEl || !spreadEl) return;
-      const isBeginnerActive = wizardState.flowId === 'beginner' && wizardState.step === 'quiz';
-      if (!isBeginnerActive) {
+    // Medium calibration logic mirrors beginner: knowledge drives both spread and midpoint.
+    // - Knowledge blends: vulnerabilities coverage (multi-select), system-prompt familiarity, and off-the-rails experience.
+    // - Spread interpolates from ±80 (low knowledge) down to ±20 (high knowledge).
+    // - Midpoint band is chosen by optimism/pessimism: competition + speed scores map to ranges
+    //   (+2: 0–20, +1: 20–40, 0: 40–60, -1: 60–80, -2: 80–100), then knowledge score interpolates within that band.
+    function getMediumKnowledgeScore(selections) {
+      const vulnerabilities = selections.find(entry => entry.question.id === 'medium-vulnerabilities');
+      const systemPrompts = selections.find(entry => entry.question.id === 'medium-system-prompts');
+      const offTheRails = selections.find(entry => entry.question.id === 'medium-off-the-rails');
+
+      const vulnerabilitiesSelected = vulnerabilities ? vulnerabilities.options.length : 0;
+      const vulnerabilitiesTotal = vulnerabilities ? vulnerabilities.question.options.length : 0;
+      const vulnerabilityRatio = vulnerabilitiesTotal > 0 ? vulnerabilitiesSelected / vulnerabilitiesTotal : 0;
+
+      const systemPromptScores = {
+        'medium-system-prompts-none': 0,
+        'medium-system-prompts-basic': 0.33,
+        'medium-system-prompts-medium': 0.66,
+        'medium-system-prompts-expert': 1
+      };
+      const systemPromptScore = systemPrompts && systemPrompts.option
+        ? (systemPromptScores[systemPrompts.option.id] ?? 0)
+        : 0;
+
+      const offTheRailsScores = {
+        'medium-off-the-rails-never': 0,
+        'medium-off-the-rails-low': 0.33,
+        'medium-off-the-rails-high': 0.66,
+        'medium-off-the-rails-bypass': 1
+      };
+      const offTheRailsScore = offTheRails && offTheRails.option
+        ? (offTheRailsScores[offTheRails.option.id] ?? 0)
+        : 0;
+
+      const ratios = [vulnerabilityRatio, systemPromptScore, offTheRailsScore];
+      const knowledge = ratios.reduce((sum, value) => sum + value, 0) / ratios.length;
+      return clamp(knowledge, 0, 1);
+    }
+
+    function computeMediumSpread(selections) {
+      const knowledgeScore = getMediumKnowledgeScore(selections);
+      const spread = 80 - knowledgeScore * 60;
+      return clamp(Number(spread.toFixed(1)), 20, 80);
+    }
+
+    function computeMediumMidpoint(selections) {
+      const knowledgeScore = getMediumKnowledgeScore(selections);
+      const competition = selections.find(entry => entry.question.id === 'medium-competition');
+      const speed = selections.find(entry => entry.question.id === 'medium-speed');
+
+      const competitionScores = {
+        'medium-competition-positive': 1,
+        'medium-competition-neutral': 0,
+        'medium-competition-negative': -1
+      };
+      const speedScores = {
+        'medium-speed-no-risk': 1,
+        'medium-speed-risk': -1
+      };
+
+      const competitionScore = competition && competition.option ? (competitionScores[competition.option.id] ?? 0) : 0;
+      const speedScore = speed && speed.option ? (speedScores[speed.option.id] ?? 0) : 0;
+      const totalScore = clamp(competitionScore + speedScore, -2, 2);
+
+      const scoreBands = {
+        2: { low: 0, high: 20 },
+        1: { low: 20, high: 40 },
+        0: { low: 40, high: 60 },
+        '-1': { low: 60, high: 80 },
+        '-2': { low: 80, high: 100 }
+      };
+      const band = scoreBands[totalScore] || scoreBands[0];
+      const midpoint = band.low + knowledgeScore * (band.high - band.low);
+      return clamp(Number(midpoint.toFixed(1)), band.low, band.high);
+    }
+
+    function updateCalibrationPreview() {
+      const previewEl = document.getElementById('quizPreview');
+      const titleEl = document.getElementById('quizPreviewTitle');
+      const midpointEl = document.getElementById('quizPreviewMidpoint');
+      const spreadEl = document.getElementById('quizPreviewSpread');
+      if (!previewEl || !midpointEl || !spreadEl || !titleEl) return;
+      const isQuizStep = wizardState.step === 'quiz';
+      const flowId = wizardState.flowId;
+      if (!isQuizStep || !flowId) {
         previewEl.hidden = true;
         return;
       }
-      const flow = getFlowById('beginner');
-      if (!flow) {
+      const flow = getFlowById(flowId);
+      if (!flow || (flow.id !== 'beginner' && flow.id !== 'medium')) {
         previewEl.hidden = true;
         return;
       }
       const { selections } = collectWizardAnswers(flow);
-      const spread = computeBeginnerSpread(selections);
-      const midpoint = computeBeginnerMidpoint(selections);
+      let spread = null;
+      let midpoint = null;
+      if (flow.id === 'beginner') {
+        titleEl.textContent = 'Beginner calibration preview';
+        spread = computeBeginnerSpread(selections);
+        midpoint = computeBeginnerMidpoint(selections);
+      } else if (flow.id === 'medium') {
+        titleEl.textContent = 'Medium calibration preview';
+        spread = computeMediumSpread(selections);
+        midpoint = computeMediumMidpoint(selections);
+      }
       spreadEl.textContent = typeof spread === 'number' ? `±${spread.toFixed(1)}` : '–';
       midpointEl.textContent = typeof midpoint === 'number' ? `${midpoint.toFixed(1)}%` : '–';
       previewEl.hidden = false;
@@ -1376,7 +1468,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       if (step === 'welcome') {
         resetWizardResult();
       }
-      updateBeginnerPreview();
+      updateCalibrationPreview();
     }
 
     function setSlidersVisibility(visible) {
@@ -1423,7 +1515,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       renderWizardQuestions(flow);
       resetWizardResult();
       goToWizardStep('quiz');
-      updateBeginnerPreview();
+      updateCalibrationPreview();
     }
 
     function handleWizardSubmit() {
@@ -1455,6 +1547,16 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         }
         midpointToApply = computeBeginnerMidpoint(selections);
       }
+      if (flow.id === 'medium') {
+        const mediumSpread = computeMediumSpread(selections);
+        const mediumMidpoint = computeMediumMidpoint(selections);
+        if (typeof mediumSpread === 'number') {
+          spreadToApply = mediumSpread;
+        }
+        if (typeof mediumMidpoint === 'number') {
+          midpointToApply = mediumMidpoint;
+        }
+      }
 
       if (typeof spreadToApply === 'number') {
         applyConfidenceCalibration(spreadToApply);
@@ -1473,8 +1575,11 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
       if (flow.id === 'beginner') {
         renderBeginnerProceedAction();
+      } else if (flow.id === 'medium') {
+        setSlidersVisibility(true);
+        wizardState.flowId = 'sliders';
       }
-      updateBeginnerPreview();
+      updateCalibrationPreview();
     }
 
     function initWizard() {
@@ -1491,8 +1596,8 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         submitButton.addEventListener('click', handleWizardSubmit);
       }
       document.addEventListener('change', (event) => {
-        if (wizardState.flowId === 'beginner' && event.target.closest('#wizardQuestionList')) {
-          updateBeginnerPreview();
+        if ((wizardState.flowId === 'beginner' || wizardState.flowId === 'medium') && event.target.closest('#wizardQuestionList')) {
+          updateCalibrationPreview();
         }
       });
     }
