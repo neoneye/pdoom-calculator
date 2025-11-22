@@ -290,6 +290,31 @@
   display: none;
 }
 
+.quiz-preview {
+  border: 1px dashed rgba(120, 186, 255, 0.35);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  background: rgba(8, 12, 20, 0.6);
+}
+
+.quiz-preview__title {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(230, 235, 255, 0.8);
+}
+
+.quiz-preview__values {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 0.35rem;
+  color: rgba(230, 235, 255, 0.8);
+}
+
+.quiz-preview[hidden] {
+  display: none;
+}
+
 .secondary-button {
   padding: 0.75rem 1.4rem;
   border-radius: 999px;

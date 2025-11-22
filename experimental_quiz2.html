@@ -48,6 +48,13 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           </div>
           <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
           <div class="quiz-result-actions" id="wizardResultActions" hidden></div>
+          <div class="quiz-preview" id="beginnerLivePreview" hidden>
+            <div class="quiz-preview__title">Beginner calibration preview</div>
+            <div class="quiz-preview__values">
+              <span>Midpoint: <strong id="beginnerPreviewMidpoint">–</strong></span>
+              <span>Spread: <strong id="beginnerPreviewSpread">–</strong></span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1147,6 +1154,23 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       actionsEl.hidden = false;
     }
 
+    function renderBeginnerProceedAction() {
+      const actionsEl = document.getElementById('wizardResultActions');
+      if (!actionsEl) return;
+      actionsEl.innerHTML = '';
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'primary-button';
+      button.textContent = 'Open sliders';
+      button.addEventListener('click', () => {
+        setSlidersVisibility(true);
+        wizardState.flowId = 'sliders';
+        updateBeginnerPreview();
+      });
+      actionsEl.appendChild(button);
+      actionsEl.hidden = false;
+    }
+
     function runKnowledgeCheck() {
       const resultEl = document.getElementById('wizardResult');
       if (!resultEl) return;
@@ -1257,6 +1281,76 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       return { selections, unanswered };
     }
 
+    // Beginner calibration logic:
+    // - Knowledge score averages ratios from entertainment, catastrophes, and capabilities multi-selects.
+    // - Spread interpolates from ±80 (no knowledge) down to ±20 (knows everything).
+    // - Midpoint interpolates within the control choice range (easy 20–40, medium 40–60, impossible 60–80) using the same knowledge score.
+    function getBeginnerKnowledgeScore(selections) {
+      const entertainment = selections.find(entry => entry.question.id === 'beginner-entertainment');
+      const catastrophes = selections.find(entry => entry.question.id === 'beginner-catastrophes');
+      const capabilities = selections.find(entry => entry.question.id === 'beginner-capability');
+      const entertainmentSelected = entertainment ? entertainment.options.length : 0;
+      const entertainmentTotal = entertainment ? entertainment.question.options.length : 0;
+      const catastropheSelected = catastrophes ? catastrophes.options.length : 0;
+      const catastropheTotal = catastrophes ? catastrophes.question.options.length : 0;
+      const capabilitySelected = capabilities ? capabilities.options.length : 0;
+      const capabilityTotal = capabilities ? capabilities.question.options.length : 0;
+
+      const entertainmentRatio = entertainmentTotal > 0 ? entertainmentSelected / entertainmentTotal : 0;
+      const catastropheRatio = catastropheTotal > 0 ? catastropheSelected / catastropheTotal : 0;
+      const capabilityRatio = capabilityTotal > 0 ? capabilitySelected / capabilityTotal : 0;
+      const ratios = [entertainmentRatio, catastropheRatio, capabilityRatio];
+      const average = ratios.reduce((sum, value) => sum + value, 0) / ratios.length;
+      return clamp(average, 0, 1);
+    }
+
+    function computeBeginnerSpread(selections) {
+      const knowledgeScore = getBeginnerKnowledgeScore(selections);
+      // Interpolate: 0 knowledge → ±80, full knowledge → ±20.
+      const spread = 80 - knowledgeScore * 60;
+      return clamp(Number(spread.toFixed(1)), 20, 80);
+    }
+
+    function computeBeginnerMidpoint(selections) {
+      const control = selections.find(entry => entry.question.id === 'beginner-control');
+      const selectedControl = control && control.option ? control.option.id : null;
+      if (!selectedControl) return null;
+      const ranges = {
+        'control-easy': { low: 20, high: 40 },
+        'control-medium': { low: 40, high: 60 },
+        'control-impossible': { low: 60, high: 80 }
+      };
+      const selectedRange = ranges[selectedControl];
+      if (!selectedRange) return null;
+
+      const knowledgeScore = getBeginnerKnowledgeScore(selections);
+      const midpoint = selectedRange.low + knowledgeScore * (selectedRange.high - selectedRange.low);
+      return clamp(Number(midpoint.toFixed(1)), selectedRange.low, selectedRange.high);
+    }
+
+    function updateBeginnerPreview() {
+      const previewEl = document.getElementById('beginnerLivePreview');
+      const midpointEl = document.getElementById('beginnerPreviewMidpoint');
+      const spreadEl = document.getElementById('beginnerPreviewSpread');
+      if (!previewEl || !midpointEl || !spreadEl) return;
+      const isBeginnerActive = wizardState.flowId === 'beginner' && wizardState.step === 'quiz';
+      if (!isBeginnerActive) {
+        previewEl.hidden = true;
+        return;
+      }
+      const flow = getFlowById('beginner');
+      if (!flow) {
+        previewEl.hidden = true;
+        return;
+      }
+      const { selections } = collectWizardAnswers(flow);
+      const spread = computeBeginnerSpread(selections);
+      const midpoint = computeBeginnerMidpoint(selections);
+      spreadEl.textContent = typeof spread === 'number' ? `±${spread.toFixed(1)}` : '–';
+      midpointEl.textContent = typeof midpoint === 'number' ? `${midpoint.toFixed(1)}%` : '–';
+      previewEl.hidden = false;
+    }
+
     function updateWizardProgress(step, flow) {
       const progressEl = document.getElementById('wizardProgressText');
       if (!progressEl) return;
@@ -1282,6 +1376,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       if (step === 'welcome') {
         resetWizardResult();
       }
+      updateBeginnerPreview();
     }
 
     function setSlidersVisibility(visible) {
@@ -1328,6 +1423,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       renderWizardQuestions(flow);
       resetWizardResult();
       goToWizardStep('quiz');
+      updateBeginnerPreview();
     }
 
     function handleWizardSubmit() {
@@ -1340,7 +1436,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         return;
       }
 
-      const { unanswered } = collectWizardAnswers(flow);
+      const { selections, unanswered } = collectWizardAnswers(flow);
       if (unanswered > 0) {
         resultEl.textContent = `Answer the remaining ${unanswered} question${unanswered === 1 ? '' : 's'} to continue.`;
         resultEl.classList.add('quiz-result--warning');
@@ -1350,14 +1446,35 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
 
-      if (typeof flow.recommendedSpread === 'number') {
-        applyConfidenceCalibration(flow.recommendedSpread);
+      let spreadToApply = typeof flow.recommendedSpread === 'number' ? flow.recommendedSpread : null;
+      let midpointToApply = null;
+      if (flow.id === 'beginner') {
+        const beginnerSpread = computeBeginnerSpread(selections);
+        if (typeof beginnerSpread === 'number') {
+          spreadToApply = beginnerSpread;
+        }
+        midpointToApply = computeBeginnerMidpoint(selections);
       }
-      const spreadText = typeof flow.recommendedSpread === 'number'
-        ? ` Sliders stay at ±${flow.recommendedSpread.toFixed(1)} pts.`
+
+      if (typeof spreadToApply === 'number') {
+        applyConfidenceCalibration(spreadToApply);
+      }
+      if (typeof midpointToApply === 'number') {
+        applyMidpointCalibration(midpointToApply);
+      }
+      const spreadText = typeof spreadToApply === 'number'
+        ? ` Sliders set to ±${spreadToApply.toFixed(1)} pts.`
+        : '';
+      const midpointText = typeof midpointToApply === 'number'
+        ? ` Midpoints set to ${midpointToApply.toFixed(1)}%.`
         : '';
       const completionText = flow.completionMessage || `Thanks for finishing the ${flow.label}.`;
-      resultEl.textContent = `${completionText}${spreadText}`;
+      resultEl.textContent = `${completionText}${spreadText}${midpointText}`;
+
+      if (flow.id === 'beginner') {
+        renderBeginnerProceedAction();
+      }
+      updateBeginnerPreview();
     }
 
     function initWizard() {
@@ -1373,6 +1490,11 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       if (submitButton) {
         submitButton.addEventListener('click', handleWizardSubmit);
       }
+      document.addEventListener('change', (event) => {
+        if (wizardState.flowId === 'beginner' && event.target.closest('#wizardQuestionList')) {
+          updateBeginnerPreview();
+        }
+      });
     }
 
     function applyConfidenceCalibration(spreadValue) {
@@ -1380,6 +1502,17 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       config.forEach(({ key }) => {
         const factorState = state.get(key) || { midpoint: 50, spread: safeSpread };
         factorState.spread = safeSpread;
+        state.set(key, factorState);
+        syncInputs(key);
+      });
+      recalc();
+    }
+
+    function applyMidpointCalibration(midpointValue) {
+      const safeMidpoint = clamp(midpointValue, 0, 100);
+      config.forEach(({ key }) => {
+        const factorState = state.get(key) || { midpoint: safeMidpoint, spread: 0 };
+        factorState.midpoint = safeMidpoint;
         state.set(key, factorState);
         syncInputs(key);
       });
