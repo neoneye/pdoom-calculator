@@ -1409,6 +1409,39 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       return clamp(Number(midpoint.toFixed(1)), band.low, band.high);
     }
 
+    // Expert calibration logic:
+    // - Knowledge score averages coverage from three multi-selects (continuous learning, self improvement, self replication).
+    // - Spread interpolates from ±80 (low knowledge) down to ±20 (high knowledge).
+    // - Midpoint interpolates from 20 to 80 (more informed → higher midpoint about risks).
+    function getExpertKnowledgeScore(selections) {
+      const continuous = selections.find(entry => entry.question.id === 'expert-continuous-learning');
+      const improvement = selections.find(entry => entry.question.id === 'expert-self-improvement');
+      const replication = selections.find(entry => entry.question.id === 'expert-self-replication');
+
+      const ratios = [continuous, improvement, replication].map((entry) => {
+        if (!entry) return 0;
+        const total = entry.question.options.length;
+        const selected = entry.options.length;
+        return total > 0 ? selected / total : 0;
+      });
+      const knowledge = ratios.reduce((sum, value) => sum + value, 0) / ratios.length;
+      return clamp(knowledge, 0, 1);
+    }
+
+    function computeExpertSpread(selections) {
+      const knowledgeScore = getExpertKnowledgeScore(selections);
+      const spread = 80 - knowledgeScore * 60;
+      return clamp(Number(spread.toFixed(1)), 20, 80);
+    }
+
+    function computeExpertMidpoint(selections) {
+      const knowledgeScore = getExpertKnowledgeScore(selections);
+      const low = 20;
+      const high = 80;
+      const midpoint = low + knowledgeScore * (high - low);
+      return clamp(Number(midpoint.toFixed(1)), low, high);
+    }
+
     function updateCalibrationPreview() {
       const previewEl = document.getElementById('quizPreview');
       const titleEl = document.getElementById('quizPreviewTitle');
@@ -1422,7 +1455,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         return;
       }
       const flow = getFlowById(flowId);
-      if (!flow || (flow.id !== 'beginner' && flow.id !== 'medium')) {
+      if (!flow || (flow.id !== 'beginner' && flow.id !== 'medium' && flow.id !== 'expert')) {
         previewEl.hidden = true;
         return;
       }
@@ -1437,6 +1470,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         titleEl.textContent = 'Medium calibration preview';
         spread = computeMediumSpread(selections);
         midpoint = computeMediumMidpoint(selections);
+      } else if (flow.id === 'expert') {
+        titleEl.textContent = 'Expert calibration preview';
+        spread = computeExpertSpread(selections);
+        midpoint = computeExpertMidpoint(selections);
       }
       spreadEl.textContent = typeof spread === 'number' ? `±${spread.toFixed(1)}` : '–';
       midpointEl.textContent = typeof midpoint === 'number' ? `${midpoint.toFixed(1)}%` : '–';
@@ -1557,6 +1594,16 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           midpointToApply = mediumMidpoint;
         }
       }
+      if (flow.id === 'expert') {
+        const expertSpread = computeExpertSpread(selections);
+        const expertMidpoint = computeExpertMidpoint(selections);
+        if (typeof expertSpread === 'number') {
+          spreadToApply = expertSpread;
+        }
+        if (typeof expertMidpoint === 'number') {
+          midpointToApply = expertMidpoint;
+        }
+      }
 
       if (typeof spreadToApply === 'number') {
         applyConfidenceCalibration(spreadToApply);
@@ -1578,6 +1625,9 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       } else if (flow.id === 'medium') {
         setSlidersVisibility(true);
         wizardState.flowId = 'sliders';
+      } else if (flow.id === 'expert') {
+        setSlidersVisibility(true);
+        wizardState.flowId = 'sliders';
       }
       updateCalibrationPreview();
     }
@@ -1596,7 +1646,12 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         submitButton.addEventListener('click', handleWizardSubmit);
       }
       document.addEventListener('change', (event) => {
-        if ((wizardState.flowId === 'beginner' || wizardState.flowId === 'medium') && event.target.closest('#wizardQuestionList')) {
+        if (
+          (wizardState.flowId === 'beginner' ||
+           wizardState.flowId === 'medium' ||
+           wizardState.flowId === 'expert') &&
+          event.target.closest('#wizardQuestionList')
+        ) {
           updateCalibrationPreview();
         }
       });
