@@ -273,6 +273,23 @@
   justify-content: center;
 }
 
+.quiz-result {
+  margin: 0.35rem 0 0;
+  text-align: center;
+}
+
+.quiz-result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+
+.quiz-result-actions[hidden] {
+  display: none;
+}
+
 .secondary-button {
   padding: 0.75rem 1.4rem;
   border-radius: 999px;

@@ -15,9 +15,9 @@ If it's a person that has no experience with AI safety, they would get some of t
 if it's a person that have experience with AI safety and knows the domain, they can avoid the decoys. Thus their confidence lean towards certain.
 
 The idea is to show a follow up quiz, based on the number of correct answers, like this:
-If the number of correct answers are 0..9 then show a **beginner** quiz.
-If the number of correct answers are 10..19 then show a **medium** quiz.
-If the number of correct answers are 20..30 then show an **expert** quiz.
+If the number of correct answers are 0..20 then show a **beginner** quiz.
+If the number of correct answers are 21..25 then show a **medium** quiz.
+If the number of correct answers are 26..30 then show an **expert** quiz.
 
 I have omitted these areas:
 Safety testing, since a model that does continuous learning, would be so hard to assess if it conforms to a safety benchmark.
@@ -47,6 +47,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
             <button class="primary-button" type="button" id="wizardSubmitButton">Submit answers</button>
           </div>
           <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
+          <div class="quiz-result-actions" id="wizardResultActions" hidden></div>
         </div>
       </div>
     </section>
@@ -362,6 +363,12 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       const maxForQuestion = optionScores.length > 0 ? Math.max(...optionScores) : 0;
       return sum + maxForQuestion;
     }, 0);
+
+    const levelJumpRules = [
+      { min: 0, max: 20, flowId: 'beginner', label: 'Jump to beginner quiz' },
+      { min: 21, max: 25, flowId: 'medium', label: 'Jump to medium quiz' },
+      { min: 26, max: 30, flowId: 'expert', label: 'Jump to expert quiz' }
+    ];
 
     const quizFlows = [
       {
@@ -1111,14 +1118,39 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
     function resetWizardResult() {
       const resultEl = document.getElementById('wizardResult');
-      if (!resultEl) return;
-      resultEl.textContent = '';
-      resultEl.classList.remove('quiz-result--warning', 'quiz-result--success');
+      if (resultEl) {
+        resultEl.textContent = '';
+        resultEl.classList.remove('quiz-result--warning', 'quiz-result--success');
+      }
+      const actionsEl = document.getElementById('wizardResultActions');
+      if (actionsEl) {
+        actionsEl.innerHTML = '';
+        actionsEl.hidden = true;
+      }
+    }
+
+    function renderLevelRecommendationButton(correctAnswers) {
+      const actionsEl = document.getElementById('wizardResultActions');
+      if (!actionsEl) return;
+      actionsEl.innerHTML = '';
+      const match = levelJumpRules.find(rule => correctAnswers >= rule.min && correctAnswers <= rule.max);
+      if (!match) {
+        actionsEl.hidden = true;
+        return;
+      }
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'primary-button';
+      button.textContent = match.label;
+      button.addEventListener('click', () => handleFlowSelection(match.flowId));
+      actionsEl.appendChild(button);
+      actionsEl.hidden = false;
     }
 
     function runKnowledgeCheck() {
       const resultEl = document.getElementById('wizardResult');
       if (!resultEl) return;
+      resetWizardResult();
       let score = 0;
       let falseSelections = 0;
       let questionsCorrect = 0;
@@ -1199,6 +1231,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       `;
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
+      renderLevelRecommendationButton(questionsCorrect);
     }
 
     function collectWizardAnswers(flow) {
