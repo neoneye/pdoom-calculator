@@ -1412,7 +1412,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     // Expert calibration logic:
     // - Knowledge score averages coverage from three multi-selects (continuous learning, self improvement, self replication).
     // - Spread interpolates from ±80 (low knowledge) down to ±20 (high knowledge).
-    // - Midpoint interpolates from 20 to 80 (more informed → higher midpoint about risks).
+    // - Midpoint interpolates from 0 to 100 (more informed → higher midpoint about risks).
     function getExpertKnowledgeScore(selections) {
       const continuous = selections.find(entry => entry.question.id === 'expert-continuous-learning');
       const improvement = selections.find(entry => entry.question.id === 'expert-self-improvement');
@@ -1436,8 +1436,8 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
     function computeExpertMidpoint(selections) {
       const knowledgeScore = getExpertKnowledgeScore(selections);
-      const low = 20;
-      const high = 80;
+      const low = 0;
+      const high = 100;
       const midpoint = low + knowledgeScore * (high - low);
       return clamp(Number(midpoint.toFixed(1)), low, high);
     }
