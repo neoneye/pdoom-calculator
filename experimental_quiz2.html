@@ -760,7 +760,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
       {
         id: 'expert',
         label: 'Expert quiz',
-        description: 'Built for researchers, auditors, or policy leads owning mitigation plans.',
+        description: 'For AI experts that already knows about threats and AI capabilities.',
         meta: '2 questions · ~5 minutes',
         kind: 'fixed',
         recommendedSpread: 15,
@@ -781,24 +781,6 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
                 label: 'No, humans cannot stop it in time.',
                 description: 'The "speed of the loop" determines the winner in a conflict.'
               }
-            ]
-          },
-          {
-            id: 'expert-work',
-            prompt: 'What best describes your recent AI safety work?',
-            options: [
-              { id: 'expert-work-analysis', label: 'I publish analyses or run independent audits.' },
-              { id: 'expert-work-roadmap', label: 'I write safety roadmaps or evaluate research directions.' },
-              { id: 'expert-work-ownership', label: 'I approve launches or manage red/blue teams.' }
-            ]
-          },
-          {
-            id: 'expert-signal',
-            prompt: 'How do you keep your intuition sharp between major incidents?',
-            options: [
-              { id: 'expert-signal-briefs', label: 'Digest rapid-fire briefs from my network.' },
-              { id: 'expert-signal-models', label: 'Probe internal models and share eval templates.' },
-              { id: 'expert-signal-labs', label: 'Coordinate with labs, policymakers, and deployers.' }
             ]
           }
         ]
