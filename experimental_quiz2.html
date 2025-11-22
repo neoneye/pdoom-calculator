@@ -1159,23 +1159,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       actionsEl.hidden = false;
     }
 
-    function renderBeginnerProceedAction() {
-      const actionsEl = document.getElementById('wizardResultActions');
-      if (!actionsEl) return;
-      actionsEl.innerHTML = '';
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'primary-button';
-      button.textContent = 'Open sliders';
-      button.addEventListener('click', () => {
-        setSlidersVisibility(true);
-        wizardState.flowId = 'sliders';
-        updateCalibrationPreview();
-      });
-      actionsEl.appendChild(button);
-      actionsEl.hidden = false;
-    }
-
     function runKnowledgeCheck() {
       const resultEl = document.getElementById('wizardResult');
       if (!resultEl) return;
@@ -1621,7 +1604,9 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       resultEl.textContent = `${completionText}${spreadText}${midpointText}`;
 
       if (flow.id === 'beginner') {
-        renderBeginnerProceedAction();
+        resetWizardResult();
+        setSlidersVisibility(true);
+        wizardState.flowId = 'sliders';
       } else if (flow.id === 'medium') {
         setSlidersVisibility(true);
         wizardState.flowId = 'sliders';
