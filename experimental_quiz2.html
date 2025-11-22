@@ -769,7 +769,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
         questions: [
           {
             id: 'expert-continuous-learning',
-            prompt: 'How familiar are you with "Continuous Learning"?',
+            prompt: 'How familiar are you with "Continuous Learning"? (Select all that apply.)',
             link: 'https://en.wikipedia.org/wiki/Online_machine_learning',
             type: 'multi-select',
             options: [
@@ -794,7 +794,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
           },
           {
             id: 'expert-self-improvement',
-            prompt: 'How familiar are you with "Self Improvement"?',
+            prompt: 'How familiar are you with "Self Improvement"? (Select all that apply.)',
             type: 'multi-select',
             options: [
               {
@@ -820,6 +820,44 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
                 label: 'Rewrite itself',
                 description: 'Change its own behavior (weights, prompts, or architecture). Safety escalation.',
                 link: 'https://en.wikipedia.org/wiki/Recursive_self-improvement',
+              }
+            ]
+          },
+          {
+            id: 'expert-self-replication',
+            prompt: 'How familiar are you with "Self Replication"? (Select all that apply.)',
+            type: 'multi-select',
+            link: 'https://en.wikipedia.org/wiki/Self-replicating_machine',
+            options: [
+              {
+                id: 'expert-self-replication-biology',
+                label: 'Biological self-replication',
+                description: 'Cells and organisms replicate themselves: DNA replication, reproduction, population growth.',
+                link: 'https://en.wikipedia.org/wiki/Cell_growth'
+              },
+              {
+                id: 'expert-self-replication-cellular-automata',
+                label: 'Cellular automata',
+                description: 'Game-of-life is a simple example.',
+                link: 'https://en.wikipedia.org/wiki/Cellular_automaton'
+              },
+              {
+                id: 'expert-self-replication-software',
+                label: 'Software',
+                description: 'Computer viruses that can spread themselves, and may have an AI payload with it.',
+                link: 'https://en.wikipedia.org/wiki/Computer_virus'
+              },
+              {
+                id: 'expert-self-replication-3d-printing',
+                label: 'Hardware',
+                description: '3D printers that can print their own structural parts, like the RepRap project.',
+                link: 'https://en.wikipedia.org/wiki/3D_printing'
+              },
+              {
+                id: 'expert-self-replication-von-neumann-probe',
+                label: 'Von Neumann probe',
+                description: 'A self-replicating probe that can explore other planets and systems. Theoretical.',
+                link: 'https://en.wikipedia.org/wiki/Von_Neumann_probe'
               }
             ]
           },
