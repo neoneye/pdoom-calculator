@@ -1230,17 +1230,13 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       const normalizedScore = knowledgeCheckMaxScore > 0 ? calibratedScore / knowledgeCheckMaxScore : 0;
       const boundedScore = clamp(normalizedScore, 0, 1);
       const confidenceSpread = CONFIDENCE_HIGH + (1 - boundedScore) * (CONFIDENCE_LOW - CONFIDENCE_HIGH);
-      const confidenceSpreadText = confidenceSpread.toFixed(1);
       const percentCorrect = questionItemsTotal > 0 ? Math.max(0, Math.min(100, Math.round((questionsCorrect / questionItemsTotal) * 100))) : 0;
       const scoreMessage = questionItemsTotal > 0 && questionsCorrect === questionItemsTotal
         ? `You have ${questionItemsTotal} of ${questionItemsTotal} answers correct. Score 100%.`
         : `You have ${questionsCorrect} of ${questionItemsTotal} answers correct. Score ${percentCorrect}%.`;
 
       applyConfidenceCalibration(confidenceSpread);
-      resultEl.innerHTML = `
-        ${scoreMessage}<br>
-        <span class="quiz-tier">${tier.label}</span> – ${tier.description} We set every uncertainty slider to ±${confidenceSpreadText} pts.
-      `;
+      resultEl.innerHTML = `${scoreMessage}`;
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
       renderLevelRecommendationButton(questionsCorrect);
