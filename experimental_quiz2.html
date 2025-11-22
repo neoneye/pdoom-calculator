@@ -770,6 +770,7 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
             id: 'expert-continuous-learning',
             prompt: 'How familiar are you with "Continuous Learning"?',
             link: 'https://en.wikipedia.org/wiki/Online_machine_learning',
+            type: 'multi-select',
             options: [
               {
                 id: 'expert-continuous-learning-rag',
@@ -785,8 +786,39 @@ If the number of correct answers are 20..30 then show an **expert** quiz.
               {
                 id: 'expert-continuous-learning-finetuning',
                 label: 'Continuous learning from user, logs, internet data, tool outputs',
-                description: 'Once a model keeps changing itself after you ship it, you stop knowing what the hell you’re actually running.',
+                description: 'Once a model keeps changing itself after you ship it, you stop knowing what the hell you’re actually running. Safety escalation.',
                 link: 'https://en.wikipedia.org/wiki/Incremental_learning'
+              }
+            ]
+          },
+          {
+            id: 'expert-self-improvement',
+            prompt: 'How familiar are you with "Self Improvement"?',
+            type: 'multi-select',
+            options: [
+              {
+                id: 'expert-self-improvement-prompting',
+                label: 'Optimize prompts using AI',
+                description: 'Strengthen a weak prompt for higher quality responses.',
+                link: 'https://en.wikipedia.org/wiki/Prompt_engineering'
+              },
+              {
+                id: 'expert-self-improvement-coding',
+                label: 'AI coding',
+                description: 'Shorten development time. Non-developers can code too.',
+                link: 'https://en.wikipedia.org/wiki/Vibe_coding'
+              },
+              {
+                id: 'expert-self-improvement-synthetic-data',
+                label: 'Synthetic data generation',
+                description: 'Generate high-quality training data to train the next version of itself.',
+                link: 'https://en.wikipedia.org/wiki/Synthetic_data'
+              },
+              {
+                id: 'expert-self-improvement-rewrite-itself',
+                label: 'Rewrite itself',
+                description: 'Change its own behavior (weights, prompts, or architecture). Safety escalation.',
+                link: 'https://en.wikipedia.org/wiki/Recursive_self-improvement',
               }
             ]
           },
