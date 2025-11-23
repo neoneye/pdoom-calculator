@@ -38,6 +38,9 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       <div class="wizard-body">
         <div class="wizard-panel wizard-panel--active" id="wizardStepWelcome" data-step="welcome">
           <div class="wizard-flow-grid" id="wizardFlowList"></div>
+          <div class="wizard-welcome-actions">
+            <button class="secondary-button" type="button" id="wizardResetButton">Reset saved answers</button>
+          </div>
         </div>
         <div class="wizard-panel" id="wizardStepQuiz" data-step="quiz" hidden>
           <div class="wizard-selected" id="wizardSelectedFlow"></div>
@@ -917,11 +920,13 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     const SPREAD_MAX = 100;
     const KEYBOARD_STEP = 1;
     const KEYBOARD_BIG_STEP = 5;
+    const WIZARD_STORAGE_KEY = 'pdoom-wizard-answers-v1';
     const SLIDERS_CONTAINER_ID = 'slidersUi';
     const wizardState = {
       step: 'welcome',
       flowId: null
     };
+    let storedWizardAnswers = {};
 
     function mulberry32(a) {
       return function() {
@@ -934,6 +939,88 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
     function getFlowById(flowId) {
       return quizFlows.find(flow => flow.id === flowId) || null;
+    }
+
+    function loadStoredWizardAnswers() {
+      if (typeof localStorage === 'undefined') return {};
+      try {
+        const raw = localStorage.getItem(WIZARD_STORAGE_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (error) {
+        console.warn('Unable to load saved wizard answers', error);
+        return {};
+      }
+    }
+
+    function getQuestionInputName(flow, question) {
+      if (!flow || !question) return '';
+      return flow.kind === 'knowledge-check' ? question.id : `${flow.id}-${question.id}`;
+    }
+
+    function captureWizardInputState(flow) {
+      const answers = {};
+      flow.questions.forEach((question) => {
+        const inputName = getQuestionInputName(flow, question);
+        if (question.type === 'multi-select') {
+          const selected = Array.from(document.querySelectorAll(`input[name="${inputName}"]:checked`)).map(input => input.value);
+          answers[question.id] = { type: 'multi-select', values: selected };
+          return;
+        }
+        const selected = document.querySelector(`input[name="${inputName}"]:checked`);
+        if (selected) {
+          answers[question.id] = { type: 'single', value: selected.value };
+        }
+      });
+      return answers;
+    }
+
+    function persistWizardAnswers(flowId) {
+      const flow = getFlowById(flowId);
+      if (!flow) return;
+      storedWizardAnswers[flowId] = captureWizardInputState(flow);
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(storedWizardAnswers));
+      } catch (error) {
+        console.warn('Unable to save wizard answers', error);
+      }
+    }
+
+    function applyStoredWizardAnswers(flow) {
+      const saved = storedWizardAnswers[flow.id];
+      if (!saved || typeof saved !== 'object') return;
+      flow.questions.forEach((question) => {
+        const savedEntry = saved[question.id];
+        if (!savedEntry) return;
+        const inputName = getQuestionInputName(flow, question);
+        if (savedEntry.type === 'multi-select' && Array.isArray(savedEntry.values)) {
+          savedEntry.values.forEach((value) => {
+            const input = document.querySelector(`input[name="${inputName}"][value="${value}"]`);
+            if (input) {
+              input.checked = true;
+            }
+          });
+          return;
+        }
+        if (savedEntry.type === 'single' && typeof savedEntry.value === 'string') {
+          const input = document.querySelector(`input[name="${inputName}"][value="${savedEntry.value}"]`);
+          if (input) {
+            input.checked = true;
+          }
+        }
+      });
+    }
+
+    function clearStoredWizardAnswers() {
+      storedWizardAnswers = {};
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.removeItem(WIZARD_STORAGE_KEY);
+      } catch (error) {
+        console.warn('Unable to clear wizard answers', error);
+      }
     }
 
     function renderWizardFlowOptions() {
@@ -981,7 +1068,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       questionList.innerHTML = '';
       flow.questions.forEach((question, index) => {
         const questionNumber = String(index + 1).padStart(2, '0');
-        const inputName = `${flow.id}-${question.id}`;
+        const inputName = getQuestionInputName(flow, question);
         if (flow.kind === 'knowledge-check' && question.type === 'multi-select') {
           const item = document.createElement('li');
           item.className = 'quiz-question';
@@ -1002,7 +1089,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
                 const optionId = option.id ?? `${question.id}-${optionIndex}`;
                 return `
                   <label class="quiz-option" data-option-id="${optionId}">
-                    <input type="checkbox" name="${question.id}" value="${optionId}" />
+                    <input type="checkbox" name="${inputName}" value="${optionId}" />
                     <div class="quiz-option__body">
                       <span class="quiz-option__label">${option.text}</span>
                       <p class="quiz-option__fact" data-role="fact" hidden></p>
@@ -1022,12 +1109,12 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           item.className = 'wizard-question';
           const questionLinkMarkup = question.link ? `<a class="wizard-question__link" href="${question.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
           const optionsMarkup = question.options.map((option, optionIndex) => {
-            const optionId = `${inputName}-${optionIndex}`;
+            const optionId = option.id ?? `${inputName}-${optionIndex}`;
             const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
             const optionDescriptionMarkup = option.description ? `<p class="wizard-option__description">${option.description}</p>` : '';
             return `
               <label class="wizard-checkbox">
-                <input type="checkbox" id="${optionId}" name="${inputName}" value="${option.id}" />
+                <input type="checkbox" id="${optionId}" name="${inputName}" value="${option.id ?? optionId}" />
                 <div class="wizard-option__content">
                   <div class="wizard-option__text">
                     <span class="wizard-option__label">${option.label}</span>
@@ -1058,12 +1145,12 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         item.className = 'wizard-question';
         const questionLinkMarkup = question.link ? `<a class="wizard-question__link" href="${question.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
         const optionsMarkup = question.options.map((option, optionIndex) => {
-          const optionId = `${inputName}-${optionIndex}`;
+          const optionId = option.id ?? `${inputName}-${optionIndex}`;
           const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
           const optionDescriptionMarkup = option.description ? `<p class="wizard-option__description">${option.description}</p>` : '';
           return `
             <label class="wizard-radio">
-              <input type="radio" id="${optionId}" name="${inputName}" value="${option.id}" />
+              <input type="radio" id="${optionId}" name="${inputName}" value="${option.id ?? optionId}" />
               <div class="wizard-option__content">
                 <div class="wizard-option__text">
                   <span class="wizard-option__label">${option.label}</span>
@@ -1088,6 +1175,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         `;
         questionList.appendChild(item);
       });
+      applyStoredWizardAnswers(flow);
     }
 
     function resetWizardResult() {
@@ -1101,6 +1189,19 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         actionsEl.innerHTML = '';
         actionsEl.hidden = true;
       }
+    }
+
+    function clearWizardUi() {
+      const questionList = document.getElementById('wizardQuestionList');
+      if (questionList) {
+        questionList.innerHTML = '';
+      }
+      const selectedFlow = document.getElementById('wizardSelectedFlow');
+      if (selectedFlow) {
+        selectedFlow.innerHTML = '';
+      }
+      resetWizardResult();
+      updateCalibrationPreview();
     }
 
     function renderLevelRecommendationButton(correctAnswers) {
@@ -1207,11 +1308,14 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       const selections = [];
       let unanswered = 0;
       flow.questions.forEach((question) => {
-        const inputName = `${flow.id}-${question.id}`;
+        const inputName = getQuestionInputName(flow, question);
         if (question.type === 'multi-select') {
           const selectedInputs = Array.from(document.querySelectorAll(`input[name="${inputName}"]:checked`));
           const optionIds = selectedInputs.map(input => input.value);
-          const selectedOptions = question.options.filter(opt => optionIds.includes(opt.id));
+          const selectedOptions = question.options.filter((opt, optionIndex) => {
+            const fallbackId = opt.id ?? `${inputName}-${optionIndex}`;
+            return optionIds.includes(opt.id ?? fallbackId);
+          });
           selections.push({ question, options: selectedOptions });
           return;
         }
@@ -1220,7 +1324,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           unanswered += 1;
           return;
         }
-        const option = question.options.find(opt => opt.id === selected.value) || null;
+        const option = question.options.find((opt, optionIndex) => {
+          const fallbackId = opt.id ?? `${inputName}-${optionIndex}`;
+          return (opt.id ?? fallbackId) === selected.value;
+        }) || null;
         selections.push({ question, option });
       });
       return { selections, unanswered };
@@ -1472,6 +1579,16 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       }
     }
 
+    function handleWizardReset() {
+      const shouldReset = window.confirm('Reset all saved quiz answers? This will wipe stored selections.');
+      if (!shouldReset) return;
+      clearStoredWizardAnswers();
+      wizardState.flowId = null;
+      clearWizardUi();
+      setSlidersVisibility(false);
+      goToWizardStep('welcome');
+    }
+
     function handleSlidersBack() {
       setSlidersVisibility(false);
       wizardState.flowId = null;
@@ -1565,6 +1682,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     function initWizard() {
       const wizardRoot = document.getElementById('levelWizard');
       if (!wizardRoot) return;
+      storedWizardAnswers = loadStoredWizardAnswers();
       renderWizardFlowOptions();
       goToWizardStep('welcome');
       const backButton = document.getElementById('wizardBackButton');
@@ -1575,13 +1693,20 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       if (submitButton) {
         submitButton.addEventListener('click', handleWizardSubmit);
       }
+      const resetButton = document.getElementById('wizardResetButton');
+      if (resetButton) {
+        resetButton.addEventListener('click', handleWizardReset);
+      }
       document.addEventListener('change', (event) => {
-        if (
-          (wizardState.flowId === 'beginner' ||
-           wizardState.flowId === 'medium' ||
-           wizardState.flowId === 'expert') &&
-          event.target.closest('#wizardQuestionList')
-        ) {
+        const target = event.target;
+        const withinWizardQuestions = target && target.closest('#wizardQuestionList');
+        if (!withinWizardQuestions) return;
+        if (wizardState.flowId) {
+          persistWizardAnswers(wizardState.flowId);
+        }
+        if (wizardState.flowId === 'beginner' ||
+            wizardState.flowId === 'medium' ||
+            wizardState.flowId === 'expert') {
           updateCalibrationPreview();
         }
       });

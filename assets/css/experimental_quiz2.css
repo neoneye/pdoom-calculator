@@ -51,6 +51,12 @@
   display: none;
 }
 
+.wizard-welcome-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
 .wizard-flow-card {
   appearance: none;
   font: inherit;
