@@ -1518,35 +1518,22 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
 
-      let spreadToApply = null;
-      let midpointToApply = null;
-      if (flow.id === 'beginner') {
-        const beginnerSpread = computeBeginnerSpread(selections);
-        if (typeof beginnerSpread === 'number') {
-          spreadToApply = beginnerSpread;
-        }
-        midpointToApply = computeBeginnerMidpoint(selections);
-      }
-      if (flow.id === 'medium') {
-        const mediumSpread = computeMediumSpread(selections);
-        const mediumMidpoint = computeMediumMidpoint(selections);
-        if (typeof mediumSpread === 'number') {
-          spreadToApply = mediumSpread;
-        }
-        if (typeof mediumMidpoint === 'number') {
-          midpointToApply = mediumMidpoint;
-        }
-      }
-      if (flow.id === 'expert') {
-        const expertSpread = computeExpertSpread(selections);
-        const expertMidpoint = computeExpertMidpoint(selections);
-        if (typeof expertSpread === 'number') {
-          spreadToApply = expertSpread;
-        }
-        if (typeof expertMidpoint === 'number') {
-          midpointToApply = expertMidpoint;
-        }
-      }
+      const calibrationByFlow = {
+        beginner: () => ({
+          spread: computeBeginnerSpread(selections),
+          midpoint: computeBeginnerMidpoint(selections)
+        }),
+        medium: () => ({
+          spread: computeMediumSpread(selections),
+          midpoint: computeMediumMidpoint(selections)
+        }),
+        expert: () => ({
+          spread: computeExpertSpread(selections),
+          midpoint: computeExpertMidpoint(selections)
+        })
+      };
+      const { spread: spreadToApply, midpoint: midpointToApply } =
+        (calibrationByFlow[flow.id]?.() ?? { spread: null, midpoint: null });
 
       if (typeof spreadToApply === 'number') {
         applyConfidenceCalibration(spreadToApply);
