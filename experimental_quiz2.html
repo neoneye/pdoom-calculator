@@ -393,7 +393,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         description: 'Perfect if you are just getting acquainted with AI risk language.',
         meta: '4 questions · ~5 minutes',
         kind: 'fixed',
-        recommendedSpread: 65,
         completionMessage: 'Nice! This beginner path keeps uncertainty wide while you learn.',
         questions: [
         {
@@ -593,7 +592,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         description: 'For folks who use LLMs daily, or debate alignment with friends.',
         meta: '5 questions · ~5 minutes',
         kind: 'fixed',
-        recommendedSpread: 35,
         completionMessage: 'Welcome back! We tightened the sliders a bit to match your reps.',
         questions: [
           {
@@ -805,7 +803,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         description: 'For AI experts that already knows about threats and AI capabilities.',
         meta: '3 questions · ~5 minutes',
         kind: 'fixed',
-        recommendedSpread: 15,
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
         questions: [
           {
@@ -1521,7 +1518,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
 
-      let spreadToApply = typeof flow.recommendedSpread === 'number' ? flow.recommendedSpread : null;
+      let spreadToApply = null;
       let midpointToApply = null;
       if (flow.id === 'beginner') {
         const beginnerSpread = computeBeginnerSpread(selections);
