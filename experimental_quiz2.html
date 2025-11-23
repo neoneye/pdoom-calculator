@@ -1628,9 +1628,8 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       container.hidden = !visible;
       if (visible && wasHidden) {
         recalc();
-        const focusTarget = document.getElementById('factorList') || container;
-        if (typeof focusTarget.scrollIntoView === 'function') {
-          focusTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+          window.scrollTo(0, 0);
         }
       }
     }
