@@ -921,12 +921,14 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     const KEYBOARD_STEP = 1;
     const KEYBOARD_BIG_STEP = 5;
     const WIZARD_STORAGE_KEY = 'pdoom-wizard-answers-v1';
+    const SLIDER_STORAGE_KEY = 'pdoom-slider-state-v1';
     const SLIDERS_CONTAINER_ID = 'slidersUi';
     const wizardState = {
       step: 'welcome',
       flowId: null
     };
     let storedWizardAnswers = {};
+    let storedSliderState = {};
 
     function mulberry32(a) {
       return function() {
@@ -1020,6 +1022,43 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         localStorage.removeItem(WIZARD_STORAGE_KEY);
       } catch (error) {
         console.warn('Unable to clear wizard answers', error);
+      }
+    }
+
+    function loadStoredSliderState() {
+      if (typeof localStorage === 'undefined') return {};
+      try {
+        const raw = localStorage.getItem(SLIDER_STORAGE_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (error) {
+        console.warn('Unable to load saved sliders', error);
+        return {};
+      }
+    }
+
+    function getSerializableSliderState() {
+      const snapshot = {};
+      config.forEach(({ key }) => {
+        const entry = state.get(key);
+        if (!entry) return;
+        const midpoint = typeof entry.midpoint === 'number' ? clamp(entry.midpoint, 0, 100) : null;
+        const spread = typeof entry.spread === 'number' ? clamp(entry.spread, 0, SPREAD_MAX) : null;
+        if (midpoint === null || spread === null) return;
+        snapshot[key] = { midpoint, spread };
+      });
+      return snapshot;
+    }
+
+    function persistSliderState() {
+      if (typeof localStorage === 'undefined') return;
+      try {
+        const payload = getSerializableSliderState();
+        localStorage.setItem(SLIDER_STORAGE_KEY, JSON.stringify(payload));
+        storedSliderState = payload;
+      } catch (error) {
+        console.warn('Unable to save slider state', error);
       }
     }
 
@@ -1683,6 +1722,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       const wizardRoot = document.getElementById('levelWizard');
       if (!wizardRoot) return;
       storedWizardAnswers = loadStoredWizardAnswers();
+      storedSliderState = loadStoredSliderState();
       renderWizardFlowOptions();
       goToWizardStep('welcome');
       const backButton = document.getElementById('wizardBackButton');
@@ -1721,6 +1761,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         syncInputs(key);
       });
       recalc();
+      persistSliderState();
     }
 
     function applyMidpointCalibration(midpointValue) {
@@ -1732,6 +1773,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         syncInputs(key);
       });
       recalc();
+      persistSliderState();
     }
 
     const state = new Map();
@@ -1889,6 +1931,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       state.set(key, current);
       syncInputs(key);
       recalc();
+      persistSliderState();
     }
 
     function syncInputs(key) {
@@ -2242,12 +2285,22 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         return;
       }
       setSlidersVisibility(false);
+      const savedSliders = loadStoredSliderState();
       config.forEach((factor) => {
         const card = createFactorCard(factor);
         list.appendChild(card);
+        const saved = savedSliders[factor.key];
+        const savedMidpoint = saved && typeof saved.midpoint === 'number' ? clamp(saved.midpoint, 0, 100) : null;
+        const savedSpread = saved && typeof saved.spread === 'number' ? clamp(saved.spread, 0, SPREAD_MAX) : null;
+        const midpoint = savedMidpoint !== null
+          ? savedMidpoint
+          : ((factor.defaults.lower + factor.defaults.upper) / 2) * 100;
+        const spread = savedSpread !== null
+          ? savedSpread
+          : ((factor.defaults.upper - factor.defaults.lower) / 2) * 100;
         state.set(factor.key, {
-          midpoint: ((factor.defaults.lower + factor.defaults.upper) / 2) * 100,
-          spread: ((factor.defaults.upper - factor.defaults.lower) / 2) * 100
+          midpoint,
+          spread
         });
         setupCanvasInteraction(factor.key);
       });
@@ -2260,6 +2313,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
       config.forEach(({ key }) => syncInputs(key));
       recalc();
+      persistSliderState();
       window.addEventListener('resize', () => {
         if (!latestSnapshot) return;
         drawDistributions(latestSnapshot.factors);
