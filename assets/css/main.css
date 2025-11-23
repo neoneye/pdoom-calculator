@@ -199,13 +199,6 @@ p.description {
   gap: 0.15rem;
 }
 
-.quiz-question__title {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(120, 186, 255, 0.75);
-}
-
 .quiz-question__headline {
   font-size: 1rem;
   color: rgba(245, 248, 255, 0.95);

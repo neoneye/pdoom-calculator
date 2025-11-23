@@ -112,8 +112,8 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-  const SUPABASE_URL = window.SUPABASE_URL;
-  const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+    const SUPABASE_URL = window.SUPABASE_URL;
+    const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
     const SUBMISSIONS_TABLE = 'submissions';
     let supabaseClient = null;
     let latestSnapshot = null;
@@ -142,7 +142,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     const knowledgeCheckQuestions = [
       {
         id: 'phase1',
-        title: 'Phase 1: Assess how much you know about AI',
         prompt: 'Spot the AI-related terms, beware of the decoys.',
         instructions: 'Select every entry that is genuinely tied to AI. Submit to reveal the facts and citations.',
         type: 'multi-select',
@@ -993,7 +992,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
             <div class="quiz-question__prompt">
               <span class="quiz-question__number">${questionNumber}</span>
               <div class="quiz-question__text">
-                ${question.title ? `<div class="quiz-question__title">${question.title}</div>` : ''}
                 <div class="quiz-question__headline">${question.prompt}</div>
                 ${question.instructions ? `<div class="quiz-question__instructions">${question.instructions}</div>` : ''}
                 ${questionLinkMarkup}
