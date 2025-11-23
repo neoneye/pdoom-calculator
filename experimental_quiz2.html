@@ -929,14 +929,13 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     const breadcrumbLabels = {
       start: 'Start',
       decide: 'Decide for me',
-      beginner: 'Beginner quiz',
-      medium: 'Medium quiz',
-      expert: 'Expert quiz',
+      beginner: 'Quiz beginner',
+      medium: 'Quiz medium',
+      expert: 'Quiz expert',
       sliders: 'Sliders'
     };
-    const breadcrumbState = {
-      trail: ['start']
-    };
+    const quizFlowIds = ['beginner', 'medium', 'expert'];
+    let predictedQuizFlowId = 'beginner';
     let storedWizardAnswers = {};
     let storedSliderState = {};
 
@@ -953,39 +952,52 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       return quizFlows.find(flow => flow.id === flowId) || null;
     }
 
-    function setBreadcrumbTrail(trail) {
-      const normalized = ['start'];
-      const incoming = Array.isArray(trail) ? trail : [];
-      incoming.forEach((id) => {
-        if (!breadcrumbLabels[id]) return;
-        if (normalized.includes(id)) return;
-        normalized.push(id);
-      });
-      breadcrumbState.trail = normalized;
+    function setPredictedQuizFlow(flowId) {
+      const next = quizFlowIds.includes(flowId) ? flowId : 'beginner';
+      predictedQuizFlowId = next;
       renderBreadcrumbs();
+    }
+
+    function getBreadcrumbItems() {
+      const quizId = quizFlowIds.includes(predictedQuizFlowId) ? predictedQuizFlowId : 'beginner';
+      return [
+        { id: 'start', label: breadcrumbLabels.start },
+        { id: 'decide', label: breadcrumbLabels.decide },
+        { id: quizId, label: breadcrumbLabels[quizId] || 'Quiz' },
+        { id: 'sliders', label: breadcrumbLabels.sliders }
+      ];
+    }
+
+    function getActiveBreadcrumbIndex() {
+      const flowId = wizardState.flowId;
+      if (flowId === 'decide') return 1;
+      if (quizFlowIds.includes(flowId)) return 2;
+      if (flowId === 'sliders') return 3;
+      return 0;
     }
 
     function renderBreadcrumbs() {
       const list = document.getElementById('wizardBreadcrumbs');
       if (!list) return;
-      const trail = breadcrumbState.trail.length > 0 ? breadcrumbState.trail : ['start'];
+      const items = getBreadcrumbItems();
+      const activeIndex = getActiveBreadcrumbIndex();
       list.innerHTML = '';
-      trail.forEach((id, index) => {
+      items.forEach((entry, index) => {
+        const status = index === activeIndex ? 'active' : (index < activeIndex ? 'past' : 'future');
         const item = document.createElement('li');
-        item.className = 'wizard-breadcrumbs__item';
+        item.className = `wizard-breadcrumbs__item wizard-breadcrumbs__item--${status}`;
         const button = document.createElement('button');
         button.type = 'button';
-        button.className = 'wizard-breadcrumbs__button';
-        button.textContent = breadcrumbLabels[id] || id;
-        const isCurrent = index === trail.length - 1;
-        if (isCurrent) {
+        button.className = `wizard-breadcrumbs__button wizard-breadcrumbs__button--${status}`;
+        button.textContent = entry.label;
+        if (status === 'active') {
           button.setAttribute('aria-current', 'page');
           button.disabled = true;
         } else {
-          button.addEventListener('click', () => handleBreadcrumbClick(id));
+          button.addEventListener('click', () => handleBreadcrumbClick(entry.id));
         }
         item.appendChild(button);
-        if (!isCurrent) {
+        if (index < items.length - 1) {
           const separator = document.createElement('span');
           separator.className = 'wizard-breadcrumbs__separator';
           separator.textContent = '›';
@@ -995,44 +1007,31 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       });
     }
 
-    function updateBreadcrumbForFlow(flowId, previousFlowId = null) {
-      const currentTrail = breadcrumbState.trail.length > 0 ? breadcrumbState.trail : ['start'];
-      if (!flowId) {
-        setBreadcrumbTrail(['start']);
-        return;
-      }
-      if (flowId === 'decide') {
-        setBreadcrumbTrail(['start', 'decide']);
-        return;
-      }
-      if (flowId === 'sliders') {
-        const carry = currentTrail.filter((id) => id !== 'sliders');
-        const baseTrail = carry.length > 0 ? carry : ['start'];
-        setBreadcrumbTrail([...baseTrail, 'sliders']);
-        return;
-      }
-      const fromDecide = previousFlowId === 'decide' || currentTrail.includes('decide');
-      const trail = fromDecide ? ['start', 'decide', flowId] : ['start', flowId];
-      setBreadcrumbTrail(trail);
-    }
-
     function handleBreadcrumbClick(targetId) {
       if (targetId === 'start') {
         wizardState.flowId = null;
         resetWizardResult();
         setSlidersVisibility(false);
         goToWizardStep('welcome');
-        setBreadcrumbTrail(['start']);
+        setPredictedQuizFlow('beginner');
+        renderBreadcrumbs();
         return;
       }
       if (targetId === 'sliders') {
         wizardState.flowId = 'sliders';
         setSlidersVisibility(true);
         goToWizardStep('welcome');
-        updateBreadcrumbForFlow('sliders');
+        renderBreadcrumbs();
         return;
       }
-      handleFlowSelection(targetId);
+      if (targetId === 'decide') {
+        handleFlowSelection('decide');
+        return;
+      }
+      if (quizFlowIds.includes(targetId)) {
+        setPredictedQuizFlow(targetId);
+        handleFlowSelection(targetId);
+      }
     }
 
     function loadStoredWizardAnswers() {
@@ -1432,6 +1431,12 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       resultEl.innerHTML = `${scoreMessage}`;
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
+      const recommended = levelJumpRules.find(rule => questionsCorrect >= rule.min && questionsCorrect <= rule.max);
+      if (recommended) {
+        setPredictedQuizFlow(recommended.flowId);
+      } else {
+        setPredictedQuizFlow('beginner');
+      }
       renderLevelRecommendationButton(questionsCorrect);
     }
 
@@ -1734,28 +1739,31 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       clearWizardUi();
       setSlidersVisibility(false);
       goToWizardStep('welcome');
-      setBreadcrumbTrail(['start']);
+      setPredictedQuizFlow('beginner');
+      renderBreadcrumbs();
     }
 
     function handleFlowSelection(flowId) {
-      const previousFlowId = wizardState.flowId;
       const flow = getFlowById(flowId);
       if (!flow) return;
       if (flow.kind === 'sliders') {
         wizardState.flowId = flowId;
         setSlidersVisibility(true);
         goToWizardStep('welcome');
-        updateBreadcrumbForFlow(flowId, previousFlowId);
+        renderBreadcrumbs();
         return;
       }
       setSlidersVisibility(false);
       wizardState.flowId = flowId;
+      if (quizFlowIds.includes(flowId)) {
+        setPredictedQuizFlow(flowId);
+      }
       renderSelectedFlow(flow);
       renderWizardQuestions(flow);
       resetWizardResult();
       goToWizardStep('quiz');
       updateCalibrationPreview();
-      updateBreadcrumbForFlow(flowId, previousFlowId);
+      renderBreadcrumbs();
     }
 
     function handleWizardSubmit() {
@@ -1831,7 +1839,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         wizardState.flowId = 'sliders';
       }
       if (flow.id === 'beginner' || flow.id === 'medium' || flow.id === 'expert') {
-        updateBreadcrumbForFlow('sliders', flow.id);
+        renderBreadcrumbs();
       }
       updateCalibrationPreview();
     }

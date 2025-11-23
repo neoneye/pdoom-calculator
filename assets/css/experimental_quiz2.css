@@ -45,6 +45,22 @@
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
+.wizard-breadcrumbs__button--past {
+  background: rgba(131, 232, 198, 0.18);
+  color: rgba(131, 232, 198, 0.95);
+}
+
+.wizard-breadcrumbs__button--active {
+  background: rgba(131, 232, 198, 0.25);
+  color: rgba(255, 255, 255, 0.95);
+  cursor: default;
+}
+
+.wizard-breadcrumbs__button--future {
+  background: rgba(120, 186, 255, 0.08);
+  color: rgba(230, 235, 255, 0.8);
+}
+
 .wizard-breadcrumbs__button:hover,
 .wizard-breadcrumbs__button:focus-visible {
   background: rgba(120, 186, 255, 0.22);
