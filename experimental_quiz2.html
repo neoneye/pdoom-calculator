@@ -1675,7 +1675,16 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       if (!flow || !resultEl) return;
 
       if (flow.kind === 'knowledge-check') {
+        const submitButton = document.getElementById('wizardSubmitButton');
+        const prevTop = submitButton ? submitButton.getBoundingClientRect().top : null;
         runKnowledgeCheck();
+        if (prevTop !== null && submitButton && typeof window !== 'undefined' && typeof window.scrollBy === 'function') {
+          const newTop = submitButton.getBoundingClientRect().top;
+          const delta = newTop - prevTop;
+          if (Math.abs(delta) > 1) {
+            window.scrollBy(0, delta);
+          }
+        }
         return;
       }
 
