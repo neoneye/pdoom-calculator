@@ -914,41 +914,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       }
     ];
 
-    const knowledgeTiers = [
-      {
-        id: 'novice',
-        label: 'Curious Newcomer',
-        minScore: 0,
-        maxScore: 3,
-        recommendedSpread: 30,
-        description: 'You rely on consumer tools and are still forming intuitions, so the sliders stay wide.'
-      },
-      {
-        id: 'promptExplorer',
-        label: 'Prompt Explorer',
-        minScore: 4,
-        maxScore: 7,
-        recommendedSpread: 22,
-        description: 'You understand alignment basics and prompt craft, so we keep a moderate range.'
-      },
-      {
-        id: 'builder',
-        label: 'Hands-on Builder',
-        minScore: 8,
-        maxScore: 9,
-        recommendedSpread: 15,
-        description: 'You have meaningful ML or agent experience, so tighter uncertainty is reasonable.'
-      },
-      {
-        id: 'engineer',
-        label: 'ML Engineer',
-        minScore: 10,
-        maxScore: 11,
-        recommendedSpread: 8,
-        description: 'You train or align models professionally, so we trust a narrow uncertainty band.'
-      }
-    ];
-
     const CONFIDENCE_HIGH = 20;
     const CONFIDENCE_LOW = 80;
 
@@ -1228,7 +1193,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       });
 
       const calibratedScore = Math.max(0, score - falseSelections);
-      const tier = knowledgeTiers.find(entry => calibratedScore >= entry.minScore && calibratedScore <= entry.maxScore) || knowledgeTiers[knowledgeTiers.length - 1];
       const normalizedScore = knowledgeCheckMaxScore > 0 ? calibratedScore / knowledgeCheckMaxScore : 0;
       const boundedScore = clamp(normalizedScore, 0, 1);
       const confidenceSpread = CONFIDENCE_HIGH + (1 - boundedScore) * (CONFIDENCE_LOW - CONFIDENCE_HIGH);
