@@ -49,7 +49,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           <div class="wizard-selected" id="wizardSelectedFlow"></div>
           <ol class="wizard-question-list" id="wizardQuestionList"></ol>
           <div class="wizard-actions">
-            <button class="secondary-button" type="button" id="wizardBackButton">Back</button>
             <button class="primary-button" type="button" id="wizardSubmitButton">Submit answers</button>
           </div>
           <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
@@ -70,9 +69,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         Choose your best guess for each stage and how uncertain you are (± pts).
       </p>
   
-      <div class="sliders-ui__actions">
-        <button class="secondary-button" type="button" id="slidersBackButton">Back</button>
-      </div>
       <section class="factor-list" id="factorList"></section>
 
       <section class="metrics" id="metrics">
@@ -1741,13 +1737,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       setBreadcrumbTrail(['start']);
     }
 
-    function handleSlidersBack() {
-      setSlidersVisibility(false);
-      wizardState.flowId = null;
-      goToWizardStep('welcome');
-      setBreadcrumbTrail(['start']);
-    }
-
     function handleFlowSelection(flowId) {
       const previousFlowId = wizardState.flowId;
       const flow = getFlowById(flowId);
@@ -1855,15 +1844,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       renderWizardFlowOptions();
       goToWizardStep('welcome');
       renderBreadcrumbs();
-      const backButton = document.getElementById('wizardBackButton');
-      if (backButton) {
-        backButton.addEventListener('click', () => {
-          wizardState.flowId = null;
-          setSlidersVisibility(false);
-          goToWizardStep('welcome');
-          setBreadcrumbTrail(['start']);
-        });
-      }
       const submitButton = document.getElementById('wizardSubmitButton');
       if (submitButton) {
         submitButton.addEventListener('click', handleWizardSubmit);
@@ -2459,10 +2439,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       const submitButton = document.getElementById('submitParametersButton');
       if (submitButton) {
         submitButton.addEventListener('click', submitParameters);
-      }
-      const slidersBackButton = document.getElementById('slidersBackButton');
-      if (slidersBackButton) {
-        slidersBackButton.addEventListener('click', handleSlidersBack);
       }
     }
 
