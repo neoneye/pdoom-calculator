@@ -32,8 +32,8 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
     <section class="knowledge-quiz quiz-wizard" id="levelWizard">
       <header class="wizard-header">
-        <h2>Choose your quiz path</h2>
-        <p class="wizard-intro">
+        <h2 id="wizardHeaderTitle">Choose your quiz path</h2>
+        <p class="wizard-intro" id="wizardHeaderIntro">
           Start by selecting a path: let us decide the right level (recommended) or jump directly into the beginner, medium, or expert quiz.
         </p>
       </header>
@@ -922,6 +922,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     const SLIDER_STORAGE_KEY = 'pdoom-slider-state-v1';
     const SKILL_STORAGE_KEY = 'pdoom-skill-level-v1';
     const SLIDERS_CONTAINER_ID = 'slidersUi';
+    const wizardHeaderDefaults = {
+      title: 'Choose your quiz path',
+      intro: 'Start by selecting a path: let us decide the right level (recommended) or jump directly into the beginner, medium, or expert quiz.'
+    };
     const wizardState = {
       step: 'welcome',
       flowId: null
@@ -1683,6 +1687,39 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       previewEl.hidden = false;
     }
 
+    function formatWizardMeta(flow) {
+      if (!flow) return '';
+      const questionCount = Array.isArray(flow.questions) ? flow.questions.length : null;
+      const questionLabel = typeof questionCount === 'number' && questionCount > 0
+        ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
+        : '';
+      const metaParts = [questionLabel, flow.meta].filter(Boolean);
+      return metaParts.length > 0 ? ` (${metaParts.join(' · ')})` : '';
+    }
+
+    function updateWizardHeader(step, flow) {
+      const titleEl = document.getElementById('wizardHeaderTitle');
+      const introEl = document.getElementById('wizardHeaderIntro');
+      if (!titleEl || !introEl) return;
+
+      if (step === 'welcome' || !flow) {
+        titleEl.textContent = wizardHeaderDefaults.title;
+        introEl.textContent = wizardHeaderDefaults.intro;
+        return;
+      }
+
+      const metaText = formatWizardMeta(flow);
+      if (flow.id === 'decide') {
+        titleEl.textContent = 'Decide the right level';
+        introEl.textContent = `Take the quick knowledge check so we can route you to beginner, medium, or expert${metaText}.`;
+        return;
+      }
+
+      titleEl.textContent = flow.label || wizardHeaderDefaults.title;
+      const description = flow.description || 'Work through this quiz to tune your sliders.';
+      introEl.textContent = `${description}${metaText}`;
+    }
+
     function resetQuizScrollPosition() {
       const quizPanel = document.getElementById('wizardStepQuiz');
       const questionList = document.getElementById('wizardQuestionList');
@@ -1707,6 +1744,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         panel.hidden = !isActive;
         panel.classList.toggle('wizard-panel--active', isActive);
       });
+      updateWizardHeader(step, flow);
       if (step === 'welcome') {
         resetWizardResult();
       }
