@@ -2,6 +2,71 @@
   gap: 1.5rem;
 }
 
+.wizard-breadcrumbs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin: 0 0 1.25rem;
+  padding: 0.7rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(90, 120, 200, 0.35);
+  background: linear-gradient(120deg, rgba(8, 12, 20, 0.94), rgba(4, 7, 14, 0.96));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.wizard-breadcrumbs__list {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.wizard-breadcrumbs__item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(230, 235, 255, 0.85);
+  font-weight: 600;
+}
+
+.wizard-breadcrumbs__button {
+  appearance: none;
+  border: none;
+  background: rgba(120, 186, 255, 0.1);
+  color: inherit;
+  font: inherit;
+  padding: 0.35rem 0.65rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.wizard-breadcrumbs__button:hover,
+.wizard-breadcrumbs__button:focus-visible {
+  background: rgba(120, 186, 255, 0.22);
+  color: rgba(255, 255, 255, 0.95);
+  outline: none;
+}
+
+.wizard-breadcrumbs__button[aria-current="page"] {
+  cursor: default;
+  background: rgba(131, 232, 198, 0.15);
+  color: rgba(131, 232, 198, 0.95);
+}
+
+.wizard-breadcrumbs__button[disabled] {
+  opacity: 0.9;
+}
+
+.wizard-breadcrumbs__separator {
+  color: rgba(230, 235, 255, 0.5);
+  font-weight: 500;
+}
+
 .wizard-header {
   display: flex;
   flex-direction: column;

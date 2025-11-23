@@ -26,6 +26,9 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 -->
 <main>
     <h1>P(doom) Calculator</h1>
+    <nav class="wizard-breadcrumbs" aria-label="Quiz progress">
+      <ol class="wizard-breadcrumbs__list" id="wizardBreadcrumbs"></ol>
+    </nav>
 
     <section class="knowledge-quiz quiz-wizard" id="levelWizard">
       <header class="wizard-header">
@@ -927,6 +930,17 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       step: 'welcome',
       flowId: null
     };
+    const breadcrumbLabels = {
+      start: 'Start',
+      decide: 'Decide for me',
+      beginner: 'Beginner quiz',
+      medium: 'Medium quiz',
+      expert: 'Expert quiz',
+      sliders: 'Sliders'
+    };
+    const breadcrumbState = {
+      trail: ['start']
+    };
     let storedWizardAnswers = {};
     let storedSliderState = {};
 
@@ -941,6 +955,88 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
     function getFlowById(flowId) {
       return quizFlows.find(flow => flow.id === flowId) || null;
+    }
+
+    function setBreadcrumbTrail(trail) {
+      const normalized = ['start'];
+      const incoming = Array.isArray(trail) ? trail : [];
+      incoming.forEach((id) => {
+        if (!breadcrumbLabels[id]) return;
+        if (normalized.includes(id)) return;
+        normalized.push(id);
+      });
+      breadcrumbState.trail = normalized;
+      renderBreadcrumbs();
+    }
+
+    function renderBreadcrumbs() {
+      const list = document.getElementById('wizardBreadcrumbs');
+      if (!list) return;
+      const trail = breadcrumbState.trail.length > 0 ? breadcrumbState.trail : ['start'];
+      list.innerHTML = '';
+      trail.forEach((id, index) => {
+        const item = document.createElement('li');
+        item.className = 'wizard-breadcrumbs__item';
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'wizard-breadcrumbs__button';
+        button.textContent = breadcrumbLabels[id] || id;
+        const isCurrent = index === trail.length - 1;
+        if (isCurrent) {
+          button.setAttribute('aria-current', 'page');
+          button.disabled = true;
+        } else {
+          button.addEventListener('click', () => handleBreadcrumbClick(id));
+        }
+        item.appendChild(button);
+        if (!isCurrent) {
+          const separator = document.createElement('span');
+          separator.className = 'wizard-breadcrumbs__separator';
+          separator.textContent = '›';
+          item.appendChild(separator);
+        }
+        list.appendChild(item);
+      });
+    }
+
+    function updateBreadcrumbForFlow(flowId, previousFlowId = null) {
+      const currentTrail = breadcrumbState.trail.length > 0 ? breadcrumbState.trail : ['start'];
+      if (!flowId) {
+        setBreadcrumbTrail(['start']);
+        return;
+      }
+      if (flowId === 'decide') {
+        setBreadcrumbTrail(['start', 'decide']);
+        return;
+      }
+      if (flowId === 'sliders') {
+        const carry = currentTrail.filter((id) => id !== 'sliders');
+        const baseTrail = carry.length > 0 ? carry : ['start'];
+        setBreadcrumbTrail([...baseTrail, 'sliders']);
+        return;
+      }
+      const fromDecide = previousFlowId === 'decide' || currentTrail.includes('decide');
+      const trail = fromDecide ? ['start', 'decide', flowId] : ['start', flowId];
+      setBreadcrumbTrail(trail);
+    }
+
+    function handleBreadcrumbClick(targetId) {
+      if (targetId === 'start') {
+        wizardState.flowId = null;
+        resetWizardResult();
+        setSlidersVisibility(false);
+        goToWizardStep('welcome');
+        setBreadcrumbTrail(['start']);
+        return;
+      }
+      if (targetId === 'sliders') {
+        wizardState.flowId = 'sliders';
+        setSlidersVisibility(true);
+        goToWizardStep('welcome');
+        updateBreadcrumbForFlow('sliders');
+        return;
+      }
+      handleFlowSelection(targetId);
     }
 
     function loadStoredWizardAnswers() {
@@ -1642,21 +1738,25 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       clearWizardUi();
       setSlidersVisibility(false);
       goToWizardStep('welcome');
+      setBreadcrumbTrail(['start']);
     }
 
     function handleSlidersBack() {
       setSlidersVisibility(false);
       wizardState.flowId = null;
       goToWizardStep('welcome');
+      setBreadcrumbTrail(['start']);
     }
 
     function handleFlowSelection(flowId) {
+      const previousFlowId = wizardState.flowId;
       const flow = getFlowById(flowId);
       if (!flow) return;
       if (flow.kind === 'sliders') {
         wizardState.flowId = flowId;
         setSlidersVisibility(true);
         goToWizardStep('welcome');
+        updateBreadcrumbForFlow(flowId, previousFlowId);
         return;
       }
       setSlidersVisibility(false);
@@ -1666,6 +1766,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       resetWizardResult();
       goToWizardStep('quiz');
       updateCalibrationPreview();
+      updateBreadcrumbForFlow(flowId, previousFlowId);
     }
 
     function handleWizardSubmit() {
@@ -1740,6 +1841,9 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         setSlidersVisibility(true);
         wizardState.flowId = 'sliders';
       }
+      if (flow.id === 'beginner' || flow.id === 'medium' || flow.id === 'expert') {
+        updateBreadcrumbForFlow('sliders', flow.id);
+      }
       updateCalibrationPreview();
     }
 
@@ -1750,9 +1854,15 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       storedSliderState = loadStoredSliderState();
       renderWizardFlowOptions();
       goToWizardStep('welcome');
+      renderBreadcrumbs();
       const backButton = document.getElementById('wizardBackButton');
       if (backButton) {
-        backButton.addEventListener('click', () => goToWizardStep('welcome'));
+        backButton.addEventListener('click', () => {
+          wizardState.flowId = null;
+          setSlidersVisibility(false);
+          goToWizardStep('welcome');
+          setBreadcrumbTrail(['start']);
+        });
       }
       const submitButton = document.getElementById('wizardSubmitButton');
       if (submitButton) {
