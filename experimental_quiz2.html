@@ -1577,6 +1577,20 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       }
     }
 
+    function resetQuizScrollPosition() {
+      const quizPanel = document.getElementById('wizardStepQuiz');
+      const questionList = document.getElementById('wizardQuestionList');
+      if (quizPanel) {
+        quizPanel.scrollTop = 0;
+      }
+      if (questionList) {
+        questionList.scrollTop = 0;
+      }
+      if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+        window.scrollTo(0, 0);
+      }
+    }
+
     function goToWizardStep(step) {
       const wizardRoot = document.getElementById('levelWizard');
       if (!wizardRoot) return;
@@ -1590,6 +1604,9 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       updateWizardProgress(step, flow);
       if (step === 'welcome') {
         resetWizardResult();
+      }
+      if (step === 'quiz') {
+        resetQuizScrollPosition();
       }
       updateCalibrationPreview();
     }
