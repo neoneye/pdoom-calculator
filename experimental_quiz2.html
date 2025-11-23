@@ -921,6 +921,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     const KEYBOARD_BIG_STEP = 5;
     const WIZARD_STORAGE_KEY = 'pdoom-wizard-answers-v1';
     const SLIDER_STORAGE_KEY = 'pdoom-slider-state-v1';
+    const SKILL_STORAGE_KEY = 'pdoom-skill-level-v1';
     const SLIDERS_CONTAINER_ID = 'slidersUi';
     const wizardState = {
       step: 'welcome',
@@ -952,9 +953,30 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       return quizFlows.find(flow => flow.id === flowId) || null;
     }
 
+    function persistSkillLevel(flowId) {
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.setItem(SKILL_STORAGE_KEY, flowId);
+      } catch (error) {
+        console.warn('Unable to persist skill level', error);
+      }
+    }
+
+    function loadSkillLevel() {
+      if (typeof localStorage === 'undefined') return null;
+      try {
+        const value = localStorage.getItem(SKILL_STORAGE_KEY);
+        return quizFlowIds.includes(value) ? value : null;
+      } catch (error) {
+        console.warn('Unable to load skill level', error);
+        return null;
+      }
+    }
+
     function setPredictedQuizFlow(flowId) {
       const next = quizFlowIds.includes(flowId) ? flowId : 'beginner';
       predictedQuizFlowId = next;
+      persistSkillLevel(next);
       renderBreadcrumbs();
     }
 
@@ -1013,7 +1035,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         resetWizardResult();
         setSlidersVisibility(false);
         goToWizardStep('welcome');
-        setPredictedQuizFlow('beginner');
         renderBreadcrumbs();
         return;
       }
@@ -1739,7 +1760,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       clearWizardUi();
       setSlidersVisibility(false);
       goToWizardStep('welcome');
-      setPredictedQuizFlow('beginner');
       renderBreadcrumbs();
     }
 
@@ -1849,6 +1869,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       if (!wizardRoot) return;
       storedWizardAnswers = loadStoredWizardAnswers();
       storedSliderState = loadStoredSliderState();
+      const savedSkillLevel = loadSkillLevel();
+      if (savedSkillLevel) {
+        predictedQuizFlowId = savedSkillLevel;
+      }
       renderWizardFlowOptions();
       goToWizardStep('welcome');
       renderBreadcrumbs();
