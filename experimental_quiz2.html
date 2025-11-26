@@ -1328,7 +1328,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           item.className = 'quiz-question';
           item.dataset.questionId = question.id;
           const explanationMarkup = question.explanation ? '<p class="quiz-explanation" data-role="rationale" hidden></p>' : '';
-          const questionLinkMarkup = question.link ? `<a class="quiz-question__link" href="${question.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
+          const questionLinkMarkup = question.link ? `<a class="quiz-question__link reference-link" href="${question.link}" target="_blank" rel="noopener noreferrer" aria-label="View reference" title="View reference">?</a>` : '';
           item.innerHTML = `
             <div class="quiz-question__prompt">
               <span class="quiz-question__number">${questionNumber}</span>
@@ -1361,10 +1361,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
         if (question.type === 'multi-select') {
           const item = document.createElement('li');
           item.className = 'wizard-question';
-          const questionLinkMarkup = question.link ? `<a class="wizard-question__link" href="${question.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
+          const questionLinkMarkup = question.link ? `<a class="wizard-question__link reference-link" href="${question.link}" target="_blank" rel="noopener noreferrer" aria-label="View reference" title="View reference">?</a>` : '';
           const optionsMarkup = question.options.map((option, optionIndex) => {
             const optionId = option.id ?? `${inputName}-${optionIndex}`;
-            const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
+            const optionLinkMarkup = option.link ? `<a class="wizard-option__link reference-link" href="${option.link}" target="_blank" rel="noopener noreferrer" aria-label="View reference" title="View reference">?</a>` : '';
             const optionDescriptionMarkup = option.description ? `<p class="wizard-option__description">${option.description}</p>` : '';
             return `
               <label class="wizard-checkbox">
@@ -1397,10 +1397,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
         const item = document.createElement('li');
         item.className = 'wizard-question';
-        const questionLinkMarkup = question.link ? `<a class="wizard-question__link" href="${question.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
+        const questionLinkMarkup = question.link ? `<a class="wizard-question__link reference-link" href="${question.link}" target="_blank" rel="noopener noreferrer" aria-label="View reference" title="View reference">?</a>` : '';
         const optionsMarkup = question.options.map((option, optionIndex) => {
           const optionId = option.id ?? `${inputName}-${optionIndex}`;
-          const optionLinkMarkup = option.link ? `<a class="wizard-option__link" href="${option.link}" target="_blank" rel="noopener noreferrer">View reference</a>` : '';
+          const optionLinkMarkup = option.link ? `<a class="wizard-option__link reference-link" href="${option.link}" target="_blank" rel="noopener noreferrer" aria-label="View reference" title="View reference">?</a>` : '';
           const optionDescriptionMarkup = option.description ? `<p class="wizard-option__description">${option.description}</p>` : '';
           return `
             <label class="wizard-radio">
