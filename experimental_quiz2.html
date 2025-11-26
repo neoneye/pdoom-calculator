@@ -942,6 +942,25 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
                 link: 'https://www.redwoodresearch.org/'
               }
             ]
+          },
+          {
+            id: 'expert-commentators',
+            prompt: 'Which of these "Commentators" are you familiar with? (Select all that apply.)',
+            type: 'multi-select',
+            options: [
+              {
+                id: 'expert-commentators-doom-debates',
+                label: 'Doom Debates',
+                description: 'Raise mainstream awareness of imminent extinction from AGI. Build social infrastructure for high-quality debate.',
+                link: 'https://www.youtube.com/@doomdebates'
+              },
+              {
+                id: 'expert-commentators-dont-worry-about-the-vase',
+                label: 'Don\'t Worry About the Vase',
+                description: 'Covers catastrophic and existential risk from AI.',
+                link: 'https://thezvi.substack.com/'
+              }
+            ]
           }
         ]
       },
@@ -1661,7 +1680,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     }
 
     // Expert calibration logic:
-    // - Knowledge score averages coverage from five multi-selects (continuous learning, self improvement, self replication, campaign organisations, research organisations).
+    // - Knowledge score averages coverage from six multi-selects (continuous learning, self improvement, self replication, campaign organisations, research organisations, commentators).
     // - Spread interpolates from ±80 (low knowledge) down to ±20 (high knowledge).
     // - Midpoint interpolates from 0 to 100 (more informed → higher midpoint about risks).
     function getExpertKnowledgeScore(selections) {
@@ -1670,8 +1689,9 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       const replication = selections.find(entry => entry.question.id === 'expert-self-replication');
       const campaigns = selections.find(entry => entry.question.id === 'expert-campaign-organisations');
       const research = selections.find(entry => entry.question.id === 'expert-research-organisations');
+      const commentators = selections.find(entry => entry.question.id === 'expert-commentators');
 
-      const ratios = [continuous, improvement, replication, campaigns, research].map((entry) => {
+      const ratios = [continuous, improvement, replication, campaigns, research, commentators].map((entry) => {
         if (!entry) return 0;
         const total = entry.question.options.length;
         const selected = entry.options.length;
