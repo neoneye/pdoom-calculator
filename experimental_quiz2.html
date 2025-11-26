@@ -898,6 +898,31 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
                 link: 'https://en.wikipedia.org/wiki/Von_Neumann_probe'
               }
             ]
+          },
+          {
+            id: 'expert-campaign-organisations',
+            prompt: 'Which of these "Campaigns Organisations" are you familiar with? (Select all that apply.)',
+            type: 'multi-select',
+            options: [
+              {
+                id: 'expert-campaign-organisations-pauseai',
+                label: 'PauseAI',
+                description: 'We demand politicians and companies pause AGI development until international safety agreements are established.',
+                link: 'https://pauseai.info/'
+              },
+              {
+                id: 'expert-campaign-organisations-controlai',
+                label: 'ControlAI',
+                description: 'Reduce the risks to humanity from AI.',
+                link: 'https://controlai.com/'
+              },
+              {
+                id: 'expert-campaign-organisations-microcommit',
+                label: 'Microcommit',
+                description: 'A global coordination deal to deal with catastrophic risks from AI.',
+                link: 'https://microcommit.io/'
+              }
+            ]
           }
         ]
       },
@@ -1617,15 +1642,16 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     }
 
     // Expert calibration logic:
-    // - Knowledge score averages coverage from three multi-selects (continuous learning, self improvement, self replication).
+    // - Knowledge score averages coverage from four multi-selects (continuous learning, self improvement, self replication, campaign organisations).
     // - Spread interpolates from ±80 (low knowledge) down to ±20 (high knowledge).
     // - Midpoint interpolates from 0 to 100 (more informed → higher midpoint about risks).
     function getExpertKnowledgeScore(selections) {
       const continuous = selections.find(entry => entry.question.id === 'expert-continuous-learning');
       const improvement = selections.find(entry => entry.question.id === 'expert-self-improvement');
       const replication = selections.find(entry => entry.question.id === 'expert-self-replication');
+      const campaigns = selections.find(entry => entry.question.id === 'expert-campaign-organisations');
 
-      const ratios = [continuous, improvement, replication].map((entry) => {
+      const ratios = [continuous, improvement, replication, campaigns].map((entry) => {
         if (!entry) return 0;
         const total = entry.question.options.length;
         const selected = entry.options.length;
