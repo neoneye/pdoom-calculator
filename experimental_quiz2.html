@@ -923,6 +923,25 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
                 link: 'https://microcommit.io/'
               }
             ]
+          },
+          {
+            id: 'expert-research-organisations',
+            prompt: 'Which of these "Research Organisations" are you familiar with? (Select all that apply.)',
+            type: 'multi-select',
+            options: [
+              {
+                id: 'expert-research-organisations-aisi',
+                label: 'Artificial Intelligence Security Institute (UK)',
+                description: 'Equipping governments with a scientific understanding of advanced AI risks.',
+                link: 'https://www.aisi.gov.uk/'
+              },
+              {
+                id: 'expert-research-organisations-redwood-research',
+                label: 'Redwood Research',
+                description: 'Pioneering threat assessment and mitigation for AI systems.',
+                link: 'https://www.redwoodresearch.org/'
+              }
+            ]
           }
         ]
       },
@@ -1642,7 +1661,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     }
 
     // Expert calibration logic:
-    // - Knowledge score averages coverage from four multi-selects (continuous learning, self improvement, self replication, campaign organisations).
+    // - Knowledge score averages coverage from five multi-selects (continuous learning, self improvement, self replication, campaign organisations, research organisations).
     // - Spread interpolates from ±80 (low knowledge) down to ±20 (high knowledge).
     // - Midpoint interpolates from 0 to 100 (more informed → higher midpoint about risks).
     function getExpertKnowledgeScore(selections) {
@@ -1650,8 +1669,9 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       const improvement = selections.find(entry => entry.question.id === 'expert-self-improvement');
       const replication = selections.find(entry => entry.question.id === 'expert-self-replication');
       const campaigns = selections.find(entry => entry.question.id === 'expert-campaign-organisations');
+      const research = selections.find(entry => entry.question.id === 'expert-research-organisations');
 
-      const ratios = [continuous, improvement, replication, campaigns].map((entry) => {
+      const ratios = [continuous, improvement, replication, campaigns, research].map((entry) => {
         if (!entry) return 0;
         const total = entry.question.options.length;
         const selected = entry.options.length;
