@@ -1347,8 +1347,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       const questionList = document.getElementById('wizardQuestionList');
       if (!questionList) return;
       questionList.innerHTML = '';
+      const showQuestionNumbers = flow.questions.length > 1;
       flow.questions.forEach((question, index) => {
-        const questionNumber = String(index + 1).padStart(2, '0');
+        const questionNumber = showQuestionNumbers ? String(index + 1).padStart(2, '0') : '';
+        const questionNumberMarkup = showQuestionNumbers ? `<span class="quiz-question__number">${questionNumber}</span>` : '';
         const inputName = getQuestionInputName(flow, question);
         if (flow.kind === 'knowledge-check' && question.type === 'multi-select') {
           const item = document.createElement('li');
@@ -1358,7 +1360,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           const questionLinkMarkup = question.link ? `<a class="quiz-question__link reference-link" href="${question.link}" target="_blank" rel="noopener noreferrer" aria-label="View reference" title="View reference">?</a>` : '';
           item.innerHTML = `
             <div class="quiz-question__prompt">
-              <span class="quiz-question__number">${questionNumber}</span>
+              ${questionNumberMarkup}
               <div class="quiz-question__text">
                 <div class="quiz-question__headline">${question.prompt}</div>
                 ${question.instructions ? `<div class="quiz-question__instructions">${question.instructions}</div>` : ''}
@@ -1406,9 +1408,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
               </label>
             `;
           }).join('');
+          const wizardQuestionNumberMarkup = showQuestionNumbers ? `<span class="wizard-question__number">${questionNumber}</span>` : '';
           item.innerHTML = `
             <div class="wizard-question__prompt">
-              <span class="wizard-question__number">${questionNumber}</span>
+              ${wizardQuestionNumberMarkup}
               <div class="wizard-question__text">
                 <p class="wizard-question__label">${question.prompt}</p>
                 ${questionLinkMarkup}
@@ -1442,9 +1445,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
             </label>
           `;
         }).join('');
+        const wizardQuestionNumberMarkup2 = showQuestionNumbers ? `<span class="wizard-question__number">${questionNumber}</span>` : '';
         item.innerHTML = `
           <div class="wizard-question__prompt">
-            <span class="wizard-question__number">${questionNumber}</span>
+            ${wizardQuestionNumberMarkup2}
             <div class="wizard-question__text">
               <p class="wizard-question__label">${question.prompt}</p>
               ${questionLinkMarkup}
