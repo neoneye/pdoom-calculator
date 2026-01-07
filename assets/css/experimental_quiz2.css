@@ -309,6 +309,7 @@
   background: rgba(10, 14, 22, 0.8);
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease;
+  user-select: none; /* Prevent accidental text selection on desktop */
 }
 
 .wizard-radio:hover,
@@ -535,6 +536,7 @@
     border-radius: 8px;
     gap: 0.5rem;
     min-height: 44px; /* iOS minimum tap target */
+    user-select: auto; /* Re-enable text selection on mobile for long-press */
   }
 
   .wizard-radio input,
