@@ -556,6 +556,11 @@
 
   .wizard-option__content {
     gap: 0.5rem;
+    align-items: center; /* Vertically center text in options */
+  }
+
+  .wizard-option__text {
+    justify-content: center;
   }
 
   /* Reference links - good tap size */
