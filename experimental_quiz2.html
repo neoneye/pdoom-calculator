@@ -29,6 +29,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
     <div class="sticky-header">
       <nav class="wizard-breadcrumbs" aria-label="Quiz progress">
         <ol class="wizard-breadcrumbs__list" id="wizardBreadcrumbs"></ol>
+        <div class="sticky-pdoom" id="stickyPdoom" hidden>
+          <span class="sticky-pdoom__label">P(doom)</span>
+          <span class="sticky-pdoom__value" id="stickyPdoomValue">–</span>
+        </div>
       </nav>
 
       <div class="quiz-preview" id="quizPreview" hidden>
@@ -1925,6 +1929,10 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
       if (wizardRoot) {
         wizardRoot.hidden = visible;
       }
+      const stickyPdoom = document.getElementById('stickyPdoom');
+      if (stickyPdoom) {
+        stickyPdoom.hidden = !visible;
+      }
       if (!container) return;
       const wasHidden = container.hidden;
       container.hidden = !visible;
@@ -2322,6 +2330,7 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 
       document.getElementById('range').textContent = `${formatPercent(lowerProduct)} → ${formatPercent(upperProduct)}`;
       document.getElementById('midpointEstimate').textContent = formatPercent(midpointProduct);
+      document.getElementById('stickyPdoomValue').textContent = formatPercent(midpointProduct);
 
       updateUncertaintyDriver(factors);
 
