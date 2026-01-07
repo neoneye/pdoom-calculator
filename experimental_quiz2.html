@@ -26,9 +26,19 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
 -->
 <main>
     <h1>P(doom) Calculator</h1>
-    <nav class="wizard-breadcrumbs" aria-label="Quiz progress">
-      <ol class="wizard-breadcrumbs__list" id="wizardBreadcrumbs"></ol>
-    </nav>
+    <div class="sticky-header">
+      <nav class="wizard-breadcrumbs" aria-label="Quiz progress">
+        <ol class="wizard-breadcrumbs__list" id="wizardBreadcrumbs"></ol>
+      </nav>
+
+      <div class="quiz-preview" id="quizPreview" hidden>
+        <div class="quiz-preview__title" id="quizPreviewTitle">Calibration preview</div>
+        <div class="quiz-preview__values">
+          <span>Midpoint: <strong id="quizPreviewMidpoint">–</strong></span>
+          <span>Spread: <strong id="quizPreviewSpread">–</strong></span>
+        </div>
+      </div>
+    </div>
 
     <section class="knowledge-quiz quiz-wizard" id="levelWizard">
       <header class="wizard-header">
@@ -52,13 +62,6 @@ Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to
           </div>
           <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
           <div class="quiz-result-actions" id="wizardResultActions" hidden></div>
-          <div class="quiz-preview" id="quizPreview" hidden>
-            <div class="quiz-preview__title" id="quizPreviewTitle">Calibration preview</div>
-            <div class="quiz-preview__values">
-              <span>Midpoint: <strong id="quizPreviewMidpoint">–</strong></span>
-              <span>Spread: <strong id="quizPreviewSpread">–</strong></span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
