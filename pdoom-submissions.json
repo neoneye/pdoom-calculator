@@ -1,0 +1,3558 @@
+{
+  "source": "https://github.com/neoneye/pdoom-calculator",
+  "exported_at": "2026-03-09T13:13:35.878Z",
+  "summary": {
+    "total_submissions": 98,
+    "average_pdoom": 0.28729261237677695,
+    "factors": [
+      {
+        "label": "P(powerful AI)",
+        "average_lower": 0.47748111352503836,
+        "average_midpoint": 0.7223717073672521,
+        "average_upper": 0.8975411530250645
+      },
+      {
+        "label": "P(dangerous behavior | powerful AI)",
+        "average_lower": 0.3778669244323353,
+        "average_midpoint": 0.6188069591089462,
+        "average_upper": 0.8373775502471957
+      },
+      {
+        "label": "P(global catastrophe | dangerous behavior)",
+        "average_lower": 0.3101885726484625,
+        "average_midpoint": 0.5314780228605372,
+        "average_upper": 0.7750483354388128
+      }
+    ]
+  },
+  "submissions": [
+    {
+      "submitted_at": "2025-10-05T14:21:20.628+00:00",
+      "summary": {
+        "p10": 0.27684828353714475,
+        "p90": 0.6542731645482964,
+        "lower": 0.14985,
+        "upper": 1,
+        "midpoint": 0.7494305
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.675,
+          "upper": 1,
+          "spread": 0.305,
+          "midpoint": 0.98
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.555,
+          "upper": 1,
+          "spread": 0.35,
+          "midpoint": 0.905
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 1,
+          "spread": 0.445,
+          "midpoint": 0.845
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-05T14:46:41.548+00:00",
+      "summary": {
+        "p10": 0.03839287342169703,
+        "p90": 0.4535546550482088,
+        "lower": 0,
+        "upper": 0.835,
+        "midpoint": 0.2646
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.635,
+          "upper": 0.835,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.735
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.88,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.225,
+          "upper": 1,
+          "spread": 0.495,
+          "midpoint": 0.72
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-05T15:56:54.224+00:00",
+      "summary": {
+        "p10": 0.04397701490269574,
+        "p90": 0.4228136584531981,
+        "lower": 0,
+        "upper": 0.645,
+        "midpoint": 0.19845000000000002
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.8,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.9
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.645,
+          "spread": 0.4,
+          "midpoint": 0.245
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.6,
+          "upper": 1,
+          "spread": 0.3,
+          "midpoint": 0.9
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-06T00:31:13.885+00:00",
+      "summary": {
+        "p10": 0.048969538998790085,
+        "p90": 0.4504517224850133,
+        "lower": 0,
+        "upper": 0.5,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.5,
+          "spread": 0.5,
+          "midpoint": 0
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-06T01:25:36.274+00:00",
+      "summary": {
+        "p10": 0.35121140676887297,
+        "p90": 0.751544040364205,
+        "lower": 0.26371249999999996,
+        "upper": 0.91675,
+        "midpoint": 0.568575
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.85,
+          "upper": 0.95,
+          "spread": 0.05,
+          "midpoint": 0.9
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.365,
+          "upper": 0.965,
+          "spread": 0.3,
+          "midpoint": 0.665
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.85,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.95
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-06T03:10:52.514+00:00",
+      "summary": {
+        "p10": 0.6698143326641445,
+        "p90": 0.7265389682140374,
+        "lower": 0.6498,
+        "upper": 0.7480000000000001,
+        "midpoint": 0.7160000000000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.95,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.8,
+          "upper": 0.8,
+          "spread": 0,
+          "midpoint": 0.8
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.855,
+          "upper": 0.935,
+          "spread": 0.04,
+          "midpoint": 0.895
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-06T05:32:07.565+00:00",
+      "summary": {
+        "p10": 0.29269304743494784,
+        "p90": 0.5390997066334975,
+        "lower": 0.20625000000000002,
+        "upper": 0.7124999999999999,
+        "midpoint": 0.46962499999999996
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5,
+          "upper": 1,
+          "spread": 0.35,
+          "midpoint": 0.85
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.55,
+          "upper": 0.75,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.65
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.75,
+          "upper": 0.95,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.85
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-06T15:10:08.185+00:00",
+      "summary": {
+        "p10": 0.0005454326222816839,
+        "p90": 0.0022834832358074055,
+        "lower": 0.000266,
+        "upper": 0.0030380000000000003,
+        "midpoint": 0.0014000000000000002
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.07,
+          "upper": 0.07,
+          "spread": 0,
+          "midpoint": 0.07
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.19,
+          "upper": 0.31,
+          "spread": 0.06,
+          "midpoint": 0.25
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.02,
+          "upper": 0.14,
+          "spread": 0.06,
+          "midpoint": 0.08
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-06T18:28:31.128+00:00",
+      "summary": {
+        "p10": 0.00821903836628044,
+        "p90": 0.035191418577951265,
+        "lower": 0.0028750000000000013,
+        "upper": 0.058124999999999996,
+        "midpoint": 0.02025
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.10000000000000002,
+          "upper": 0.3,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.2
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.575,
+          "upper": 0.775,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.675
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.05000000000000002,
+          "upper": 0.25,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.15
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T00:08:26.593+00:00",
+      "summary": {
+        "p10": 0.6177848135918893,
+        "p90": 0.6980971660504927,
+        "lower": 0.5860400000000001,
+        "upper": 0.735,
+        "midpoint": 0.6583499999999999
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.65,
+          "upper": 0.75,
+          "spread": 0.05,
+          "midpoint": 0.7
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.92,
+          "upper": 0.98,
+          "spread": 0.03,
+          "midpoint": 0.95
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.98,
+          "upper": 1,
+          "spread": 0.01,
+          "midpoint": 0.99
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T02:40:51.945+00:00",
+      "summary": {
+        "p10": 0.9530275472438989,
+        "p90": 0.9821432137511793,
+        "lower": 0.9363409999999999,
+        "upper": 1,
+        "midpoint": 0.9751995
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.985,
+          "upper": 1,
+          "spread": 0.01,
+          "midpoint": 0.995
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.97,
+          "upper": 1,
+          "spread": 0.02,
+          "midpoint": 0.99
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.98,
+          "upper": 1,
+          "spread": 0.01,
+          "midpoint": 0.99
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T13:50:46.854+00:00",
+      "summary": {
+        "p10": 1,
+        "p90": 1,
+        "lower": 1,
+        "upper": 1,
+        "midpoint": 1
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T14:09:01.085+00:00",
+      "summary": {
+        "p10": 0.023803426422940727,
+        "p90": 0.22566371726873954,
+        "lower": 0,
+        "upper": 0.36,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T14:17:42.506+00:00",
+      "summary": {
+        "p10": 0.1013484237065813,
+        "p90": 0.2016762482422418,
+        "lower": 0.06947875,
+        "upper": 0.26625,
+        "midpoint": 0.15166125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.815,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.915
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.55,
+          "upper": 0.75,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.65
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.15500000000000003,
+          "upper": 0.355,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.255
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T14:40:49.314+00:00",
+      "summary": {
+        "p10": 0,
+        "p90": 0,
+        "lower": 0,
+        "upper": 0,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0,
+          "spread": 0,
+          "midpoint": 0
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0,
+          "spread": 0,
+          "midpoint": 0
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T14:42:55.007+00:00",
+      "summary": {
+        "p10": 0.0032583994979784895,
+        "p90": 0.08978237707185156,
+        "lower": 0,
+        "upper": 0.17020000000000002,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.845,
+          "upper": 1,
+          "spread": 0.155,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.37,
+          "spread": 0.37,
+          "midpoint": 0
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.46,
+          "spread": 0.46,
+          "midpoint": 0
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T14:42:58.066+00:00",
+      "summary": {
+        "p10": 0.0032583994979784895,
+        "p90": 0.08978237707185156,
+        "lower": 0,
+        "upper": 0.17020000000000002,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.845,
+          "upper": 1,
+          "spread": 0.155,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.37,
+          "spread": 0.37,
+          "midpoint": 0
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.46,
+          "spread": 0.46,
+          "midpoint": 0
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T14:42:59.118+00:00",
+      "summary": {
+        "p10": 0.0032583994979784895,
+        "p90": 0.08978237707185156,
+        "lower": 0,
+        "upper": 0.17020000000000002,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.845,
+          "upper": 1,
+          "spread": 0.155,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.37,
+          "spread": 0.37,
+          "midpoint": 0
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.46,
+          "spread": 0.46,
+          "midpoint": 0
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T14:43:00.038+00:00",
+      "summary": {
+        "p10": 0.0032583994979784895,
+        "p90": 0.08978237707185156,
+        "lower": 0,
+        "upper": 0.17020000000000002,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.845,
+          "upper": 1,
+          "spread": 0.155,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.37,
+          "spread": 0.37,
+          "midpoint": 0
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.46,
+          "spread": 0.46,
+          "midpoint": 0
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T15:13:37.33+00:00",
+      "summary": {
+        "p10": 0.005950743148296544,
+        "p90": 0.185919122401148,
+        "lower": 0,
+        "upper": 0.411336,
+        "midpoint": 0.028591875000000003
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 0.87,
+          "spread": 0.545,
+          "midpoint": 0.325
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.545,
+          "upper": 0.985,
+          "spread": 0.22,
+          "midpoint": 0.765
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.48,
+          "spread": 0.365,
+          "midpoint": 0.115
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T15:32:24.109+00:00",
+      "summary": {
+        "p10": 0.01305711619968537,
+        "p90": 0.3602302833049667,
+        "lower": 0,
+        "upper": 0.68,
+        "midpoint": 0.0975
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.85,
+          "upper": 1,
+          "spread": 0.15,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.77,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.68,
+          "spread": 0.485,
+          "midpoint": 0.195
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T16:00:33.408+00:00",
+      "summary": {
+        "p10": 0.06917761739081779,
+        "p90": 0.6542020927310129,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.10837499999999999
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7,
+          "upper": 1,
+          "spread": 0.15,
+          "midpoint": 0.85
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.7,
+          "upper": 1,
+          "spread": 0.15,
+          "midpoint": 0.85
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.85,
+          "midpoint": 0.15
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T17:20:40.565+00:00",
+      "summary": {
+        "p10": 0,
+        "p90": 0,
+        "lower": 0,
+        "upper": 0,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5,
+          "upper": 0.7,
+          "spread": 0.1,
+          "midpoint": 0.6
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0,
+          "spread": 0,
+          "midpoint": 0
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T18:26:29.675+00:00",
+      "summary": {
+        "p10": 0.0026470133736778497,
+        "p90": 0.0885197759541317,
+        "lower": 0,
+        "upper": 0.24499999999999997,
+        "midpoint": 0.009000000000000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.2,
+          "upper": 1,
+          "spread": 0.7,
+          "midpoint": 0.9
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.7,
+          "spread": 0.6,
+          "midpoint": 0.1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.35,
+          "spread": 0.25,
+          "midpoint": 0.1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T19:53:51.566+00:00",
+      "summary": {
+        "p10": 0.004801613597672242,
+        "p90": 0.3252763698558234,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.02145
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.6
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.65
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.055
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T20:01:54.841+00:00",
+      "summary": {
+        "p10": 0.1423690236333655,
+        "p90": 0.5333961437763142,
+        "lower": 0.048,
+        "upper": 1,
+        "midpoint": 0.6480000000000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.3,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.8
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.9
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.9
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T22:13:27.27+00:00",
+      "summary": {
+        "p10": 0.018255690932490663,
+        "p90": 0.36651299628730744,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.315
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.15,
+          "upper": 1,
+          "spread": 0.55,
+          "midpoint": 0.7
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.1,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.6
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.75,
+          "midpoint": 0.75
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-07T22:13:29.821+00:00",
+      "summary": {
+        "p10": 0.018255690932490663,
+        "p90": 0.36651299628730744,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.315
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.15,
+          "upper": 1,
+          "spread": 0.55,
+          "midpoint": 0.7
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.1,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.6
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.75,
+          "midpoint": 0.75
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-08T03:46:24.529+00:00",
+      "summary": {
+        "p10": 0.014647733510686017,
+        "p90": 0.18668607628402553,
+        "lower": 0,
+        "upper": 0.4,
+        "midpoint": 0.036
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.8,
+          "spread": 0.2,
+          "midpoint": 0.6
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.2,
+          "upper": 1,
+          "spread": 0.4,
+          "midpoint": 0.6
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.5,
+          "spread": 0.4,
+          "midpoint": 0.1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-08T06:40:15.503+00:00",
+      "summary": {
+        "p10": 0.033893206806671496,
+        "p90": 0.15941095603969063,
+        "lower": 0.009,
+        "upper": 0.315,
+        "midpoint": 0.135
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.2,
+          "upper": 1,
+          "spread": 0.7,
+          "midpoint": 0.9
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.3,
+          "upper": 0.9,
+          "spread": 0.3,
+          "midpoint": 0.6
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.15,
+          "upper": 0.35,
+          "spread": 0.1,
+          "midpoint": 0.25
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-09T08:22:07.988+00:00",
+      "summary": {
+        "p10": 0.1937145037564535,
+        "p90": 0.27068372531980334,
+        "lower": 0.15661250000000002,
+        "upper": 0.32625,
+        "midpoint": 0.2377375
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.335,
+          "upper": 0.435,
+          "spread": 0.05,
+          "midpoint": 0.385
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.85,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.95
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.55,
+          "upper": 0.75,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.65
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-10T04:34:36.613+00:00",
+      "summary": {
+        "p10": 0.03835691860802902,
+        "p90": 0.5859302705444009,
+        "lower": 0,
+        "upper": 0.98,
+        "midpoint": 0.441
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.98,
+          "upper": 0.98,
+          "spread": 0,
+          "midpoint": 0.98
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.94,
+          "midpoint": 0.75
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.1,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.6
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-10T07:41:02.402+00:00",
+      "summary": {
+        "p10": 0.00006336329343828231,
+        "p90": 0.004292428295709909,
+        "lower": 0,
+        "upper": 0.013196249999999998,
+        "midpoint": 0.00007500000000000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 0.255,
+          "spread": 0.205,
+          "midpoint": 0.05
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.45,
+          "spread": 0.35,
+          "midpoint": 0.1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.11499999999999998,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.015
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-15T14:00:26.579+00:00",
+      "summary": {
+        "p10": 0.00504736085403715,
+        "p90": 0.04456662904039814,
+        "lower": 0,
+        "upper": 0.05,
+        "midpoint": 0.01
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.05,
+          "spread": 0.04,
+          "midpoint": 0.01
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.99,
+          "upper": 1,
+          "spread": 0.01,
+          "midpoint": 1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-16T07:36:47.349+00:00",
+      "summary": {
+        "p10": 0.39958756946669016,
+        "p90": 0.553497561496231,
+        "lower": 0.36839,
+        "upper": 0.591,
+        "midpoint": 0.4851125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.935,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.985
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.985,
+          "upper": 0.985,
+          "spread": 0,
+          "midpoint": 0.985
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-16T17:31:29.697+00:00",
+      "summary": {
+        "p10": 0.024110339423388583,
+        "p90": 0.226440113826963,
+        "lower": 0,
+        "upper": 0.36,
+        "midpoint": 0.25
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-17T15:23:00.601+00:00",
+      "summary": {
+        "p10": 0.23761831548279247,
+        "p90": 0.5765932391372437,
+        "lower": 0.1261575,
+        "upper": 0.88,
+        "midpoint": 0.4832000000000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.63,
+          "upper": 0.88,
+          "spread": 0.125,
+          "midpoint": 0.755
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.445,
+          "upper": 1,
+          "spread": 0.355,
+          "midpoint": 0.8
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.45,
+          "upper": 1,
+          "spread": 0.35,
+          "midpoint": 0.8
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-17T15:36:10.641+00:00",
+      "summary": {
+        "p10": 0.49792530644313654,
+        "p90": 0.7760674229030913,
+        "lower": 0.36925349999999996,
+        "upper": 1,
+        "midpoint": 0.739575
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.695,
+          "upper": 1,
+          "spread": 0.255,
+          "midpoint": 0.95
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.77,
+          "upper": 1,
+          "spread": 0.13,
+          "midpoint": 0.9
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.69,
+          "upper": 1,
+          "spread": 0.175,
+          "midpoint": 0.865
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-17T20:03:22.416+00:00",
+      "summary": {
+        "p10": 0.024057071406463727,
+        "p90": 0.29817702531811563,
+        "lower": 0,
+        "upper": 0.50375,
+        "midpoint": 0.11843999999999999
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 0.775,
+          "spread": 0.46,
+          "midpoint": 0.315
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.88,
+          "upper": 1,
+          "spread": 0.06,
+          "midpoint": 0.94
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.15,
+          "upper": 0.65,
+          "spread": 0.25,
+          "midpoint": 0.4
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-18T17:03:27.588+00:00",
+      "summary": {
+        "p10": 0.000009603227195344485,
+        "p90": 0.000650552739711647,
+        "lower": 0,
+        "upper": 0.002,
+        "midpoint": 0.00025
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.55,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.02,
+          "spread": 0.01,
+          "midpoint": 0.01
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.1,
+          "spread": 0.05,
+          "midpoint": 0.05
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-18T18:53:45.542+00:00",
+      "summary": {
+        "p10": 0.048989021948611725,
+        "p90": 0.5311739769761049,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.3221325
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.605,
+          "upper": 1,
+          "spread": 0.295,
+          "midpoint": 0.9
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.615,
+          "midpoint": 0.515
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.375,
+          "upper": 1,
+          "spread": 0.32,
+          "midpoint": 0.695
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-20T20:11:59.845+00:00",
+      "summary": {
+        "p10": 0.4907035964902284,
+        "p90": 0.8047143771250906,
+        "lower": 0.376585,
+        "upper": 1,
+        "midpoint": 0.7311700000000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.82,
+          "upper": 1,
+          "spread": 0.1,
+          "midpoint": 0.92
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.55,
+          "upper": 1,
+          "spread": 0.3,
+          "midpoint": 0.85
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.835,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.935
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-21T04:56:25.962+00:00",
+      "summary": {
+        "p10": 0.0032351741618254263,
+        "p90": 0.04096600603451294,
+        "lower": 0,
+        "upper": 0.09,
+        "midpoint": 0.04000000000000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.1,
+          "upper": 0.3,
+          "spread": 0.1,
+          "midpoint": 0.2
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.10000000000000002,
+          "upper": 0.3,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.2
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-21T16:30:13.287+00:00",
+      "summary": {
+        "p10": 0.018742046374329826,
+        "p90": 0.578111447393044,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-22T00:39:12.998+00:00",
+      "summary": {
+        "p10": 0.010273436443000836,
+        "p90": 0.32423635519962796,
+        "lower": 0,
+        "upper": 0.86,
+        "midpoint": 0.08403150000000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.29,
+          "upper": 1,
+          "spread": 0.465,
+          "midpoint": 0.755
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.64,
+          "midpoint": 0.42
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.86,
+          "spread": 0.595,
+          "midpoint": 0.265
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-22T14:46:34.928+00:00",
+      "summary": {
+        "p10": 1,
+        "p90": 1,
+        "lower": 1,
+        "upper": 1,
+        "midpoint": 1
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-22T17:38:08.177+00:00",
+      "summary": {
+        "p10": 0.024110339423388583,
+        "p90": 0.226440113826963,
+        "lower": 0,
+        "upper": 0.36,
+        "midpoint": 0.0125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.05
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-22T19:49:21.207+00:00",
+      "summary": {
+        "p10": 0.7950071946456232,
+        "p90": 0.9279226599233873,
+        "lower": 0.7343999999999999,
+        "upper": 1,
+        "midpoint": 0.8844499999999998
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.95
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.96,
+          "upper": 1,
+          "spread": 0.02,
+          "midpoint": 0.98
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.85,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.95
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-22T19:52:09.269+00:00",
+      "summary": {
+        "p10": 0.7950071946456232,
+        "p90": 0.9279226599233873,
+        "lower": 0.7343999999999999,
+        "upper": 1,
+        "midpoint": 0.8844499999999998
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.95
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.96,
+          "upper": 1,
+          "spread": 0.02,
+          "midpoint": 0.98
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.85,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.95
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-22T21:00:55.589+00:00",
+      "summary": {
+        "p10": 0.00244277873690963,
+        "p90": 0.06910089225227535,
+        "lower": 0,
+        "upper": 0.12,
+        "midpoint": 0.00995
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.99,
+          "upper": 1,
+          "spread": 0.005,
+          "midpoint": 0.995
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.3,
+          "spread": 0.2,
+          "midpoint": 0.1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.4,
+          "spread": 0.3,
+          "midpoint": 0.1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-23T10:42:38.535+00:00",
+      "summary": {
+        "p10": 0.028657329065880616,
+        "p90": 0.43374156459953916,
+        "lower": 0,
+        "upper": 0.768775,
+        "midpoint": 0.16290000000000002
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.855,
+          "upper": 0.955,
+          "spread": 0.05,
+          "midpoint": 0.905
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.1,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.6
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.805,
+          "spread": 0.505,
+          "midpoint": 0.3
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-23T11:23:54.727+00:00",
+      "summary": {
+        "p10": 0.008055058309447043,
+        "p90": 0.11742887318670223,
+        "lower": 0,
+        "upper": 0.221625,
+        "midpoint": 0.0553125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.785,
+          "upper": 0.985,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.885
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.875,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.02500000000000002,
+          "upper": 0.225,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.125
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-26T02:24:46.156+00:00",
+      "summary": {
+        "p10": 0.047552553416236265,
+        "p90": 0.47760780538515335,
+        "lower": 0,
+        "upper": 0.86,
+        "midpoint": 0.45823375
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.56,
+          "upper": 1,
+          "spread": 0.305,
+          "midpoint": 0.865
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.44,
+          "upper": 0.86,
+          "spread": 0.21,
+          "midpoint": 0.65
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.93,
+          "midpoint": 0.815
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-28T08:12:22.536+00:00",
+      "summary": {
+        "p10": 0.5938570924751058,
+        "p90": 0.7456807581361767,
+        "lower": 0.543,
+        "upper": 0.8085,
+        "midpoint": 0.6716037499999999
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.905,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.955
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.625,
+          "upper": 0.825,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.725
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.96,
+          "upper": 0.98,
+          "spread": 0.01,
+          "midpoint": 0.97
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-10-30T18:36:47.305+00:00",
+      "summary": {
+        "p10": 0.09021069879149689,
+        "p90": 0.33088617546981725,
+        "lower": 0.03588000000000001,
+        "upper": 0.552,
+        "midpoint": 0.22270000000000004
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.39,
+          "upper": 0.92,
+          "spread": 0.265,
+          "midpoint": 0.655
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.23,
+          "upper": 1,
+          "spread": 0.45,
+          "midpoint": 0.68
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-01T11:08:06.613+00:00",
+      "summary": {
+        "p10": 0.08922579251416797,
+        "p90": 0.8104010987416249,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.5
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.9,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-02T18:13:48.194+00:00",
+      "summary": {
+        "p10": 0.46787394907260665,
+        "p90": 0.681878898692314,
+        "lower": 0.364,
+        "upper": 0.85,
+        "midpoint": 0.57375
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.8,
+          "upper": 1,
+          "spread": 0.1,
+          "midpoint": 0.9
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.7,
+          "upper": 1,
+          "spread": 0.15,
+          "midpoint": 0.85
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.65,
+          "upper": 0.85,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.75
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-03T07:46:32.337+00:00",
+      "summary": {
+        "p10": 0.44496339540725366,
+        "p90": 0.7999076615896821,
+        "lower": 0.335503,
+        "upper": 1,
+        "midpoint": 0.7518335
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.49,
+          "upper": 1,
+          "spread": 0.37,
+          "midpoint": 0.86
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.82,
+          "upper": 1,
+          "spread": 0.115,
+          "midpoint": 0.935
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.835,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.935
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-12T19:22:14.936+00:00",
+      "summary": {
+        "p10": 0.8211917574552244,
+        "p90": 0.9296363238808549,
+        "lower": 0.7614,
+        "upper": 1,
+        "midpoint": 0.8934749999999999
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.95
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.94,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.99
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.9,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.95
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-13T23:38:44.498+00:00",
+      "summary": {
+        "p10": 0.016599247876777964,
+        "p90": 0.3776993893849646,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.32732700000000003
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.055,
+          "upper": 1,
+          "spread": 0.855,
+          "midpoint": 0.91
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.24,
+          "upper": 1,
+          "spread": 0.42,
+          "midpoint": 0.66
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.545,
+          "midpoint": 0.545
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-15T09:01:16.631+00:00",
+      "summary": {
+        "p10": 0.01907675978522908,
+        "p90": 0.19287034856715754,
+        "lower": 0,
+        "upper": 0.34,
+        "midpoint": 0
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.62,
+          "upper": 1,
+          "spread": 0.38,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.485,
+          "upper": 1,
+          "spread": 0.385,
+          "midpoint": 0.87
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.34,
+          "spread": 0.34,
+          "midpoint": 0
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-16T22:12:15.734+00:00",
+      "summary": {
+        "p10": 0.07928524570494526,
+        "p90": 0.6533628184549252,
+        "lower": 0.0082125,
+        "upper": 0.955,
+        "midpoint": 0.44462375
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.75,
+          "upper": 1,
+          "spread": 0.215,
+          "midpoint": 0.965
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.73,
+          "upper": 1,
+          "spread": 0.22,
+          "midpoint": 0.95
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.015,
+          "upper": 0.955,
+          "spread": 0.47,
+          "midpoint": 0.485
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-17T23:47:37.087+00:00",
+      "summary": {
+        "p10": 0.06371055460223336,
+        "p90": 0.5938866411292686,
+        "lower": 0,
+        "upper": 0.8,
+        "midpoint": 0.325
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5,
+          "upper": 0.8,
+          "spread": 0.15,
+          "midpoint": 0.65
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-19T03:15:48.238+00:00",
+      "summary": {
+        "p10": 0.008569624517461457,
+        "p90": 0.34297734760242005,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.3
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.1,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.6
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-19T03:15:55.699+00:00",
+      "summary": {
+        "p10": 0.008569624517461457,
+        "p90": 0.34297734760242005,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.3
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.1,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.6
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-19T10:52:10.239+00:00",
+      "summary": {
+        "p10": 0.09358018880631758,
+        "p90": 0.15873772656253826,
+        "lower": 0.06400000000000002,
+        "upper": 0.216,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-19T21:45:51.199+00:00",
+      "summary": {
+        "p10": 0.17921218146623502,
+        "p90": 0.4281768031167091,
+        "lower": 0.1145625,
+        "upper": 0.5769375,
+        "midpoint": 0.301875
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.65,
+          "upper": 0.85,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.75
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.705,
+          "upper": 0.905,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.805
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.25,
+          "upper": 0.75,
+          "spread": 0.25,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-20T20:14:18.839+00:00",
+      "summary": {
+        "p10": 0.013512193898201744,
+        "p90": 0.3824093968980163,
+        "lower": 0,
+        "upper": 0.855,
+        "midpoint": 0.15087499999999998
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.55,
+          "upper": 1,
+          "spread": 0.3,
+          "midpoint": 0.85
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.8,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.855,
+          "spread": 0.5,
+          "midpoint": 0.355
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-22T12:08:12.667+00:00",
+      "summary": {
+        "p10": 0.09358018880631758,
+        "p90": 0.15873772656253826,
+        "lower": 0.06400000000000002,
+        "upper": 0.216,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-23T16:18:07.816+00:00",
+      "summary": {
+        "p10": 0.03034529201131553,
+        "p90": 0.23240226233650943,
+        "lower": 0.003739170534030113,
+        "upper": 0.5438068357058542,
+        "midpoint": 0.11484600834840315
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.16939380162158066,
+          "upper": 0.8293938016215807,
+          "spread": 0.33,
+          "midpoint": 0.49939380162158065
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.12938470864590434,
+          "upper": 0.7893847086459044,
+          "spread": 0.33,
+          "midpoint": 0.45938470864590436
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.17060619837841934,
+          "upper": 0.8306061983784193,
+          "spread": 0.33,
+          "midpoint": 0.5006061983784194
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-23T20:15:36.259+00:00",
+      "summary": {
+        "p10": 0.00973026925901593,
+        "p90": 0.30641450743786613,
+        "lower": 0,
+        "upper": 0.7496391948347891,
+        "midpoint": 0.07501726961869433
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 0.7496391948347891,
+          "spread": 0.5,
+          "midpoint": 0.24963919483478922
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.3334979111279909
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.3960634257500949,
+          "upper": 1,
+          "spread": 0.505,
+          "midpoint": 0.9010634257500949
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-23T20:33:49.115+00:00",
+      "summary": {
+        "p10": 0.004801613597672242,
+        "p90": 0.3252763698558234,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.07583741059163529
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.24963919483478922
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.3371439422711735
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.9010634257500949
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-11-26T19:31:36.163+00:00",
+      "summary": {
+        "p10": 0.09358018880631758,
+        "p90": 0.15873772656253826,
+        "lower": 0.06400000000000002,
+        "upper": 0.216,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-01T15:44:25.875+00:00",
+      "summary": {
+        "p10": 0.004801613597672242,
+        "p90": 0.3252763698558234,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.85,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.68,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.805,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-01T17:14:47.093+00:00",
+      "summary": {
+        "p10": 0.017534170024445413,
+        "p90": 0.5428113047517051,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.30886930510718036
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.92,
+          "midpoint": 0.6500483064332802
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.8502964688944458,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.9502964688944457
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-05T16:58:10.719+00:00",
+      "summary": {
+        "p10": 0.08252349243479783,
+        "p90": 0.46792813540297706,
+        "lower": 0.016088677527280215,
+        "upper": 1,
+        "midpoint": 0.6174130572242225
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.31570438799076217,
+          "upper": 1,
+          "spread": 0.6,
+          "midpoint": 0.9157043879907621
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.2954965357967667,
+          "upper": 1,
+          "spread": 0.55,
+          "midpoint": 0.8454965357967668
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.17245958429561198,
+          "upper": 1,
+          "spread": 0.625,
+          "midpoint": 0.797459584295612
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-06T03:42:23.236+00:00",
+      "summary": {
+        "p10": 0.030107935160854627,
+        "p90": 0.4615541582339646,
+        "lower": 0,
+        "upper": 0.8503906549579416,
+        "midpoint": 0.211219626377206
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.1,
+          "upper": 0.9,
+          "spread": 0.4,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.965,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.744878505508824,
+          "upper": 0.944878505508824,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.844878505508824
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-07T15:32:02.481+00:00",
+      "summary": {
+        "p10": 0.2561855671015595,
+        "p90": 0.737596115026703,
+        "lower": 0.17342799488366809,
+        "upper": 0.9050681973175722,
+        "midpoint": 0.5996608745154025
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.24951219974236566,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.7495121997423656
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.6950681973175722,
+          "upper": 0.9050681973175722,
+          "spread": 0.105,
+          "midpoint": 0.8000681973175722
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-19T17:05:56.43+00:00",
+      "summary": {
+        "p10": 0.004801613597672242,
+        "p90": 0.3252763698558234,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.605,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.55,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-19T22:04:34.853+00:00",
+      "summary": {
+        "p10": 0.09358018880631758,
+        "p90": 0.15873772656253826,
+        "lower": 0.06400000000000002,
+        "upper": 0.216,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-19T22:04:55.028+00:00",
+      "summary": {
+        "p10": 0.023937411365703373,
+        "p90": 0.22859302826823832,
+        "lower": 0,
+        "upper": 0.36,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.9,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-22T00:28:35.142+00:00",
+      "summary": {
+        "p10": 0.09358018880631758,
+        "p90": 0.15873772656253826,
+        "lower": 0.06400000000000002,
+        "upper": 0.216,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2025-12-22T21:48:07.661+00:00",
+      "summary": {
+        "p10": 0.09358018880631758,
+        "p90": 0.15873772656253826,
+        "lower": 0.06400000000000002,
+        "upper": 0.216,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-01-07T23:12:34.742+00:00",
+      "summary": {
+        "p10": 0.013276687154597814,
+        "p90": 0.4119974000567217,
+        "lower": 0,
+        "upper": 0.8511154160169779,
+        "midpoint": 0.027465165590810126
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.29995150043404667
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.6505528673018871,
+          "upper": 1,
+          "spread": 0.255,
+          "midpoint": 0.9055528673018871
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.8511154160169779,
+          "spread": 0.75,
+          "midpoint": 0.10111541601697796
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-01-22T09:11:10.646+00:00",
+      "summary": {
+        "p10": 0.1385766083678617,
+        "p90": 0.22546013127587794,
+        "lower": 0.09973236341592787,
+        "upper": 0.2963978176858376,
+        "midpoint": 0.18083181783738728
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.6233272713495491,
+          "upper": 0.8233272713495491,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.7233272713495491
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-01-22T20:01:14.345+00:00",
+      "summary": {
+        "p10": 0.04938952817043833,
+        "p90": 0.40464323724337725,
+        "lower": 0.006398394839540931,
+        "upper": 0.6950871354293894,
+        "midpoint": 0.22497429539284616
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7566702659695385,
+          "upper": 1,
+          "spread": 0.155,
+          "midpoint": 0.9116702659695385
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.025109873456088536,
+          "upper": 0.7751098734560885,
+          "spread": 0.375,
+          "midpoint": 0.40010987345608856
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.33675949079336215,
+          "upper": 0.8967594907933623,
+          "spread": 0.28,
+          "midpoint": 0.6167594907933621
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-01-22T20:01:19.744+00:00",
+      "summary": {
+        "p10": 0.04938952817043833,
+        "p90": 0.40464323724337725,
+        "lower": 0.006398394839540931,
+        "upper": 0.6950871354293894,
+        "midpoint": 0.22497429539284616
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7566702659695385,
+          "upper": 1,
+          "spread": 0.155,
+          "midpoint": 0.9116702659695385
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.025109873456088536,
+          "upper": 0.7751098734560885,
+          "spread": 0.375,
+          "midpoint": 0.40010987345608856
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.33675949079336215,
+          "upper": 0.8967594907933623,
+          "spread": 0.28,
+          "midpoint": 0.6167594907933621
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-11T20:50:03.321+00:00",
+      "summary": {
+        "p10": 0.004801613597672242,
+        "p90": 0.3252763698558234,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-13T13:43:52.142+00:00",
+      "summary": {
+        "p10": 0.09358018880631758,
+        "p90": 0.15873772656253826,
+        "lower": 0.06400000000000002,
+        "upper": 0.216,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-13T13:44:44.052+00:00",
+      "summary": {
+        "p10": 0.004801613597672242,
+        "p90": 0.3252763698558234,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.81,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.955,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.7,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-13T13:49:26.018+00:00",
+      "summary": {
+        "p10": 0.18048349715040685,
+        "p90": 0.28596573992600344,
+        "lower": 0.1364170946122378,
+        "upper": 0.36,
+        "midpoint": 0.23815171033162155
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.8526068413264862,
+          "upper": 1,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.9526068413264862
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4,
+          "upper": 0.6,
+          "spread": 0.09999999999999998,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-17T17:05:14.352+00:00",
+      "summary": {
+        "p10": 0.027336119147221595,
+        "p90": 0.14323680830230057,
+        "lower": 0.006655562476320373,
+        "upper": 0.27702464514662417,
+        "midpoint": 0.07877737364552549
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.23,
+          "upper": 0.77,
+          "spread": 0.27,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.34,
+          "upper": 0.66,
+          "spread": 0.16,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.08510949458210196,
+          "upper": 0.5451094945821019,
+          "spread": 0.23,
+          "midpoint": 0.31510949458210197
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-17T23:18:28.67+00:00",
+      "summary": {
+        "p10": 0.00999234908073523,
+        "p90": 0.33412272161091566,
+        "lower": 0,
+        "upper": 0.9245082769306042,
+        "midpoint": 0.13472052557990155
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.20054554350485204,
+          "upper": 1,
+          "spread": 0.67,
+          "midpoint": 0.870545543504852
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.6,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.9245082769306042,
+          "spread": 0.615,
+          "midpoint": 0.30950827693060423
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-18T16:19:55.718+00:00",
+      "summary": {
+        "p10": 0.7129371904940126,
+        "p90": 0.9034607438456328,
+        "lower": 0.638659291847523,
+        "upper": 1,
+        "midpoint": 0.917456942388236
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9246605677882813,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.9746605677882814
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.7504122648105901,
+          "upper": 1,
+          "spread": 0.2,
+          "midpoint": 0.9504122648105902
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.9204219647237808,
+          "upper": 1,
+          "spread": 0.07,
+          "midpoint": 0.9904219647237809
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-18T16:20:35.386+00:00",
+      "summary": {
+        "p10": 0.7129371904940126,
+        "p90": 0.9034607438456328,
+        "lower": 0.638659291847523,
+        "upper": 1,
+        "midpoint": 0.917456942388236
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9246605677882813,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.9746605677882814
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.7504122648105901,
+          "upper": 1,
+          "spread": 0.2,
+          "midpoint": 0.9504122648105902
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.9204219647237808,
+          "upper": 1,
+          "spread": 0.07,
+          "midpoint": 0.9904219647237809
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-02-27T00:41:14.548+00:00",
+      "summary": {
+        "p10": 0.4102347899561926,
+        "p90": 0.7727977288365095,
+        "lower": 0.28894560339903985,
+        "upper": 1,
+        "midpoint": 0.7318867132058905
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5058816127302037,
+          "upper": 1,
+          "spread": 0.3,
+          "midpoint": 0.8058816127302038
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.6381814272028992,
+          "upper": 1,
+          "spread": 0.27,
+          "midpoint": 0.9081814272028992
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.895,
+          "upper": 1,
+          "spread": 0.105,
+          "midpoint": 1
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-04T20:16:58.61+00:00",
+      "summary": {
+        "p10": 0.004801613597672242,
+        "p90": 0.3252763698558234,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.125
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.865,
+          "midpoint": 0.5
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.715,
+          "midpoint": 0.5
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.5
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-08T22:18:55.141+00:00",
+      "summary": {
+        "p10": 0.013715842775333211,
+        "p90": 0.40719662201383044,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.06407530438809156
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4094499123483868,
+          "upper": 1,
+          "spread": 0.36,
+          "midpoint": 0.7694499123483868
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.81,
+          "midpoint": 0.2564815449086885
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.85,
+          "midpoint": 0.32467900208563016
+        }
+      ]
+    }
+  ]
+}
