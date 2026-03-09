@@ -1036,6 +1036,12 @@ input[type="range"]:active::-moz-range-thumb {
   max-width: 60ch;
 }
 
+.export-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
 .stats-page .footer-note {
   margin-top: 2.4rem;
 }

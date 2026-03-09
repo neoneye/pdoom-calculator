@@ -59,6 +59,10 @@ permalink: /stats/
       </table>
     </section>
 
+    <section class="export-section">
+      <button class="primary-button" id="exportButton" type="button" disabled>Export JSON</button>
+    </section>
+
     <p class="footer-note">
       For more context on P(doom), see the <a href="https://en.wikipedia.org/wiki/P(doom)">Wikipedia article</a> with estimates from various researchers.
     </p>
@@ -74,6 +78,7 @@ permalink: /stats/
 
     let supabaseClient = null;
     let factorChartInstance = null;
+    let fetchedRows = [];
 
     const config = [
       {
@@ -345,14 +350,65 @@ permalink: /stats/
       }
     }
 
+    function buildExportSummary(rows) {
+      const midpointValues = getMidpointValues(rows);
+      const avgPdoom = midpointValues.length
+        ? midpointValues.reduce((sum, v) => sum + v, 0) / midpointValues.length
+        : null;
+      const factorMap = aggregateFactors(rows);
+      const series = buildFactorSeries(factorMap);
+      return {
+        total_submissions: rows.length,
+        average_pdoom: avgPdoom,
+        factors: series.map(f => ({
+          label: f.label,
+          average_lower: f.lower,
+          average_midpoint: f.midpoint,
+          average_upper: f.upper
+        }))
+      };
+    }
+
+    function exportSubmissions() {
+      const sortedRows = fetchedRows.slice().sort((a, b) => {
+        if (!a.submitted_at) return 1;
+        if (!b.submitted_at) return -1;
+        return a.submitted_at < b.submitted_at ? -1 : a.submitted_at > b.submitted_at ? 1 : 0;
+      });
+      const exportData = {
+        source: 'https://github.com/neoneye/pdoom-calculator',
+        exported_at: new Date().toISOString(),
+        summary: buildExportSummary(sortedRows),
+        submissions: sortedRows
+      };
+      const json = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'pdoom-submissions.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
     async function init() {
       setStatus('Loading data...');
       initSupabase();
+      const exportButton = document.getElementById('exportButton');
+      if (exportButton) {
+        exportButton.addEventListener('click', exportSubmissions);
+      }
       if (!supabaseClient) {
         return;
       }
       try {
         const rows = await fetchSubmissions();
+        fetchedRows = rows;
+        if (exportButton && rows.length) {
+          exportButton.disabled = false;
+        }
         if (!rows.length) {
           renderSummary([], []);
           setStatus('No submissions yet. Share your first set from the calculator.', 'success');
