@@ -25,7 +25,6 @@ Context length, since it's already a massive amount of data models already can a
 Take off period, If it's 1 year, 5 years, 25 years. No matter what it's going to be disruptive for everyone.
 
 Gaps / potential future questions:
-- Governance & regulation — AI policy, EU AI Act, executive orders, international treaties.
 - Open vs closed source — Open-weight models (Llama, Mistral) vs closed (GPT, Claude) and safety implications.
 - Concentration of power — Who controls AI, monopoly risks, democratic oversight.
 - Economic disruption / job displacement — Widely discussed P(doom)-adjacent concern.
@@ -607,7 +606,7 @@ Gaps / potential future questions:
         id: 'medium',
         label: 'Medium quiz',
         description: 'For folks who use LLMs daily, or debate alignment with friends.',
-        meta: '5 questions · ~5 minutes',
+        meta: '6 questions · ~5 minutes',
         kind: 'fixed',
         completionMessage: 'Welcome back! We tightened the sliders a bit to match your reps.',
         questions: [
@@ -794,18 +793,43 @@ Gaps / potential future questions:
             ]
           },
           {
+            id: 'medium-governance',
+            prompt: 'Can governance and regulation realistically keep AI safe?',
+            link: 'https://en.wikipedia.org/wiki/Regulation_of_artificial_intelligence',
+            options: [
+              {
+                id: 'medium-governance-yes',
+                label: 'Yes, regulation can keep up',
+                description: 'Laws, treaties, and industry standards can be adapted fast enough to manage the risks.',
+                score: 1
+              },
+              {
+                id: 'medium-governance-neutral',
+                label: 'Neutral / Unsure',
+                description: 'Regulation helps but may not be sufficient on its own.',
+                score: 0
+              },
+              {
+                id: 'medium-governance-no',
+                label: 'No, AI moves too fast for regulators',
+                description: 'Technology outpaces legislation; rules arrive after the damage is done.',
+                score: -1
+              }
+            ]
+          },
+          {
             id: 'medium-speed',
             prompt: 'If AI can execute a complex financial attack in 1 second, can humans stop it in time?',
             link: 'https://en.wikipedia.org/wiki/OODA_loop',
             options: [
-              { 
-                id: 'medium-speed-no-risk', 
+              {
+                id: 'medium-speed-no-risk',
                 label: 'Yes, humans can stop it in time.',
                 description: 'There is no risk of the OODA loop collapsing.',
                 score: 1
               },
-              { 
-                id: 'medium-speed-risk', 
+              {
+                id: 'medium-speed-risk',
                 label: 'No, humans cannot stop it in time.',
                 description: 'The "speed of the loop" determines the winner in a conflict.',
                 score: -1
@@ -1691,8 +1715,8 @@ Gaps / potential future questions:
     // Medium calibration logic mirrors beginner: knowledge drives both spread and midpoint.
     // - Knowledge blends: vulnerabilities coverage (multi-select), system-prompt familiarity, and off-the-rails experience.
     // - Spread interpolates from ±80 (low knowledge) down to ±20 (high knowledge).
-    // - Midpoint band is chosen by optimism/pessimism: competition + speed scores map to ranges
-    //   (+2: 0–20, +1: 20–40, 0: 40–60, -1: 60–80, -2: 80–100), then knowledge score interpolates within that band.
+    // - Midpoint band is chosen by optimism/pessimism: competition + speed + governance scores map to ranges
+    //   (+3: 0–14, +2: 14–28, +1: 28–42, 0: 42–58, -1: 58–72, -2: 72–86, -3: 86–100), then knowledge score interpolates within that band.
     function getMediumKnowledgeScore(selections) {
       const vulnerabilities = selections.find(entry => entry.question.id === 'medium-vulnerabilities');
       const systemPrompts = selections.find(entry => entry.question.id === 'medium-system-prompts');
@@ -1737,6 +1761,7 @@ Gaps / potential future questions:
       const knowledgeScore = getMediumKnowledgeScore(selections);
       const competition = selections.find(entry => entry.question.id === 'medium-competition');
       const speed = selections.find(entry => entry.question.id === 'medium-speed');
+      const governance = selections.find(entry => entry.question.id === 'medium-governance');
 
       const competitionScores = {
         'medium-competition-positive': 1,
@@ -1747,17 +1772,25 @@ Gaps / potential future questions:
         'medium-speed-no-risk': 1,
         'medium-speed-risk': -1
       };
+      const governanceScores = {
+        'medium-governance-yes': 1,
+        'medium-governance-neutral': 0,
+        'medium-governance-no': -1
+      };
 
       const competitionScore = competition && competition.option ? (competitionScores[competition.option.id] ?? 0) : 0;
       const speedScore = speed && speed.option ? (speedScores[speed.option.id] ?? 0) : 0;
-      const totalScore = clamp(competitionScore + speedScore, -2, 2);
+      const governanceScore = governance && governance.option ? (governanceScores[governance.option.id] ?? 0) : 0;
+      const totalScore = clamp(competitionScore + speedScore + governanceScore, -3, 3);
 
       const scoreBands = {
-        2: { low: 0, high: 20 },
-        1: { low: 20, high: 40 },
-        0: { low: 40, high: 60 },
-        '-1': { low: 60, high: 80 },
-        '-2': { low: 80, high: 100 }
+        3: { low: 0, high: 14 },
+        2: { low: 14, high: 28 },
+        1: { low: 28, high: 42 },
+        0: { low: 42, high: 58 },
+        '-1': { low: 58, high: 72 },
+        '-2': { low: 72, high: 86 },
+        '-3': { low: 86, high: 100 }
       };
       const band = scoreBands[totalScore] || scoreBands[0];
       const midpoint = band.low + knowledgeScore * (band.high - band.low);
