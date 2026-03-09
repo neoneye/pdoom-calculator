@@ -80,6 +80,7 @@ Gaps / potential future questions:
     </section>
 
     <div class="sliders-ui" id="slidersUi" hidden>
+      <p class="slider-hint" id="sliderHint">Drag inside the bell curves to shift your estimate left or right.</p>
       <p class="description">
         Choose your best guess for each stage and how uncertain you are (± pts).
       </p>
@@ -132,6 +133,7 @@ Gaps / potential future questions:
     const SUPABASE_URL = window.SUPABASE_URL;
     const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
     const SUBMISSIONS_TABLE = 'submissions';
+    const QUIZ_ANSWERS_TABLE = 'quiz_answers';
     let supabaseClient = null;
     let latestSnapshot = null;
 
@@ -1984,6 +1986,21 @@ Gaps / potential future questions:
         if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
           window.scrollTo(0, 0);
         }
+        // Bounce the bell curves and show the drag hint
+        const hint = document.getElementById('sliderHint');
+        if (hint) {
+          hint.classList.remove('slider-hint--hidden');
+        }
+        const canvases = container.querySelectorAll('.slider-bellcurve');
+        canvases.forEach(canvas => {
+          canvas.classList.remove('slider-bellcurve--bounce');
+          void canvas.offsetWidth; // force reflow to restart animation
+          canvas.classList.add('slider-bellcurve--bounce');
+        });
+        // Fade out hint after a few seconds
+        setTimeout(() => {
+          if (hint) hint.classList.add('slider-hint--hidden');
+        }, 4000);
       }
     }
 
@@ -2030,6 +2047,7 @@ Gaps / potential future questions:
         const submitButton = document.getElementById('wizardSubmitButton');
         const prevTop = submitButton ? submitButton.getBoundingClientRect().top : null;
         runKnowledgeCheck();
+        submitQuizAnswers(wizardState.flowId, flow);
         if (prevTop !== null && submitButton && typeof window !== 'undefined' && typeof window.scrollBy === 'function') {
           const newTop = submitButton.getBoundingClientRect().top;
           const delta = newTop - prevTop;
@@ -2049,6 +2067,7 @@ Gaps / potential future questions:
       }
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
+      submitQuizAnswers(wizardState.flowId, flow);
 
       const calibrationByFlow = {
         beginner: () => ({
@@ -2242,6 +2261,39 @@ Gaps / potential future questions:
         setSubmissionStatus('Submission failed. Please try again later.', 'error');
       } finally {
         if (button) button.disabled = false;
+      }
+    }
+
+    function buildQuizAnswersPayload(flowId, flow) {
+      const answers = captureWizardInputState(flow);
+      const entries = [];
+      for (const [questionId, answer] of Object.entries(answers)) {
+        if (answer.type === 'multi-select') {
+          entries.push({ question_id: questionId, type: 'multi-select', values: answer.values });
+        } else {
+          entries.push({ question_id: questionId, type: 'single', value: answer.value });
+        }
+      }
+      return {
+        submitted_at: new Date().toISOString(),
+        flow_id: flowId,
+        answers: entries
+      };
+    }
+
+    async function submitQuizAnswers(flowId, flow) {
+      if (!supabaseClient) {
+        initSupabase();
+      }
+      if (!supabaseClient) return;
+      const payload = buildQuizAnswersPayload(flowId, flow);
+      try {
+        const { error } = await supabaseClient
+          .from(QUIZ_ANSWERS_TABLE)
+          .insert(payload);
+        if (error) throw error;
+      } catch (error) {
+        console.error('Quiz answers submission failed', error);
       }
     }
 
