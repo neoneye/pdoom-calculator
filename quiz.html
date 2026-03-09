@@ -133,9 +133,9 @@ Gaps / potential future questions:
     const SUPABASE_URL = window.SUPABASE_URL;
     const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
     const SUBMISSIONS_TABLE = 'submissions';
-    const QUIZ_ANSWERS_TABLE = 'quiz_answers';
     let supabaseClient = null;
     let latestSnapshot = null;
+    let latestQuizData = null;
 
     const config = [
       {
@@ -2047,7 +2047,7 @@ Gaps / potential future questions:
         const submitButton = document.getElementById('wizardSubmitButton');
         const prevTop = submitButton ? submitButton.getBoundingClientRect().top : null;
         runKnowledgeCheck();
-        submitQuizAnswers(wizardState.flowId, flow);
+        latestQuizData = buildQuizAnswersPayload(wizardState.flowId, flow);
         if (prevTop !== null && submitButton && typeof window !== 'undefined' && typeof window.scrollBy === 'function') {
           const newTop = submitButton.getBoundingClientRect().top;
           const delta = newTop - prevTop;
@@ -2067,7 +2067,7 @@ Gaps / potential future questions:
       }
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
-      submitQuizAnswers(wizardState.flowId, flow);
+      latestQuizData = buildQuizAnswersPayload(wizardState.flowId, flow);
 
       const calibrationByFlow = {
         beginner: () => ({
@@ -2258,7 +2258,9 @@ Gaps / potential future questions:
           .insert({
             factors: payload.factors,
             summary: payload.summary,
-            submitted_at: payload.submitted_at
+            submitted_at: payload.submitted_at,
+            quiz_flow_id: latestQuizData ? latestQuizData.flow_id : null,
+            quiz_answers: latestQuizData ? latestQuizData.answers : null
           });
         if (error) throw error;
         setSubmissionStatus('Submitted! Thanks for contributing.', 'success');
@@ -2285,22 +2287,6 @@ Gaps / potential future questions:
         flow_id: flowId,
         answers: entries
       };
-    }
-
-    async function submitQuizAnswers(flowId, flow) {
-      if (!supabaseClient) {
-        initSupabase();
-      }
-      if (!supabaseClient) return;
-      const payload = buildQuizAnswersPayload(flowId, flow);
-      try {
-        const { error } = await supabaseClient
-          .from(QUIZ_ANSWERS_TABLE)
-          .insert(payload);
-        if (error) throw error;
-      } catch (error) {
-        console.error('Quiz answers submission failed', error);
-      }
     }
 
     function createFactorCard({ key, label, defaults, explanation }) {
