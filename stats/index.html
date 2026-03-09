@@ -140,7 +140,7 @@ permalink: /stats/
 
       const { data, error } = await supabaseClient
         .from(SUBMISSIONS_TABLE)
-        .select('submitted_at, summary, factors')
+        .select('submitted_at, summary, factors, quiz_flow_id, quiz_answers')
         .order('submitted_at', { ascending: true })
         .limit(MAX_ROWS);
 
@@ -379,7 +379,16 @@ permalink: /stats/
         source: 'https://github.com/neoneye/pdoom-calculator',
         exported_at: new Date().toISOString(),
         summary: buildExportSummary(sortedRows),
-        submissions: sortedRows
+        submissions: sortedRows.map(row => {
+          const clean = {
+            submitted_at: row.submitted_at,
+            summary: row.summary,
+            factors: row.factors
+          };
+          if (row.quiz_flow_id != null) clean.quiz_flow_id = row.quiz_flow_id;
+          if (row.quiz_answers != null) clean.quiz_answers = row.quiz_answers;
+          return clean;
+        })
       };
       const json = JSON.stringify(exportData, null, 2);
       const blob = new Blob([json], { type: 'application/json' });
