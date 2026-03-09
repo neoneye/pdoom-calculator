@@ -1202,7 +1202,18 @@ Gaps / potential future questions:
       });
     }
 
-    function handleBreadcrumbClick(targetId) {
+    const validHashes = ['start', 'decide', 'beginner', 'medium', 'expert', 'sliders'];
+    let suppressHashChange = false;
+
+    function updateHash(id) {
+      const hash = id === 'start' ? '' : '#' + id;
+      if (window.location.hash === hash || (!window.location.hash && hash === '')) return;
+      suppressHashChange = true;
+      history.pushState(null, '', hash || window.location.pathname);
+      suppressHashChange = false;
+    }
+
+    function navigateTo(targetId, skipHash) {
       if (targetId === 'start') {
         wizardState.flowId = null;
         resetWizardResult();
@@ -1219,13 +1230,18 @@ Gaps / potential future questions:
         return;
       }
       if (targetId === 'decide') {
-        handleFlowSelection('decide');
+        handleFlowSelection('decide', skipHash);
         return;
       }
       if (quizFlowIds.includes(targetId)) {
         setPredictedQuizFlow(targetId);
-        handleFlowSelection(targetId);
+        handleFlowSelection(targetId, skipHash);
       }
+    }
+
+    function handleBreadcrumbClick(targetId) {
+      updateHash(targetId);
+      navigateTo(targetId, true);
     }
 
     function loadStoredWizardAnswers() {
@@ -2015,9 +2031,10 @@ Gaps / potential future questions:
       renderBreadcrumbs();
     }
 
-    function handleFlowSelection(flowId) {
+    function handleFlowSelection(flowId, skipHash) {
       const flow = getFlowById(flowId);
       if (!flow) return;
+      if (!skipHash) updateHash(flowId);
       if (flow.kind === 'sliders') {
         wizardState.flowId = flowId;
         setSlidersVisibility(true);
@@ -2105,12 +2122,15 @@ Gaps / potential future questions:
         resetWizardResult();
         setSlidersVisibility(true);
         wizardState.flowId = 'sliders';
+        updateHash('sliders');
       } else if (flow.id === 'medium') {
         setSlidersVisibility(true);
         wizardState.flowId = 'sliders';
+        updateHash('sliders');
       } else if (flow.id === 'expert') {
         setSlidersVisibility(true);
         wizardState.flowId = 'sliders';
+        updateHash('sliders');
       }
       if (flow.id === 'beginner' || flow.id === 'medium' || flow.id === 'expert') {
         renderBreadcrumbs();
@@ -2751,6 +2771,19 @@ Gaps / potential future questions:
       const submitButton = document.getElementById('submitParametersButton');
       if (submitButton) {
         submitButton.addEventListener('click', submitParameters);
+      }
+
+      // Handle back/forward buttons
+      window.addEventListener('popstate', () => {
+        if (suppressHashChange) return;
+        const hash = window.location.hash.replace('#', '');
+        navigateTo(validHashes.includes(hash) ? hash : 'start', true);
+      });
+
+      // Navigate to hash on page load
+      const initialHash = window.location.hash.replace('#', '');
+      if (initialHash && validHashes.includes(initialHash)) {
+        navigateTo(initialHash, true);
       }
     }
 
