@@ -47,7 +47,7 @@ Gaps / potential future questions:
       <div class="quiz-preview" id="quizPreview" hidden>
         <div class="quiz-preview__title" id="quizPreviewTitle">Calibration preview</div>
         <div class="quiz-preview__values">
-          <span>Midpoint: <strong id="quizPreviewMidpoint">–</strong></span>
+          <span>P(doom): <strong id="quizPreviewMidpoint">–</strong></span>
           <span>Spread: <strong id="quizPreviewSpread">–</strong></span>
         </div>
       </div>
@@ -2167,9 +2167,15 @@ Gaps / potential future questions:
 
     function applyMidpointCalibration(midpointValue) {
       const safeMidpoint = clamp(midpointValue, 0, 100);
+      // The P(doom) is the product of all factor midpoints.
+      // To land on the desired P(doom), set each factor to the Nth root
+      // so that factor^N = target, where N is the number of factors.
+      const n = config.length;
+      const perFactor = Math.pow(safeMidpoint / 100, 1 / n) * 100;
+      const safePerFactor = clamp(Number(perFactor.toFixed(1)), 0, 100);
       config.forEach(({ key }) => {
-        const factorState = state.get(key) || { midpoint: safeMidpoint, spread: 0 };
-        factorState.midpoint = safeMidpoint;
+        const factorState = state.get(key) || { midpoint: safePerFactor, spread: 0 };
+        factorState.midpoint = safePerFactor;
         state.set(key, factorState);
         syncInputs(key);
       });
