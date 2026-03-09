@@ -2,30 +2,35 @@
 
 Interactive P(doom) calculator and stats pages.
 
-## Local development
+## Install the dependencies
 
-1. Install Ruby (3.x recommended) and Bundler.
-2. Install dependencies: `bundle install`
-3. Start the dev server: `bundle exec jekyll serve`
-4. Open `http://localhost:4000/pdoom-calculator/` in your browser.
+**Ruby 3.3 required.** GitHub Pages uses Ruby 3.3.4; Ruby 4.x is not yet supported by the Jekyll/github-pages ecosystem.
 
-While the server runs, changes to the site files trigger an automatic rebuild. Stop the server with `Ctrl+C`.
+If Homebrew updated you to Ruby 4.x, use Ruby 3.3:
 
-### Testing on mobile devices (local network)
-
-To access the site from other devices on your local network (e.g., a phone or tablet):
-
-1. Start the server bound to all interfaces:
-   ```
-   bundle exec jekyll serve --host 0.0.0.0
-   ```
-2. Find your computer's local IP address (e.g., `192.168.1.x`):
-   - **macOS**: `ipconfig getifaddr en0` (Wi-Fi) or `ipconfig getifaddr en1`
-   - **Linux**: `hostname -I` or `ip addr`
-3. On your mobile device, open `http://<your-local-ip>:4000/pdoom-calculator/`
-
-Example urls:
+```bash
+brew install ruby@3.3
+export PATH="/opt/homebrew/opt/ruby@3.3/bin:$PATH"
 ```
-192.168.1.x:4000/pdoom-calculator/
-192.168.1.x:4000/pdoom-calculator/experimental_quiz2
+
+Then:
+
+```bash
+bundle install
 ```
+
+## Run the server on localhost
+
+```bash
+bundle exec jekyll serve
+http://127.0.0.1:4000/pdoom-calculator/
+```
+
+## Run the server on all network interfaces (for mobile testing)
+
+```bash
+bundle exec jekyll serve --host 0.0.0.0
+http://0.0.0.0:4000/pdoom-calculator/
+```
+
+Access from your phone using your computer's local IP address (e.g., `http://192.168.1.100:4000/pdoom-calculator/`)
