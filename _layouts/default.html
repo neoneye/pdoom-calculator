@@ -33,6 +33,9 @@
   <nav class="site-nav" aria-label="Primary">
     <ul class="site-nav__links">
       <li>
+        <a href="{{ '/quiz' | relative_url }}"{% if current_url == '/quiz.html' %} aria-current="page"{% endif %}>Quiz</a>
+      </li>
+      <li>
         <a href="{{ '/' | relative_url }}"{% if current_url == '/' %} aria-current="page"{% endif %}>Calc</a>
       </li>
       <li>
