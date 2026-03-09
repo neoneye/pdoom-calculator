@@ -1,27 +1,27 @@
 {
   "source": "https://github.com/neoneye/pdoom-calculator",
-  "exported_at": "2026-03-09T13:13:35.878Z",
+  "exported_at": "2026-03-09T13:50:08.274Z",
   "summary": {
-    "total_submissions": 98,
-    "average_pdoom": 0.28729261237677695,
+    "total_submissions": 99,
+    "average_pdoom": 0.2921286554335772,
     "factors": [
       {
         "label": "P(powerful AI)",
-        "average_lower": 0.47748111352503836,
-        "average_midpoint": 0.7223717073672521,
-        "average_upper": 0.8975411530250645
+        "average_lower": 0.47883989015609857,
+        "average_midpoint": 0.7243174476968758,
+        "average_upper": 0.8985760908732963
       },
       {
         "label": "P(dangerous behavior | powerful AI)",
-        "average_lower": 0.3778669244323353,
-        "average_midpoint": 0.6188069591089462,
-        "average_upper": 0.8373775502471957
+        "average_lower": 0.38023190499362486,
+        "average_midpoint": 0.6217988080068356,
+        "average_upper": 0.8390202012547998
       },
       {
         "label": "P(global catastrophe | dangerous behavior)",
-        "average_lower": 0.3101885726484625,
-        "average_midpoint": 0.5314780228605372,
-        "average_upper": 0.7750483354388128
+        "average_lower": 0.3132371729247406,
+        "average_midpoint": 0.5353519822255822,
+        "average_upper": 0.7773205744747844
       }
     ]
   },
@@ -3551,6 +3551,113 @@
           "upper": 1,
           "spread": 0.85,
           "midpoint": 0.32467900208563016
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-09T13:37:08.444+00:00",
+      "summary": {
+        "p10": 0.36688382022439736,
+        "p90": 0.6951895648289461,
+        "lower": 0.229220928,
+        "upper": 1,
+        "midpoint": 0.7660608750000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.612,
+          "upper": 1,
+          "spread": 0.303,
+          "midpoint": 0.915
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.612,
+          "upper": 1,
+          "spread": 0.303,
+          "midpoint": 0.915
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.612,
+          "upper": 1,
+          "spread": 0.303,
+          "midpoint": 0.915
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai",
+            "expert-campaign-organisations-microcommit"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-robert-miles",
+            "expert-content-creators-siliconversations",
+            "expert-content-creators-lethal-intelligence",
+            "expert-content-creators-rational-animations"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
         }
       ]
     }
