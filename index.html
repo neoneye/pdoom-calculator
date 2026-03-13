@@ -1998,7 +1998,10 @@ Gaps / potential future questions:
       const wasHidden = container.hidden;
       container.hidden = !visible;
       if (visible && wasHidden) {
+        void container.offsetHeight; // force layout flush so canvas dimensions are available (Chrome)
         recalc();
+        // Fallback: if Chrome still hasn't flushed layout, redraw on the next frame
+        requestAnimationFrame(() => recalc());
         if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
           window.scrollTo(0, 0);
         }
