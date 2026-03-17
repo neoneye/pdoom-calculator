@@ -1716,14 +1716,12 @@ Gaps / potential future questions:
     function computeBeginnerMidpoint(selections) {
       const control = selections.find(entry => entry.question.id === 'beginner-control');
       const selectedControl = control && control.option ? control.option.id : null;
-      if (!selectedControl) return null;
       const ranges = {
         'control-easy': { low: 20, high: 40 },
         'control-medium': { low: 40, high: 60 },
         'control-impossible': { low: 60, high: 80 }
       };
-      const selectedRange = ranges[selectedControl];
-      if (!selectedRange) return null;
+      const selectedRange = ranges[selectedControl] || { low: 20, high: 80 };
 
       const knowledgeScore = getBeginnerKnowledgeScore(selections);
       const midpoint = selectedRange.low + knowledgeScore * (selectedRange.high - selectedRange.low);
