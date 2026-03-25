@@ -1,27 +1,27 @@
 {
   "source": "https://github.com/neoneye/pdoom-calculator",
-  "exported_at": "2026-03-09T13:50:08.274Z",
+  "exported_at": "2026-03-25T12:16:22.754Z",
   "summary": {
-    "total_submissions": 99,
-    "average_pdoom": 0.2921286554335772,
+    "total_submissions": 106,
+    "average_pdoom": 0.3127383785447958,
     "factors": [
       {
         "label": "P(powerful AI)",
-        "average_lower": 0.47883989015609857,
-        "average_midpoint": 0.7243174476968758,
-        "average_upper": 0.8985760908732963
+        "average_lower": 0.46579416349990665,
+        "average_midpoint": 0.7290986747879912,
+        "average_upper": 0.9022521005163603
       },
       {
         "label": "P(dangerous behavior | powerful AI)",
-        "average_lower": 0.38023190499362486,
-        "average_midpoint": 0.6217988080068356,
-        "average_upper": 0.8390202012547998
+        "average_lower": 0.37328332035966383,
+        "average_midpoint": 0.6385108995889834,
+        "average_upper": 0.8496509426813696
       },
       {
         "label": "P(global catastrophe | dangerous behavior)",
-        "average_lower": 0.3132371729247406,
-        "average_midpoint": 0.5353519822255822,
-        "average_upper": 0.7773205744747844
+        "average_lower": 0.3187535093980206,
+        "average_midpoint": 0.5561636646406579,
+        "average_upper": 0.7920239251867057
       }
     ]
   },
@@ -3650,6 +3650,651 @@
             "expert-content-creators-robert-miles",
             "expert-content-creators-siliconversations",
             "expert-content-creators-lethal-intelligence",
+            "expert-content-creators-rational-animations"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-10T23:16:55.249+00:00",
+      "summary": {
+        "p10": 0.46495244957952164,
+        "p90": 0.7971239096136049,
+        "lower": 0.3493700025168574,
+        "upper": 0.9997991967871487,
+        "midpoint": 0.6845010583802206
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5506743956959916,
+          "upper": 1,
+          "spread": 0.25,
+          "midpoint": 0.8006743956959916
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.7050909297567628,
+          "upper": 1,
+          "spread": 0.195,
+          "midpoint": 0.9000909297567629
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.8997991967871486,
+          "upper": 0.9997991967871487,
+          "spread": 0.05,
+          "midpoint": 0.9497991967871486
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-robert-miles",
+            "expert-content-creators-siliconversations",
+            "expert-content-creators-lethal-intelligence",
+            "expert-content-creators-rational-animations"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-14T13:55:18.399+00:00",
+      "summary": {
+        "p10": 0.017384194385381985,
+        "p90": 0.3688013461802874,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.5100823990000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.14900000000000005,
+          "upper": 1,
+          "spread": 0.65,
+          "midpoint": 0.799
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.905,
+          "midpoint": 0.799
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.09900000000000006,
+          "upper": 1,
+          "spread": 0.7,
+          "midpoint": 0.799
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-startrek",
+            "entertainment-starwars"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-impactevent",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-sriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-companion",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-medium",
+          "question_id": "beginner-control"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-16T22:40:30.516+00:00",
+      "summary": {
+        "p10": 0.03812629928695571,
+        "p90": 0.48153239952625443,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.7097322880000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.935,
+          "midpoint": 0.892
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.22700000000000004,
+          "upper": 1,
+          "spread": 0.665,
+          "midpoint": 0.892
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.517,
+          "upper": 1,
+          "spread": 0.375,
+          "midpoint": 0.892
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-17T10:24:45.353+00:00",
+      "summary": {
+        "p10": 0.08178708500769258,
+        "p90": 0.48959497474806973,
+        "lower": 0.015462532042400999,
+        "upper": 1,
+        "midpoint": 0.881821137642124
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.4390757215161682,
+          "upper": 1,
+          "spread": 0.485,
+          "midpoint": 0.9240757215161682
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.33299999999999996,
+          "upper": 1,
+          "spread": 0.64,
+          "midpoint": 0.973
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.10575403713286505,
+          "upper": 1,
+          "spread": 0.875,
+          "midpoint": 0.980754037132865
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-never",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-20T15:46:24.125+00:00",
+      "summary": {
+        "p10": 0.014515562420737016,
+        "p90": 0.3649829342950798,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.2533311930373893
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.1997794606241952,
+          "upper": 1,
+          "spread": 0.55,
+          "midpoint": 0.7497794606241952
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.03073305200570772,
+          "upper": 1,
+          "spread": 0.87,
+          "midpoint": 0.9007330520057077
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.83,
+          "midpoint": 0.37511033493623847
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-startrek",
+            "entertainment-starwars",
+            "entertainment-trumanshow",
+            "entertainment-wall-e",
+            "entertainment-hitchhikersguide"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-sriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-21T21:54:24.142+00:00",
+      "summary": {
+        "p10": 0.1313041759983918,
+        "p90": 0.5186947090186492,
+        "lower": 0.04033632358725441,
+        "upper": 1,
+        "midpoint": 0.8578408507050883
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.37081296942213365,
+          "upper": 1,
+          "spread": 0.5710000000000001,
+          "midpoint": 0.9418129694221337
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.2819263545338045,
+          "upper": 1,
+          "spread": 0.67,
+          "midpoint": 0.9519263545338045
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.38583864272083623,
+          "upper": 1,
+          "spread": 0.5710000000000001,
+          "midpoint": 0.9568386427208363
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-judgedredd",
+            "entertainment-robocop",
+            "entertainment-trumanshow"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-impactevent",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-sriskai"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-mass-surveillance",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-03-22T02:39:19.249+00:00",
+      "summary": {
+        "p10": 0.14724159292561323,
+        "p90": 0.4380863646542359,
+        "lower": 0.06945107270094875,
+        "upper": 0.67968965827786,
+        "midpoint": 0.3322223110593893
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.25968965827785995,
+          "upper": 0.67968965827786,
+          "spread": 0.21,
+          "midpoint": 0.4696896582778599
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.34732302745923477,
+          "upper": 1,
+          "spread": 0.36,
+          "midpoint": 0.7073230274592348
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.77,
+          "upper": 1,
+          "spread": 0.23,
+          "midpoint": 1
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates",
+            "expert-commentators-dont-worry-about-the-vase"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-robert-miles",
+            "expert-content-creators-siliconversations",
             "expert-content-creators-rational-animations"
           ],
           "question_id": "expert-content-creators"
