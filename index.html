@@ -2762,9 +2762,14 @@ Gaps / potential future questions:
       config.forEach(({ key }) => syncInputs(key));
       recalc();
       persistSliderState();
+      let resizeFrame = null;
       window.addEventListener('resize', () => {
         if (!latestSnapshot) return;
-        drawDistributions(latestSnapshot.factors);
+        if (resizeFrame !== null) return;
+        resizeFrame = requestAnimationFrame(() => {
+          resizeFrame = null;
+          if (latestSnapshot) drawDistributions(latestSnapshot.factors);
+        });
       });
 
       initSupabase();

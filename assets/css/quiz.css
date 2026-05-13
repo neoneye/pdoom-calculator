@@ -21,7 +21,6 @@
   border: 1px solid rgba(90, 120, 200, 0.35);
   background: linear-gradient(120deg, rgba(8, 12, 20, 0.94), rgba(4, 7, 14, 0.96));
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
 }
 
 .wizard-breadcrumbs__list {
@@ -425,7 +424,6 @@
   border-radius: 12px;
   padding: 0.8rem 1rem;
   background: rgba(8, 12, 20, 0.95);
-  backdrop-filter: blur(8px);
 }
 
 /* When quiz preview is visible, adjust corners for stacked appearance */

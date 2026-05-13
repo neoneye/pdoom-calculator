@@ -80,7 +80,6 @@ main {
   border-radius: 18px;
   padding: 2.5rem;
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(6px);
 }
 
 body.is-embedded {
