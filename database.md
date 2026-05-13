@@ -28,7 +28,17 @@ CREATE TABLE submissions (
 );
 ```
 
-## 3. Enable Row Level Security (RLS)
+## 3. Grant Data API access
+
+As of May 30, 2026, new Supabase projects no longer expose `public` tables to the Data API by default. Grant access explicitly so the anon key (used by supabase-js) can reach the table:
+
+```sql
+GRANT SELECT, INSERT ON submissions TO anon;
+```
+
+Without this, PostgREST returns a `42501` error.
+
+## 4. Enable Row Level Security (RLS)
 
 RLS is required for the anon key to work. Enable it on the table, then add policies for anonymous insert and read access:
 
