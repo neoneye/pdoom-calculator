@@ -626,7 +626,6 @@
     border-radius: 8px;
     gap: 0.5rem;
     min-height: 44px; /* iOS minimum tap target */
-    user-select: auto; /* Re-enable text selection on mobile for long-press */
   }
 
   .wizard-radio input,
@@ -747,5 +746,25 @@
 
   .sticky-pdoom__value {
     font-size: 0.9rem;
+  }
+}
+
+/* Touch devices: disable text selection and the iOS long-press callout so a
+   held or dragged finger scrolls the page instead of starting a text selection
+   the user then has to fight. Targets touch input directly via pointer:coarse,
+   so mouse users on desktop keep normal selection/copy. Form inputs re-enable
+   selection in case any editable field is added later. */
+@media (pointer: coarse) {
+  body {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  input,
+  textarea,
+  [contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
   }
 }
