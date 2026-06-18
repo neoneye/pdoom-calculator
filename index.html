@@ -2369,6 +2369,38 @@ Gaps / potential future questions:
       return `${(prob * 100).toFixed(1)}%`;
     }
 
+    // The hot path (every pointermove/input event during a drag) runs a heavy
+    // recalc: 3 canvas redraws + a 4000-sample Monte Carlo + a synchronous
+    // localStorage write. A finger held on a touchscreen jitters constantly, so
+    // pointermove fires 60+ times/sec; running all of that synchronously per
+    // event saturates the main thread and trips iOS Safari's watchdog ("A
+    // problem repeatedly occurred"). Coalesce recalc to at most once per frame
+    // and debounce persistence so per-event cost stays bounded.
+    let recalcFrame = null;
+    function scheduleRecalc() {
+      if (recalcFrame !== null) return;
+      recalcFrame = requestAnimationFrame(() => {
+        recalcFrame = null;
+        recalc();
+      });
+    }
+
+    let persistTimer = null;
+    function schedulePersist() {
+      if (persistTimer !== null) clearTimeout(persistTimer);
+      persistTimer = setTimeout(() => {
+        persistTimer = null;
+        persistSliderState();
+      }, 250);
+    }
+
+    function flushPersist() {
+      if (persistTimer === null) return;
+      clearTimeout(persistTimer);
+      persistTimer = null;
+      persistSliderState();
+    }
+
     function updateState(key, role, percentage) {
       const current = state.get(key) || { midpoint: 50, spread: 0 };
       if (role === 'midpoint') {
@@ -2378,8 +2410,8 @@ Gaps / potential future questions:
       }
       state.set(key, current);
       syncInputs(key);
-      recalc();
-      persistSliderState();
+      scheduleRecalc();
+      schedulePersist();
     }
 
     function syncInputs(key) {
@@ -2792,6 +2824,13 @@ Gaps / potential future questions:
           event.preventDefault();
         }
       }, { passive: false });
+
+      // Persistence is debounced on the hot path; flush any pending write when
+      // the page is backgrounded or closed so the latest slider state is saved.
+      window.addEventListener('pagehide', flushPersist);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') flushPersist();
+      });
 
       // Handle back/forward buttons
       window.addEventListener('popstate', () => {
