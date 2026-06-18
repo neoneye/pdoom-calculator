@@ -1093,6 +1093,71 @@ Gaps / potential future questions:
     const SLIDER_STORAGE_KEY = 'pdoom-slider-state-v1';
     const SKILL_STORAGE_KEY = 'pdoom-skill-level-v1';
     const SLIDERS_CONTAINER_ID = 'slidersUi';
+
+    // --- DIAGNOSTIC (gated by ?diag=1) -----------------------------------
+    // Sporadic crash hunt: record per-second activity + which wizard page is
+    // active, trip a stack capture if recalc loops, and persist to localStorage
+    // so the log survives the WebKit crash + auto-reload. Remove once resolved.
+    const DIAG = location.search.includes('diag') ||
+      (() => { try { return localStorage.getItem('pdoomDiagOn') === '1'; } catch (e) { return false; } })();
+    if (location.search.includes('diag')) { try { localStorage.setItem('pdoomDiagOn', '1'); } catch (e) {} }
+    const diagCounts = { recalc: 0, updateState: 0, input: 0, pointer: 0, resize: 0, raf: 0 };
+    const diagRecalcTimes = [];
+    let diagTripped = false;
+    let diagOverlay = null;
+    function diagLog(reason, extra) {
+      if (!DIAG) return;
+      try {
+        const slidersHidden = (document.getElementById(SLIDERS_CONTAINER_ID) || {}).hidden;
+        const rec = Object.assign({
+          reason,
+          tSec: Math.round(performance.now() / 1000),
+          step: (typeof wizardState !== 'undefined' ? wizardState.step : '?'),
+          flow: (typeof wizardState !== 'undefined' ? wizardState.flowId : '?'),
+          slidersHidden,
+          hash: location.hash
+        }, diagCounts, extra || {});
+        const log = JSON.parse(localStorage.getItem('pdoomDiagLog') || '[]');
+        log.push(rec);
+        while (log.length > 60) log.shift();
+        localStorage.setItem('pdoomDiagLog', JSON.stringify(log));
+        if (reason !== 'beat') console.warn('[DIAG]', reason, rec);
+      } catch (e) {}
+    }
+    function diagTickRecalc() {
+      if (!DIAG) return;
+      diagCounts.recalc++;
+      const now = performance.now();
+      diagRecalcTimes.push(now);
+      while (diagRecalcTimes.length && now - diagRecalcTimes[0] > 1000) diagRecalcTimes.shift();
+      if (diagRecalcTimes.length > 30 && !diagTripped) {
+        diagTripped = true; // capture the loop's trigger once
+        diagLog('recalc-loop', { ratePerSec: diagRecalcTimes.length, stack: (new Error()).stack });
+      }
+    }
+    function diagStartHeartbeat() {
+      if (!DIAG) return;
+      diagOverlay = document.createElement('div');
+      diagOverlay.style.cssText = 'position:fixed;top:0;left:0;z-index:99999;background:rgba(0,0,0,0.8);color:#0f0;font:11px monospace;padding:4px 6px;pointer-events:none;white-space:pre;';
+      document.body.appendChild(diagOverlay);
+      let last = Object.assign({}, diagCounts);
+      setInterval(() => {
+        const d = {};
+        for (const k in diagCounts) { d[k] = diagCounts[k] - last[k]; }
+        last = Object.assign({}, diagCounts);
+        const slidersHidden = (document.getElementById(SLIDERS_CONTAINER_ID) || {}).hidden;
+        if (diagOverlay) {
+          diagOverlay.textContent =
+            `step:${wizardState.step} flow:${wizardState.flowId} slidersHidden:${slidersHidden}\n` +
+            `/s recalc:${d.recalc} upd:${d.updateState} in:${d.input} ptr:${d.pointer} rsz:${d.resize} raf:${d.raf}`;
+        }
+        // Only persist when something is happening (keeps the log meaningful).
+        if (d.recalc || d.updateState || d.input || d.pointer || d.resize) diagLog('beat', { per: d });
+      }, 1000);
+      window.addEventListener('pagehide', () => diagLog('pagehide'));
+    }
+    // ---------------------------------------------------------------------
+
     const wizardHeaderDefaults = {
       title: 'Choose your quiz path',
       intro: 'Start by selecting a path: let us decide the right level (recommended) or jump directly into the beginner, medium, or expert quiz.'
@@ -2381,6 +2446,7 @@ Gaps / potential future questions:
       if (recalcFrame !== null) return;
       recalcFrame = requestAnimationFrame(() => {
         recalcFrame = null;
+        if (DIAG) diagCounts.raf++;
         recalc();
       });
     }
@@ -2402,6 +2468,7 @@ Gaps / potential future questions:
     }
 
     function updateState(key, role, percentage) {
+      if (DIAG) diagCounts.updateState++;
       const current = state.get(key) || { midpoint: 50, spread: 0 };
       if (role === 'midpoint') {
         current.midpoint = clamp(percentage);
@@ -2440,6 +2507,7 @@ Gaps / potential future questions:
     }
 
     function recalc() {
+      diagTickRecalc();
       const factors = config.map(({ key, label }) => {
         const { midpoint, spread } = state.get(key) || { midpoint: 50, spread: 0 };
         const lower = Math.max(0, (midpoint - spread) / 100);
@@ -2662,6 +2730,7 @@ Gaps / potential future questions:
       let capturedPointerId = null;
 
       const applyMidpoint = (event) => {
+        if (DIAG) diagCounts.pointer++;
         const percent = midpointFromCanvasEvent(canvas, event.clientX);
         if (percent === null) return;
         updateState(key, 'midpoint', percent);
@@ -2759,6 +2828,7 @@ Gaps / potential future questions:
     }
 
     function init() {
+      diagStartHeartbeat();
       initWizard();
       const list = document.getElementById('factorList');
       if (!list) {
@@ -2787,6 +2857,7 @@ Gaps / potential future questions:
       });
 
       document.addEventListener('input', (event) => {
+        if (DIAG) { diagCounts.input++; diagLog('input', { target: (event.target.tagName || '') + '#' + (event.target.id || '') + '[' + (event.target.type || '') + ']' }); }
         if (event.target.matches('input[type="range"]')) {
           handleRangeInput(event);
         }
@@ -2797,6 +2868,7 @@ Gaps / potential future questions:
       persistSliderState();
       let resizeFrame = null;
       window.addEventListener('resize', () => {
+        if (DIAG) diagCounts.resize++;
         if (!latestSnapshot) return;
         if (resizeFrame !== null) return;
         resizeFrame = requestAnimationFrame(() => {
