@@ -2780,6 +2780,19 @@ Gaps / potential future questions:
         submitButton.addEventListener('click', submitParameters);
       }
 
+      // iOS Safari interprets a horizontal swipe that STARTS within a few px of
+      // the screen edge as a back/forward navigation gesture, even after a long
+      // press. CSS overscroll-behavior does not block this on iOS, so guard it
+      // by preventing default on edge-originating touches. Must be non-passive.
+      const EDGE_SWIPE_GUARD_PX = 24;
+      document.addEventListener('touchstart', (event) => {
+        if (event.touches.length !== 1) return;
+        const x = event.touches[0].pageX;
+        if (x < EDGE_SWIPE_GUARD_PX || x > window.innerWidth - EDGE_SWIPE_GUARD_PX) {
+          event.preventDefault();
+        }
+      }, { passive: false });
+
       // Handle back/forward buttons
       window.addEventListener('popstate', () => {
         if (suppressHashChange) return;

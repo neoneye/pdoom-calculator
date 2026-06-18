@@ -13,6 +13,11 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Disable horizontal overscroll-driven back/forward navigation (Chrome/Android). */
+  overscroll-behavior-x: none;
+}
+
 body {
   margin: 0;
   padding: 2rem;
@@ -22,6 +27,7 @@ body {
   gap: 1.5rem;
   background: linear-gradient(180deg, #101823, #050608);
   overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
 .site-nav {
