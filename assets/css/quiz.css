@@ -9,6 +9,9 @@
   display: flex;
   flex-direction: column;
   margin: 0 0 1.25rem;
+  /* Opaque so the browser never composites scrolling content behind the
+     pinned header — this was a major scroll-paint cost on iOS. */
+  background: #080c14;
 }
 
 .wizard-breadcrumbs {
@@ -19,8 +22,7 @@
   padding: 0.7rem 1rem;
   border-radius: 14px;
   border: 1px solid rgba(90, 120, 200, 0.35);
-  background: linear-gradient(120deg, rgba(8, 12, 20, 0.94), rgba(4, 7, 14, 0.96));
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(120deg, #080c14, #04070e);
 }
 
 .wizard-breadcrumbs__list {
@@ -39,7 +41,7 @@
   gap: 0.5rem;
   padding: 0.35rem 0.75rem;
   border-radius: 10px;
-  background: linear-gradient(135deg, rgba(255, 100, 100, 0.15), rgba(255, 60, 60, 0.08));
+  background: linear-gradient(135deg, #281a1d, #1c1316);
   border: 1px solid rgba(255, 100, 100, 0.35);
   flex-shrink: 0;
 }
@@ -201,7 +203,6 @@
 
 .wizard-flow-card--recommended {
   border-color: rgba(131, 232, 198, 0.8);
-  box-shadow: 0 18px 40px rgba(14, 74, 58, 0.4);
 }
 
 .wizard-card-badge {
