@@ -1091,6 +1091,119 @@ Gaps / potential future questions:
     const SKILL_STORAGE_KEY = 'pdoom-skill-level-v1';
     const SLIDERS_CONTAINER_ID = 'slidersUi';
 
+    // --- Visitor identity ------------------------------------------------
+    // A non-extractable ECDSA P-256 keypair, generated lazily on the first
+    // successful submission and kept in IndexedDB. The public key identifies the
+    // browser across submissions; the private key signs each one so the grouping
+    // in the published export can be verified by anyone who downloads it.
+    //
+    // localStorage cannot hold this: a non-extractable CryptoKey is not a string.
+    // The counter shares the record so key and count cannot drift apart.
+    const IDENTITY_DB_NAME = 'pdoom-identity';
+    const IDENTITY_STORE = 'identity';
+    const IDENTITY_RECORD_KEY = 'v1';
+
+    function openIdentityDb() {
+      return new Promise((resolve, reject) => {
+        if (typeof indexedDB === 'undefined') {
+          reject(new Error('IndexedDB unavailable'));
+          return;
+        }
+        const request = indexedDB.open(IDENTITY_DB_NAME, 1);
+        request.onupgradeneeded = () => {
+          const db = request.result;
+          if (!db.objectStoreNames.contains(IDENTITY_STORE)) {
+            db.createObjectStore(IDENTITY_STORE);
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error('IndexedDB open failed'));
+        request.onblocked = () => reject(new Error('IndexedDB blocked'));
+      });
+    }
+
+    function identityRecord(db, mode, action) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(IDENTITY_STORE, mode);
+        const store = tx.objectStore(IDENTITY_STORE);
+        const request = action(store);
+        tx.onabort = () => reject(tx.error || new Error('IndexedDB transaction aborted'));
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function base64UrlFromBytes(bytes) {
+      let binary = '';
+      bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+      return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    function bytesFromBase64Url(value) {
+      const padded = value.replace(/-/g, '+').replace(/_/g, '/');
+      const binary = atob(padded + '==='.slice((padded.length + 3) % 4));
+      return Uint8Array.from(binary, char => char.charCodeAt(0));
+    }
+
+    // "p256:" + base64url(x || y) taken from the public JWK. 91 characters, and
+    // everything the Python verifier needs to rebuild the public key.
+    function visitorKeyFromJwk(jwk) {
+      const x = bytesFromBase64Url(jwk.x);
+      const y = bytesFromBase64Url(jwk.y);
+      const raw = new Uint8Array(x.length + y.length);
+      raw.set(x, 0);
+      raw.set(y, x.length);
+      return 'p256:' + base64UrlFromBytes(raw);
+    }
+
+    // Returns null rather than throwing: a browser that cannot do this still
+    // submits, just without an identity.
+    async function loadIdentity() {
+      if (typeof crypto === 'undefined' || !crypto.subtle) return null;
+      let db = null;
+      try {
+        db = await openIdentityDb();
+        const existing = await identityRecord(db, 'readonly', store => store.get(IDENTITY_RECORD_KEY));
+        if (existing && existing.privateKey && existing.visitorKey) {
+          return {
+            privateKey: existing.privateKey,
+            visitorKey: existing.visitorKey,
+            submitCount: Number(existing.submitCount) || 0
+          };
+        }
+        const pair = await crypto.subtle.generateKey(
+          { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign', 'verify']);
+        const jwk = await crypto.subtle.exportKey('jwk', pair.publicKey);
+        const record = {
+          privateKey: pair.privateKey,
+          visitorKey: visitorKeyFromJwk(jwk),
+          submitCount: 0
+        };
+        await identityRecord(db, 'readwrite', store => store.put(record, IDENTITY_RECORD_KEY));
+        return { privateKey: record.privateKey, visitorKey: record.visitorKey, submitCount: 0 };
+      } catch (error) {
+        console.warn('Visitor identity unavailable', error);
+        return null;
+      } finally {
+        if (db) db.close();
+      }
+    }
+
+    async function persistSubmitCount(count) {
+      let db = null;
+      try {
+        db = await openIdentityDb();
+        const existing = await identityRecord(db, 'readonly', store => store.get(IDENTITY_RECORD_KEY));
+        if (!existing) return;
+        existing.submitCount = count;
+        await identityRecord(db, 'readwrite', store => store.put(existing, IDENTITY_RECORD_KEY));
+      } catch (error) {
+        console.warn('Unable to persist submit count', error);
+      } finally {
+        if (db) db.close();
+      }
+    }
+
     // --- DIAGNOSTIC (gated by ?diag=1) -----------------------------------
     // Sporadic crash hunt: record per-second activity + which wizard page is
     // active, trip a stack capture if recalc loops, and persist to localStorage
