@@ -3,3 +3,4 @@ _site/
 .sass-cache/
 .claude/
 .venv/
+__pycache__/
