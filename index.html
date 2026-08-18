@@ -379,20 +379,10 @@ Gaps / potential future questions:
       }
     ];
 
-    const knowledgeCheckMaxScore = knowledgeCheckQuestions.reduce((sum, question) => {
-      if (question.type === 'multi-select') {
-        const aiOptions = question.options.filter(option => option.aiRelated);
-        return sum + aiOptions.length;
-      }
-      const optionScores = question.options.map(option => Number(option.score) || 0);
-      const maxForQuestion = optionScores.length > 0 ? Math.max(...optionScores) : 0;
-      return sum + maxForQuestion;
-    }, 0);
-
     const levelJumpRules = [
-      { min: 0, max: 20, flowId: 'beginner', label: 'Jump to beginner quiz' },
-      { min: 21, max: 25, flowId: 'medium', label: 'Jump to medium quiz' },
-      { min: 26, max: 30, flowId: 'expert', label: 'Jump to expert quiz' }
+      { min: 0, max: 20, flowId: 'beginner' },
+      { min: 21, max: 25, flowId: 'medium' },
+      { min: 26, max: 30, flowId: 'expert' }
     ];
 
     const quizFlows = [
@@ -1182,6 +1172,15 @@ Gaps / potential future questions:
     // What the expert gate decided, or null if it has not run. Carried into the
     // submission so a verified expert can be told from a self-declared one.
     let gateState = null;
+
+    // A verified expert clears 26 of the 30 terms. Ticking nothing already scores
+    // 15, since the 15 decoys are then correctly left alone.
+    const EXPERT_GATE_MIN_SCORE = 26;
+
+    function resetGateState() {
+      gateState = null;
+    }
+
     let predictedQuizFlowId = 'beginner';
     let storedWizardAnswers = {};
     let storedSliderState = {};
@@ -1295,6 +1294,7 @@ Gaps / potential future questions:
     function navigateTo(targetId, skipHash) {
       if (targetId === 'start') {
         wizardState.flowId = null;
+        resetGateState();
         resetWizardResult();
         setSlidersVisibility(false);
         goToWizardStep('welcome');
@@ -1631,21 +1631,26 @@ Gaps / potential future questions:
       updateCalibrationPreview();
     }
 
-    function renderLevelRecommendationButton(correctAnswers) {
+    function renderGateResultActions(recommendedFlowId) {
       const actionsEl = document.getElementById('wizardResultActions');
       if (!actionsEl) return;
       actionsEl.innerHTML = '';
-      const match = levelJumpRules.find(rule => correctAnswers >= rule.min && correctAnswers <= rule.max);
-      if (!match) {
-        actionsEl.hidden = true;
-        return;
-      }
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'primary-button';
-      button.textContent = match.label;
-      button.addEventListener('click', () => handleFlowSelection(match.flowId));
-      actionsEl.appendChild(button);
+      // Clearing the bar means one door. Falling short means two: the level the
+      // score suggests, and the expert quiz anyway — recorded as self-declared.
+      const buttons = recommendedFlowId === 'expert'
+        ? [{ flowId: 'expert', label: 'Start expert quiz', className: 'primary-button' }]
+        : [
+            { flowId: recommendedFlowId, label: `Take ${recommendedFlowId} quiz`, className: 'primary-button' },
+            { flowId: 'expert', label: 'Continue to expert anyway', className: 'secondary-button' }
+          ];
+      buttons.forEach(({ flowId, label, className }) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = className;
+        button.textContent = label;
+        button.addEventListener('click', () => handleFlowSelection(flowId));
+        actionsEl.appendChild(button);
+      });
       actionsEl.hidden = false;
     }
 
@@ -1653,8 +1658,6 @@ Gaps / potential future questions:
       const resultEl = document.getElementById('wizardResult');
       if (!resultEl) return;
       resetWizardResult();
-      let score = 0;
-      let falseSelections = 0;
       let questionsCorrect = 0;
       let questionItemsTotal = 0;
 
@@ -1685,10 +1688,6 @@ Gaps / potential future questions:
           }
           if (!isAiRelated && isSelected) {
             perfect = false;
-            falseSelections += 1;
-          }
-          if (isAiRelated && isSelected) {
-            score += 1;
           }
           if (optionEl) {
             optionEl.classList.remove('quiz-option--correct', 'quiz-option--incorrect', 'quiz-option--missed');
@@ -1715,26 +1714,29 @@ Gaps / potential future questions:
         }
       });
 
-      const calibratedScore = Math.max(0, score - falseSelections);
-      const normalizedScore = knowledgeCheckMaxScore > 0 ? calibratedScore / knowledgeCheckMaxScore : 0;
-      const boundedScore = clamp(normalizedScore, 0, 1);
-      const confidenceSpread = CONFIDENCE_HIGH + (1 - boundedScore) * (CONFIDENCE_LOW - CONFIDENCE_HIGH);
+      // The gate no longer touches the sliders: whichever quiz follows overwrites
+      // both spread and midpoint immediately, so any calibration here is dead.
       const percentCorrect = questionItemsTotal > 0 ? Math.max(0, Math.min(100, Math.round((questionsCorrect / questionItemsTotal) * 100))) : 0;
       const scoreMessage = questionItemsTotal > 0 && questionsCorrect === questionItemsTotal
         ? `You have ${questionItemsTotal} of ${questionItemsTotal} answers correct. Score 100%.`
         : `You have ${questionsCorrect} of ${questionItemsTotal} answers correct. Score ${percentCorrect}%.`;
 
-      applyConfidenceCalibration(confidenceSpread);
-      resultEl.innerHTML = `${scoreMessage}`;
+      const recommended = levelJumpRules.find(rule => questionsCorrect >= rule.min && questionsCorrect <= rule.max);
+      const recommendedFlowId = recommended ? recommended.flowId : 'beginner';
+      gateState = {
+        score: questionsCorrect,
+        recommendedLevel: recommendedFlowId,
+        expertVerified: questionsCorrect >= EXPERT_GATE_MIN_SCORE
+      };
+
+      const verdict = recommendedFlowId === 'expert'
+        ? ' That clears the expert bar.'
+        : ` That suggests the ${recommendedFlowId} quiz is the better fit.`;
+      resultEl.innerHTML = `${scoreMessage}${verdict}`;
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
-      const recommended = levelJumpRules.find(rule => questionsCorrect >= rule.min && questionsCorrect <= rule.max);
-      if (recommended) {
-        setPredictedQuizFlow(recommended.flowId);
-      } else {
-        setPredictedQuizFlow('beginner');
-      }
-      renderLevelRecommendationButton(questionsCorrect);
+      setPredictedQuizFlow(recommendedFlowId);
+      renderGateResultActions(recommendedFlowId);
     }
 
     function collectWizardAnswers(flow) {
@@ -2108,6 +2110,7 @@ Gaps / potential future questions:
       const shouldReset = window.confirm('Reset all saved quiz answers? This will wipe stored selections.');
       if (!shouldReset) return;
       clearStoredWizardAnswers();
+      resetGateState();
       wizardState.flowId = null;
       clearWizardUi();
       setSlidersVisibility(false);
@@ -2148,7 +2151,6 @@ Gaps / potential future questions:
         const submitButton = document.getElementById('wizardSubmitButton');
         const prevTop = submitButton ? submitButton.getBoundingClientRect().top : null;
         runKnowledgeCheck();
-        latestQuizData = buildQuizAnswersPayload(wizardState.flowId, flow);
         if (prevTop !== null && submitButton && typeof window !== 'undefined' && typeof window.scrollBy === 'function') {
           const newTop = submitButton.getBoundingClientRect().top;
           const delta = newTop - prevTop;
