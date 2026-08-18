@@ -2116,7 +2116,11 @@ Gaps / potential future questions:
 
     function formatWizardMeta(flow) {
       if (!flow) return '';
-      const questionCount = Array.isArray(flow.questions) ? flow.questions.length : null;
+      // The gate is one question holding 30 terms, so "1 question" reads as a
+      // miscount next to its own "30 terms" meta. Its meta line stands alone.
+      const questionCount = (flow.kind === 'knowledge-check' || !Array.isArray(flow.questions))
+        ? null
+        : flow.questions.length;
       const questionLabel = typeof questionCount === 'number' && questionCount > 0
         ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
         : '';
