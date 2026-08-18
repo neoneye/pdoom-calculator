@@ -24,9 +24,26 @@ CREATE TABLE submissions (
   factors jsonb,
   summary jsonb,
   quiz_flow_id text,
-  quiz_answers jsonb
+  quiz_answers jsonb,
+  gate_score int,
+  gate_recommended_level text,
+  expert_verified boolean
 );
 ```
+
+### Migrating an existing table
+
+The expert gate columns were added on 19 Aug 2026. Existing projects need:
+
+```sql
+ALTER TABLE submissions
+  ADD COLUMN IF NOT EXISTS gate_score int,
+  ADD COLUMN IF NOT EXISTS gate_recommended_level text,
+  ADD COLUMN IF NOT EXISTS expert_verified boolean;
+```
+
+Rows submitted before this date keep `NULL` in all three, which is also what a
+beginner or medium submission that never met the gate records.
 
 ## 3. Grant Data API access
 
@@ -64,5 +81,8 @@ CREATE POLICY "Allow anonymous reads"
 | `submitted_at` | timestamptz | When the prediction was registered |
 | `factors` | jsonb | Array of `{key, label, lower, upper, midpoint, spread}` per stage |
 | `summary` | jsonb | `{lower, upper, midpoint, p10, p90}` — the combined P(doom) result |
-| `quiz_flow_id` | text | Which quiz path was taken: `decide`, `beginner`, `medium`, `expert`, or `null` if skipped |
+| `quiz_flow_id` | text | Which quiz was taken: `beginner`, `medium`, `expert`, or `null` if skipped. Historical rows may hold `decide`, the knowledge-check path retired on 19 Aug 2026. |
 | `quiz_answers` | jsonb | Array of `{question_id, type, value/values}` — the user's quiz selections |
+| `gate_score` | int | Expert gate score, 0–30. `null` if the gate never ran. |
+| `gate_recommended_level` | text | Level the gate recommended: `beginner`, `medium` or `expert`. `null` if the gate never ran. |
+| `expert_verified` | boolean | True when `gate_score >= 26`. A submission with `quiz_flow_id = 'expert'` and `expert_verified = false` is a self-declared expert. `null` if the gate never ran. |

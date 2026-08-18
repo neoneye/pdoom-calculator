@@ -2336,7 +2336,14 @@ Gaps / potential future questions:
           midpoint: midpointProduct,
           p10,
           p90
-        }
+        },
+        quiz_flow_id: latestQuizData ? latestQuizData.flow_id : null,
+        quiz_answers: latestQuizData ? latestQuizData.answers : null,
+        // Null when the expert gate never ran, which is every beginner and medium
+        // submission that went straight to its quiz.
+        gate_score: gateState ? gateState.score : null,
+        gate_recommended_level: gateState ? gateState.recommendedLevel : null,
+        expert_verified: gateState ? gateState.expertVerified : null
       };
     }
 
@@ -2361,13 +2368,7 @@ Gaps / potential future questions:
       try {
         const { error } = await supabaseClient
           .from(SUBMISSIONS_TABLE)
-          .insert({
-            factors: payload.factors,
-            summary: payload.summary,
-            submitted_at: payload.submitted_at,
-            quiz_flow_id: latestQuizData ? latestQuizData.flow_id : null,
-            quiz_answers: latestQuizData ? latestQuizData.answers : null
-          });
+          .insert(payload);
         if (error) throw error;
         setSubmissionStatus('Submitted! Thanks for contributing.', 'success');
       } catch (error) {
