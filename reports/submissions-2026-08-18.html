@@ -175,6 +175,23 @@
     max-width: none;
   }
   .verdict b { color: var(--text-primary); font-weight: 620; }
+  .recs { list-style: none; margin: 0; padding: 0; }
+  .recs li { padding: 16px 0; border-bottom: 1px solid var(--grid); }
+  .recs li:first-child { padding-top: 4px; }
+  .recs li:last-child { border-bottom: none; padding-bottom: 0; }
+  .recs .what { font-size: 14px; font-weight: 620; color: var(--text-primary); margin-bottom: 5px; }
+  .recs .why { font-size: 13px; color: var(--text-secondary); line-height: 1.65; max-width: 88ch; }
+  .recs .why b { color: var(--text-primary); font-weight: 620; }
+  .recs code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.9em; background: var(--page); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1px 5px;
+  }
+  .recs .tag {
+    display: inline-block; font-size: 10.5px; font-weight: 650; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--baseline);
+    border-radius: 999px; padding: 2px 8px; margin-left: 9px; vertical-align: 2px;
+  }
   .footnote { color: var(--text-muted); font-size: 11.5px; line-height: 1.5; margin: 10px 0 0; }
 </style>
 <div class="viz-root"><div class="wrap">
@@ -338,6 +355,43 @@
       <li><b>Self-selection beats the guardrail.</b> The knowledge check exists to place people on the right lane and is marked recommended — 1 visitor in 64 used it. Of those who chose for themselves, 30% picked expert, and by the quiz's own name-recognition standard a quarter of them don't clear the bar.</li>
       <li><b>Uncertainty stays wide.</b> Individual p10–p90 ranges typically span 30–50 percentage points — visitors express low confidence regardless of where their midpoint sits.</li>
     </ul>
+  </div>
+
+  <div class="group"><h3>Directions forward</h3><span class="rule"></span><span class="count">changes this data argues for</span></div>
+  <div class="card">
+    <h2>What to change, and what in this data argues for it</h2>
+    <p class="chart-sub">Each item names a change to the calculator and the finding above that motivates it. Ordered by how much the evidence here supports them, not by effort.</p>
+    <ul class="recs">
+      <li>
+        <div class="what">Gate the expert path behind a decoy check<span class="tag">strongest case</span></div>
+        <div class="why">Anyone can declare themselves an expert today, and <b>30% of self-selectors do</b>. The expert quiz cannot contradict them: its three reasoning questions are ticked in full by nearly everyone (18/18 on self-improvement), and its name-recognition questions — the only ones that discriminate — carry no consequence. <b>7 of 18 recognised neither research organisation</b>. Requiring a short decoy round before the expert quiz unlocks would make the claim cost something, and the mechanism already exists: the knowledge check's fake organisations and near-miss terms caught the one visitor who met them.</div>
+      </li>
+      <li>
+        <div class="what">Seed flagged decoys into all three self-selected quizzes</div>
+        <div class="why">Right now the only place in the calculator where an answer can be <i>wrong</i> is the knowledge check, which <b>1 visitor in 64</b> has taken. The beginner, medium and expert quizzes carry no decoys, so nothing distinguishes a person who recognises PauseAI from one who ticks every box. Adding a handful of flagged decoys per level — a fabricated campaign organisation, a non-existent film, a plausible-sounding non-mechanism — makes over-claiming measurable for the 98% who never see the check.</div>
+      </li>
+      <li>
+        <div class="what">Record what the knowledge check decided, not just that it ran</div>
+        <div class="why">Submissions store <code>quiz_flow_id: "decide"</code> but not the level the check then routed the visitor to, so there is no way to tell whether it ever redirects anyone — whether someone who would have picked expert was placed on medium. Storing the routed level and the score alongside the flow id turns the check into something you can evaluate rather than just offer.</div>
+      </li>
+      <li>
+        <div class="what">Replace or repair the expert quiz's reasoning questions</div>
+        <div class="why">"Which of these are ways an AI could self-improve" is answered in full by <b>every single respondent</b>, and the other two conceptual questions nearly so. A question everyone answers identically carries no information about who is answering it. Either add plausible-but-wrong mechanisms so the question can be got wrong, or drop it and spend the visitor's attention on questions that separate people.</div>
+      </li>
+      <li>
+        <div class="what">Stamp each submission with the option set it was shown</div>
+        <div class="why">Options get added over time — Iron Man in June, Eagle Eye in August — and a raw count then understates them against everyone who was never offered the choice. This report reconstructs each option's real denominator from the page's git history, which works but is fragile and lives outside the data. Recording an option-set version with each submission makes the correction exact and automatic.</div>
+      </li>
+      <li>
+        <div class="what">Ask one identical question at every level</div>
+        <div class="why">Every level has its own questions, so no two cohorts can be compared on anything they both answered. That is why the headline result — the expert cohort submits the lowest median — cannot be attributed to expertise rather than to whoever happens to pick that path. A single shared anchor question, asked identically to beginners and experts alike, would let the cohorts be compared directly instead of inferred.</div>
+      </li>
+      <li>
+        <div class="what">Decide what the recommended path is<span class="tag">cheap</span></div>
+        <div class="why">The knowledge check is listed first and marked recommended, and gets <b>1.6%</b> of visitors. Either it is the right default and should be the path visitors land on rather than one they must choose, or it is not and the label is misleading. Its current position costs a click of attention and returns almost nothing.</div>
+      </li>
+    </ul>
+    <p class="footnote">These are directions the data supports, not a verdict on the design — several of the findings behind them rest on small cells (18 expert-quiz takers, 1 knowledge-check taker), and the first thing any of these changes would buy is a larger, cleaner sample to test them against.</p>
   </div>
 </div></div>
 <script>
