@@ -14,6 +14,9 @@ the report page (``pdoom-submissions-viz.html``) renders from:
       "experts":   [{"names", "m"}, ...],
       "knowledge": {"terms", "real", "decoys", "takers", "pairs": [...], "taker": {...}},
       "sliders":   [{"m", "p10", "p90", "factors"}, ...],
+      "mediumQ":   [{"id", "label", "kind", "rho", "n"}, ...],
+      "prompts":   [{"label", "n", "median", "values"}, ...],
+      "mediumVuln":[{"known", "of", "m"}, ...],
       "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...]
     }
 
@@ -95,6 +98,18 @@ DECOY_COLLISIONS = {
     "clinical-supervisor": "Unsupervised learning",
     "reinforced-concrete": "Reinforcement learning",
 }
+
+# The medium quiz mixes questions about what the visitor knows or has experienced with
+# questions asking what they believe. An opinion about risk correlating with an estimate
+# of risk is close to tautological, so the two kinds are reported apart.
+MEDIUM_QUESTIONS = [
+    ("medium-vulnerabilities", "Vulnerabilities recognised", "knowledge"),
+    ("medium-system-prompts", "System-prompt familiarity", "knowledge"),
+    ("medium-off-the-rails", "Seen AI go off the rails", "knowledge"),
+    ("medium-speed", "Can humans react in time?", "opinion"),
+    ("medium-governance", "Can governance keep AI safe?", "opinion"),
+    ("medium-competition", "Competition lowers barriers", "opinion"),
+]
 
 EXPERT_QUESTIONS = [
     ("expert-continuous-learning", "Ways AI keeps learning", "concept"),
@@ -348,6 +363,61 @@ def slider_submissions(submissions):
     return out
 
 
+def ranks(values):
+    """Average ranks, so tied answers do not fabricate an ordering."""
+    order = sorted(range(len(values)), key=lambda i: values[i])
+    out = [0.0] * len(values)
+    i = 0
+    while i < len(order):
+        j = i
+        while j + 1 < len(order) and values[order[j + 1]] == values[order[i]]:
+            j += 1
+        for k in range(i, j + 1):
+            out[order[k]] = (i + j) / 2 + 1
+        i = j + 1
+    return out
+
+
+def spearman(xs, ys):
+    return pearson(ranks(xs), ranks(ys))
+
+
+def medium_breakdown(submissions, index_html):
+    """Each medium question's rank correlation with p(doom), plus two questions in full."""
+    meds = [s for s in submissions if s.get("quiz_flow_id") == "medium"]
+    questions, prompts, vulns = [], [], []
+    for qid, label, kind in MEDIUM_QUESTIONS:
+        options = [oid for oid, _ in parse_question_options(index_html, qid)]
+        xs, ys = [], []
+        for s in meds:
+            for a in s.get("quiz_answers") or []:
+                if a["question_id"] != qid:
+                    continue
+                if a["type"] == "multi-select":
+                    xs.append(len(a.get("values") or []))
+                elif a.get("value") in options:
+                    xs.append(options.index(a["value"]))  # display order is the ordinal scale
+                else:
+                    continue
+                ys.append(s["summary"]["midpoint"])
+        if len(xs) < 3:
+            continue
+        questions.append({"id": qid, "label": label, "kind": kind,
+                          "rho": round(spearman(xs, ys), 3), "n": len(xs)})
+        if qid == "medium-system-prompts":
+            labels = [lab for _, lab in parse_question_options(index_html, qid)]
+            for level, lab in enumerate(labels):
+                vals = sorted(round(y, 4) for x, y in zip(xs, ys) if x == level)
+                prompts.append({"label": lab, "n": len(vals),
+                                "median": round(statistics.median(vals), 4) if vals else None,
+                                "values": vals})
+        if qid == "medium-vulnerabilities":
+            of = len(options)
+            vulns = [{"known": x, "of": of, "m": round(y, 4)} for x, y in zip(xs, ys)]
+    questions.sort(key=lambda q: -q["rho"])
+    return questions, prompts, vulns
+
+
 def pearson(xs, ys):
     mx, my = statistics.mean(xs), statistics.mean(ys)
     cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
@@ -430,6 +500,17 @@ def print_flow_summary(flows, expert_q, experts, out=sys.stderr):
           f"; {sum(1 for r in recalled if r <= 2)} of {len(experts)} recalled 2 or fewer", file=out)
 
 
+def print_medium_summary(medium_q, prompts, out=sys.stderr):
+    if not medium_q:
+        return
+    print(f"medium quiz (n={medium_q[0]['n']}), rank correlation with p(doom):", file=out)
+    for q in medium_q:
+        print(f"  {q['rho']:+.2f}  {q['label']:30s} [{q['kind']}]", file=out)
+    for p in prompts:
+        shown = f"{p['median']:.2f}" if p["median"] is not None else "--"
+        print(f"    system prompts: {p['label'][:38]:40s} n={p['n']:>2}  median={shown}", file=out)
+
+
 def inject(report_path, blob):
     with open(report_path) as f:
         html = f.read()
@@ -469,6 +550,7 @@ def main():
         "beginner-catastrophes")
     beginners = beginner_groups(submissions)
     expert_q, experts = expert_breakdown(submissions, args.quiz_source)
+    medium_q, prompts, vulns = medium_breakdown(submissions, args.quiz_source)
     data = {
         "rows": rows,
         "months": monthly_aggregates(rows),
@@ -477,6 +559,9 @@ def main():
         "beginners": beginners,
         "flows": flow_counts(submissions),
         "knowledge": knowledge_check(submissions, args.quiz_source),
+        "mediumQ": medium_q,
+        "prompts": prompts,
+        "mediumVuln": vulns,
         "sliders": slider_submissions(submissions),
         "expertQ": expert_q,
         "experts": experts,
@@ -488,6 +573,7 @@ def main():
         print_film_summary(titles, beginners)
         print_risk_summary(beginners)
         print_flow_summary(data["flows"], expert_q, experts)
+        print_medium_summary(medium_q, prompts)
     if args.inject:
         inject(args.inject, blob)
         print(f"injected {len(blob) // 1024} KB into {args.inject}", file=sys.stderr)
