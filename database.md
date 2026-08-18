@@ -27,7 +27,11 @@ CREATE TABLE submissions (
   quiz_answers jsonb,
   gate_score int,
   gate_recommended_level text,
-  expert_verified boolean
+  expert_verified boolean,
+  visitor_key text,
+  submit_count int,
+  signed_payload text,
+  signature text
 );
 ```
 
@@ -39,11 +43,24 @@ The expert gate columns were added on 19 Aug 2026. Existing projects need:
 ALTER TABLE submissions
   ADD COLUMN IF NOT EXISTS gate_score int,
   ADD COLUMN IF NOT EXISTS gate_recommended_level text,
-  ADD COLUMN IF NOT EXISTS expert_verified boolean;
+  ADD COLUMN IF NOT EXISTS expert_verified boolean,
+  ADD COLUMN IF NOT EXISTS visitor_key text,
+  ADD COLUMN IF NOT EXISTS submit_count int,
+  ADD COLUMN IF NOT EXISTS signed_payload text,
+  ADD COLUMN IF NOT EXISTS signature text;
 ```
 
-Rows submitted before this date keep `NULL` in all three, which is also what a
-beginner or medium submission that never met the gate records.
+Rows submitted before this date keep `NULL` in all seven. The three gate columns
+are also `NULL` for any beginner or medium submission that never met the gate,
+and the four identity columns are `NULL` whenever the browser could not generate
+a key — a submission is never blocked over identity.
+
+Grouping repeat submissions is then a plain query:
+
+```sql
+SELECT visitor_key, count(*) FROM submissions
+WHERE visitor_key IS NOT NULL GROUP BY visitor_key HAVING count(*) > 1;
+```
 
 ## 3. Grant Data API access
 
@@ -86,3 +103,7 @@ CREATE POLICY "Allow anonymous reads"
 | `gate_score` | int | Expert gate score, 0–30. `null` if the gate never ran. |
 | `gate_recommended_level` | text | Level the gate recommended: `beginner`, `medium` or `expert`. `null` if the gate never ran. |
 | `expert_verified` | boolean | True when `gate_score >= 26`. A submission with `quiz_flow_id = 'expert'` and `expert_verified = false` is a self-declared expert. `null` if the gate never ran. |
+| `visitor_key` | text | `p256:` + base64url of the browser's ECDSA P-256 public key. `null` for unsigned rows and everything submitted before 19 Aug 2026. |
+| `submit_count` | int | 1-based submission number for that `visitor_key`. |
+| `signed_payload` | text | The exact string the signature covers. Stored verbatim so verification never has to reconstruct it. |
+| `signature` | text | base64url of the raw 64-byte r‖s ECDSA signature over `signed_payload`. |

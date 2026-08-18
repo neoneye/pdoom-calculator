@@ -2467,6 +2467,62 @@ Gaps / potential future questions:
       };
     }
 
+    // Fixed field order, plain String() numbers, empty string for absent values.
+    // This exact string is stored alongside the signature, so the Python verifier
+    // never reconstructs it — which is what keeps Postgres timestamp rewriting and
+    // JS/Python float formatting from producing phantom invalid verdicts.
+    function buildSignedPayloadString(payload, visitorKey, submitCount) {
+      const factors = payload.factors
+        .map(factor => `${factor.midpoint}:${factor.spread}`)
+        .join(',');
+      const blank = value => (value === null || value === undefined ? '' : String(value));
+      return [
+        'pdoom/1',
+        `k=${visitorKey}`,
+        `n=${submitCount}`,
+        `t=${payload.submitted_at}`,
+        `m=${payload.summary.midpoint}`,
+        `lo=${payload.summary.lower}`,
+        `hi=${payload.summary.upper}`,
+        `p10=${payload.summary.p10}`,
+        `p90=${payload.summary.p90}`,
+        `f=${factors}`,
+        `q=${blank(payload.quiz_flow_id)}`,
+        `g=${blank(payload.gate_score)}`
+      ].join('|');
+    }
+
+    // Attaches the identity columns. Any failure leaves all four null and the
+    // submission goes ahead unchanged — identity must never cost a submission.
+    async function signSubmission(payload) {
+      payload.visitor_key = null;
+      payload.submit_count = null;
+      payload.signed_payload = null;
+      payload.signature = null;
+      const identity = await loadIdentity();
+      if (!identity) return { payload, identity: null, nextCount: null };
+      const nextCount = identity.submitCount + 1;
+      try {
+        const signedPayload = buildSignedPayloadString(payload, identity.visitorKey, nextCount);
+        const signature = await crypto.subtle.sign(
+          { name: 'ECDSA', hash: 'SHA-256' },
+          identity.privateKey,
+          new TextEncoder().encode(signedPayload));
+        payload.visitor_key = identity.visitorKey;
+        payload.submit_count = nextCount;
+        payload.signed_payload = signedPayload;
+        payload.signature = base64UrlFromBytes(new Uint8Array(signature));
+        return { payload, identity, nextCount };
+      } catch (error) {
+        console.warn('Unable to sign submission', error);
+        payload.visitor_key = null;
+        payload.submit_count = null;
+        payload.signed_payload = null;
+        payload.signature = null;
+        return { payload, identity: null, nextCount: null };
+      }
+    }
+
     async function submitParameters() {
       const button = document.getElementById('submitParametersButton');
       if (!supabaseClient) {
@@ -2486,10 +2542,15 @@ Gaps / potential future questions:
       setSubmissionStatus('Submitting...');
       if (button) button.disabled = true;
       try {
+        const { identity, nextCount } = await signSubmission(payload);
         const { error } = await supabaseClient
           .from(SUBMISSIONS_TABLE)
           .insert(payload);
         if (error) throw error;
+        // Only after the row lands, so a failed submit does not burn a number.
+        // Deliberately not surfaced anywhere: the visitor must see no difference
+        // between their first submission and their fortieth.
+        if (identity) persistSubmitCount(nextCount);
         setSubmissionStatus('Submitted! Thanks for contributing.', 'success');
       } catch (error) {
         console.error('Supabase submission failed', error);
