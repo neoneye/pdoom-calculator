@@ -14,7 +14,7 @@ the report pages under ``reports/`` render from:
       "experts":   [{"names", "m"}, ...],
       "knowledge": {"terms", "real", "decoys", "takers", "pairs": [...], "taker": {...}},
       "sliders":   [{"m", "p10", "p90", "factors"}, ...],
-      "dupes":     {"records", "unique", "byLevel": {...}},
+      "dupes":     {"records", "unique", "byLevel": {level: {records, unique, median, medianDedup}}},
       "mediumQ":   [{"id", "label", "kind", "rho", "n"}, ...],
       "prompts":   [{"label", "n", "median", "values"}, ...],
       "mediumVuln":[{"known", "of", "m"}, ...],
@@ -257,7 +257,19 @@ def duplicate_audit(submissions):
     by_level = {}
     for lvl in QUIZ_LEVELS:
         rows = [s for s in submissions if s.get("quiz_flow_id") == lvl]
-        by_level[lvl] = {"records": len(rows), "unique": len({payload_key(s) for s in rows})}
+        seen, uniq = set(), []
+        for s in rows:
+            k = payload_key(s)
+            if k not in seen:
+                seen.add(k)
+                uniq.append(s)
+        by_level[lvl] = {
+            "records": len(rows),
+            "unique": len(uniq),
+            # A duplicate sitting at the median position can move it, so both are published.
+            "median": round(statistics.median([s["summary"]["midpoint"] for s in rows]), 4),
+            "medianDedup": round(statistics.median([s["summary"]["midpoint"] for s in uniq]), 4),
+        }
     return {"records": len(submissions),
             "unique": len({payload_key(s) for s in submissions}),
             "byLevel": by_level}
