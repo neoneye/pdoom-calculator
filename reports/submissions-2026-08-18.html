@@ -113,6 +113,12 @@
   .legend span.sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 0.5px; }
 
   svg { display: block; width: 100%; height: auto; overflow: visible; }
+  svg [tabindex]:focus { outline: none; }
+  svg [tabindex]:focus-visible > .hit-ring { opacity: 1; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
   svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
   .tick { fill: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
   .axis-name { fill: var(--text-muted); font-size: 11px; }
@@ -210,7 +216,7 @@
   <div class="group"><h3>All submissions</h3><span class="rule"></span><span class="count">162 submissions · Oct 2025 – Aug 2026</span></div>
   <div class="card">
     <h2>Every submission, colored by quiz level</h2>
-    <p class="chart-sub">Quiz levels (beginner / medium / expert) were introduced 9 Mar 2026 — earlier submissions have no tag. Dashed line: monthly median. Hover a dot for its p10–p90 range.</p>
+    <p class="chart-sub">The level chooser went live 9 Mar 2026; submissions before that predate it entirely. The four later ones without a level took the sliders or knowledge-check path and are shown separately (hollow), not folded into the early cohort. Dashed line: monthly median. Hover or Tab to a dot for its p10–p90 range.</p>
     <div class="legend" id="legend-a"></div>
     <div id="chart-scatter"></div>
     <div class="tooltip" id="tt-a"></div>
@@ -225,7 +231,7 @@
 
   <div class="card">
     <h2>Who says what: distribution by quiz level</h2>
-    <p class="chart-sub">Each dot is one submission; the tall tick marks the group median. Untagged = submitted before quiz levels existed (includes one knowledge-check entry).</p>
+    <p class="chart-sub">Each dot is one submission; the tall tick marks the group median. The last two rows are submissions with no declared level: those made before the chooser existed, and the four later ones that used the sliders or the knowledge check.</p>
     <div id="chart-groups"></div>
     <div class="tooltip" id="tt-c"></div>
   </div>
@@ -240,14 +246,14 @@
 
   <div class="card">
     <h2>The belief chain: where the groups diverge</h2>
-    <p class="chart-sub">Group medians for each link of the calculator's chain, and the resulting p(doom). Tagged quiz-takers rate every link near-certain; the untagged early crowd discounts each successive conditional. (Final p(doom) multiplies each person's own chain, so it sits below the medians shown.)</p>
+    <p class="chart-sub">Group medians for each link of the calculator's chain, and the resulting p(doom). Quiz-takers rate every link near-certain; the pre-chooser cohort discounts each successive conditional. (Final p(doom) multiplies each person's own chain, so it sits below the medians shown.)</p>
     <div id="chart-chain"></div>
     <div class="tooltip" id="tt-d"></div>
   </div>
 
   <div class="card">
-    <h2>The last link in the chain decides the verdict</h2>
-    <p class="chart-sub">Each panel: one factor's midpoint vs the submission's final p(doom). Agreement with the final number tightens down the chain — the last link correlates most.</p>
+    <h2>The widest-spread factor tracks the total most — an arithmetic result, not a behavioural one</h2>
+    <p class="chart-sub">Each panel: one factor's midpoint against the submission's own final p(doom). <b>Read this as a sensitivity check, not a finding about people.</b> Final p(doom) is literally the product of these three numbers, so each factor is being correlated with something it helped compute — the correlations cannot be near zero, and their ordering is set by how much each factor varies between respondents (SD 0.23, 0.28, 0.32), not by where it sits in the chain. Multiplication is commutative: reordering the chain leaves every correlation unchanged. What it does show is which slider moves the answer most across this set of submissions.</p>
     <div id="chart-facets" style="display:flex;flex-wrap:wrap;gap:8px"></div>
     <div class="tooltip" id="tt-e"></div>
   </div>
@@ -255,9 +261,9 @@
   <div class="group"><h3>“Decide the right level for me”</h3><span class="rule"></span><span class="count">the knowledge-check path</span></div>
   <div class="card">
     <h2>Almost nobody takes the recommended knowledge check</h2>
-    <p class="chart-sub">The chooser offers a knowledge check — labelled as recommended, and listed first — alongside three self-selected levels and a sliders-only path. This is what visitors picked, counting every submission since the chooser went live on 9 Mar 2026.</p>
+    <p class="chart-sub">The chooser offers a knowledge check — labelled as recommended, and listed first — alongside three self-selected levels and a sliders-only path. Counting every submission since the chooser went live on 9 Mar 2026. <b>These are completed submissions, not visitors:</b> the export carries no visitor identifier, no record of the chooser being displayed, and nothing about people who started and left — so this is the mix of paths that produced a submission, not take-up among everyone who saw the screen.</p>
     <div id="chart-flows" style="max-width:470px"></div>
-    <p class="verdict"><b>One visitor in five months took it.</b> Everyone else declared their own level, and <b>30% of them went straight to expert</b> — a claim nothing in those three quizzes ever checks.</p>
+    <p class="verdict"><b>1 of 64 post-launch submissions came through it.</b> Of the rest, 60 declared a level outright and 3 skipped to the sliders; among those 60, <b>30% went straight to expert</b> — a claim nothing in those three quizzes ever checks. Whether the check is being seen and rejected or simply never noticed cannot be told apart from submission data alone.</p>
     <div class="tooltip" id="tt-h"></div>
   </div>
 
@@ -284,19 +290,19 @@
       </div>
       <div style="flex:2 1 340px;min-width:300px;max-width:440px" id="chart-filmgroups"></div>
     </div>
-    <p class="verdict"><b>The three groups are indistinguishable.</b> Their medians land within 3 points of each other (A 68%, B 71%, C 70%) while each group internally spans 70+ points. Films seen vs p(doom) is r = −0.21 (ρ = −0.17) — noise at this sample size. Neither does uncertainty separate them: the median range-width is 0.51 / 0.45 / 0.51, and what looks like a wider group A is three individuals, not a group trait.</p>
+    <p class="verdict"><b>The three groups are indistinguishable.</b> Their medians land within 3 points of each other (A 68%, B 71%, C 70%) while each group internally spans 70+ points. Films seen vs p(doom) is r = −0.21 (ρ = −0.17) — noise at this sample size. Neither does uncertainty separate them: the median slider width is 0.51 / 0.45 / 0.51, and what looks like a wider group A is three individuals, not a group trait.</p>
     <div class="tooltip" id="tt-f"></div>
   </div>
 
   <div class="card">
     <h2>Risk awareness doesn't move p(doom), but it narrows the ranges</h2>
-    <p class="chart-sub">The idea was that recognising more kinds of catastrophe means a better-furnished sense of how things go wrong, and so a different p(doom). The beginner quiz asks which of 12 risk types the visitor recognises, so this is the same 23 respondents. Left: how many of them recognised each risk. Middle: those same people grouped by how many risks they recognised, against the p(doom) they submitted. Right: risks recognised against how wide they drew their own ranges.</p>
+    <p class="chart-sub">The idea was that recognising more kinds of catastrophe means a better-furnished sense of how things go wrong, and so a different p(doom). The beginner quiz asks which of 12 risk types the visitor recognises, so this is the same 23 respondents. Left: how many of them recognised each risk. Middle: those same people grouped by how many risks they recognised, against the p(doom) they submitted. Right: risks recognised against the average width of the three bands they set.</p>
     <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
       <div style="flex:3 1 420px;min-width:300px;max-width:520px" id="chart-risks"></div>
       <div style="flex:2 1 340px;min-width:300px;max-width:440px" id="chart-riskgroups"></div>
       <div style="flex:2 1 320px;min-width:300px;max-width:400px" id="chart-riskwidth"></div>
     </div>
-    <p class="verdict"><b>Two things do show, neither of them p(doom).</b> The group medians are non-monotonic (A 73%, B 53%, C 72%): the <i>middle</i> group is lowest, which is what a non-effect looks like. Pearson r = −0.26 against Spearman ρ = −0.09 confirms it — the linear number is carried by a few extreme values, not a trend. What does hold: <b>the least-aware group contains no skeptics at all</b> (group C's minimum is 48%, while A and B both hold sub-10% submissions), and <b>recognising more risks goes with narrower ranges</b> (r = −0.40; dropping any single respondent leaves it between −0.32 and −0.51). Note the group medians for width look cleaner than the data — group A's widths are bimodal — so the correlation is the trustworthy statistic, not the group median.</p>
+    <p class="verdict"><b>No effect on p(doom); two patterns worth a second look.</b> The group medians are non-monotonic (A 73%, B 53%, C 72%): the <i>middle</i> group is lowest, which is what a non-effect looks like. Pearson r = −0.26 against Spearman ρ = −0.09 confirms it — the linear number is carried by a few extreme values, not a trend. Two things are suggestive rather than established: <b>the least-aware group contains no skeptics</b> (group C's minimum is 48%, while A and B both hold sub-10% submissions), and <b>recognising more risks goes with narrower slider widths</b> (r = −0.40). That second one survives dropping any single respondent (−0.32 to −0.51) but a two-sided permutation test puts it at <b>p ≈ 0.06</b> on n = 23 — leave-one-out stability says a result isn't one person's doing, it says nothing about sampling error. Treat both as hypotheses to test on more data, not findings. The group medians for width also look cleaner than the underlying numbers, since group A's widths are bimodal.</p>
     <div class="tooltip" id="tt-g"></div>
   </div>
 
@@ -315,7 +321,7 @@
       </div>
       <div style="flex:2 1 320px;min-width:300px;max-width:400px" id="chart-vulns"></div>
     </div>
-    <p class="verdict"><b>Knowing the catalogue moves the number; knowing the machine does not.</b> System-prompt familiarity is the flattest question on the quiz — <b>&rho; = +0.07</b>, and dropping any single respondent leaves it between &minus;0.05 and +0.18. Its group medians run 56% / 84% / 69% / 58% from "don't know what one is" to "expert", which is non-monotonic, i.e. what a non-effect looks like. Meanwhile <b>recognising more vulnerabilities is the strongest signal anywhere in this data</b> (&rho; = +0.60, holding at +0.53 to +0.72 under leave-one-out), and having actually <i>seen</i> a model go off the rails points the other way (&rho; = &minus;0.39): the five who answered "never" sit at a median 88%, the highest group in the quiz. Abstract knowledge that failure modes exist raises p(doom); hands-on contact with models does not.</p>
+    <p class="verdict"><b>Knowing the catalogue moves the number; knowing the machine does not.</b> System-prompt familiarity is the flattest question on the quiz — <b>&rho; = +0.07</b>, and dropping any single respondent leaves it between &minus;0.05 and +0.18. Its group medians run 56% / 84% / 69% / 58% from "don't know what one is" to "expert", which is non-monotonic, i.e. what a non-effect looks like. Meanwhile <b>recognising more vulnerabilities is the strongest association in this data</b> (&rho; = +0.60, permutation p &asymp; 0.007, holding at +0.53 to +0.72 under leave-one-out), and having actually <i>seen</i> a model go off the rails points the other way (&rho; = &minus;0.39): the five who answered "never" sit at a median 88%, the highest group in the quiz. A reading consistent with this: knowing <i>that</i> failure modes exist goes with a higher p(doom), while hands-on contact with models does not. It is one association among the six tested here and dozens across this report, on 19 self-selected respondents, with no correction for multiple comparisons — a lead to test deliberately, not an established relationship.</p>
     <p class="footnote">The three opinion questions are shown for completeness but should not be read as findings — an opinion about whether governance can keep AI safe correlating with an estimate of catastrophe is close to tautological. Several cells are very small: two respondents call themselves system-prompt experts, and one has bypassed safety filters.</p>
     <div class="tooltip" id="tt-j"></div>
   </div>
@@ -336,7 +342,7 @@
   <div class="group"><h3>Sliders</h3><span class="rule"></span><span class="count">3 submissions</span></div>
   <div class="card">
     <h2>Everyone who skipped the quiz landed on 12.5%</h2>
-    <p class="chart-sub">The sliders path drops visitors straight onto the three probability controls with no questions asked. Three visitors took it, all in April 2026 — and all three left every midpoint at 0.5 while treating uncertainty completely differently.</p>
+    <p class="chart-sub">The sliders path drops the reader straight onto the three probability controls with no questions asked. Three submissions came through it, all in April 2026 — and all three left every midpoint at 0.5 while treating uncertainty completely differently.</p>
     <div id="chart-sliders" style="max-width:640px"></div>
     <p class="verdict" id="sliders-verdict"></p>
   </div>
@@ -344,16 +350,16 @@
   <div class="card">
     <h2>What the data says</h2>
     <ul class="notes">
-      <li><b>Submitted p(doom) has drifted sharply upward.</b> The median rose from <b>15%</b> in the first three months (Oct–Dec 2025, n=83) to <b>68%</b> in the last three (Jun–Aug 2026, n=39). Whether visitors got gloomier or the audience changed can't be separated from this data.</li>
-      <li><b>Beginners report the highest numbers, experts the lowest of the tagged groups.</b> Median 70% for beginner-quiz takers (n=23), 67% for medium (n=19), 56% for expert (n=18). All three tagged groups sit well above the untagged early crowd (median 14%, n=102) — but the tags only exist in the later, higher period, so level and era are entangled.</li>
+      <li><b>Submitted p(doom) has drifted sharply upward.</b> The median rose from <b>15%</b> in the first three months (Oct–Dec 2025, n=83) to <b>68%</b> in the last three (Jun–Aug 2026, n=39). Whether individuals got gloomier or the audience changed can't be separated from this data.</li>
+      <li><b>Beginners report the highest numbers, experts the lowest of the tagged groups.</b> Median 70% for beginner-quiz takers (n=23), 67% for medium (n=19), 56% for expert (n=18). All three sit well above the pre-chooser cohort (median 15%, n=98) — but levels only exist in the later, higher period, so level and era are entangled, and this comparison cannot separate them.</li>
       <li><b>The extremes are used.</b> 10 submissions put the midpoint at exactly 0% and 2 at ≈100%; both ends persist across the whole period.</li>
       <li><b>Traffic is bursty.</b> Oct 2025 (n=55, launch) and Aug 2026 (n=25) dominate; Jan 2026 had only 4 submissions, so single months with small n (Jan, Jul) swing easily.</li>
       <li><b>Everyone believes the first link; the verdict is decided at the last.</b> The median P(powerful AI) is 86% across all submissions, but correlation with the final p(doom) grows down the chain: r = 0.55 for P(powerful AI), 0.73 for P(dangerous behavior), 0.81 for P(global catastrophe).</li>
-      <li><b>Quiz engagement doesn't predict doom.</b> Beginners tick the most boxes (median 26 selections vs 15.5 for experts), but the number of selections is uncorrelated with p(doom) (r ≈ −0.06). Among beginners, having seen more AI films is weakly <i>negatively</i> related to p(doom) (r = −0.21, n = 23 — noise-level).</li>
+      <li><b>Quiz engagement doesn't predict doom — and raw tick counts can't be compared across levels.</b> Beginners are offered 48 checkboxes, experts 24, so the raw medians (26 vs 15.5) mostly measure quiz length. As a share of what each level was offered the order reverses and the gap nearly closes: beginners 54%, medium 62%, experts 65%. Within the beginner cohort, having seen more AI films is weakly <i>negatively</i> related to p(doom) (r = −0.21, n = 23 — indistinguishable from noise).</li>
       <li><b>Film exposure is mass-market, not AI-canon — which may be why it predicts nothing.</b> The Matrix (21/23) and Terminator (20/23) are near-universal, but Ex Machina — the film most cited in alignment discourse — was ticked by 2 of 23, and Pantheon, Transcendence, Neuromancer and Murderbot by nobody at all. "Films seen" here largely measures general movie-watching.</li>
       <li><b>Risk awareness buys precision, not doom.</b> Recognising more catastrophe types leaves p(doom) where it is, but goes with visibly tighter ranges (r = −0.40) — the opposite of the "the more you know, the less sure you are" intuition. It also appears to be a precondition for low estimates: nobody in the least-aware group submitted below 48%. Film exposure and risk awareness are essentially unrelated (r = +0.10), so they measure different things.</li>
-      <li><b>Self-selection beats the guardrail.</b> The knowledge check exists to place people on the right lane and is marked recommended — 1 visitor in 64 used it. Of those who chose for themselves, 30% picked expert, and by the quiz's own name-recognition standard a quarter of them don't clear the bar.</li>
-      <li><b>Uncertainty stays wide.</b> Individual p10–p90 ranges typically span 30–50 percentage points — visitors express low confidence regardless of where their midpoint sits.</li>
+      <li><b>Self-selection beats the guardrail.</b> The knowledge check exists to place people on the right lane and is marked recommended — it produced 1 of 64 post-launch submissions. Of the 60 that declared a level, 30% picked expert, and by the quiz's own name-recognition standard several of those don't clear the bar. Submission data cannot say how many people saw the chooser and abandoned it.</li>
+      <li><b>Stated uncertainty varies enormously.</b> The simulated p10–p90 band has a median width of 32 percentage points, but the middle half runs from 13 to 38 and the full range from 0 to 72 — so "wide" is the median, not the norm. Note this is a different quantity from the <i>slider width</i> used in the beginner and medium sections, which is the average gap between the lower and upper bounds a respondent set on the three factors; the two are related but not interchangeable.</li>
     </ul>
   </div>
 
@@ -364,11 +370,11 @@
     <ul class="recs">
       <li>
         <div class="what">Gate the expert path behind a decoy check<span class="tag">strongest case</span></div>
-        <div class="why">Anyone can declare themselves an expert today, and <b>30% of self-selectors do</b>. The expert quiz cannot contradict them: its three reasoning questions are ticked in full by nearly everyone (18/18 on self-improvement), and its name-recognition questions — the only ones that discriminate — carry no consequence. <b>7 of 18 recognised neither research organisation</b>. Requiring a short decoy round before the expert quiz unlocks would make the claim cost something, and the mechanism already exists: the knowledge check's fake organisations and near-miss terms caught the one visitor who met them.</div>
+        <div class="why">Anyone can declare themselves an expert today, and <b>30% of self-selectors do</b>. The expert quiz cannot contradict them: its three reasoning questions are ticked in full by nearly everyone (18/18 on self-improvement), and its name-recognition questions — the only ones that discriminate — carry no consequence. <b>7 of 18 recognised neither research organisation</b>. Requiring a short decoy round before the expert quiz unlocks would make the claim cost something, and the mechanism already exists: the knowledge check's near-miss terms caught the one submission that met them.</div>
       </li>
       <li>
         <div class="what">Seed flagged decoys into all three self-selected quizzes</div>
-        <div class="why">Right now the only place in the calculator where an answer can be <i>wrong</i> is the knowledge check, which <b>1 visitor in 64</b> has taken. The beginner, medium and expert quizzes carry no decoys, so nothing distinguishes a person who recognises PauseAI from one who ticks every box. Adding a handful of flagged decoys per level — a fabricated campaign organisation, a non-existent film, a plausible-sounding non-mechanism — makes over-claiming measurable for the 98% who never see the check.</div>
+        <div class="why">Right now the only place in the calculator where an answer can be <i>wrong</i> is the knowledge check, which produced <b>1 of 64</b> post-launch submissions. The beginner, medium and expert quizzes carry no decoys, so nothing distinguishes a person who recognises PauseAI from one who ticks every box. Adding a handful of flagged decoys per level — a fabricated campaign organisation, a non-existent film, a plausible-sounding non-mechanism — makes over-claiming measurable for the 98% who never see the check.</div>
       </li>
       <li>
         <div class="what">Record what the knowledge check decided, not just that it ran</div>
@@ -388,7 +394,7 @@
       </li>
       <li>
         <div class="what">Decide what the recommended path is<span class="tag">cheap</span></div>
-        <div class="why">The knowledge check is listed first and marked recommended, and gets <b>1.6%</b> of visitors. Either it is the right default and should be the path visitors land on rather than one they must choose, or it is not and the label is misleading. Its current position costs a click of attention and returns almost nothing.</div>
+        <div class="why">The knowledge check is listed first and marked recommended, and appears in <b>1 of 64</b> post-launch submissions. Either it is the right default and should be where readers land rather than something they must choose, or it is not and the label is misleading. Worth pairing with impression logging first: submission data cannot distinguish "seen and declined" from "never noticed".</div>
       </li>
     </ul>
     <p class="footnote">These are directions the data supports, not a verdict on the design — several of the findings behind them rest on small cells (18 expert-quiz takers, 1 knowledge-check taker), and the first thing any of these changes would buy is a larger, cleaner sample to test them against.</p>
@@ -400,9 +406,15 @@ const GROUPS = {
   beginner: { label: 'Beginner quiz', color: 'var(--level-1)' },
   medium:   { label: 'Medium quiz',   color: 'var(--level-2)' },
   expert:   { label: 'Expert quiz',   color: 'var(--level-3)' },
-  untagged: { label: 'No quiz tag (pre-Mar 2026)', color: 'var(--series-untagged)' },
+  prelaunch: { label: 'Before the chooser existed', color: 'var(--series-untagged)' },
+  otherpath: { label: 'Sliders / knowledge check', color: 'var(--series-untagged)' },
 };
-const grp = f => GROUPS[f] ? f : 'untagged';
+const LAUNCH = '2026-03-09';   // the date the level chooser went live
+// A submission without a level is only "pre-chooser" if it predates the chooser. The four
+// later ones took the sliders or knowledge-check path and are a separate category, not
+// part of the early cohort.
+const grp = (f, t) => (f === 'beginner' || f === 'medium' || f === 'expert') ? f
+  : (t < LAUNCH ? 'prelaunch' : 'otherpath');
 const pct = v => (v * 100).toFixed(v * 100 >= 10 ? 0 : 1) + '%';
 const NS = 'http://www.w3.org/2000/svg';
 function el(name, attrs, parent, text) {
@@ -413,7 +425,7 @@ function el(name, attrs, parent, text) {
   return e;
 }
 const parseT = s => new Date(s + ':00Z').getTime();
-const rows = DATA.rows.map((r, i) => ({ ...r, ms: parseT(r.t), g: grp(r.f), i }));
+const rows = DATA.rows.map((r, i) => ({ ...r, ms: parseT(r.t), g: grp(r.f, r.t), i }));
 const months = DATA.months;
 
 // ---- stat tiles ----
@@ -431,15 +443,35 @@ document.getElementById('tile-expert-n').textContent = 'n = ' + expertVals.lengt
 
 // ---- legend ----
 const legend = document.getElementById('legend-a');
-for (const k of ['beginner', 'medium', 'expert', 'untagged']) {
+for (const k of ['beginner', 'medium', 'expert', 'prelaunch', 'otherpath']) {
   const s = document.createElement('span');
-  s.innerHTML = '<span class="sw" style="background:' + GROUPS[k].color + '"></span>' + GROUPS[k].label +
+  const hollow = k === 'otherpath';
+  s.innerHTML = '<span class="sw" style="' + (hollow
+      ? 'background:var(--surface-1);box-shadow:inset 0 0 0 2px ' + GROUPS[k].color
+      : 'background:' + GROUPS[k].color) + '"></span>' + GROUPS[k].label +
     ' (n=' + rows.filter(r => r.g === k).length + ')';
   legend.appendChild(s);
 }
 
 // ---- shared tooltip helper ----
-function attachTooltip(svg, ttId, findNearest, render) {
+// Keyboard twin for the hover layer. Each datum gets a focusable, labelled rect so the
+// same content reachable by mouse is reachable by Tab, and is announced to a screen reader.
+function makeFocusable(svg, items, render, tt, place) {
+  if (!items || !items.length) return;
+  const layer = el('g', { class: 'kb-layer' }, svg);
+  items.forEach((it, i) => {
+    const g = el('g', { tabindex: '0', role: 'img', 'aria-label': stripTags(render(it)) }, layer);
+    const b = it.box;
+    el('rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: 'transparent' }, g);
+    el('rect', { class: 'hit-ring', x: b.x, y: b.y, width: b.w, height: b.h, rx: 4,
+                 fill: 'none', stroke: 'var(--text-primary)', 'stroke-width': 2, opacity: 0 }, g);
+    g.addEventListener('focus', () => { tt.innerHTML = render(it); tt.style.display = 'block'; place(it, tt); });
+    g.addEventListener('blur', () => { tt.style.display = 'none'; });
+  });
+}
+const stripTags = html => html.replace(/<br\s*\/?>/gi, '. ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+
+function attachTooltip(svg, ttId, findNearest, render, focusItems) {
   const tt = document.getElementById(ttId);
   const card = tt.parentElement;
   svg.addEventListener('mousemove', ev => {
@@ -458,6 +490,14 @@ function attachTooltip(svg, ttId, findNearest, render) {
     tt.style.left = left + 'px'; tt.style.top = top + 'px';
   });
   svg.addEventListener('mouseleave', () => tt.style.display = 'none');
+  if (focusItems) {
+    const rect0 = () => svg.getBoundingClientRect();
+    makeFocusable(svg, focusItems, render, tt, () => {
+      const cr = card.getBoundingClientRect(), sr = rect0();
+      tt.style.left = (sr.left - cr.left + 12) + 'px';
+      tt.style.top = (sr.top - cr.top + 12) + 'px';
+    });
+  }
 }
 const monthTicks = [];
 {
@@ -494,13 +534,18 @@ const monthTicks = [];
   const pts = [];
   for (const r of rows) {
     const x = X(r.ms), y = Y(r.m);
-    el('circle', { cx: x, cy: y, r: 4.2, fill: GROUPS[r.g].color, stroke: 'var(--surface-1)', 'stroke-width': 2, opacity: r.g === 'untagged' ? 0.7 : 1 }, svg);
+    const hollow = r.g === 'otherpath';
+    el('circle', { cx: x, cy: y, r: 4.2,
+      fill: hollow ? 'var(--surface-1)' : GROUPS[r.g].color,
+      stroke: hollow ? GROUPS[r.g].color : 'var(--surface-1)',
+      'stroke-width': 2, opacity: r.g === 'prelaunch' ? 0.7 : 1 }, svg);
     pts.push({ x, y, r });
   }
   attachTooltip(svg, 'tt-a',
     (x, y) => { let best = null, bd = 20 * 20; for (const p of pts) { const d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < bd) { bd = d; best = p; } } return best; },
     p => '<span class="t">' + new Date(p.r.ms).toLocaleDateString('en', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) + ' · ' + GROUPS[p.r.g].label + '</span><br>' +
-      'p(doom) midpoint <b>' + pct(p.r.m) + '</b><br>p10–p90: <b>' + pct(p.r.p10) + ' – ' + pct(p.r.p90) + '</b>');
+      'p(doom) midpoint <b>' + pct(p.r.m) + '</b><br>p10–p90: <b>' + pct(p.r.p10) + ' – ' + pct(p.r.p90) + '</b>',
+    pts.map(p => ({ ...p, box: { x: p.x - 7, y: p.y - 7, w: 14, h: 14 } })));
 }
 
 // ---- chart B: monthly median + IQR band ----
@@ -532,13 +577,14 @@ const monthTicks = [];
   const crossh = el('line', { y1: MT, y2: H - MB, stroke: 'var(--baseline)', 'stroke-width': 1, visibility: 'hidden' }, svg);
   attachTooltip(svg, 'tt-b',
     x => { let best = null, bd = Infinity; for (const p of mpts) { const d = Math.abs(p.x - x); if (d < bd) { bd = d; best = p; } } if (best) { crossh.setAttribute('x1', best.x); crossh.setAttribute('x2', best.x); crossh.setAttribute('visibility', 'visible'); } return best; },
-    p => '<span class="t">' + p.mo.month + ' \u00b7 n=' + p.mo.n + '</span><br>median <b>' + pct(p.mo.median) + '</b><br>IQR: <b>' + pct(p.mo.p25) + ' \u2013 ' + pct(p.mo.p75) + '</b>');
+    p => '<span class="t">' + p.mo.month + ' \u00b7 n=' + p.mo.n + '</span><br>median <b>' + pct(p.mo.median) + '</b><br>IQR: <b>' + pct(p.mo.p25) + ' \u2013 ' + pct(p.mo.p75) + '</b>',
+    mpts.map(p => ({ ...p, box: { x: p.x - 10, y: MT, w: 20, h: H - MT - MB } })));
   document.getElementById('chart-monthly').firstChild.addEventListener('mouseleave', () => crossh.setAttribute('visibility', 'hidden'));
 }
 
 // ---- chart C: dot strips per group ----
 {
-  const order = ['beginner', 'medium', 'expert', 'untagged'];
+  const order = ['beginner', 'medium', 'expert', 'prelaunch', 'otherpath'];
   const W = 920, ROWH = 64, ML = 170, MR = 24, MT = 8, MB = 30;
   const H = MT + order.length * ROWH + MB;
   const X = v => ML + v * (W - ML - MR);
@@ -552,12 +598,17 @@ const monthTicks = [];
   order.forEach((g, gi) => {
     const cy = MT + gi * ROWH + ROWH / 2;
     const vals = rows.filter(r => r.g === g);
-    el('text', { x: 8, y: cy - 2, class: 'rowlab' }, svg, GROUPS[g].label.replace(' (pre-Mar 2026)', ''));
-    el('text', { x: 8, y: cy + 14, class: 'rowsub' }, svg, 'n=' + vals.length + (g === 'untagged' ? ' · pre-Mar 2026' : ''));
+    el('text', { x: 8, y: cy - 2, class: 'rowlab' }, svg, GROUPS[g].label);
+    el('text', { x: 8, y: cy + 14, class: 'rowsub' }, svg, 'n=' + vals.length +
+      (g === 'prelaunch' ? ' · before 9 Mar 2026' : g === 'otherpath' ? ' · no level declared' : ''));
     vals.forEach((r, i) => {
       const jitter = ((i * 37) % 17 - 8) * 1.6; // deterministic jitter
       const x = X(r.m), y = cy + jitter;
-      el('circle', { cx: x, cy: y, r: 4.5, fill: GROUPS[g].color, stroke: 'var(--surface-1)', 'stroke-width': 2, opacity: 0.85 }, svg);
+      const hollow = g === 'otherpath';
+      el('circle', { cx: x, cy: y, r: 4.5,
+        fill: hollow ? 'var(--surface-1)' : GROUPS[g].color,
+        stroke: hollow ? GROUPS[g].color : 'var(--surface-1)',
+        'stroke-width': 2, opacity: 0.85 }, svg);
       pts.push({ x, y, r });
     });
     const m = med(vals.map(r => r.m));
@@ -567,13 +618,14 @@ const monthTicks = [];
   attachTooltip(svg, 'tt-c',
     (x, y) => { let best = null, bd = 15 * 15; for (const p of pts) { const d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < bd) { bd = d; best = p; } } return best; },
     p => '<span class="t">' + new Date(p.r.ms).toLocaleDateString('en', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) + ' · ' + GROUPS[p.r.g].label + '</span><br>' +
-      'p(doom) midpoint <b>' + pct(p.r.m) + '</b><br>p10–p90: <b>' + pct(p.r.p10) + ' – ' + pct(p.r.p90) + '</b>');
+      'p(doom) midpoint <b>' + pct(p.r.m) + '</b><br>p10–p90: <b>' + pct(p.r.p10) + ' – ' + pct(p.r.p90) + '</b>',
+    pts.map(p => ({ ...p, box: { x: p.x - 7, y: p.y - 7, w: 14, h: 14 } })));
 }
 
 
 // ---- chart D: belief chain by group ----
 {
-  const order = ['beginner', 'medium', 'expert', 'untagged'];
+  const order = ['beginner', 'medium', 'expert', 'prelaunch'];
   const stages = [
     { k: 0, lab: 'P(powerful AI)' },
     { k: 1, lab: 'P(dangerous | powerful)' },
@@ -597,7 +649,7 @@ const monthTicks = [];
   for (const s of series) {
     let dstr = '';
     s.pts.forEach((v, i) => dstr += (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1));
-    el('path', { d: dstr, fill: 'none', stroke: GROUPS[s.g].color, 'stroke-width': 2, 'stroke-linejoin': 'round', opacity: s.g === 'untagged' ? 0.9 : 1 }, svg);
+    el('path', { d: dstr, fill: 'none', stroke: GROUPS[s.g].color, 'stroke-width': 2, 'stroke-linejoin': 'round', opacity: s.g === 'prelaunch' ? 0.9 : 1 }, svg);
     s.pts.forEach((v, i) => {
       el('circle', { cx: X(i), cy: Y(v), r: 4, fill: GROUPS[s.g].color, stroke: 'var(--surface-1)', 'stroke-width': 2 }, svg);
       hits.push({ x: X(i), y: Y(v), g: s.g, stage: stages[i].lab, v, n: rows.filter(r => r.g === s.g).length });
@@ -607,7 +659,7 @@ const monthTicks = [];
   const labs = series.map(s => ({ s, y: Y(s.pts[3]) })).sort((a, b) => a.y - b.y);
   for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 15) labs[i].y = labs[i - 1].y + 15;
   for (const L of labs) {
-    const short = { beginner: 'Beginner', medium: 'Medium', expert: 'Expert', untagged: 'No tag' }[L.s.g];
+    const short = { beginner: 'Beginner', medium: 'Medium', expert: 'Expert', prelaunch: 'Pre-chooser' }[L.s.g];
     const t = el('text', { x: X(3) + 12, y: L.y + 4, class: 'direct' }, svg, short + ' ' + pct(L.s.pts[3]));
     t.style.fill = 'var(--text-primary)';
     el('circle', { cx: X(3) + 4, cy: L.y, r: 0 }, svg);
@@ -682,7 +734,8 @@ const monthTicks = [];
     h => '<span class="t">' + h.t.label + '</span><br>' + (h.t.of ? 'ticked by <b>' + h.t.seen + ' of ' + h.t.of + '</b> (' + pct(h.share) + ')' : '<b>not in the quiz yet</b>') +
       (h.t.of === 0 ? '<br><span class="t">added after the last submission — no one could tick it yet</span>'
         : h.t.of < 23 ? '<br><span class="t">option added partway through — only ' + h.t.of + ' respondents could tick it</span>' : ''));
-  el('text', { x: ML - 8, y: MT - 0, 'text-anchor': 'end', class: 'rowsub', 'font-size': '10.5' }, svg, '');
+  el('text', { x: ML - 8, y: MT - 0, 'text-anchor': 'end', class: 'rowsub', 'font-size': '10.5' }, svg, '',
+    hits.map(h => ({ ...h, box: { x: 0, y: h.y0, w: W, h: h.y1 - h.y0 } })));
 }
 
 // ---- chart F2: p(doom) by film-exposure group ----
@@ -723,7 +776,7 @@ const monthTicks = [];
   attachTooltip(svg, 'tt-f',
     (x, y) => { let best = null, bd = 16 * 16; for (const p of hits) { const dd = (p.x - x) ** 2 + (p.y - y) ** 2; if (dd < bd) { bd = dd; best = p; } } return best; },
     p => '<span class="t">Group ' + p.d.g + ' \u00b7 ' + p.b.films + ' films ticked</span><br>p(doom) <b>' + pct(p.b.m) +
-      '</b><br>p10\u2013p90: <b>' + pct(p.b.p10) + ' \u2013 ' + pct(p.b.p90) + '</b><br>mean range width: <b>' + p.b.spread.toFixed(2) + '</b>');
+      '</b><br>p10\u2013p90: <b>' + pct(p.b.p10) + ' \u2013 ' + pct(p.b.p90) + '</b><br>mean slider width: <b>' + p.b.spread.toFixed(2) + '</b>');
 }
 
 
@@ -750,7 +803,8 @@ const monthTicks = [];
   });
   attachTooltip(svg, 'tt-g',
     (x, y) => hits.find(h => y >= h.y0 && y < h.y1) || null,
-    h => '<span class="t">' + h.t.label + '</span><br>recognised by <b>' + h.t.seen + ' of ' + h.t.of + '</b> (' + pct(h.share) + ')');
+    h => '<span class="t">' + h.t.label + '</span><br>recognised by <b>' + h.t.seen + ' of ' + h.t.of + '</b> (' + pct(h.share) + ')',
+    hits.map(h => ({ ...h, box: { x: 0, y: h.y0, w: W, h: h.y1 - h.y0 } })));
 }
 
 // ---- chart G2: p(doom) by risk-awareness group ----
@@ -803,7 +857,7 @@ const monthTicks = [];
   const kMin = Math.min(...ks) - 0.5, kMax = Math.max(...ks) + 0.5;
   const X = k => ML + (k - kMin) / (kMax - kMin) * (W - ML - MR);
   const Y = v => MT + (1 - v) * (H - MT - MB);
-  el('text', { x: ML, y: 13, class: 'rowlab', 'font-size': '12' }, svg, 'Range width');
+  el('text', { x: ML, y: 13, class: 'rowlab', 'font-size': '12' }, svg, 'Slider width');
   el('text', { x: W - MR, y: 13, 'text-anchor': 'end', class: 'rowsub' }, svg, 'r = \u22120.40');
   for (let v = 0; v <= 1.0001; v += 0.25) {
     el('line', { x1: ML, x2: W - MR, y1: Y(v), y2: Y(v), stroke: v === 0 ? 'var(--baseline)' : 'var(--grid)', 'stroke-width': 1 }, svg);
@@ -830,7 +884,7 @@ const monthTicks = [];
   }
   attachTooltip(svg, 'tt-g',
     (x, y) => { let best = null, bd = 14 * 14; for (const p of hits) { const dd = (p.x - x) ** 2 + (p.y - y) ** 2; if (dd < bd) { bd = dd; best = p; } } return best; },
-    p => '<span class="t">' + p.b.risks + ' of 12 risks recognised</span><br>range width <b>' + p.b.spread.toFixed(2) +
+    p => '<span class="t">' + p.b.risks + ' of 12 risks recognised</span><br>slider width <b>' + p.b.spread.toFixed(2) +
       '</b><br>p(doom): <b>' + pct(p.b.m) + '</b>');
 }
 
@@ -860,7 +914,8 @@ const monthTicks = [];
   });
   attachTooltip(svg, 'tt-h',
     (x, y) => hits.find(h => y >= h.y0 && y < h.y1) || null,
-    h => '<span class="t">' + h.f.label + '</span><br><b>' + h.f.n + '</b> of ' + total + ' submissions (' + pct(h.f.n / total) + ')');
+    h => '<span class="t">' + h.f.label + '</span><br><b>' + h.f.n + '</b> of ' + total + ' submissions (' + pct(h.f.n / total) + ')',
+    hits.map(h => ({ ...h, box: { x: 0, y: h.y0, w: W, h: h.y1 - h.y0 } })));
 }
 
 // ---- chart H2: expert quiz, reasoning vs recognition ----
@@ -940,7 +995,7 @@ const monthTicks = [];
   const kc = DATA.knowledge;
   if (kc) {
     document.getElementById('kc-sub').innerHTML =
-      'The check shows ' + kc.terms + ' terms and asks the visitor to pick the AI-related ones. ' +
+      'The check shows ' + kc.terms + ' terms and asks the reader to pick the AI-related ones. ' +
       kc.real + ' are genuine; the other ' + kc.decoys + ' are decoys, and most are a <b>keyword collision</b> with a real term — ' +
       'so ticking on word-shape rather than meaning is what gets caught. This is the only place in the calculator where an answer can be wrong.';
     const tb = document.getElementById('kc-pairs');
@@ -963,7 +1018,7 @@ const monthTicks = [];
         '</div>';
       box.innerHTML =
         '<div style="font-size:12.5px;font-weight:600;margin-bottom:12px">' +
-          (kc.takers.length === 1 ? 'The one visitor who took it' : 'The ' + kc.takers.length + ' visitors who took it') + '</div>' +
+          (kc.takers.length === 1 ? 'The one submission that came through it' : 'The ' + kc.takers.length + ' submissions that came through it') + '</div>' +
         bar('Real terms found', t.hits, kc.real, 'var(--level-2)') +
         bar('Decoys avoided', t.avoided, kc.decoys, 'var(--level-2)') +
         bar('Score used for routing', t.correct, t.of, 'var(--level-3)') +
@@ -976,11 +1031,11 @@ const monthTicks = [];
       document.getElementById('kc-verdict').innerHTML =
         '<b>Verdict: the one instrument that can catch over-claiming is attached to the one path nobody takes.</b> ' +
         'The beginner, medium and expert quizzes contain no decoys at all \u2014 every option is genuine, nothing is flagged, and no answer is ever scored. ' +
-        'So "do the experts steer around the decoys?" cannot be answered: the ' + kc.decoys + ' decoys only exist on the path <b>' +
-        kc.takers.length + ' visitor</b> has used. The one who did tripped <b>' + t.tripped + ' of ' + kc.decoys +
+        'So "do the experts steer around the decoys?" cannot be answered: the ' + kc.decoys + ' decoys only exist on the path that produced <b>' +
+        kc.takers.length + ' of 64</b> post-launch submissions. That one tripped <b>' + t.tripped + ' of ' + kc.decoys +
         '</b> of them, and every single trip was a keyword collision \u2014 a Beatles single, an Eminem lyric, ADHD, a personal trainer, ' +
         'reinforced concrete \u2014 which is precisely the failure the decoys were built to detect. ' +
-        'To make the question answerable for the other 98%, the same flagged decoys would need seeding into the three self-selected quizzes.';
+        'To make the question answerable for the rest, the same flagged decoys would need seeding into the three self-selected quizzes.';
     }
   }
 }
@@ -1016,7 +1071,7 @@ const monthTicks = [];
       y += 10;
     });
     document.getElementById('sliders-verdict').innerHTML =
-      '<b>Verdict: three visitors, three different statements of confidence, one identical answer.</b> ' +
+      '<b>Three submissions, three different statements of confidence, one identical answer.</b> ' +
       'Two dragged every band to its full 0\u2013100% width; the third pinned all three to a point with no uncertainty whatsoever. ' +
       'Because all of them left the midpoints at 50%, every one produced the same p(doom): <b>0.5 \u00d7 0.5 \u00d7 0.5 = 12.5%</b>. ' +
       'That is worth sitting with \u2014 "I have no idea" on each of three sequential conditionals does not come out near 50%, it comes out at 12.5%, ' +
@@ -1161,7 +1216,8 @@ const monthTicks = [];
   attachTooltip(svg, 'tt-j',
     (x, y) => hits.find(h => y >= h.y0 && y < h.y1) || null,
     h => '<span class="t">' + h.t.label + (h.t.ai ? ' \u00b7 AI-native' : ' \u00b7 general security') + '</span><br>recognised by <b>' +
-      h.t.known + ' of ' + h.t.of + '</b> (' + pct(h.share) + ')');
+      h.t.known + ' of ' + h.t.of + '</b> (' + pct(h.share) + ')',
+    hits.map(h => ({ ...h, box: { x: 0, y: h.y0, w: W, h: h.y1 - h.y0 } })));
 }
 
 // ---- table ----
