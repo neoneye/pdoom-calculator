@@ -12,6 +12,8 @@ the report page (``pdoom-submissions-viz.html``) renders from:
       "flows":     [{"id", "label", "n"}, ...],
       "expertQ":   [{"id", "label", "kind", "opts", "median", "none"}, ...],
       "experts":   [{"names", "m"}, ...],
+      "knowledge": {"terms", "real", "decoys", "takers", "pairs": [...], "taker": {...}},
+      "sliders":   [{"m", "p10", "p90", "factors"}, ...],
       "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...]
     }
 
@@ -78,6 +80,22 @@ FLOW_LABELS = [
 
 # The expert quiz mixes questions answerable by reasoning with questions that only
 # someone following the field can answer. Splitting them is the point of the section.
+# Every knowledge-check decoy is a keyword collision with a real AI term -- that is
+# the mechanism the check tests. The pairing is editorial; the flags come from the page.
+DECOY_COLLISIONS = {
+    "all-you-need-is-love": "Attention Is All You Need",
+    "the-real-slim-shady": "Attention Is All You Need",
+    "adhd": "Attention Is All You Need",
+    "operation-paperclip": "Paperclip maximizer",
+    "agent-orange": "Agent",
+    "james-bond": "Agent",
+    "standard-model": "Model",
+    "wireframe-model": "Model",
+    "personal-trainer": "Training data",
+    "clinical-supervisor": "Unsupervised learning",
+    "reinforced-concrete": "Reinforcement learning",
+}
+
 EXPERT_QUESTIONS = [
     ("expert-continuous-learning", "Ways AI keeps learning", "concept"),
     ("expert-self-improvement", "Ways AI self-improves", "concept"),
@@ -254,6 +272,82 @@ def expert_breakdown(submissions, index_html):
     return questions, people
 
 
+def knowledge_check(submissions, index_html):
+    """The decoy instrument, and how the visitors who took it fared against it."""
+    with open(index_html) as f:
+        html = f.read()
+    start = html.index("const knowledgeCheckQuestions")
+    open_at = html.index("options: [", start)
+    depth, i = 0, open_at + len("options: [") - 1
+    while True:
+        if html[i] == "[":
+            depth += 1
+        elif html[i] == "]":
+            depth -= 1
+            if depth == 0:
+                break
+        i += 1
+    terms = []
+    for chunk in re.split(r"\n\s{10}\{", html[open_at:i]):
+        oid = re.search(r"id: '([^']+)'", chunk)
+        text = re.search(r"""text: (?:'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)")""", chunk)
+        flag = re.search(r"aiRelated: (true|false)", chunk)
+        if oid and flag:
+            terms.append({
+                "id": oid.group(1),
+                "label": (((text.group(1) or text.group(2)).replace("\\'", "'"))
+                          if text else oid.group(1)),
+                "ai": flag.group(1) == "true",
+            })
+    real_ids = {t["id"] for t in terms if t["ai"]}
+    decoys = [t for t in terms if not t["ai"]]
+    pairs = [{"decoy": t["label"], "collides": DECOY_COLLISIONS.get(t["id"])} for t in decoys]
+    pairs.sort(key=lambda p: (p["collides"] is None, p["collides"] or "", p["decoy"]))
+
+    takers = []
+    for s in submissions:
+        if s.get("quiz_flow_id") != "decide":
+            continue
+        picked = {v for a in s.get("quiz_answers") or [] for v in (a.get("values") or [])}
+        hits = len(picked & real_ids)
+        tripped = len(picked - real_ids)
+        avoided = len(decoys) - tripped
+        correct = hits + avoided
+        takers.append({
+            "hits": hits, "tripped": tripped, "avoided": avoided,
+            "correct": correct, "of": len(terms),
+            "routed": ("beginner" if correct <= 20 else "medium" if correct <= 25 else "expert"),
+            "calibrated": max(0, hits - tripped),
+            "m": round(s["summary"]["midpoint"], 4),
+            "p10": round(s["summary"]["p10"], 4),
+            "p90": round(s["summary"]["p90"], 4),
+        })
+    return {
+        "terms": len(terms),
+        "real": len(real_ids),
+        "decoys": len(decoys),
+        "takers": takers,
+        "pairs": pairs,
+    }
+
+
+def slider_submissions(submissions):
+    """Post-launch submissions that bypassed the quiz entirely."""
+    out = []
+    for s in submissions:
+        if s["submitted_at"][:10] < QUIZ_LAUNCH or s.get("quiz_flow_id"):
+            continue
+        out.append({
+            "date": s["submitted_at"][:10],
+            "m": round(s["summary"]["midpoint"], 4),
+            "p10": round(s["summary"]["p10"], 4),
+            "p90": round(s["summary"]["p90"], 4),
+            "factors": [{"lower": f["lower"], "mid": f["midpoint"], "upper": f["upper"]}
+                        for f in s["factors"]],
+        })
+    return out
+
+
 def pearson(xs, ys):
     mx, my = statistics.mean(xs), statistics.mean(ys)
     cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
@@ -382,6 +476,8 @@ def main():
         "risks": risks,
         "beginners": beginners,
         "flows": flow_counts(submissions),
+        "knowledge": knowledge_check(submissions, args.quiz_source),
+        "sliders": slider_submissions(submissions),
         "expertQ": expert_q,
         "experts": experts,
     }
