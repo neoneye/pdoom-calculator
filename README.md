@@ -34,3 +34,23 @@ http://0.0.0.0:4000/pdoom-calculator/
 ```
 
 Access from your phone using your computer's local IP address (e.g., `http://192.168.1.100:4000/pdoom-calculator/`)
+
+## Build the submissions report
+
+`prepare_report_data.py` reads `pdoom-submissions.json` and emits the data blob
+the pages under `reports/` render from.
+
+Verifying submission signatures needs `cryptography`, which macOS will not let
+you install system-wide (PEP 668). Use a virtualenv:
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+```
+
+```bash
+.venv/bin/python prepare_report_data.py --inject reports/submissions-<date>.html
+```
+
+Running it with a plain `python3` still works — every chart is built the same —
+but signed submissions come back `unchecked` and the run prints a warning saying
+so. It never passes off unverified rows as verified.

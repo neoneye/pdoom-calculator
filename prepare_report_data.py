@@ -15,6 +15,8 @@ the report pages under ``reports/`` render from:
       "knowledge": {"terms", "real", "decoys", "takers", "pairs": [...], "taker": {...}},
       "sliders":   [{"m", "p10", "p90", "factors"}, ...],
       "dupes":     {"records", "unique", "byLevel": {level: {records, unique, median, medianDedup}}},
+      "identity":  {"signed", "valid", "invalid", "unchecked", "unsigned", "visitors",
+                    "repeat", "maxPerVisitor", "replays", "mismatched"},
       "mediumQ":   [{"id", "label", "kind", "rho", "n"}, ...],
       "prompts":   [{"label", "n", "median", "values"}, ...],
       "mediumVuln":[{"known", "of", "m"}, ...],
@@ -48,12 +50,25 @@ day it was written -- so the filename says which data it covers.
 """
 
 import argparse
+import base64
 import json
 import math
 import re
 import statistics
 import sys
 from collections import Counter
+
+# Signature verification needs `cryptography` (see requirements.txt). It is
+# imported softly so the rest of the report still builds without it -- but the
+# absence is reported loudly rather than passing off unchecked rows as fine.
+try:
+    from cryptography.exceptions import InvalidSignature
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.asymmetric import ec
+    from cryptography.hazmat.primitives.asymmetric.utils import encode_dss_signature
+    HAVE_CRYPTO = True
+except ImportError:  # pragma: no cover - depends on the local environment
+    HAVE_CRYPTO = False
 
 FACTOR_KEYS = ("powerfulAi", "dangerousBehavior", "globalCatastrophe")
 QUIZ_LEVELS = ("beginner", "medium", "expert")
@@ -273,6 +288,129 @@ def duplicate_audit(submissions):
     return {"records": len(submissions),
             "unique": len({payload_key(s) for s in submissions}),
             "byLevel": by_level}
+
+
+def _public_key_from_visitor_key(visitor_key):
+    """Rebuild the P-256 public key from "p256:" + base64url(x || y)."""
+    if not isinstance(visitor_key, str) or not visitor_key.startswith("p256:"):
+        return None
+    body = visitor_key[5:]
+    try:
+        raw = base64.urlsafe_b64decode(body + "=" * (-len(body) % 4))
+    except (ValueError, TypeError):
+        return None
+    if len(raw) != 64:
+        return None
+    numbers = ec.EllipticCurvePublicNumbers(
+        int.from_bytes(raw[:32], "big"), int.from_bytes(raw[32:], "big"), ec.SECP256R1())
+    try:
+        return numbers.public_key()
+    except ValueError:
+        return None  # not a point on the curve
+
+
+def _signed_fields(signed_payload):
+    """Parse the canonical string into its key=value fields."""
+    parts = signed_payload.split("|")
+    if not parts or parts[0] != "pdoom/1":
+        return None
+    fields = {}
+    for part in parts[1:]:
+        key, _, value = part.partition("=")
+        fields[key] = value
+    return fields
+
+
+def _agrees_with_row(fields, s, tol=1e-6):
+    """The signature covers the canonical string, not the jsonb. Check the two
+    tell the same story, so a row edited after signing is caught."""
+    def close(a, b):
+        try:
+            return abs(float(a) - float(b)) <= tol
+        except (TypeError, ValueError):
+            return False
+
+    summary = s.get("summary") or {}
+    for field, key in (("m", "midpoint"), ("lo", "lower"), ("hi", "upper"),
+                       ("p10", "p10"), ("p90", "p90")):
+        if not close(fields.get(field), summary.get(key)):
+            return False
+    factors = s.get("factors") or []
+    pairs = [p for p in (fields.get("f") or "").split(",") if p]
+    if len(pairs) != len(factors):
+        return False
+    for pair, factor in zip(pairs, factors):
+        mid, _, spread = pair.partition(":")
+        if not close(mid, factor.get("midpoint")) or not close(spread, factor.get("spread")):
+            return False
+    return (fields.get("k") == (s.get("visitor_key") or "")
+            and fields.get("n") == str(s.get("submit_count")))
+
+
+def verify_submissions(submissions):
+    """Check every signature against the public key the row itself carries.
+
+    A visitor's browser holds a non-extractable P-256 private key and signs the
+    canonical string stored in ``signed_payload``. Anyone with the export can
+    repeat this check, which is the point: the "these rows are one person"
+    grouping is verifiable rather than asserted.
+
+    What it cannot show is that distinct keys mean distinct people -- keys are
+    free to generate. Rows are annotated in place with ``_identity`` and invalid
+    ones are flagged, never dropped; silently discarding data would be a worse
+    failure than reporting a bad signature."""
+    counts = Counter()
+    mismatched = 0
+    seen_pairs = Counter()
+    per_visitor = Counter()
+    for s in submissions:
+        key, sig, payload = s.get("visitor_key"), s.get("signature"), s.get("signed_payload")
+        if not (key and sig and payload):
+            s["_identity"] = "unsigned"
+            counts["unsigned"] += 1
+            continue
+        counts["signed"] += 1
+        per_visitor[key] += 1
+        seen_pairs[(key, s.get("submit_count"))] += 1
+        if not HAVE_CRYPTO:
+            s["_identity"] = "unchecked"
+            counts["unchecked"] += 1
+            continue
+        verdict = "signed-invalid"
+        public_key = _public_key_from_visitor_key(key)
+        if public_key is not None:
+            try:
+                raw_sig = base64.urlsafe_b64decode(sig + "=" * (-len(sig) % 4))
+            except (ValueError, TypeError):
+                raw_sig = b""
+            if len(raw_sig) == 64:
+                der = encode_dss_signature(int.from_bytes(raw_sig[:32], "big"),
+                                           int.from_bytes(raw_sig[32:], "big"))
+                try:
+                    public_key.verify(der, payload.encode("utf-8"), ec.ECDSA(hashes.SHA256()))
+                    verdict = "signed-valid"
+                except InvalidSignature:
+                    verdict = "signed-invalid"
+        if verdict == "signed-valid":
+            fields = _signed_fields(payload)
+            if fields is None or not _agrees_with_row(fields, s):
+                mismatched += 1
+        s["_identity"] = verdict
+        counts[verdict] += 1
+    return {
+        "signed": counts["signed"],
+        "valid": counts["signed-valid"],
+        "invalid": counts["signed-invalid"],
+        "unchecked": counts["unchecked"],
+        "unsigned": counts["unsigned"],
+        "visitors": len(per_visitor),
+        "repeat": sum(1 for n in per_visitor.values() if n > 1),
+        "maxPerVisitor": max(per_visitor.values(), default=0),
+        # A visitor's counter is monotonic, so a repeated (key, count) pair means
+        # the same submission reached the table twice.
+        "replays": sum(n - 1 for n in seen_pairs.values() if n > 1),
+        "mismatched": mismatched,
+    }
 
 
 def flow_counts(submissions):
@@ -564,6 +702,24 @@ def print_medium_summary(medium_q, prompts, out=sys.stderr):
         print(f"    system prompts: {p['label'][:38]:40s} n={p['n']:>2}  median={shown}", file=out)
 
 
+def print_identity_summary(identity, out=sys.stderr):
+    print("\n-- visitor identity --", file=out)
+    if identity["signed"] and not HAVE_CRYPTO:
+        print(f"WARNING: {identity['signed']} signed rows NOT verified -- "
+              f"`cryptography` is not installed (see requirements.txt)", file=out)
+    print(f"signed {identity['signed']} (valid {identity['valid']}, "
+          f"invalid {identity['invalid']}, unchecked {identity['unchecked']}), "
+          f"unsigned {identity['unsigned']}", file=out)
+    print(f"distinct visitors {identity['visitors']}, "
+          f"submitted more than once {identity['repeat']}, "
+          f"most from one visitor {identity['maxPerVisitor']}", file=out)
+    if identity["replays"]:
+        print(f"replayed (key, count) pairs: {identity['replays']}", file=out)
+    if identity["mismatched"]:
+        print(f"signed rows whose numbers disagree with the signed string: "
+              f"{identity['mismatched']}", file=out)
+
+
 def inject(report_path, blob):
     with open(report_path) as f:
         html = f.read()
@@ -604,6 +760,7 @@ def main():
     beginners = beginner_groups(submissions)
     expert_q, experts = expert_breakdown(submissions, args.quiz_source)
     medium_q, prompts, vulns, vuln_list = medium_breakdown(submissions, args.quiz_source)
+    identity = verify_submissions(submissions)
     data = {
         "rows": rows,
         "months": monthly_aggregates(rows),
@@ -618,6 +775,7 @@ def main():
         "vulnList": vuln_list,
         "sliders": slider_submissions(submissions),
         "dupes": duplicate_audit(submissions),
+        "identity": identity,
         "expertQ": expert_q,
         "experts": experts,
     }
@@ -629,6 +787,7 @@ def main():
         print_risk_summary(beginners)
         print_flow_summary(data["flows"], expert_q, experts)
         print_medium_summary(medium_q, prompts)
+        print_identity_summary(identity)
     if args.inject:
         inject(args.inject, blob)
         print(f"injected {len(blob) // 1024} KB into {args.inject}", file=sys.stderr)
