@@ -57,7 +57,7 @@ Gaps / potential future questions:
       <header class="wizard-header">
         <h2 id="wizardHeaderTitle">Choose your quiz path</h2>
         <p class="wizard-intro" id="wizardHeaderIntro">
-          Start by selecting a path: let us decide the right level (recommended) or jump directly into the beginner, medium, or expert quiz.
+          Pick a level. Beginner and medium start straight away; the expert quiz opens with a short knowledge check.
         </p>
       </header>
       <div class="wizard-body">
@@ -396,12 +396,15 @@ Gaps / potential future questions:
     ];
 
     const quizFlows = [
+      // The expert gate. Not offered as a card — reaching it means the visitor
+      // asked for the expert quiz, and the score decides which level we then
+      // recommend. Advisory: the expert quiz stays available either way.
       {
-        id: 'decide',
-        label: 'Decide the right level for me',
-        description: 'Let us place you on the right lane with a bite-sized knowledge check.',
+        id: 'expert-check',
+        label: 'Expert check',
+        description: 'Spot the AI-related terms and avoid the decoys.',
         meta: '30 terms · ~5 minutes',
-        recommended: true,
+        hiddenFromChooser: true,
         kind: 'knowledge-check',
         questions: knowledgeCheckQuestions
       },
@@ -846,7 +849,7 @@ Gaps / potential future questions:
         id: 'expert',
         label: 'Expert quiz',
         description: 'For AI experts that already knows about threats and AI capabilities.',
-        meta: '8 questions · ~10 minutes',
+        meta: 'Knowledge check first · 8 questions · ~10 minutes',
         kind: 'fixed',
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
         questions: [
@@ -1161,7 +1164,7 @@ Gaps / potential future questions:
 
     const wizardHeaderDefaults = {
       title: 'Choose your quiz path',
-      intro: 'Start by selecting a path: let us decide the right level (recommended) or jump directly into the beginner, medium, or expert quiz.'
+      intro: 'Pick a level. Beginner and medium start straight away; the expert quiz opens with a short knowledge check.'
     };
     const wizardState = {
       step: 'welcome',
@@ -1169,13 +1172,16 @@ Gaps / potential future questions:
     };
     const breadcrumbLabels = {
       start: 'Start',
-      decide: 'Decide for me',
+      'expert-check': 'Expert check',
       beginner: 'Beginner quiz',
       medium: 'Medium quiz',
       expert: 'Expert quiz',
       sliders: 'Sliders'
     };
     const quizFlowIds = ['beginner', 'medium', 'expert'];
+    // What the expert gate decided, or null if it has not run. Carried into the
+    // submission so a verified expert can be told from a self-declared one.
+    let gateState = null;
     let predictedQuizFlowId = 'beginner';
     let storedWizardAnswers = {};
     let storedSliderState = {};
@@ -1222,19 +1228,25 @@ Gaps / potential future questions:
 
     function getBreadcrumbItems() {
       const quizId = quizFlowIds.includes(predictedQuizFlowId) ? predictedQuizFlowId : 'beginner';
-      return [
-        { id: 'start', label: breadcrumbLabels.start },
-        { id: 'decide', label: breadcrumbLabels.decide },
-        { id: quizId, label: breadcrumbLabels[quizId] || 'Quiz' },
-        { id: 'sliders', label: breadcrumbLabels.sliders }
-      ];
+      const items = [{ id: 'start', label: breadcrumbLabels.start }];
+      // The gate crumb appears only once the visitor has taken the expert path,
+      // and stays in the trail afterwards even if the score routed them lower.
+      if (wizardState.flowId === 'expert-check' || gateState) {
+        items.push({ id: 'expert-check', label: breadcrumbLabels['expert-check'] });
+      }
+      items.push({ id: quizId, label: breadcrumbLabels[quizId] || 'Quiz' });
+      items.push({ id: 'sliders', label: breadcrumbLabels.sliders });
+      return items;
     }
 
     function getActiveBreadcrumbIndex() {
+      const items = getBreadcrumbItems();
       const flowId = wizardState.flowId;
-      if (flowId === 'decide') return 1;
-      if (quizFlowIds.includes(flowId)) return 2;
-      if (flowId === 'sliders') return 3;
+      if (flowId === 'expert-check') {
+        return items.findIndex(item => item.id === 'expert-check');
+      }
+      if (flowId === 'sliders') return items.length - 1;
+      if (quizFlowIds.includes(flowId)) return items.length - 2;
       return 0;
     }
 
@@ -1269,7 +1281,7 @@ Gaps / potential future questions:
       });
     }
 
-    const validHashes = ['start', 'decide', 'beginner', 'medium', 'expert', 'sliders'];
+    const validHashes = ['start', 'expert-check', 'decide', 'beginner', 'medium', 'expert', 'sliders'];
     let suppressHashChange = false;
 
     function updateHash(id) {
@@ -1296,8 +1308,11 @@ Gaps / potential future questions:
         renderBreadcrumbs();
         return;
       }
-      if (targetId === 'decide') {
-        handleFlowSelection('decide', skipHash);
+      // The expert path always opens the gate first; the gate's own buttons call
+      // handleFlowSelection('expert') directly to enter the quiz. 'decide' is the
+      // retired flow id, kept so old links still resolve somewhere sensible.
+      if (targetId === 'expert' || targetId === 'expert-check' || targetId === 'decide') {
+        handleFlowSelection('expert-check', skipHash);
         return;
       }
       if (quizFlowIds.includes(targetId)) {
@@ -1434,7 +1449,7 @@ Gaps / potential future questions:
       const listEl = document.getElementById('wizardFlowList');
       if (!listEl) return;
       listEl.innerHTML = '';
-      quizFlows.forEach((flow) => {
+      quizFlows.filter(flow => !flow.hiddenFromChooser).forEach((flow) => {
         const button = document.createElement('button');
         button.type = 'button';
         const classes = ['wizard-flow-card'];
@@ -1450,7 +1465,8 @@ Gaps / potential future questions:
           <p class="wizard-flow-card__description">${flow.description}</p>
           <p class="wizard-flow-card__meta">${flow.meta}</p>
         `;
-        button.addEventListener('click', () => handleFlowSelection(flow.id));
+        // navigateTo, not handleFlowSelection, so the expert card lands on the gate.
+        button.addEventListener('click', () => navigateTo(flow.id));
         listEl.appendChild(button);
       });
     }
@@ -1998,9 +2014,9 @@ Gaps / potential future questions:
       }
 
       const metaText = formatWizardMeta(flow);
-      if (flow.id === 'decide') {
-        titleEl.textContent = 'Decide the right level';
-        introEl.textContent = `Take the quick knowledge check so we can route you to beginner, medium, or expert${metaText}.`;
+      if (flow.id === 'expert-check') {
+        titleEl.textContent = 'Expert check';
+        introEl.textContent = `Spot the AI-related terms and avoid the decoys. Your score picks the level we recommend — the expert quiz stays open either way${metaText}.`;
         return;
       }
 
