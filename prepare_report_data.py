@@ -5,13 +5,21 @@ Reads the exported ``pdoom-submissions.json`` and emits the compact JSON blob
 the report page (``pdoom-submissions-viz.html``) renders from:
 
     {
-      "rows":   [{"t", "m", "p10", "p90", "f", "fx": [pAI, pDB, pGC]}, ...],
-      "months": [{"month", "n", "median", "p25", "p75"}, ...]
+      "rows":      [{"t", "m", "p10", "p90", "f", "fx": [pAI, pDB, pGC]}, ...],
+      "months":    [{"month", "n", "median", "p25", "p75"}, ...],
+      "titles":    [{"id", "label", "seen", "of"}, ...],
+      "beginners": [{"films", "m", "p10", "p90", "spread", "g"}, ...]
     }
 
 ``rows`` is one entry per submission, sorted by timestamp; ``fx`` holds the
 midpoints of the three chain factors. ``months`` aggregates the final p(doom)
 midpoint per calendar month (UTC).
+
+``titles`` and ``beginners`` back the film-exposure section, and need the quiz
+option list, which is parsed out of ``index.html``. Each title's ``of`` is the
+number of beginners who could actually have ticked it -- options added partway
+through (see ``OPTION_ADDED``) get a smaller denominator than the full cohort.
+``beginners`` buckets each beginner respondent by how many titles they ticked.
 
 Usage:
     python3 prepare_report_data.py                      # blob to stdout
@@ -31,6 +39,19 @@ import sys
 
 FACTOR_KEYS = ("powerfulAi", "dangerousBehavior", "globalCatastrophe")
 QUIZ_LEVELS = ("beginner", "medium", "expert")
+
+# Entertainment options added after the quiz launched. A respondent who submitted
+# before an option existed never had the chance to tick it, so it is excluded from
+# that option's denominator. Refresh after adding a title with:
+#   git log --format=%ad --date=short -S'<option-id>' -- index.html | tail -1
+OPTION_ADDED = {
+    "entertainment-ironman": "2026-06-17",
+    "entertainment-eagle-eye": "2026-08-18",
+}
+
+# Film-exposure groups: how many entertainment titles a respondent ticked.
+GROUP_A_MIN = 12  # A: seen the most
+GROUP_B_MIN = 7   # B: middle; C: everything below
 
 
 def load_rows(submissions):
@@ -73,6 +94,68 @@ def monthly_aggregates(rows):
     return months
 
 
+def parse_entertainment_options(index_html):
+    """Pull the beginner entertainment options (id, label) out of index.html, in order."""
+    with open(index_html) as f:
+        html = f.read()
+    try:
+        start = html.index("id: 'beginner-entertainment'")
+        end = html.index("id: 'beginner-catastrophes'", start)
+    except ValueError:
+        sys.exit(f"error: could not locate the beginner-entertainment options in {index_html}")
+    found = re.findall(r"\{\s*id:\s*'([^']+)',\s*label:\s*'((?:[^'\\]|\\.)*)'", html[start:end])
+    return [(oid, label.replace("\\'", "'")) for oid, label in found]
+
+
+def entertainment_answers(submissions):
+    """(submitted_at, set of ticked title ids) for every beginner respondent."""
+    out = []
+    for s in submissions:
+        if s.get("quiz_flow_id") != "beginner":
+            continue
+        for a in s.get("quiz_answers") or []:
+            if a["question_id"] == "beginner-entertainment":
+                out.append((s["submitted_at"][:10], set(a.get("values") or []), s))
+    return out
+
+
+def title_counts(submissions, options):
+    """Seen-counts per title, with denominators adjusted for options added late."""
+    answers = entertainment_answers(submissions)
+    titles = []
+    for oid, label in options:
+        added = OPTION_ADDED.get(oid)
+        # same-day submissions are ambiguous (the edit may have landed after them),
+        # so an option only counts for respondents who submitted strictly later
+        eligible = [a for a in answers if added is None or a[0] > added]
+        titles.append({
+            "id": oid,
+            "label": label,
+            "seen": sum(1 for _, ticked, _ in eligible if oid in ticked),
+            "of": len(eligible),
+        })
+    titles.sort(key=lambda t: (-(t["seen"] / t["of"] if t["of"] else 0), -t["seen"], t["label"]))
+    return titles
+
+
+def beginner_groups(submissions):
+    """One record per beginner respondent, bucketed by how many titles they ticked."""
+    out = []
+    for _, ticked, s in entertainment_answers(submissions):
+        n = len(ticked)
+        summary = s["summary"]
+        out.append({
+            "films": n,
+            "m": round(summary["midpoint"], 4),
+            "p10": round(summary["p10"], 4),
+            "p90": round(summary["p90"], 4),
+            "spread": round(statistics.mean(f["spread"] for f in s["factors"]), 4),
+            "g": "A" if n >= GROUP_A_MIN else ("B" if n >= GROUP_B_MIN else "C"),
+        })
+    out.sort(key=lambda r: -r["films"])
+    return out
+
+
 def pearson(xs, ys):
     mx, my = statistics.mean(xs), statistics.mean(ys)
     cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
@@ -98,6 +181,25 @@ def print_summary(rows, out=sys.stderr):
         print(f"  r({key} vs final) = {r:.2f}", file=out)
 
 
+def print_film_summary(titles, beginners, out=sys.stderr):
+    med = statistics.median
+    if not beginners:
+        return
+    print(f"film exposure: {len(beginners)} beginner respondents, "
+          f"median {med([b['films'] for b in beginners]):.0f} of {len(titles)} titles ticked", file=out)
+    never = [t["label"] for t in titles if t["seen"] == 0 and t["of"] > 0]
+    if never:
+        print(f"  never ticked: {', '.join(never)}", file=out)
+    for g in ("A", "B", "C"):
+        vals = [b for b in beginners if b["g"] == g]
+        if vals:
+            print(f"  group {g}: n={len(vals):2d}  films {min(b['films'] for b in vals)}-{max(b['films'] for b in vals)}"
+                  f"  median p(doom)={med([b['m'] for b in vals]):.2f}"
+                  f"  median range-width={med([b['spread'] for b in vals]):.2f}", file=out)
+    r = pearson([b["films"] for b in beginners], [b["m"] for b in beginners])
+    print(f"  r(films seen vs p(doom)) = {r:+.2f}", file=out)
+
+
 def inject(report_path, blob):
     with open(report_path) as f:
         html = f.read()
@@ -119,16 +221,28 @@ def main():
     ap.add_argument("-o", "--output", help="write the data blob to this file instead of stdout")
     ap.add_argument("--inject", metavar="REPORT_HTML",
                     help="rewrite the `const DATA = ...;` statement inside the report page")
+    ap.add_argument("--quiz-source", default="index.html", metavar="INDEX_HTML",
+                    help="page holding the quiz option labels (default: %(default)s)")
     ap.add_argument("-q", "--quiet", action="store_true", help="skip the stderr summary")
     args = ap.parse_args()
 
     with open(args.input) as f:
-        rows = load_rows(json.load(f)["submissions"])
-    data = {"rows": rows, "months": monthly_aggregates(rows)}
+        submissions = json.load(f)["submissions"]
+    rows = load_rows(submissions)
+    options = parse_entertainment_options(args.quiz_source)
+    titles = title_counts(submissions, options)
+    beginners = beginner_groups(submissions)
+    data = {
+        "rows": rows,
+        "months": monthly_aggregates(rows),
+        "titles": titles,
+        "beginners": beginners,
+    }
     blob = json.dumps(data, separators=(",", ":"))
 
     if not args.quiet:
         print_summary(rows)
+        print_film_summary(titles, beginners)
     if args.inject:
         inject(args.inject, blob)
         print(f"injected {len(blob) // 1024} KB into {args.inject}", file=sys.stderr)
