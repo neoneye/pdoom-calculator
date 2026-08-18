@@ -17,6 +17,7 @@ the report page (``pdoom-submissions-viz.html``) renders from:
       "mediumQ":   [{"id", "label", "kind", "rho", "n"}, ...],
       "prompts":   [{"label", "n", "median", "values"}, ...],
       "mediumVuln":[{"known", "of", "m"}, ...],
+      "vulnList":  [{"label", "known", "of", "ai"}, ...],
       "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...]
     }
 
@@ -110,6 +111,16 @@ MEDIUM_QUESTIONS = [
     ("medium-governance", "Can governance keep AI safe?", "opinion"),
     ("medium-competition", "Competition lowers barriers", "opinion"),
 ]
+
+# Which entries on the vulnerability checklist are AI-native rather than general
+# infosec. Editorial, like the expert-question split; the labels come from the page.
+AI_NATIVE_VULNS = {
+    "medium-vulnerabilities-prompt-injection",
+    "medium-vulnerabilities-data-poisoning",
+    "medium-vulnerabilities-sleeper-agent",
+    "medium-vulnerabilities-adversarial",
+    "medium-vulnerabilities-model-stealing",
+}
 
 EXPERT_QUESTIONS = [
     ("expert-continuous-learning", "Ways AI keeps learning", "concept"),
@@ -385,7 +396,7 @@ def spearman(xs, ys):
 def medium_breakdown(submissions, index_html):
     """Each medium question's rank correlation with p(doom), plus two questions in full."""
     meds = [s for s in submissions if s.get("quiz_flow_id") == "medium"]
-    questions, prompts, vulns = [], [], []
+    questions, prompts, vulns, vuln_list = [], [], [], []
     for qid, label, kind in MEDIUM_QUESTIONS:
         options = [oid for oid, _ in parse_question_options(index_html, qid)]
         xs, ys = [], []
@@ -414,8 +425,14 @@ def medium_breakdown(submissions, index_html):
         if qid == "medium-vulnerabilities":
             of = len(options)
             vulns = [{"known": x, "of": of, "m": round(y, 4)} for x, y in zip(xs, ys)]
+            picked = Counter(v for s in meds for a in s.get("quiz_answers") or []
+                             if a["question_id"] == qid for v in (a.get("values") or []))
+            for oid, lab in parse_question_options(index_html, qid):
+                vuln_list.append({"label": lab, "known": picked.get(oid, 0),
+                                  "of": len(meds), "ai": oid in AI_NATIVE_VULNS})
+            vuln_list.sort(key=lambda v: (-v["known"], v["label"]))
     questions.sort(key=lambda q: -q["rho"])
-    return questions, prompts, vulns
+    return questions, prompts, vulns, vuln_list
 
 
 def pearson(xs, ys):
@@ -550,7 +567,7 @@ def main():
         "beginner-catastrophes")
     beginners = beginner_groups(submissions)
     expert_q, experts = expert_breakdown(submissions, args.quiz_source)
-    medium_q, prompts, vulns = medium_breakdown(submissions, args.quiz_source)
+    medium_q, prompts, vulns, vuln_list = medium_breakdown(submissions, args.quiz_source)
     data = {
         "rows": rows,
         "months": monthly_aggregates(rows),
@@ -562,6 +579,7 @@ def main():
         "mediumQ": medium_q,
         "prompts": prompts,
         "mediumVuln": vulns,
+        "vulnList": vuln_list,
         "sliders": slider_submissions(submissions),
         "expertQ": expert_q,
         "experts": experts,
