@@ -229,7 +229,7 @@
   </div>
 
   <div class="card">
-    <h2>Which link decides the verdict?</h2>
+    <h2>The last link in the chain decides the verdict</h2>
     <p class="chart-sub">Each panel: one factor's midpoint vs the submission's final p(doom). Agreement with the final number tightens down the chain — the last link correlates most.</p>
     <div id="chart-facets" style="display:flex;flex-wrap:wrap;gap:8px"></div>
     <div class="tooltip" id="tt-e"></div>
@@ -237,15 +237,15 @@
 
   <div class="group"><h3>“Decide the right level for me”</h3><span class="rule"></span><span class="count">the knowledge-check path</span></div>
   <div class="card">
-    <h2>What visitors pick when offered the knowledge check</h2>
+    <h2>Almost nobody takes the recommended knowledge check</h2>
     <p class="chart-sub">The chooser offers a knowledge check — labelled as recommended, and listed first — alongside three self-selected levels and a sliders-only path. This is what visitors picked, counting every submission since the chooser went live on 9 Mar 2026.</p>
     <div id="chart-flows" style="max-width:470px"></div>
-    <p class="verdict"><b>Verdict: the recommended option is ignored.</b> One visitor in five months took the knowledge check. Everyone else declared their own level, and <b>30% of them went straight to expert</b> — a claim nothing in those three quizzes ever checks.</p>
+    <p class="verdict"><b>One visitor in five months took it.</b> Everyone else declared their own level, and <b>30% of them went straight to expert</b> — a claim nothing in those three quizzes ever checks.</p>
     <div class="tooltip" id="tt-h"></div>
   </div>
 
   <div class="card">
-    <h2>What the knowledge check actually measures</h2>
+    <h2>The only decoys sit on the path nobody takes</h2>
     <p class="chart-sub" id="kc-sub"></p>
     <div class="split">
       <div style="flex:1 1 360px;min-width:300px">
@@ -258,7 +258,7 @@
   </div>
   <div class="group"><h3>Beginner quiz</h3><span class="rule"></span><span class="count">23 respondents</span></div>
   <div class="card">
-    <h2>Does watching AI films predict p(doom)?</h2>
+    <h2>Watching AI films doesn't predict p(doom)</h2>
     <p class="chart-sub">The idea was that people who have seen a lot of AI fiction would have richer scenarios in mind, and land somewhere different from people who have seen almost none. Only the beginner quiz asks this, so the test is 23 respondents. Left: how many of them ticked each title. Right: those same people split by how many titles they ticked, against the p(doom) they submitted.</p>
     <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
       <div style="flex:3 1 420px;min-width:300px;max-width:520px">
@@ -267,25 +267,25 @@
       </div>
       <div style="flex:2 1 340px;min-width:300px;max-width:440px" id="chart-filmgroups"></div>
     </div>
-    <p class="verdict"><b>Verdict: not supported.</b> The three groups' medians land within 3 points of each other (A 68%, B 71%, C 70%) while each group internally spans 70+ points. Films seen vs p(doom) is r = −0.21 (ρ = −0.17) — noise at this sample size. Neither does uncertainty separate them: the median range-width is 0.51 / 0.45 / 0.51, and what looks like a wider group A is three individuals, not a group trait.</p>
+    <p class="verdict"><b>The three groups are indistinguishable.</b> Their medians land within 3 points of each other (A 68%, B 71%, C 70%) while each group internally spans 70+ points. Films seen vs p(doom) is r = −0.21 (ρ = −0.17) — noise at this sample size. Neither does uncertainty separate them: the median range-width is 0.51 / 0.45 / 0.51, and what looks like a wider group A is three individuals, not a group trait.</p>
     <div class="tooltip" id="tt-f"></div>
   </div>
 
   <div class="card">
-    <h2>Does knowing more risk types move p(doom)?</h2>
+    <h2>Risk awareness doesn't move p(doom), but it narrows the ranges</h2>
     <p class="chart-sub">The idea was that recognising more kinds of catastrophe means a better-furnished sense of how things go wrong, and so a different p(doom). The beginner quiz asks which of 12 risk types the visitor recognises, so this is the same 23 respondents. Left: how many of them recognised each risk. Middle: those same people grouped by how many risks they recognised, against the p(doom) they submitted. Right: risks recognised against how wide they drew their own ranges.</p>
     <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
       <div style="flex:3 1 420px;min-width:300px;max-width:520px" id="chart-risks"></div>
       <div style="flex:2 1 340px;min-width:300px;max-width:440px" id="chart-riskgroups"></div>
       <div style="flex:2 1 320px;min-width:300px;max-width:400px" id="chart-riskwidth"></div>
     </div>
-    <p class="verdict"><b>Verdict: not on p(doom) — but two things do show.</b> The group medians are non-monotonic (A 73%, B 53%, C 72%): the <i>middle</i> group is lowest, which is what a non-effect looks like. Pearson r = −0.26 against Spearman ρ = −0.09 confirms it — the linear number is carried by a few extreme values, not a trend. What does hold: <b>the least-aware group contains no skeptics at all</b> (group C's minimum is 48%, while A and B both hold sub-10% submissions), and <b>recognising more risks goes with narrower ranges</b> (r = −0.40; dropping any single respondent leaves it between −0.32 and −0.51). Note the group medians for width look cleaner than the data — group A's widths are bimodal — so the correlation is the trustworthy statistic, not the group median.</p>
+    <p class="verdict"><b>Two things do show, neither of them p(doom).</b> The group medians are non-monotonic (A 73%, B 53%, C 72%): the <i>middle</i> group is lowest, which is what a non-effect looks like. Pearson r = −0.26 against Spearman ρ = −0.09 confirms it — the linear number is carried by a few extreme values, not a trend. What does hold: <b>the least-aware group contains no skeptics at all</b> (group C's minimum is 48%, while A and B both hold sub-10% submissions), and <b>recognising more risks goes with narrower ranges</b> (r = −0.40; dropping any single respondent leaves it between −0.32 and −0.51). Note the group medians for width look cleaner than the data — group A's widths are bimodal — so the correlation is the trustworthy statistic, not the group median.</p>
     <div class="tooltip" id="tt-g"></div>
   </div>
 
   <div class="group"><h3>Medium quiz</h3><span class="rule"></span><span class="count">19 respondents</span></div>
   <div class="card">
-    <h2>Does knowing how to drive a model change your p(doom)?</h2>
+    <h2>System-prompt skill doesn't move p(doom); knowing the vulnerabilities does</h2>
     <p class="chart-sub">The medium quiz asks six questions. Three are about what the visitor knows or has lived through; three ask what they believe. Left: how strongly each answer tracks the p(doom) they went on to submit, as a rank correlation. Right: the system-prompt question in full, since hands-on skill is the sharpest test of whether using AI heavily changes how dangerous you think it is.</p>
     <div class="split">
       <div style="flex:3 1 400px;min-width:300px;max-width:500px" id="chart-mediumq"></div>
@@ -293,7 +293,7 @@
     </div>
     <div style="margin-top:18px" class="split">
       <div style="flex:1 1 320px;min-width:300px;max-width:400px" id="chart-vulns"></div>
-      <p class="verdict" style="flex:2 1 380px;min-width:300px;margin:0"><b>Verdict: knowing the catalogue moves the number; knowing the machine does not.</b> System-prompt familiarity is the flattest question on the quiz — <b>&rho; = +0.07</b>, and dropping any single respondent leaves it between &minus;0.05 and +0.18. Its group medians run 56% / 84% / 69% / 58% from "don't know what one is" to "expert", which is non-monotonic, i.e. what a non-effect looks like. Meanwhile <b>recognising more vulnerabilities is the strongest signal anywhere in this data</b> (&rho; = +0.60, holding at +0.53 to +0.72 under leave-one-out), and having actually <i>seen</i> a model go off the rails points the other way (&rho; = &minus;0.39): the five who answered "never" sit at a median 88%, the highest group in the quiz. Abstract knowledge that failure modes exist raises p(doom); hands-on contact with models does not.</p>
+      <p class="verdict" style="flex:2 1 380px;min-width:300px;margin:0"><b>Knowing the catalogue moves the number; knowing the machine does not.</b> System-prompt familiarity is the flattest question on the quiz — <b>&rho; = +0.07</b>, and dropping any single respondent leaves it between &minus;0.05 and +0.18. Its group medians run 56% / 84% / 69% / 58% from "don't know what one is" to "expert", which is non-monotonic, i.e. what a non-effect looks like. Meanwhile <b>recognising more vulnerabilities is the strongest signal anywhere in this data</b> (&rho; = +0.60, holding at +0.53 to +0.72 under leave-one-out), and having actually <i>seen</i> a model go off the rails points the other way (&rho; = &minus;0.39): the five who answered "never" sit at a median 88%, the highest group in the quiz. Abstract knowledge that failure modes exist raises p(doom); hands-on contact with models does not.</p>
     </div>
     <p class="footnote">The three opinion questions are shown for completeness but should not be read as findings — an opinion about whether governance can keep AI safe correlating with an estimate of catastrophe is close to tautological. Several cells are very small: two respondents call themselves system-prompt experts, and one has bypassed safety filters.</p>
     <div class="tooltip" id="tt-j"></div>
@@ -301,20 +301,20 @@
 
   <div class="group"><h3>Expert quiz</h3><span class="rule"></span><span class="count">18 respondents</span></div>
   <div class="card">
-    <h2>Are the self-selected experts experts?</h2>
+    <h2>7 of 18 self-declared experts know neither research organisation</h2>
     <p class="chart-sub">The expert quiz mixes two kinds of question. Some can be answered by reasoning about what is possible; others only by having followed the field. Left: the share of options expert-quiz takers ticked on each. Right: how many of the 12 named organisations, commentators and creators each recognised, against the p(doom) they submitted.</p>
     <div class="split">
       <div style="flex:3 1 380px;min-width:300px;max-width:470px" id="chart-expertq"></div>
       <div style="flex:2 1 320px;min-width:300px;max-width:400px" id="chart-expertnames"></div>
     </div>
-    <p class="verdict"><b>Verdict: a share of them aren't.</b> The reasoning questions can't tell anyone apart — near-everyone ticks every option, and 18/18 ticked all four self-improvement answers. The name-recognition questions can: the median expert recognised <b>4 of 12</b> names, <b>7 of 18 recognised neither research organisation</b>, and 4 recognised two names or fewer. Those least embedded in the field submit the highest numbers — median 68% for the bottom group against 45% for those recognising five or more, the same direction as the expert cohort's low overall median, but on 4 and 9 people.</p>
+    <p class="verdict"><b>The quiz's own reasoning questions can't tell them apart.</b> They can't tell anyone apart — near-everyone ticks every option, and 18/18 ticked all four self-improvement answers. The name-recognition questions can: the median expert recognised <b>4 of 12</b> names, <b>7 of 18 recognised neither research organisation</b>, and 4 recognised two names or fewer. Those least embedded in the field submit the highest numbers — median 68% for the bottom group against 45% for those recognising five or more, the same direction as the expert cohort's low overall median, but on 4 and 9 people.</p>
     <p class="footnote">The expert quiz's funding question is an opinion, not a recognition test, so it is left out of both blocks.</p>
     <div class="tooltip" id="tt-i"></div>
   </div>
 
   <div class="group"><h3>Sliders</h3><span class="rule"></span><span class="count">3 submissions</span></div>
   <div class="card">
-    <h2>What happens when you skip the quiz</h2>
+    <h2>Everyone who skipped the quiz landed on 12.5%</h2>
     <p class="chart-sub">The sliders path drops visitors straight onto the three probability controls with no questions asked. Three visitors took it, all in April 2026 — and all three left every midpoint at 0.5 while treating uncertainty completely differently.</p>
     <div id="chart-sliders" style="max-width:640px"></div>
     <p class="verdict" id="sliders-verdict"></p>
