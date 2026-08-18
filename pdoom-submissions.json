@@ -1,27 +1,27 @@
 {
   "source": "https://github.com/neoneye/pdoom-calculator",
-  "exported_at": "2026-08-18T16:37:58.933Z",
+  "exported_at": "2026-08-18T21:40:29.979Z",
   "summary": {
-    "total_submissions": 162,
-    "average_pdoom": 0.3959092634653988,
+    "total_submissions": 164,
+    "average_pdoom": 0.4029881986914305,
     "factors": [
       {
         "label": "P(powerful AI)",
-        "average_lower": 0.4486034513077509,
-        "average_midpoint": 0.7625174589096303,
-        "average_upper": 0.9186700875469145
+        "average_lower": 0.44556560434058323,
+        "average_midpoint": 0.7653160264839031,
+        "average_upper": 0.9196619157475618
       },
       {
         "label": "P(dangerous behavior | powerful AI)",
-        "average_lower": 0.3700471142156592,
-        "average_midpoint": 0.6835553582094561,
-        "average_upper": 0.8849445635097185
+        "average_lower": 0.3692782469691268,
+        "average_midpoint": 0.6873168782312921,
+        "average_upper": 0.8863476785888683
       },
       {
         "label": "P(global catastrophe | dangerous behavior)",
-        "average_lower": 0.3302575645465915,
-        "average_midpoint": 0.6387236482740748,
-        "average_upper": 0.8430164525874297
+        "average_lower": 0.32732149668626725,
+        "average_midpoint": 0.6430318964658543,
+        "average_upper": 0.844930886092461
       }
     ]
   },
@@ -9071,6 +9071,202 @@
           "type": "single",
           "value": "control-impossible",
           "question_id": "beginner-control"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-08-18T18:51:01.456+00:00",
+      "summary": {
+        "p10": 0.13126565607349858,
+        "p90": 0.5671896586767123,
+        "lower": 0.04385249400000003,
+        "upper": 1,
+        "midpoint": 0.9527639040000003
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.3990000000000001,
+          "upper": 1,
+          "spread": 0.585,
+          "midpoint": 0.9840000000000001
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.6140000000000001,
+          "upper": 1,
+          "spread": 0.37,
+          "midpoint": 0.9840000000000001
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.17900000000000005,
+          "upper": 1,
+          "spread": 0.805,
+          "midpoint": 0.9840000000000001
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-none",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-bypass",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ]
+    },
+    {
+      "submitted_at": "2026-08-18T21:38:38.657+00:00",
+      "summary": {
+        "p10": 0.004801613597672242,
+        "p90": 0.3252763698558234,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 1
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 1
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai",
+            "expert-campaign-organisations-microcommit"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates",
+            "expert-commentators-dont-worry-about-the-vase"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-robert-miles",
+            "expert-content-creators-siliconversations",
+            "expert-content-creators-lethal-intelligence",
+            "expert-content-creators-rational-animations",
+            "expert-content-creators-axiomatic-extinction"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-stop-funding-all-ai-research",
+          "question_id": "expert-money-alignment"
         }
       ]
     }
