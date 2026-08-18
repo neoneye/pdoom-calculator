@@ -5,19 +5,22 @@ extra_styles: /assets/css/quiz.css
 ---
 <!--
 Similar to a **Windows Wizard**. First page is the welcome page.
-From there they can go through different flows, like this:
+From there the visitor picks a level: **beginner**, **medium** or **expert**,
+or skips to the **sliders**.
 
-Do the quiz in "beginner", "medium", "expert" mode, or "decide the right level for me" 
-and in they click "decide the right level for me" they are presented with a knowledge check.
+Beginner and medium open their quiz directly. Expert opens a knowledge check
+first: 30 terms, 15 genuinely AI-related and 15 decoys. Each term scores
+independently — a ticked AI term and an unticked decoy both count — so ticking
+nothing already scores 15.
 
-The number of correct answers is used for assigning an initial value for the confidence sliders.
-If it's a person that has no experience with AI safety, they would get some of the decoys wrong. Thus their confidence lean towards uncertain.
-if it's a person that have experience with AI safety and knows the domain, they can avoid the decoys. Thus their confidence lean towards certain.
+The score picks the level we recommend:
+0..20 -> **beginner**, 21..25 -> **medium**, 26..30 -> **expert**.
 
-The idea is to show a follow up quiz, based on the number of correct answers, like this:
-If the number of correct answers are 0..20 then show a **beginner** quiz.
-If the number of correct answers are 21..25 then show a **medium** quiz.
-If the number of correct answers are 26..30 then show an **expert** quiz.
+The check is advisory. Below 26 the visitor is offered the recommended quiz and
+a "continue to expert anyway" button; taking that second door records the
+submission as a self-declared rather than verified expert (`expert_verified`
+in the database). The check no longer pre-sets the sliders, because whichever
+quiz follows overwrites both spread and midpoint anyway.
 
 I have omitted these areas:
 Safety testing, since a model that does continuous learning, would be so hard to assess if it conforms to a safety benchmark.
@@ -1177,8 +1180,12 @@ Gaps / potential future questions:
     // 15, since the 15 decoys are then correctly left alone.
     const EXPERT_GATE_MIN_SCORE = 26;
 
-    function resetGateState() {
+    // Returning to the welcome screen abandons whatever path was in progress, so
+    // neither the gate verdict nor the last quiz's answers may follow the visitor
+    // into a later submission — a sliders-only submission must record neither.
+    function resetPathState() {
       gateState = null;
+      latestQuizData = null;
     }
 
     let predictedQuizFlowId = 'beginner';
@@ -1294,7 +1301,7 @@ Gaps / potential future questions:
     function navigateTo(targetId, skipHash) {
       if (targetId === 'start') {
         wizardState.flowId = null;
-        resetGateState();
+        resetPathState();
         resetWizardResult();
         setSlidersVisibility(false);
         goToWizardStep('welcome');
@@ -2110,7 +2117,7 @@ Gaps / potential future questions:
       const shouldReset = window.confirm('Reset all saved quiz answers? This will wipe stored selections.');
       if (!shouldReset) return;
       clearStoredWizardAnswers();
-      resetGateState();
+      resetPathState();
       wizardState.flowId = null;
       clearWizardUi();
       setSlidersVisibility(false);
