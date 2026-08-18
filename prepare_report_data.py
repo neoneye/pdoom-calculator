@@ -14,6 +14,7 @@ the report pages under ``reports/`` render from:
       "experts":   [{"names", "m"}, ...],
       "knowledge": {"terms", "real", "decoys", "takers", "pairs": [...], "taker": {...}},
       "sliders":   [{"m", "p10", "p90", "factors"}, ...],
+      "dupes":     {"records", "unique", "byLevel": {...}},
       "mediumQ":   [{"id", "label", "kind", "rho", "n"}, ...],
       "prompts":   [{"label", "n", "median", "values"}, ...],
       "mediumVuln":[{"known", "of", "m"}, ...],
@@ -241,6 +242,25 @@ def beginner_groups(submissions):
         })
     out.sort(key=lambda r: -r["films"])
     return out
+
+
+def payload_key(s):
+    """Everything a submission says, minus when it was said."""
+    return json.dumps({"summary": s["summary"], "factors": s["factors"],
+                       "quiz_flow_id": s.get("quiz_flow_id"),
+                       "quiz_answers": s.get("quiz_answers")}, sort_keys=True)
+
+
+def duplicate_audit(submissions):
+    """The export has no visitor id, so identical payloads cannot be shown to be
+    distinct people. Counting them lets the report state n honestly."""
+    by_level = {}
+    for lvl in QUIZ_LEVELS:
+        rows = [s for s in submissions if s.get("quiz_flow_id") == lvl]
+        by_level[lvl] = {"records": len(rows), "unique": len({payload_key(s) for s in rows})}
+    return {"records": len(submissions),
+            "unique": len({payload_key(s) for s in submissions}),
+            "byLevel": by_level}
 
 
 def flow_counts(submissions):
@@ -585,6 +605,7 @@ def main():
         "mediumVuln": vulns,
         "vulnList": vuln_list,
         "sliders": slider_submissions(submissions),
+        "dupes": duplicate_audit(submissions),
         "expertQ": expert_q,
         "experts": experts,
     }
