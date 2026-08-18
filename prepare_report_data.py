@@ -2,7 +2,7 @@
 """Prepare chart data for the p(doom) submissions report.
 
 Reads the exported ``pdoom-submissions.json`` and emits the compact JSON blob
-the report page (``pdoom-submissions-viz.html``) renders from:
+the report pages under ``reports/`` render from:
 
     {
       "rows":      [{"t", "m", "p10", "p90", "f", "fx": [pAI, pDB, pGC]}, ...],
@@ -36,10 +36,14 @@ risks they recognised.
 Usage:
     python3 prepare_report_data.py                      # blob to stdout
     python3 prepare_report_data.py -o data.json         # blob to file
-    python3 prepare_report_data.py --inject report.html # rewrite `const DATA = ...;`
+    python3 prepare_report_data.py --inject reports/submissions-2026-08-18.html
 
 A summary (group/era medians, factor correlations) is printed to stderr so the
 headline numbers quoted in the report can be re-checked after a data refresh.
+
+Report files are named ``reports/submissions-<YYYY-MM-DD>.html``, where the date is
+the ``exported_at`` date of the submissions JSON the report was built from -- not the
+day it was written -- so the filename says which data it covers.
 """
 
 import argparse
