@@ -557,7 +557,11 @@ const monthTicks = [];
   el('path', { d: path, fill: 'none', stroke: 'var(--text-secondary)', 'stroke-width': 2, 'stroke-dasharray': '5 4', 'stroke-linejoin': 'round', opacity: 0.85 }, svg);
   // dots
   const pts = [];
-  for (const r of rows) {
+  // SVG has no z-index: paint order is stacking order. Draw the big background cohorts
+  // first and the small, dark expert dots last so they are never buried by a later mark.
+  const LAYER = { prelaunch: 0, otherpath: 1, beginner: 2, medium: 3, expert: 4 };
+  const drawOrder = [...rows].sort((a, b) => (LAYER[a.g] - LAYER[b.g]) || (a.ms - b.ms));
+  for (const r of drawOrder) {
     const x = X(r.ms), y = Y(r.m);
     const hollow = r.g === 'otherpath';
     el('circle', { cx: x, cy: y, r: 4.2,
