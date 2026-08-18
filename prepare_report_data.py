@@ -8,7 +8,8 @@ the report page (``pdoom-submissions-viz.html``) renders from:
       "rows":      [{"t", "m", "p10", "p90", "f", "fx": [pAI, pDB, pGC]}, ...],
       "months":    [{"month", "n", "median", "p25", "p75"}, ...],
       "titles":    [{"id", "label", "seen", "of"}, ...],
-      "beginners": [{"films", "m", "p10", "p90", "spread", "g"}, ...]
+      "risks":     [{"id", "label", "seen", "of"}, ...],
+      "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...]
     }
 
 ``rows`` is one entry per submission, sorted by timestamp; ``fx`` holds the
@@ -19,7 +20,9 @@ midpoint per calendar month (UTC).
 option list, which is parsed out of ``index.html``. Each title's ``of`` is the
 number of beginners who could actually have ticked it -- options added partway
 through (see ``OPTION_ADDED``) get a smaller denominator than the full cohort.
-``beginners`` buckets each beginner respondent by how many titles they ticked.
+``risks`` does the same for the catastrophe checklist. ``beginners`` buckets each
+beginner respondent twice: ``g`` by how many titles they ticked, ``rg`` by how many
+risks they recognised.
 
 Usage:
     python3 prepare_report_data.py                      # blob to stdout
@@ -52,6 +55,10 @@ OPTION_ADDED = {
 # Film-exposure groups: how many entertainment titles a respondent ticked.
 GROUP_A_MIN = 12  # A: seen the most
 GROUP_B_MIN = 7   # B: middle; C: everything below
+
+# Risk-awareness groups: how many catastrophe types a respondent recognised (of 12).
+RISK_A_MIN = 11
+RISK_B_MIN = 9
 
 
 def load_rows(submissions):
@@ -94,34 +101,34 @@ def monthly_aggregates(rows):
     return months
 
 
-def parse_entertainment_options(index_html):
-    """Pull the beginner entertainment options (id, label) out of index.html, in order."""
+def parse_options(index_html, question_id, next_question_id):
+    """Pull one question's options (id, label) out of index.html, in display order."""
     with open(index_html) as f:
         html = f.read()
     try:
-        start = html.index("id: 'beginner-entertainment'")
-        end = html.index("id: 'beginner-catastrophes'", start)
+        start = html.index(f"id: '{question_id}'")
+        end = html.index(f"id: '{next_question_id}'", start)
     except ValueError:
-        sys.exit(f"error: could not locate the beginner-entertainment options in {index_html}")
+        sys.exit(f"error: could not locate the {question_id} options in {index_html}")
     found = re.findall(r"\{\s*id:\s*'([^']+)',\s*label:\s*'((?:[^'\\]|\\.)*)'", html[start:end])
     return [(oid, label.replace("\\'", "'")) for oid, label in found]
 
 
-def entertainment_answers(submissions):
-    """(submitted_at, set of ticked title ids) for every beginner respondent."""
+def beginner_answers(submissions, question_id):
+    """(submitted_at, set of ticked option ids, submission) per beginner respondent."""
     out = []
     for s in submissions:
         if s.get("quiz_flow_id") != "beginner":
             continue
         for a in s.get("quiz_answers") or []:
-            if a["question_id"] == "beginner-entertainment":
+            if a["question_id"] == question_id:
                 out.append((s["submitted_at"][:10], set(a.get("values") or []), s))
     return out
 
 
-def title_counts(submissions, options):
-    """Seen-counts per title, with denominators adjusted for options added late."""
-    answers = entertainment_answers(submissions)
+def option_counts(submissions, options, question_id):
+    """Tick-counts per option, with denominators adjusted for options added late."""
+    answers = beginner_answers(submissions, question_id)
     titles = []
     for oid, label in options:
         added = OPTION_ADDED.get(oid)
@@ -139,18 +146,22 @@ def title_counts(submissions, options):
 
 
 def beginner_groups(submissions):
-    """One record per beginner respondent, bucketed by how many titles they ticked."""
+    """One record per beginner respondent, bucketed by films seen and by risks known."""
+    risk_answers = {id(s): len(ticked) for _, ticked, s in beginner_answers(submissions, "beginner-catastrophes")}
     out = []
-    for _, ticked, s in entertainment_answers(submissions):
+    for _, ticked, s in beginner_answers(submissions, "beginner-entertainment"):
         n = len(ticked)
+        k = risk_answers.get(id(s), 0)
         summary = s["summary"]
         out.append({
             "films": n,
+            "risks": k,
             "m": round(summary["midpoint"], 4),
             "p10": round(summary["p10"], 4),
             "p90": round(summary["p90"], 4),
             "spread": round(statistics.mean(f["spread"] for f in s["factors"]), 4),
             "g": "A" if n >= GROUP_A_MIN else ("B" if n >= GROUP_B_MIN else "C"),
+            "rg": "A" if k >= RISK_A_MIN else ("B" if k >= RISK_B_MIN else "C"),
         })
     out.sort(key=lambda r: -r["films"])
     return out
@@ -200,6 +211,23 @@ def print_film_summary(titles, beginners, out=sys.stderr):
     print(f"  r(films seen vs p(doom)) = {r:+.2f}", file=out)
 
 
+def print_risk_summary(beginners, out=sys.stderr):
+    med = statistics.median
+    if not beginners:
+        return
+    print(f"risk awareness: median {med([b['risks'] for b in beginners]):.0f} of 12 recognised", file=out)
+    for g in ("A", "B", "C"):
+        vals = [b for b in beginners if b["rg"] == g]
+        if vals:
+            print(f"  group {g}: n={len(vals):2d}  risks {min(b['risks'] for b in vals)}-{max(b['risks'] for b in vals)}"
+                  f"  median p(doom)={med([b['m'] for b in vals]):.2f}"
+                  f"  median range-width={med([b['spread'] for b in vals]):.2f}"
+                  f"  min p(doom)={min(b['m'] for b in vals):.2f}", file=out)
+    ks = [b["risks"] for b in beginners]
+    print(f"  r(risks known vs p(doom))      = {pearson(ks, [b['m'] for b in beginners]):+.2f}", file=out)
+    print(f"  r(risks known vs range-width)  = {pearson(ks, [b['spread'] for b in beginners]):+.2f}", file=out)
+
+
 def inject(report_path, blob):
     with open(report_path) as f:
         html = f.read()
@@ -229,13 +257,20 @@ def main():
     with open(args.input) as f:
         submissions = json.load(f)["submissions"]
     rows = load_rows(submissions)
-    options = parse_entertainment_options(args.quiz_source)
-    titles = title_counts(submissions, options)
+    titles = option_counts(
+        submissions,
+        parse_options(args.quiz_source, "beginner-entertainment", "beginner-catastrophes"),
+        "beginner-entertainment")
+    risks = option_counts(
+        submissions,
+        parse_options(args.quiz_source, "beginner-catastrophes", "beginner-capability"),
+        "beginner-catastrophes")
     beginners = beginner_groups(submissions)
     data = {
         "rows": rows,
         "months": monthly_aggregates(rows),
         "titles": titles,
+        "risks": risks,
         "beginners": beginners,
     }
     blob = json.dumps(data, separators=(",", ":"))
@@ -243,6 +278,7 @@ def main():
     if not args.quiet:
         print_summary(rows)
         print_film_summary(titles, beginners)
+        print_risk_summary(beginners)
     if args.inject:
         inject(args.inject, blob)
         print(f"injected {len(blob) // 1024} KB into {args.inject}", file=sys.stderr)
