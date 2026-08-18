@@ -9,6 +9,9 @@ the report page (``pdoom-submissions-viz.html``) renders from:
       "months":    [{"month", "n", "median", "p25", "p75"}, ...],
       "titles":    [{"id", "label", "seen", "of"}, ...],
       "risks":     [{"id", "label", "seen", "of"}, ...],
+      "flows":     [{"id", "label", "n"}, ...],
+      "expertQ":   [{"id", "label", "kind", "opts", "median", "none"}, ...],
+      "experts":   [{"names", "m"}, ...],
       "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...]
     }
 
@@ -39,6 +42,7 @@ import math
 import re
 import statistics
 import sys
+from collections import Counter
 
 FACTOR_KEYS = ("powerfulAi", "dangerousBehavior", "globalCatastrophe")
 QUIZ_LEVELS = ("beginner", "medium", "expert")
@@ -59,6 +63,30 @@ GROUP_B_MIN = 7   # B: middle; C: everything below
 # Risk-awareness groups: how many catastrophe types a respondent recognised (of 12).
 RISK_A_MIN = 11
 RISK_B_MIN = 9
+
+# The quiz-level chooser went live with the level flows; submissions before this
+# date predate the chooser entirely and are excluded from the flow breakdown.
+QUIZ_LAUNCH = "2026-03-09"
+
+FLOW_LABELS = [
+    ("decide", "Decide the right level for me"),
+    ("beginner", "Beginner quiz"),
+    ("medium", "Medium quiz"),
+    ("expert", "Expert quiz"),
+    ("none", "No quiz (sliders)"),
+]
+
+# The expert quiz mixes questions answerable by reasoning with questions that only
+# someone following the field can answer. Splitting them is the point of the section.
+EXPERT_QUESTIONS = [
+    ("expert-continuous-learning", "Ways AI keeps learning", "concept"),
+    ("expert-self-improvement", "Ways AI self-improves", "concept"),
+    ("expert-self-replication", "Ways AI self-replicates", "concept"),
+    ("expert-campaign-organisations", "Campaign organisations", "names"),
+    ("expert-research-organisations", "Research organisations", "names"),
+    ("expert-commentators", "Commentators", "names"),
+    ("expert-content-creators", "Content creators", "names"),
+]
 
 
 def load_rows(submissions):
@@ -167,6 +195,65 @@ def beginner_groups(submissions):
     return out
 
 
+def flow_counts(submissions):
+    """How post-launch visitors answered the level chooser."""
+    post = [s for s in submissions if s["submitted_at"][:10] >= QUIZ_LAUNCH]
+    seen = Counter(s.get("quiz_flow_id") or "none" for s in post)
+    return [{"id": fid, "label": label, "n": seen.get(fid, 0)} for fid, label in FLOW_LABELS]
+
+
+def parse_question_options(index_html, question_id):
+    """Options for one question, matched by walking its own options array."""
+    with open(index_html) as f:
+        html = f.read()
+    start = html.index(f"id: '{question_id}'")
+    open_at = html.index("options: [", start)
+    depth, i = 0, open_at + len("options: [") - 1
+    while True:
+        if html[i] == "[":
+            depth += 1
+        elif html[i] == "]":
+            depth -= 1
+            if depth == 0:
+                break
+        i += 1
+    found = re.findall(r"\{\s*id:\s*'([^']+)',\s*label:\s*'((?:[^'\\]|\\.)*)'", html[open_at:i])
+    return [(oid, label.replace("\\'", "'")) for oid, label in found]
+
+
+def expert_breakdown(submissions, index_html):
+    """Per-question tick rates for expert-quiz takers, plus each taker's name recall."""
+    experts = [s for s in submissions if s.get("quiz_flow_id") == "expert"]
+    questions, name_ids = [], []
+    for qid, label, kind in EXPERT_QUESTIONS:
+        options = parse_question_options(index_html, qid)
+        if kind == "names":
+            name_ids.append(qid)
+        ticked = [len(a.get("values") or [])
+                  for s in experts for a in s.get("quiz_answers") or []
+                  if a["question_id"] == qid]
+        if not ticked:
+            continue
+        questions.append({
+            "id": qid,
+            "label": label,
+            "kind": kind,
+            "opts": len(options),
+            "median": statistics.median(ticked),
+            "none": sum(1 for t in ticked if t == 0),
+        })
+    name_total = sum(q["opts"] for q in questions if q["kind"] == "names")
+    people = []
+    for s in experts:
+        recalled = sum(len(a.get("values") or [])
+                       for a in s.get("quiz_answers") or []
+                       if a["question_id"] in name_ids)
+        people.append({"names": recalled, "of": name_total,
+                       "m": round(s["summary"]["midpoint"], 4)})
+    people.sort(key=lambda r: -r["names"])
+    return questions, people
+
+
 def pearson(xs, ys):
     mx, my = statistics.mean(xs), statistics.mean(ys)
     cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
@@ -228,6 +315,27 @@ def print_risk_summary(beginners, out=sys.stderr):
     print(f"  r(risks known vs range-width)  = {pearson(ks, [b['spread'] for b in beginners]):+.2f}", file=out)
 
 
+def print_flow_summary(flows, expert_q, experts, out=sys.stderr):
+    total = sum(f["n"] for f in flows)
+    if not total:
+        return
+    print(f"level chooser ({QUIZ_LAUNCH} onward, {total} submissions):", file=out)
+    for f in flows:
+        print(f"  {f['label']:32s} {f['n']:>3}  {100 * f['n'] / total:>4.0f}%", file=out)
+    if not experts:
+        return
+    med = statistics.median
+    for kind, title in (("concept", "reasoning questions"), ("names", "name-recognition questions")):
+        qs = [q for q in expert_q if q["kind"] == kind]
+        if qs:
+            share = med([q["median"] / q["opts"] for q in qs])
+            print(f"  expert quiz, {title}: median {100 * share:.0f}% of options ticked", file=out)
+    recalled = [e["names"] for e in experts]
+    of = experts[0]["of"]
+    print(f"  expert name recall: median {med(recalled):.0f} of {of}"
+          f"; {sum(1 for r in recalled if r <= 2)} of {len(experts)} recalled 2 or fewer", file=out)
+
+
 def inject(report_path, blob):
     with open(report_path) as f:
         html = f.read()
@@ -266,12 +374,16 @@ def main():
         parse_options(args.quiz_source, "beginner-catastrophes", "beginner-capability"),
         "beginner-catastrophes")
     beginners = beginner_groups(submissions)
+    expert_q, experts = expert_breakdown(submissions, args.quiz_source)
     data = {
         "rows": rows,
         "months": monthly_aggregates(rows),
         "titles": titles,
         "risks": risks,
         "beginners": beginners,
+        "flows": flow_counts(submissions),
+        "expertQ": expert_q,
+        "experts": experts,
     }
     blob = json.dumps(data, separators=(",", ":"))
 
@@ -279,6 +391,7 @@ def main():
         print_summary(rows)
         print_film_summary(titles, beginners)
         print_risk_summary(beginners)
+        print_flow_summary(data["flows"], expert_q, experts)
     if args.inject:
         inject(args.inject, blob)
         print(f"injected {len(blob) // 1024} KB into {args.inject}", file=sys.stderr)
