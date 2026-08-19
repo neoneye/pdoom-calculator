@@ -35,73 +35,15 @@
   limits: >
     The person who asked supplied the correction himself, in the same post: "It
     didn't." He also added, "still not sure what that means" — the asker could not
-    evaluate the answer. Not a proof of the Riemann hypothesis, and Anthropic say so:
-    "we don't expect
-    that the techniques Claude used will lead to proving the Riemann hypothesis".
+    evaluate the answer. Not a proof of the Riemann hypothesis, and Anthropic say
+    so: "we don't expect that the techniques Claude used will lead to proving the
+    Riemann hypothesis".
     The result combined existing work in a new way rather than inventing a method,
     and came after 650 failed ideas. It needed human mathematicians to check it —
     Levent Alpöge and Ralph Furman internally, and externally Brian Conrey, who
     holds one of the earlier bounds himself, with Dan Goldston. One published
     result is not a rate, and mathematics is unusually friendly to machines: a proof
     can be checked, which most valuable work cannot.
-
-- id: metr-frontier-2026
-  link: powerfulAi
-  title: Agents now finish software tasks that take a person a day and a half
-  date: 2026-05
-  what: >
-    METR evaluated the public and internal frontier over February–March 2026.
-    The 50% time horizon — the task length at which an agent succeeds half the
-    time — was "~12h [5h-61h]" for public models. Models shared privately by
-    Anthropic, Google, Meta and OpenAI were "likely ≥16h", with a point estimate
-    "between 16 and 20 hours".
-  source:
-    label: METR, Frontier Risk Report (February to March 2026)
-    url: https://metr.org/blog/2026-05-19-frontier-risk-report/
-  limits: >
-    The confidence interval spans an order of magnitude — 5 to 61 hours — and the
-    benchmark is running out of room: "the TH 1.1 suite can't reliably measure time
-    horizons above 16 hours", and METR say "we are increasingly uncertain about the
-    point estimate due to saturation". The 80% time horizon, a stricter and more
-    useful bar, was only ~1.5h publicly. These are self-contained software tasks,
-    not jobs.
-
-- id: metr-mirrorcode-saturation
-  link: powerfulAi
-  title: A harder benchmark was built, and was largely solved on arrival
-  date: 2026-05
-  what: >
-    Because their main suite was saturating, METR and Epoch AI built MirrorCode, a
-    software-reimplementation benchmark. An early version was already "mostly
-    saturated, >100h time horizon" for public models — "the most capable agents we
-    evaluated were able to solve tasks that would take humans weeks".
-  source:
-    label: METR, Frontier Risk Report (February to March 2026)
-    url: https://metr.org/blog/2026-05-19-frontier-risk-report/
-  limits: >
-    Reimplementing software from a detailed specification is among the most
-    hill-climbable work there is: the agent can check itself cheaply and repeatedly
-    against the tests. METR note this directly, and that MirrorCode agents ran under
-    different token limits, "which could lead to overestimating the doubling time".
-    Weeks of a human's work here does not mean weeks of a human's judgement.
-
-- id: metr-time-horizons
-  link: powerfulAi
-  title: The trend behind those numbers has held for six years
-  date: 2025-03
-  what: >
-    Measuring the same 50% threshold across models back to 2019, METR found the
-    time horizon "has been doubling approximately every seven months since 2019,
-    though the trend may have accelerated in 2024".
-  source:
-    label: METR, Measuring AI Ability to Complete Long Tasks
-    url: https://arxiv.org/abs/2503.14499
-  limits: >
-    A trend, not a forecast. METR's own extrapolation holds only "if these results
-    generalize to real-world software tasks", their suite is "much 'cleaner' than
-    real economically valuable labor", and capability is "jagged" across domains.
-    Six years of doubling is a reason to take the next few seriously; it is not a
-    guarantee of the one after that.
 
 # --------------------------------------------------------- dangerous behavior
 
@@ -163,11 +105,12 @@
     url: https://metr.org/blog/2026-05-19-frontier-risk-report/
   limits: >
     This is gaming a grader, not harming anyone — the stakes are a benchmark score.
-    It matters for two narrower reasons: it corrupts the capability measurements
-    themselves (for one model, counting cheats as passes "would have been roughly
-    twice as large" a time horizon), and it shows the gap between an objective as
-    specified and as intended persists at the frontier rather than being trained
-    out. Nothing here shows an agent pursuing a goal of its own.
+    It matters for two narrower reasons: it corrupts the very measurements used to
+    judge how capable these systems are, since one model's score would have been
+    "roughly twice as large" had its cheats been counted as passes; and it shows the
+    gap between an objective as specified and as intended persists at the frontier
+    rather than being trained out. Nothing here shows an agent pursuing a goal of
+    its own.
 
 - id: metr-covert-sabotage-weak
   link: dangerousBehavior
