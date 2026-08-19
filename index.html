@@ -67,9 +67,6 @@ Gaps / potential future questions:
       <div class="wizard-body">
         <div class="wizard-panel wizard-panel--active" id="wizardStepWelcome" data-step="welcome">
           <div class="wizard-flow-grid" id="wizardFlowList"></div>
-          <div class="wizard-welcome-actions">
-            <button class="secondary-button" type="button" id="wizardResetButton">Reset saved answers</button>
-          </div>
         </div>
         <div class="wizard-panel" id="wizardStepQuiz" data-step="quiz" hidden>
           <ol class="wizard-question-list" id="wizardQuestionList"></ol>
@@ -136,6 +133,10 @@ Gaps / potential future questions:
     <p class="footer-note">
       Stephen Hawking cautioned: "The development of full artificial intelligence could spell the end of the human race."
     </p>
+
+    <div class="wizard-welcome-actions" id="wizardWelcomeActions">
+      <button class="quiet-button" type="button" id="wizardResetButton">Reset saved answers</button>
+    </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2090,6 +2091,12 @@ Gaps / potential future questions:
       }
     }
 
+    function updateResetVisibility() {
+      const actions = document.getElementById('wizardWelcomeActions');
+      if (!actions) return;
+      actions.hidden = wizardState.step !== 'welcome' || Boolean(wizardState.flowId);
+    }
+
     function goToWizardStep(step) {
       const wizardRoot = document.getElementById('levelWizard');
       if (!wizardRoot) return;
@@ -2101,6 +2108,7 @@ Gaps / potential future questions:
         panel.classList.toggle('wizard-panel--active', isActive);
       });
       updateWizardHeader(step, flow);
+      updateResetVisibility();
       if (step === 'welcome') {
         resetWizardResult();
       }
@@ -2126,6 +2134,7 @@ Gaps / potential future questions:
       if (stickyPdoom) {
         stickyPdoom.hidden = !visible;
       }
+      updateResetVisibility();
       if (!container) return;
       const wasHidden = container.hidden;
       container.hidden = !visible;
