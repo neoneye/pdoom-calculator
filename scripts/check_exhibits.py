@@ -9,6 +9,9 @@ import sys
 
 REQUIRED = ("id", "link", "title", "date", "what", "source", "limits")
 LINKS = {"powerfulAi", "dangerousBehavior", "globalCatastrophe"}
+# Optional. Marks an exhibit that still teaches something but no longer describes
+# the current frontier, so it renders under a "historical context" subheading.
+ERAS = {"historical"}
 
 
 def parse(path):
@@ -59,6 +62,8 @@ def main():
         if e.get("id") in seen:
             errors.append(f"{where}: duplicate id")
         seen.add(e.get("id"))
+        if e.get("era") and e["era"] not in ERAS:
+            errors.append(f"{where}: era '{e['era']}' is not one of {sorted(ERAS)}")
         src = e.get("source")
         if isinstance(src, dict):
             if not str(src.get("url", "")).startswith("http"):
@@ -73,6 +78,7 @@ def main():
         print("  " + err)
     by_link = {l: sum(1 for e in entries if e.get("link") == l) for l in sorted(LINKS)}
     print("by link:", by_link)
+    print("historical:", sum(1 for e in entries if e.get("era") == "historical"))
     return 1 if errors else 0
 
 

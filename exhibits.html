@@ -32,7 +32,10 @@ permalink: /exhibits/
         </p>
       {% endif %}
 
-      {% for e in items %}
+      {% assign current = items | where_exp: "e", "e.era != 'historical'" %}
+      {% assign historical = items | where: "era", "historical" %}
+
+      {% for e in current %}
         {% if e.limits and e.limits != "" %}
           <article class="exhibit">
             <h3 class="exhibit__title">{{ e.title }}</h3>
@@ -45,6 +48,23 @@ permalink: /exhibits/
           </article>
         {% endif %}
       {% endfor %}
+
+      {% if historical.size > 0 %}
+        <h3 class="exhibit-era">Historical context</h3>
+        {% for e in historical %}
+          {% if e.limits and e.limits != "" %}
+            <article class="exhibit exhibit--historical">
+              <h4 class="exhibit__title">{{ e.title }}</h4>
+              <p class="exhibit__what">{{ e.what }}</p>
+              <p class="exhibit__source">
+                {{ e.date }} &middot;
+                <a href="{{ e.source.url }}" target="_blank" rel="noopener noreferrer">{{ e.source.label }}</a>
+              </p>
+              <p class="exhibit__limits">{{ e.limits }}</p>
+            </article>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
 
       {% if items.size == 0 %}
         <p class="exhibit-empty">Nothing here yet.</p>

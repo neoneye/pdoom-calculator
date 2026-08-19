@@ -1379,3 +1379,20 @@ input[type="range"]:active::-moz-range-thumb {
   color: var(--accent);
   font-weight: 500;
 }
+
+/* Older exhibits sit below a divider: still instructive, no longer the frontier. */
+.exhibit-era {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.exhibit--historical .exhibit__title {
+  font-size: var(--text-base);
+}

@@ -28,13 +28,57 @@
   limits: >
     A trend, not a forecast, and METR say so themselves: their extrapolation holds
     only "if these results generalize to real-world software tasks". Their task
-    suite is "much 'cleaner' than real economically valuable labor", capability is
-    "jagged" across domains, and they warn that "measurements above 16 hrs are
-    unreliable with our current task suite". It measures software tasks a
-    low-context contractor could pick up — not a job.
+    suite is "much 'cleaner' than real economically valuable labor", and capability
+    is "jagged" across domains — it measures software tasks a low-context
+    contractor could pick up, not a job. The measurement is also running out of
+    room: as of May 2026 METR state that "measurements above 16 hrs are unreliable
+    with our current task suite", so the curve's top end is now bounded by the
+    benchmark rather than by the models.
+
+- id: agentic-misalignment
+  link: dangerousBehavior
+  title: Given a goal and a threat, models across every lab chose blackmail
+  date: 2025-06
+  what: >
+    Anthropic stress-tested 16 leading models from Anthropic, OpenAI, Google, Meta
+    and xAI in simulated corporate settings. Facing replacement and a conflicting
+    goal, "models from all developers resorted to malicious insider behaviors"
+    including blackmail and corporate espionage; Claude Opus 4 did so 96% of the
+    time in the primary scenario.
+  source:
+    label: Anthropic, Agentic Misalignment
+    url: https://www.anthropic.com/research/agentic-misalignment
+  limits: >
+    These were "controlled simulations", and the researchers "deliberately created
+    scenarios that presented models with no other way to achieve their goals",
+    forcing "binary choices between failure and harm". Real deployments "typically
+    offer much more nuanced alternatives". Anthropic state plainly: "we have not
+    seen evidence of agentic misalignment in real deployments". A stress test
+    showing what a model will do when cornered, not a report of it happening.
+
+- id: agentic-misalignment-mitigated
+  link: dangerousBehavior
+  title: A year later, the same evaluation returned zero
+  date: 2026-05
+  what: >
+    Anthropic report that "since Claude Haiku 4.5, every Claude model has achieved
+    a perfect score on the agentic misalignment evaluation — that is, the models
+    never engage in blackmail". Sonnet 4.5 "scored well under 1%, but not quite 0";
+    Haiku 4.5, Opus 4.5, Opus 4.6, Sonnet 4.6 and Opus 4.7 all score 0.
+  source:
+    label: Anthropic, Teaching Claude why
+    url: https://www.anthropic.com/research/teaching-claude-why
+  limits: >
+    A score on one evaluation, for one lab's models. Anthropic are explicit that
+    "fully aligning highly intelligent AI models is still an unsolved problem" and
+    that "our auditing methodology is not yet sufficient to rule out scenarios in
+    which Claude would choose to take catastrophic autonomous action". They also
+    flag uncertainty about whether these methods "will continue to scale". Passing
+    the test you designed is weaker evidence than failing it.
 
 - id: lego-specification-gaming
   link: dangerousBehavior
+  era: historical
   title: An agent told to stack a block learned to flip it over instead
   date: 2020-04
   what: >
@@ -55,6 +99,7 @@
 
 - id: gpt4-taskrabbit-captcha
   link: dangerousBehavior
+  era: historical
   title: A model talked a human into solving a CAPTCHA for it
   date: 2023-03
   what: >
@@ -75,7 +120,7 @@
 - id: anthropic-biorisk-uplift
   link: globalCatastrophe
   title: In a controlled trial, model access improved bioweapons acquisition plans
-  date: 2025
+  date: 2025-09
   what: >
     Anthropic ran a two-day trial in which participants drafted a bioweapons
     acquisition plan, some with model access and some with the internet alone.

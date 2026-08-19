@@ -2394,6 +2394,27 @@ Gaps / potential future questions:
         { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]
       ));
 
+      const card = (e, historical) => `
+        <article class="exhibit${historical ? ' exhibit--historical' : ''}">
+          <h4 class="exhibit__title">${escape(e.title)}</h4>
+          <p class="exhibit__what">${escape(e.what)}</p>
+          <p class="exhibit__source">${escape(e.date)} &middot;
+            <a href="${escape(e.source.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source.label)}</a>
+          </p>
+          <p class="exhibit__limits">${escape(e.limits)}</p>
+        </article>`;
+
+      // Older exhibits still teach something, but they no longer describe the
+      // frontier, so they sit below a divider rather than alongside current work.
+      const renderExhibitList = (items) => {
+        const current = items.filter(e => e.era !== 'historical');
+        const historical = items.filter(e => e.era === 'historical');
+        return current.map(e => card(e, false)).join('')
+          + (historical.length
+              ? `<h4 class="exhibit-era">Historical context</h4>${historical.map(e => card(e, true)).join('')}`
+              : '');
+      };
+
       host.innerHTML = `
         <h2 class="exhibit-result__head">What the evidence looks like</h2>
         <p class="exhibit-preamble">
@@ -2409,15 +2430,7 @@ Gaps / potential future questions:
               </h3>
               ${group.key === 'globalCatastrophe' ? `
                 <p class="exhibit-empty">Nothing has caused a global catastrophe. These measure routes, not outcomes.</p>` : ''}
-              ${items.length ? items.map(e => `
-                <article class="exhibit">
-                  <h4 class="exhibit__title">${escape(e.title)}</h4>
-                  <p class="exhibit__what">${escape(e.what)}</p>
-                  <p class="exhibit__source">${escape(e.date)} &middot;
-                    <a href="${escape(e.source.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source.label)}</a>
-                  </p>
-                  <p class="exhibit__limits">${escape(e.limits)}</p>
-                </article>`).join('') : '<p class="exhibit-empty">Nothing here yet.</p>'}
+              ${items.length ? renderExhibitList(items) : '<p class="exhibit-empty">Nothing here yet.</p>'}
             </section>`;
         }).join('')}
         <p class="exhibit-result__more">
