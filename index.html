@@ -1086,6 +1086,24 @@ Gaps / potential future questions:
       }
     ];
 
+    // The curve colours live in the stylesheet so the canvas cannot drift from the
+    // rest of the page -- and so a later dark mode would fix the canvas for free.
+    // Resolved once and cached; getComputedStyle is not cheap enough to call per frame.
+    let curveColors = null;
+    function readCurveColors() {
+      if (curveColors) return curveColors;
+      const styles = getComputedStyle(document.documentElement);
+      const pick = (name, fallback) => (styles.getPropertyValue(name).trim() || fallback);
+      curveColors = {
+        fill: pick('--curve-fill', 'rgba(154, 52, 18, 0.10)'),
+        stroke: pick('--curve-stroke', '#9a3412'),
+        grid: pick('--curve-grid', '#d8d3c8'),
+        midline: pick('--curve-handle', '#1c1a17'),
+        handle: pick('--curve-handle', '#1c1a17')
+      };
+      return curveColors;
+    }
+
     const CONFIDENCE_HIGH = 20;
     const CONFIDENCE_LOW = 80;
 
@@ -2756,7 +2774,7 @@ Gaps / potential future questions:
       });
       ctx.lineTo(width, height);
       ctx.closePath();
-      ctx.fillStyle = 'rgba(110, 177, 255, 0.18)';
+      ctx.fillStyle = readCurveColors().fill;
       ctx.fill();
 
       ctx.beginPath();
@@ -2770,14 +2788,14 @@ Gaps / potential future questions:
           ctx.lineTo(x, y);
         }
       });
-      ctx.strokeStyle = 'rgba(110, 177, 255, 0.85)';
+      ctx.strokeStyle = readCurveColors().stroke;
       ctx.lineWidth = 2;
       ctx.stroke();
 
       const lowerBound = Math.max(0, midpoint - spread);
       const upperBound = Math.min(100, midpoint + spread);
 
-      ctx.strokeStyle = 'rgba(240, 245, 255, 0.35)';
+      ctx.strokeStyle = readCurveColors().grid;
       ctx.lineWidth = 1;
       ctx.setLineDash([4, 6]);
       [lowerBound, upperBound].forEach((bound) => {
@@ -2790,14 +2808,14 @@ Gaps / potential future questions:
       ctx.setLineDash([]);
 
       const midpointX = (clamp(midpoint, 0, 100) / 100) * width;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.strokeStyle = readCurveColors().midline;
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(midpointX, height);
       ctx.lineTo(midpointX, 6);
       ctx.stroke();
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillStyle = readCurveColors().handle;
       ctx.beginPath();
       ctx.arc(midpointX, 6, 4, 0, Math.PI * 2);
       ctx.fill();
