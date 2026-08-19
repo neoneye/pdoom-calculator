@@ -6,8 +6,9 @@ extra_styles: /assets/css/quiz.css
 <!--
 Similar to a **Windows Wizard**. First page is the welcome page.
 From there the visitor picks a level: **beginner**, **medium** or **expert**.
-Every level ends on the **sliders**, which are not offered as a way to skip the
-quiz -- they are also reachable by the Sliders breadcrumb and the #sliders hash.
+Every level ends on the **sliders**. There is no way to reach the sliders without
+going through a quiz first -- no card, no breadcrumb -- so the only navigation
+away from a quiz is "Choose a different level", which returns to the start.
 
 Beginner and medium open their quiz directly. Expert opens a knowledge check
 first: 30 terms, 15 genuinely AI-related and 15 decoys. Each term scores
@@ -40,13 +41,10 @@ Gaps / potential future questions:
 <main>
     <h1>P(doom) Calculator</h1>
     <div class="sticky-header">
-      <nav class="wizard-breadcrumbs" aria-label="Quiz progress">
-        <ol class="wizard-breadcrumbs__list" id="wizardBreadcrumbs"></ol>
-        <div class="sticky-pdoom" id="stickyPdoom" hidden>
-          <span class="sticky-pdoom__label">P(doom)</span>
-          <span class="sticky-pdoom__value" id="stickyPdoomValue">–</span>
-        </div>
-      </nav>
+      <div class="sticky-pdoom" id="stickyPdoom" hidden>
+        <span class="sticky-pdoom__label">P(doom)</span>
+        <span class="sticky-pdoom__value" id="stickyPdoomValue">–</span>
+      </div>
 
       <div class="quiz-preview" id="quizPreview" hidden>
         <div class="quiz-preview__title" id="quizPreviewTitle">Calibration preview</div>
@@ -75,6 +73,7 @@ Gaps / potential future questions:
           <div class="wizard-selected" id="wizardSelectedFlow"></div>
           <ol class="wizard-question-list" id="wizardQuestionList"></ol>
           <div class="wizard-actions">
+            <button class="secondary-button" type="button" id="wizardBackButton">Choose a different level</button>
             <button class="primary-button" type="button" id="wizardSubmitButton">Submit answers</button>
           </div>
           <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
@@ -84,6 +83,9 @@ Gaps / potential future questions:
     </section>
 
     <div class="sliders-ui" id="slidersUi" hidden>
+      <div class="sliders-back">
+        <button class="secondary-button" type="button" id="slidersBackButton">Choose a different level</button>
+      </div>
       <p class="slider-hint" id="sliderHint">Drag inside the bell curves to shift your estimate left or right.</p>
       <p class="description">
         Choose your best guess for each stage and how uncertain you are (± pts).
@@ -1070,8 +1072,9 @@ Gaps / potential future questions:
           }
         ]
       },
-      // Reached by finishing a quiz, by the Sliders breadcrumb, or by #sliders --
-      // no longer offered as a way to skip the quiz from the welcome screen.
+      // Reached by finishing a quiz. Not offered as a way to skip one: no chooser
+      // card and no breadcrumb. The #sliders hash still resolves here so that
+      // reloading or going back after a quiz returns the visitor to their result.
       {
         id: 'sliders',
         label: 'Sliders',
@@ -1092,7 +1095,6 @@ Gaps / potential future questions:
     const KEYBOARD_BIG_STEP = 5;
     const WIZARD_STORAGE_KEY = 'pdoom-wizard-answers-v1';
     const SLIDER_STORAGE_KEY = 'pdoom-slider-state-v1';
-    const SKILL_STORAGE_KEY = 'pdoom-skill-level-v1';
     const SLIDERS_CONTAINER_ID = 'slidersUi';
 
     // --- Visitor identity ------------------------------------------------
@@ -1280,14 +1282,6 @@ Gaps / potential future questions:
       step: 'welcome',
       flowId: null
     };
-    const breadcrumbLabels = {
-      start: 'Start',
-      'expert-check': 'Expert check',
-      beginner: 'Beginner quiz',
-      medium: 'Medium quiz',
-      expert: 'Expert quiz',
-      sliders: 'Sliders'
-    };
     const quizFlowIds = ['beginner', 'medium', 'expert'];
     // What the expert gate decided, or null if it has not run. Carried into the
     // submission so a verified expert can be told from a self-declared one.
@@ -1305,7 +1299,6 @@ Gaps / potential future questions:
       latestQuizData = null;
     }
 
-    let predictedQuizFlowId = 'beginner';
     let storedWizardAnswers = {};
     let storedSliderState = {};
 
@@ -1320,88 +1313,6 @@ Gaps / potential future questions:
 
     function getFlowById(flowId) {
       return quizFlows.find(flow => flow.id === flowId) || null;
-    }
-
-    function persistSkillLevel(flowId) {
-      if (typeof localStorage === 'undefined') return;
-      try {
-        localStorage.setItem(SKILL_STORAGE_KEY, flowId);
-      } catch (error) {
-        console.warn('Unable to persist skill level', error);
-      }
-    }
-
-    function loadSkillLevel() {
-      if (typeof localStorage === 'undefined') return null;
-      try {
-        const value = localStorage.getItem(SKILL_STORAGE_KEY);
-        return quizFlowIds.includes(value) ? value : null;
-      } catch (error) {
-        console.warn('Unable to load skill level', error);
-        return null;
-      }
-    }
-
-    function setPredictedQuizFlow(flowId) {
-      const next = quizFlowIds.includes(flowId) ? flowId : 'beginner';
-      predictedQuizFlowId = next;
-      persistSkillLevel(next);
-      renderBreadcrumbs();
-    }
-
-    function getBreadcrumbItems() {
-      const quizId = quizFlowIds.includes(predictedQuizFlowId) ? predictedQuizFlowId : 'beginner';
-      const items = [{ id: 'start', label: breadcrumbLabels.start }];
-      // The gate crumb appears only once the visitor has taken the expert path,
-      // and stays in the trail afterwards even if the score routed them lower.
-      if (wizardState.flowId === 'expert-check' || gateState) {
-        items.push({ id: 'expert-check', label: breadcrumbLabels['expert-check'] });
-      }
-      items.push({ id: quizId, label: breadcrumbLabels[quizId] || 'Quiz' });
-      items.push({ id: 'sliders', label: breadcrumbLabels.sliders });
-      return items;
-    }
-
-    function getActiveBreadcrumbIndex() {
-      const items = getBreadcrumbItems();
-      const flowId = wizardState.flowId;
-      if (flowId === 'expert-check') {
-        return items.findIndex(item => item.id === 'expert-check');
-      }
-      if (flowId === 'sliders') return items.length - 1;
-      if (quizFlowIds.includes(flowId)) return items.length - 2;
-      return 0;
-    }
-
-    function renderBreadcrumbs() {
-      const list = document.getElementById('wizardBreadcrumbs');
-      if (!list) return;
-      const items = getBreadcrumbItems();
-      const activeIndex = getActiveBreadcrumbIndex();
-      list.innerHTML = '';
-      items.forEach((entry, index) => {
-        const status = index === activeIndex ? 'active' : (index < activeIndex ? 'past' : 'future');
-        const item = document.createElement('li');
-        item.className = `wizard-breadcrumbs__item wizard-breadcrumbs__item--${status}`;
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = `wizard-breadcrumbs__button wizard-breadcrumbs__button--${status}`;
-        button.textContent = entry.label;
-        if (status === 'active') {
-          button.setAttribute('aria-current', 'page');
-          button.disabled = true;
-        } else {
-          button.addEventListener('click', () => handleBreadcrumbClick(entry.id));
-        }
-        item.appendChild(button);
-        if (index < items.length - 1) {
-          const separator = document.createElement('span');
-          separator.className = 'wizard-breadcrumbs__separator';
-          separator.textContent = '›';
-          item.appendChild(separator);
-        }
-        list.appendChild(item);
-      });
     }
 
     const validHashes = ['start', 'expert-check', 'decide', 'beginner', 'medium', 'expert', 'sliders'];
@@ -1422,14 +1333,12 @@ Gaps / potential future questions:
         resetWizardResult();
         setSlidersVisibility(false);
         goToWizardStep('welcome');
-        renderBreadcrumbs();
         return;
       }
       if (targetId === 'sliders') {
         wizardState.flowId = 'sliders';
         setSlidersVisibility(true);
         goToWizardStep('welcome');
-        renderBreadcrumbs();
         return;
       }
       // The expert path always opens the gate first; the gate's own buttons call
@@ -1440,14 +1349,16 @@ Gaps / potential future questions:
         return;
       }
       if (quizFlowIds.includes(targetId)) {
-        setPredictedQuizFlow(targetId);
         handleFlowSelection(targetId, skipHash);
       }
     }
 
-    function handleBreadcrumbClick(targetId) {
-      updateHash(targetId);
-      navigateTo(targetId, true);
+    // The only way back to the chooser now that the breadcrumb trail is gone.
+    // Deliberately goes to 'start' and nowhere else: a control that could jump
+    // straight to the sliders would reinstate the skip-the-quiz path.
+    function handleBackToStart() {
+      updateHash('start');
+      navigateTo('start', true);
     }
 
     function loadStoredWizardAnswers() {
@@ -1859,7 +1770,6 @@ Gaps / potential future questions:
       resultEl.innerHTML = `${scoreMessage}${verdict}`;
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
-      setPredictedQuizFlow(recommendedFlowId);
       renderGateResultActions(recommendedFlowId);
     }
 
@@ -2118,18 +2028,12 @@ Gaps / potential future questions:
       previewEl.hidden = false;
     }
 
+    // Every flow's meta already states its own length ("4 questions · ~5 minutes",
+    // "30 terms · ~5 minutes"), so prepending a counted one produced "(6 questions ·
+    // 6 questions · ~5 minutes)". The meta line speaks for itself.
     function formatWizardMeta(flow) {
-      if (!flow) return '';
-      // The gate is one question holding 30 terms, so "1 question" reads as a
-      // miscount next to its own "30 terms" meta. Its meta line stands alone.
-      const questionCount = (flow.kind === 'knowledge-check' || !Array.isArray(flow.questions))
-        ? null
-        : flow.questions.length;
-      const questionLabel = typeof questionCount === 'number' && questionCount > 0
-        ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
-        : '';
-      const metaParts = [questionLabel, flow.meta].filter(Boolean);
-      return metaParts.length > 0 ? ` (${metaParts.join(' · ')})` : '';
+      if (!flow || !flow.meta) return '';
+      return ` (${flow.meta})`;
     }
 
     function updateWizardHeader(step, flow) {
@@ -2248,7 +2152,6 @@ Gaps / potential future questions:
       clearWizardUi();
       setSlidersVisibility(false);
       goToWizardStep('welcome');
-      renderBreadcrumbs();
     }
 
     function handleFlowSelection(flowId, skipHash) {
@@ -2259,20 +2162,15 @@ Gaps / potential future questions:
         wizardState.flowId = flowId;
         setSlidersVisibility(true);
         goToWizardStep('welcome');
-        renderBreadcrumbs();
         return;
       }
       setSlidersVisibility(false);
       wizardState.flowId = flowId;
-      if (quizFlowIds.includes(flowId)) {
-        setPredictedQuizFlow(flowId);
-      }
       renderSelectedFlow(flow);
       renderWizardQuestions(flow);
       resetWizardResult();
       goToWizardStep('quiz');
       updateCalibrationPreview();
-      renderBreadcrumbs();
     }
 
     function handleWizardSubmit() {
@@ -2352,7 +2250,6 @@ Gaps / potential future questions:
         updateHash('sliders');
       }
       if (flow.id === 'beginner' || flow.id === 'medium' || flow.id === 'expert') {
-        renderBreadcrumbs();
       }
       updateCalibrationPreview();
     }
@@ -2362,13 +2259,8 @@ Gaps / potential future questions:
       if (!wizardRoot) return;
       storedWizardAnswers = loadStoredWizardAnswers();
       storedSliderState = loadStoredSliderState();
-      const savedSkillLevel = loadSkillLevel();
-      if (savedSkillLevel) {
-        predictedQuizFlowId = savedSkillLevel;
-      }
       renderWizardFlowOptions();
       goToWizardStep('welcome');
-      renderBreadcrumbs();
       const submitButton = document.getElementById('wizardSubmitButton');
       if (submitButton) {
         submitButton.addEventListener('click', handleWizardSubmit);
@@ -2377,6 +2269,10 @@ Gaps / potential future questions:
       if (resetButton) {
         resetButton.addEventListener('click', handleWizardReset);
       }
+      ['wizardBackButton', 'slidersBackButton'].forEach((id) => {
+        const backButton = document.getElementById(id);
+        if (backButton) backButton.addEventListener('click', handleBackToStart);
+      });
       document.addEventListener('change', (event) => {
         const target = event.target;
         const withinWizardQuestions = target && target.closest('#wizardQuestionList');
