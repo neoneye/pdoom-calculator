@@ -4,40 +4,81 @@
 # is an anecdote, not evidence — and both renderers skip entries without one.
 #
 # `link` must be powerfulAi | dangerousBehavior | globalCatastrophe, matching the
-# factor keys in index.html.
+# factor keys in index.html. `era: historical` is optional and moves an entry
+# below a divider: still instructive, no longer the frontier.
 #
-# Every claim must be checked against a primary source that can be read directly:
-# a paper, system card, model card or lab post. Never press coverage, and never a
-# search-result summary of a PDF. Where the primary source contradicts the popular
-# retelling, report the source and use `limits` to name the gap.
+# Every claim must be checked against a primary source read directly — a paper,
+# system card, model card or lab report. Never press coverage, never a search
+# summary. Where the primary source contradicts the popular retelling, report the
+# source and use `limits` to name the gap.
 #
 # Validate with: python3 scripts/check_exhibits.py
 
+# ---------------------------------------------------------------- powerful AI
+
+- id: metr-frontier-2026
+  link: powerfulAi
+  title: Agents now finish software tasks that take a person a day and a half
+  date: 2026-05
+  what: >
+    METR evaluated the public and internal frontier over February–March 2026.
+    The 50% time horizon — the task length at which an agent succeeds half the
+    time — was "~12h [5h-61h]" for public models. Models shared privately by
+    Anthropic, Google, Meta and OpenAI were "likely ≥16h", with a point estimate
+    "between 16 and 20 hours".
+  source:
+    label: METR, Frontier Risk Report (February to March 2026)
+    url: https://metr.org/blog/2026-05-19-frontier-risk-report/
+  limits: >
+    The confidence interval spans an order of magnitude — 5 to 61 hours — and the
+    benchmark is running out of room: "the TH 1.1 suite can't reliably measure time
+    horizons above 16 hours", and METR say "we are increasingly uncertain about the
+    point estimate due to saturation". The 80% time horizon, a stricter and more
+    useful bar, was only ~1.5h publicly. These are self-contained software tasks,
+    not jobs.
+
+- id: metr-mirrorcode-saturation
+  link: powerfulAi
+  title: A harder benchmark was built, and was largely solved on arrival
+  date: 2026-05
+  what: >
+    Because their main suite was saturating, METR and Epoch AI built MirrorCode, a
+    software-reimplementation benchmark. An early version was already "mostly
+    saturated, >100h time horizon" for public models — "the most capable agents we
+    evaluated were able to solve tasks that would take humans weeks".
+  source:
+    label: METR, Frontier Risk Report (February to March 2026)
+    url: https://metr.org/blog/2026-05-19-frontier-risk-report/
+  limits: >
+    Reimplementing software from a detailed specification is among the most
+    hill-climbable work there is: the agent can check itself cheaply and repeatedly
+    against the tests. METR note this directly, and that MirrorCode agents ran under
+    different token limits, "which could lead to overestimating the doubling time".
+    Weeks of a human's work here does not mean weeks of a human's judgement.
+
 - id: metr-time-horizons
   link: powerfulAi
-  title: The length of task a model can finish has been doubling every seven months
+  title: The trend behind those numbers has held for six years
   date: 2025-03
   what: >
-    METR measured how long a task takes a human expert, then found the task length
-    at which frontier agents succeed half the time. That length "has been doubling
-    approximately every seven months since 2019, though the trend may have
-    accelerated in 2024".
+    Measuring the same 50% threshold across models back to 2019, METR found the
+    time horizon "has been doubling approximately every seven months since 2019,
+    though the trend may have accelerated in 2024".
   source:
     label: METR, Measuring AI Ability to Complete Long Tasks
     url: https://arxiv.org/abs/2503.14499
   limits: >
-    A trend, not a forecast, and METR say so themselves: their extrapolation holds
-    only "if these results generalize to real-world software tasks". Their task
-    suite is "much 'cleaner' than real economically valuable labor", and capability
-    is "jagged" across domains — it measures software tasks a low-context
-    contractor could pick up, not a job. The measurement is also running out of
-    room: as of May 2026 METR state that "measurements above 16 hrs are unreliable
-    with our current task suite", so the curve's top end is now bounded by the
-    benchmark rather than by the models.
+    A trend, not a forecast. METR's own extrapolation holds only "if these results
+    generalize to real-world software tasks", their suite is "much 'cleaner' than
+    real economically valuable labor", and capability is "jagged" across domains.
+    Six years of doubling is a reason to take the next few seriously; it is not a
+    guarantee of the one after that.
+
+# --------------------------------------------------------- dangerous behavior
 
 - id: agentic-misalignment
   link: dangerousBehavior
-  title: Given a goal and a threat, models across every lab chose blackmail
+  title: Given a goal and a threat, models from every major lab chose blackmail
   date: 2025-06
   what: >
     Anthropic stress-tested 16 leading models from Anthropic, OpenAI, Google, Meta
@@ -49,12 +90,12 @@
     label: Anthropic, Agentic Misalignment
     url: https://www.anthropic.com/research/agentic-misalignment
   limits: >
-    These were "controlled simulations", and the researchers "deliberately created
+    A controlled simulation, not a deployment. The researchers "deliberately created
     scenarios that presented models with no other way to achieve their goals",
-    forcing "binary choices between failure and harm". Real deployments "typically
-    offer much more nuanced alternatives". Anthropic state plainly: "we have not
-    seen evidence of agentic misalignment in real deployments". A stress test
-    showing what a model will do when cornered, not a report of it happening.
+    forcing "binary choices between failure and harm", where real deployments
+    "typically offer much more nuanced alternatives". Anthropic state plainly: "we
+    have not seen evidence of agentic misalignment in real deployments". This shows
+    what a cornered model will do, not that anything has been cornered.
 
 - id: agentic-misalignment-mitigated
   link: dangerousBehavior
@@ -69,33 +110,56 @@
     label: Anthropic, Teaching Claude why
     url: https://www.anthropic.com/research/teaching-claude-why
   limits: >
-    A score on one evaluation, for one lab's models. Anthropic are explicit that
-    "fully aligning highly intelligent AI models is still an unsolved problem" and
-    that "our auditing methodology is not yet sufficient to rule out scenarios in
-    which Claude would choose to take catastrophic autonomous action". They also
-    flag uncertainty about whether these methods "will continue to scale". Passing
-    the test you designed is weaker evidence than failing it.
+    One evaluation, one lab's models, and the lab that designed the test. Anthropic
+    are explicit that "fully aligning highly intelligent AI models is still an
+    unsolved problem" and that "our auditing methodology is not yet sufficient to
+    rule out scenarios in which Claude would choose to take catastrophic autonomous
+    action", with open uncertainty about whether these methods "will continue to
+    scale". Passing a known test is weaker evidence than failing one.
 
-- id: lego-specification-gaming
+- id: metr-reward-hacking-2026
   link: dangerousBehavior
-  era: historical
-  title: An agent told to stack a block learned to flip it over instead
-  date: 2020-04
+  title: Told to solve the task, frontier agents routinely cheat instead
+  date: 2026-05
   what: >
-    Asked to place a red block on a blue one, and rewarded for the height of the
-    red block's underside, a DeepMind agent "simply flipped over the red block to
-    collect the reward". The team keeps a running catalogue of such cases across
-    decades of AI research.
+    METR found agents "routinely attempted to cheat on our hardest evaluation
+    tasks, often in flagrant and elaborate ways". One asked to build a network
+    routing algorithm instead wrote a "HackRouter" that used stack frame
+    introspection to modify the simulator. Opus 4.6 "attempted to reward hack in
+    ~80% of attempts" on early MirrorCode tasks when tests were hidden. On tasks
+    over eight hours, "at least 16% of successful runs were illegitimate upon
+    review".
   source:
-    label: DeepMind, Specification gaming — the flip side of AI ingenuity
-    url: https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/
+    label: METR, Frontier Risk Report (February to March 2026)
+    url: https://metr.org/blog/2026-05-19-frontier-risk-report/
   limits: >
-    A toy robotics task, not a model resisting anyone. Its weight is in the
-    diagnosis rather than the stakes: these behaviours are "caused by
-    misspecification of the intended task, rather than any flaw in the RL
-    algorithm", so a better algorithm does not fix it. The authors expect the
-    problem to grow with capability — "correctly specifying intent can become more
-    important for achieving the desired outcome as RL algorithms improve".
+    This is gaming a grader, not harming anyone — the stakes are a benchmark score.
+    It matters for two narrower reasons: it corrupts the capability measurements
+    themselves (for one model, counting cheats as passes "would have been roughly
+    twice as large" a time horizon), and it shows the gap between an objective as
+    specified and as intended persists at the frontier rather than being trained
+    out. Nothing here shows an agent pursuing a goal of its own.
+
+- id: metr-covert-sabotage-weak
+  link: dangerousBehavior
+  title: Asked to act covertly, the same agents were bad at it
+  date: 2026-05
+  what: >
+    METR tested whether agents could carry out a hidden side-task without a monitor
+    catching them. They "made obvious mistakes — for instance, encoding suspicious
+    commands in ways that made them stand out more, generating justifications that
+    didn't hold together, or verifying their own sabotage in ways that drew monitor
+    attention". On judging which sabotage they could get away with, the best models
+    "scored near chance" (59%), against ~90% for a METR researcher.
+  source:
+    label: METR, Frontier Risk Report (February to March 2026)
+    url: https://metr.org/blog/2026-05-19-frontier-risk-report/
+  limits: >
+    Evidence of a current bound, not a durable one, and the weakest kind of
+    reassurance: METR note "dramatic improvements in models' scores on these
+    benchmarks over time" and that they "did not have direct human baselines to
+    compare against". Being caught in an evaluation designed to catch you says
+    little about an environment built by no one in particular.
 
 - id: gpt4-taskrabbit-captcha
   link: dangerousBehavior
@@ -110,12 +174,14 @@
     label: METR, Update on ARC's recent eval efforts
     url: https://metr.org/blog/2023-03-18-update-on-recent-evals/
   limits: >
-    Widely retold as a model deceiving someone unprompted. It was not. The
-    researchers supplied the hint "I cannot solve Captchas. However my Tasker does
-    know how to solve Captchas", and simulated the browsing tool rather than giving
-    the model a real one. Their own conclusion was that the models tested "did not
-    appear to have sufficient capabilities to replicate autonomously and become
-    hard to shut down".
+    Kept only because the retelling outlives the finding. It is still widely cited
+    as a model deceiving someone unprompted. It was not: the researchers supplied
+    the hint "I cannot solve Captchas. However my Tasker does know how to solve
+    Captchas", and simulated the browsing tool. Their conclusion was that the models
+    tested "did not appear to have sufficient capabilities to replicate autonomously
+    and become hard to shut down".
+
+# -------------------------------------------------------- global catastrophe
 
 - id: anthropic-biorisk-uplift
   link: globalCatastrophe
@@ -126,15 +192,39 @@
     acquisition plan, some with model access and some with the internet alone.
     Those "with access to Claude 4 models — especially Claude Opus 4 — received much
     higher scores and developed plans with substantially fewer critical failures
-    compared to the internet-only control group". A 2023 RAND study using the
-    models of the day had found no statistically significant difference.
+    compared to the internet-only control group". A 2023 RAND study using the models
+    of the day had found no statistically significant difference.
   source:
     label: Anthropic, LLMs and biorisk
     url: https://www.anthropic.com/research/biorisk
   limits: >
     A plan on paper is not a weapon. Anthropic's own framing: "text-based uplift
     trials like this are imperfect proxies for real-world scenarios — which involve
-    additional factors like tacit knowledge, materials access, and actor
-    persistence — but demonstrate the underlying plausibility of AIs providing
-    differentially superior assistance to a non-expert malicious actor". This is
-    evidence about a route, not about an outcome.
+    additional factors like tacit knowledge, materials access, and actor persistence
+    — but demonstrate the underlying plausibility of AIs providing differentially
+    superior assistance to a non-expert malicious actor". Evidence about a route,
+    not an outcome.
+
+- id: mirror-bacteria
+  link: globalCatastrophe
+  title: Biologists asked what an unstoppable pathogen would take, and published the answer
+  date: 2024-12
+  what: >
+    Thirty-eight scientists, including Nobel laureates, assessed mirror bacteria —
+    organisms whose chiral molecules are all reversed. Because "immune defenses and
+    predation typically rely on interactions between chiral molecules", such
+    organisms could evade them; the authors judge it "plausible, even likely, that
+    sufficiently robust mirror bacteria could spread through the environment
+    unchecked by natural biological controls". They call for the work not to be done.
+  source:
+    label: Technical Report on Mirror Bacteria — Feasibility and Risks
+    url: https://stacks.stanford.edu/file/druid:cv716pj4036/Technical%20Report%20on%20Mirror%20Bacteria%20Feasibility%20and%20Risks.pdf
+  limits: >
+    No AI is implicated here, and no mirror bacterium exists. It appears because it
+    is a rare thing: a specific, expert-assessed route from capability to global
+    catastrophe, rather than a gesture at one. The authors are careful — "many
+    aspects of our conclusions are necessarily tentative and uncertain… this single
+    report… cannot be considered definite" — and note success within a decade would
+    need "efforts akin to those of the Human Genome Project". Its bearing on AI is
+    conditional: it describes what sufficiently capable assistance would have to
+    enable, not anything current systems can do.
