@@ -660,26 +660,3 @@
   margin: 0 0 0.75rem;
 }
 
-/* Sits between the title and the chooser, and only on the welcome step -- it
-   introduces the choice, so it would be clutter on a quiz or the sliders. */
-.page-lede {
-  max-width: var(--measure);
-  margin: 0 auto var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  color: var(--ink-2);
-}
-
-.page-lede p {
-  margin: 0;
-}
-
-.page-lede a {
-  color: var(--accent);
-  font-weight: 500;
-}
-
-.page-lede[hidden] {
-  display: none;
-}
