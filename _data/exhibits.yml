@@ -18,16 +18,17 @@
 
 - id: claude-riemann-zeta
   link: powerfulAi
-  title: A model moved a fifty-year-old bound further than the field had in fifteen
+  title: A non-mathematician asked for a stab at it, and a fifty-year-old bound moved
   date: 2026-08
   what: >
-    Working in two sessions and 31 million output tokens, Claude raised the proven
-    lower bound on the proportion of Riemann zeta zeros lying on the critical line
-    "from 41.6% to 67.2%". Bui, Conrey and Young had reached "more than 41%" in
-    Acta Arithmetica in 2011; fifteen years of subsequent work had moved it roughly
-    half a point. Human input was "mostly limited to sending Claude messages of
-    encouragement". One session was "a day and a half coordinating about 60 Claude
-    subagents".
+    Jarred Sumner, "an Anthropic staff member (and non-mathematician)", prompted
+    Claude to "take a real stab" at the Riemann hypothesis, "leaving the
+    mathematical choices from there up to the model"; his input was thereafter
+    "mostly limited to sending Claude messages of encouragement". Across two
+    sessions Claude raised the proven lower bound on the proportion of zeta zeros
+    on the critical line "from 41.6% to 67.2%". Bui, Conrey and Young had reached
+    "more than 41%" in Acta Arithmetica in 2011, and fifteen years of subsequent
+    work moved it roughly half a point.
   source:
     label: Anthropic, Claude finds new results in analytic number theory
     url: https://www.anthropic.com/research/riemann-zeta
