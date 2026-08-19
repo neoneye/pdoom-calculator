@@ -1,0 +1,81 @@
+/* Newsreader, self-hosted. Upright only -- the italic cut cost 63KB and served
+   one line of footer quote. unicode-range mirrors Google's subsetting so most
+   visitors fetch newsreader-latin.woff2 and nothing else. */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../fonts/newsreader-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../fonts/newsreader-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  --paper: #faf9f6;
+  --surface: #ffffff;
+  --surface-sunken: #f3f1ea;
+  --line: #e2ded4;
+  --line-strong: #c9c3b5;
+
+  --ink: #1c1a17;
+  --ink-2: #55504a;
+  --ink-3: #8a837a;
+
+  --accent: #9a3412;
+  --accent-hover: #852d10;
+  --accent-ink: #ffffff;
+  --accent-soft: #fbf1ef;
+
+  --ok: #4a7c59;
+  --ok-soft: #f0f5f0;
+  --ok-ink: #2c4a34;
+  --bad: #b04a3d;
+  --bad-soft: #fbf1ef;
+  --bad-ink: #7a2e24;
+  --warn: #9a6a1c;
+
+  /* Read by the bell-curve canvas at draw time, so its colours live here rather
+     than hard-coded in the drawing code. */
+  --curve-fill: rgba(154, 52, 18, 0.10);
+  --curve-stroke: #9a3412;
+  --curve-grid: #d8d3c8;
+  --curve-handle: #1c1a17;
+
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.5rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --radius-sm: 4px;
+  --radius: 6px;
+
+  --measure: 65ch;
+}

@@ -15,6 +15,7 @@
   {% if meta_description %}
     <meta name="description" content="{{ meta_description | escape }}" />
   {% endif %}
+  <link rel="stylesheet" href="{{ '/assets/css/tokens.css' | relative_url }}" />
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
   {% if page.extra_styles %}
     {% assign extra_styles = page.extra_styles | split: ',' %}
