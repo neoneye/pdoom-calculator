@@ -215,9 +215,27 @@ permalink: /stats/
       return bins;
     }
 
+    // Chart colours come from the stylesheet for the same reason the bell curves do:
+    // one source of truth, and nothing here can drift out of step with the page.
+    let chartColors = null;
+    function readChartColors() {
+      if (chartColors) return chartColors;
+      const styles = getComputedStyle(document.documentElement);
+      const pick = (name, fallback) => (styles.getPropertyValue(name).trim() || fallback);
+      chartColors = {
+        bar: pick('--chart-bar', 'rgba(154, 52, 18, 0.55)'),
+        barBorder: pick('--chart-bar-border', '#9a3412'),
+        tick: pick('--ink-2', '#55504a'),
+        axisTitle: pick('--ink-3', '#6f6a61'),
+        grid: pick('--line', '#e2ded4')
+      };
+      return chartColors;
+    }
+
     function renderMidpointHistogram(bins) {
       const canvas = document.getElementById('factorChart');
       if (!canvas) return;
+      const c = readChartColors();
 
       if (factorChartInstance) {
         factorChartInstance.destroy();
@@ -230,9 +248,16 @@ permalink: /stats/
             {
               label: 'Submissions',
               data: bins.map((bin) => bin.count),
-              backgroundColor: 'rgba(120, 186, 255, 0.7)',
-              borderColor: 'rgba(120, 186, 255, 1)',
-              borderWidth: 1.5
+              backgroundColor: c.bar,
+              borderColor: c.barBorder,
+              borderWidth: 1,
+              // Rounded data-end anchored to the baseline, not a floating capsule.
+              borderRadius: 3,
+              borderSkipped: 'bottom',
+              // Histogram bins are contiguous, so the bars sit close; 0.9 x 0.9 leaves
+              // a couple of pixels of paper between them and keeps them legible at 375px.
+              categoryPercentage: 0.9,
+              barPercentage: 0.9
             }
           ]
         },
@@ -242,19 +267,17 @@ permalink: /stats/
           scales: {
             y: {
               beginAtZero: true,
-              ticks: {
-                precision: 0
-              },
-              title: {
-                display: true,
-                text: 'Submissions'
-              }
+              // Grid and axes stay recessive; the bars carry the reading.
+              border: { color: c.grid },
+              grid: { color: c.grid },
+              ticks: { precision: 0, color: c.tick },
+              title: { display: true, text: 'Submissions', color: c.axisTitle }
             },
             x: {
-              title: {
-                display: true,
-                text: 'P(doom) midpoint (%)'
-              }
+              border: { color: c.grid },
+              grid: { display: false },
+              ticks: { color: c.tick },
+              title: { display: true, text: 'P(doom) midpoint (%)', color: c.axisTitle }
             }
           },
           plugins: {

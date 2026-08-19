@@ -56,6 +56,11 @@
   --curve-grid: #d8d3c8;
   --curve-handle: #1c1a17;
 
+  /* Read by the stats histogram. A single series takes one hue -- the accent --
+     so the chart belongs to the page rather than importing a second palette. */
+  --chart-bar: rgba(154, 52, 18, 0.55);
+  --chart-bar-border: #9a3412;
+
   --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
