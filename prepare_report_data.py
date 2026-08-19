@@ -17,6 +17,8 @@ the report pages under ``reports/`` render from:
       "dupes":     {"records", "unique", "byLevel": {level: {records, unique, median, medianDedup}}},
       "identity":  {"signed", "valid", "invalid", "unchecked", "unsigned", "visitors",
                     "repeat", "maxPerVisitor", "replays", "mismatched"},
+      "gate":      {"attempted", "verified", "overrode", "accepted", "acceptedTo",
+                    "medianScore", "scores"},
       "mediumQ":   [{"id", "label", "kind", "rho", "n"}, ...],
       "prompts":   [{"label", "n", "median", "values"}, ...],
       "mediumVuln":[{"known", "of", "m"}, ...],
@@ -472,6 +474,54 @@ def expert_breakdown(submissions, index_html):
     return questions, people
 
 
+def gate_picks(s):
+    """Term ids ticked on the expert check, or None if this visitor never took it.
+
+    Two shapes exist. Current rows carry ``gate_answers``, a flat list, and are
+    produced by anyone who clicked the expert quiz. Rows from before 19 Aug 2026
+    carry the selections inside ``quiz_answers`` under the retired ``decide`` flow.
+    An empty set means "took the check and ticked nothing", which is not the same
+    as never taking it -- hence None rather than an empty set for the latter."""
+    if s.get("gate_answers") is not None:
+        return set(s["gate_answers"])
+    if s.get("quiz_flow_id") == "decide":
+        return {v for a in s.get("quiz_answers") or [] for v in (a.get("values") or [])}
+    return None
+
+
+def gate_journeys(submissions):
+    """What became of everyone who asked for the expert quiz.
+
+    ``gate_score`` is non-null exactly when the visitor clicked Expert quiz, because
+    the check cannot be reached any other way. What this cannot show is anyone who
+    took the check and left without submitting -- they leave no row at all."""
+    counts = Counter()
+    rerouted_to = Counter()
+    scores = []
+    for s in submissions:
+        if s.get("gate_score") is None:
+            continue
+        scores.append(s["gate_score"])
+        taken = s.get("quiz_flow_id")
+        if s.get("expert_verified"):
+            counts["verified"] += 1
+        elif taken == "expert":
+            counts["overrode"] += 1
+        else:
+            counts["accepted"] += 1
+            rerouted_to[taken or "none"] += 1
+    attempted = sum(counts.values())
+    return {
+        "attempted": attempted,
+        "verified": counts["verified"],
+        "overrode": counts["overrode"],
+        "accepted": counts["accepted"],
+        "acceptedTo": dict(rerouted_to),
+        "medianScore": round(statistics.median(scores), 1) if scores else None,
+        "scores": sorted(scores),
+    }
+
+
 def knowledge_check(submissions, index_html):
     """The decoy instrument, and how the visitors who took it fared against it."""
     with open(index_html) as f:
@@ -506,9 +556,9 @@ def knowledge_check(submissions, index_html):
 
     takers = []
     for s in submissions:
-        if s.get("quiz_flow_id") != "decide":
+        picked = gate_picks(s)
+        if picked is None:
             continue
-        picked = {v for a in s.get("quiz_answers") or [] for v in (a.get("values") or [])}
         hits = len(picked & real_ids)
         tripped = len(picked - real_ids)
         avoided = len(decoys) - tripped
@@ -522,12 +572,31 @@ def knowledge_check(submissions, index_html):
             "p10": round(s["summary"]["p10"], 4),
             "p90": round(s["summary"]["p90"], 4),
         })
+    # How each individual term fared, which the score alone cannot show.
+    seen = Counter()
+    for s in submissions:
+        picked = gate_picks(s)
+        if picked is None:
+            continue
+        for tid in picked:
+            seen[tid] += 1
+    per_term = [{
+        "id": t["id"],
+        "label": t["label"],
+        "ai": t["ai"],
+        # For a real term this is how many spotted it; for a decoy, how many fell for it.
+        "picked": seen.get(t["id"], 0),
+        "of": len(takers),
+    } for t in terms]
+    per_term.sort(key=lambda t: (t["ai"], -t["picked"]))
+
     return {
         "terms": len(terms),
         "real": len(real_ids),
         "decoys": len(decoys),
         "takers": takers,
         "pairs": pairs,
+        "perTerm": per_term,
     }
 
 
@@ -702,6 +771,18 @@ def print_medium_summary(medium_q, prompts, out=sys.stderr):
         print(f"    system prompts: {p['label'][:38]:40s} n={p['n']:>2}  median={shown}", file=out)
 
 
+def print_gate_summary(gate, out=sys.stderr):
+    print("\n-- expert check --", file=out)
+    if not gate["attempted"]:
+        print("nobody has taken the check yet", file=out)
+        return
+    print(f"asked for the expert quiz {gate['attempted']}, "
+          f"cleared the bar {gate['verified']}, "
+          f"fell short and took expert anyway {gate['overrode']}, "
+          f"fell short and accepted a lower level {gate['accepted']} {gate['acceptedTo']}", file=out)
+    print(f"median score {gate['medianScore']} of 30", file=out)
+
+
 def print_identity_summary(identity, out=sys.stderr):
     print("\n-- visitor identity --", file=out)
     if identity["signed"] and not HAVE_CRYPTO:
@@ -761,6 +842,7 @@ def main():
     expert_q, experts = expert_breakdown(submissions, args.quiz_source)
     medium_q, prompts, vulns, vuln_list = medium_breakdown(submissions, args.quiz_source)
     identity = verify_submissions(submissions)
+    gate = gate_journeys(submissions)
     data = {
         "rows": rows,
         "months": monthly_aggregates(rows),
@@ -776,6 +858,7 @@ def main():
         "sliders": slider_submissions(submissions),
         "dupes": duplicate_audit(submissions),
         "identity": identity,
+        "gate": gate,
         "expertQ": expert_q,
         "experts": experts,
     }
@@ -787,6 +870,7 @@ def main():
         print_risk_summary(beginners)
         print_flow_summary(data["flows"], expert_q, experts)
         print_medium_summary(medium_q, prompts)
+        print_gate_summary(gate)
         print_identity_summary(identity)
     if args.inject:
         inject(args.inject, blob)

@@ -1704,6 +1704,7 @@ Gaps / potential future questions:
       resetWizardResult();
       let questionsCorrect = 0;
       let questionItemsTotal = 0;
+      const pickedTerms = [];
 
       knowledgeCheckQuestions.forEach((question) => {
         const questionEl = document.querySelector(`[data-question-id="${question.id}"]`);
@@ -1715,6 +1716,7 @@ Gaps / potential future questions:
         }
         const selectedInputs = document.querySelectorAll(`input[name="${question.id}"]:checked`);
         const selectedValues = Array.from(selectedInputs).map(input => input.value);
+        pickedTerms.push(...selectedValues);
         let perfect = true;
         question.options.forEach((option, optionIndex) => {
           const optionId = option.id ?? `${question.id}-${optionIndex}`;
@@ -1770,7 +1772,8 @@ Gaps / potential future questions:
       gateState = {
         score: questionsCorrect,
         recommendedLevel: recommendedFlowId,
-        expertVerified: questionsCorrect >= EXPERT_GATE_MIN_SCORE
+        expertVerified: questionsCorrect >= EXPERT_GATE_MIN_SCORE,
+        answers: pickedTerms
       };
 
       const verdict = recommendedFlowId === 'expert'
@@ -2390,7 +2393,11 @@ Gaps / potential future questions:
         // submission that went straight to its quiz.
         gate_score: gateState ? gateState.score : null,
         gate_recommended_level: gateState ? gateState.recommendedLevel : null,
-        expert_verified: gateState ? gateState.expertVerified : null
+        expert_verified: gateState ? gateState.expertVerified : null,
+        // Which terms were ticked, so per-decoy performance is recoverable. Not
+        // covered by the signature, for the same reason quiz_answers is not: the
+        // signed string stays a short fixed-format line.
+        gate_answers: gateState ? gateState.answers : null
       };
     }
 

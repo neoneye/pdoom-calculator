@@ -28,6 +28,7 @@ CREATE TABLE submissions (
   gate_score int,
   gate_recommended_level text,
   expert_verified boolean,
+  gate_answers jsonb,
   visitor_key text,
   submit_count int,
   signed_payload text,
@@ -44,6 +45,7 @@ ALTER TABLE submissions
   ADD COLUMN IF NOT EXISTS gate_score int,
   ADD COLUMN IF NOT EXISTS gate_recommended_level text,
   ADD COLUMN IF NOT EXISTS expert_verified boolean,
+  ADD COLUMN IF NOT EXISTS gate_answers jsonb,
   ADD COLUMN IF NOT EXISTS visitor_key text,
   ADD COLUMN IF NOT EXISTS submit_count int,
   ADD COLUMN IF NOT EXISTS signed_payload text,
@@ -54,6 +56,18 @@ Rows submitted before this date keep `NULL` in all seven. The three gate columns
 are also `NULL` for any beginner or medium submission that never met the gate,
 and the four identity columns are `NULL` whenever the browser could not generate
 a key — a submission is never blocked over identity.
+
+`gate_score` is non-null exactly when the visitor clicked **Expert quiz**, since the
+check is not reachable any other way. That makes the whole expert journey queryable:
+
+```sql
+SELECT expert_verified, quiz_flow_id, count(*)
+FROM submissions WHERE gate_score IS NOT NULL GROUP BY 1, 2;
+```
+
+`expert_verified = true` cleared the bar; `false` with `quiz_flow_id = 'expert'` went on
+anyway; `false` with a lower `quiz_flow_id` accepted the reroute. What no query can show
+is anyone who took the check and left without submitting -- they leave no row.
 
 Grouping repeat submissions is then a plain query:
 
@@ -103,6 +117,7 @@ CREATE POLICY "Allow anonymous reads"
 | `gate_score` | int | Expert gate score, 0–30. `null` if the gate never ran. |
 | `gate_recommended_level` | text | Level the gate recommended: `beginner`, `medium` or `expert`. `null` if the gate never ran. |
 | `expert_verified` | boolean | True when `gate_score >= 26`. A submission with `quiz_flow_id = 'expert'` and `expert_verified = false` is a self-declared expert. `null` if the gate never ran. |
+| `gate_answers` | jsonb | The term ids ticked on the expert check, so per-decoy performance can be measured. `null` if the gate never ran; `[]` means it ran and nothing was ticked. |
 | `visitor_key` | text | `p256:` + base64url of the browser's ECDSA P-256 public key. `null` for unsigned rows and everything submitted before 19 Aug 2026. |
 | `submit_count` | int | 1-based submission number for that `visitor_key`. |
 | `signed_payload` | text | The exact string the signature covers. Stored verbatim so verification never has to reconstruct it. |
