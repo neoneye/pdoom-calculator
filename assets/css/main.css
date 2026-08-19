@@ -1267,3 +1267,68 @@ input[type="range"]:active::-moz-range-thumb {
 .about-page .footer h2 {
   margin-top: 2.4rem;
 }
+
+.exhibit-preamble {
+  max-width: var(--measure);
+  margin: 0 auto var(--space-6);
+  color: var(--ink-2);
+}
+
+.exhibit-group {
+  margin-bottom: var(--space-7);
+}
+
+.exhibit-group__head {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.exhibit {
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.exhibit__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0 0 var(--space-2);
+}
+
+.exhibit__what {
+  margin: 0 0 var(--space-2);
+  color: var(--ink-2);
+}
+
+.exhibit__source {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+}
+
+.exhibit__source a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* The half that keeps this honest, so it is styled to be read, not skipped. */
+.exhibit__limits {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--accent);
+}
+
+.exhibit-empty {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+}

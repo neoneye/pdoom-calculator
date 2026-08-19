@@ -1,0 +1,54 @@
+---
+title: Exhibits
+description: Concrete, sourced material behind each link in the p(doom) chain.
+permalink: /exhibits/
+---
+<main>
+  <header class="page-header">
+    <h1>Exhibits</h1>
+    <p class="description">Concrete things that happened, filed under the link they bear on.</p>
+  </header>
+
+  <p class="exhibit-preamble">
+    These are exhibits, not predictions. None of them shows that a catastrophe is
+    coming. Each one shows one specific thing that happened, and says what it does
+    not establish &mdash; because an exhibit that only points one way is an
+    advertisement.
+  </p>
+
+  {% assign groups = "powerfulAi,dangerousBehavior,globalCatastrophe" | split: "," %}
+  {% assign labels = "P(powerful AI),P(dangerous behavior | powerful AI),P(global catastrophe | dangerous behavior)" | split: "," %}
+
+  {% for key in groups %}
+    {% assign items = site.data.exhibits | where: "link", key %}
+    <section class="exhibit-group">
+      <h2 class="exhibit-group__head">{{ labels[forloop.index0] }}</h2>
+
+      {% if key == "globalCatastrophe" %}
+        <p class="exhibit-empty">
+          No exhibit here is evidence of an outcome &mdash; nothing has caused a
+          global catastrophe. What follows measures <em>routes</em>: whether a
+          capability moves someone closer to one.
+        </p>
+      {% endif %}
+
+      {% for e in items %}
+        {% if e.limits and e.limits != "" %}
+          <article class="exhibit">
+            <h3 class="exhibit__title">{{ e.title }}</h3>
+            <p class="exhibit__what">{{ e.what }}</p>
+            <p class="exhibit__source">
+              {{ e.date }} &middot;
+              <a href="{{ e.source.url }}" target="_blank" rel="noopener noreferrer">{{ e.source.label }}</a>
+            </p>
+            <p class="exhibit__limits">{{ e.limits }}</p>
+          </article>
+        {% endif %}
+      {% endfor %}
+
+      {% if items.size == 0 %}
+        <p class="exhibit-empty">Nothing here yet.</p>
+      {% endif %}
+    </section>
+  {% endfor %}
+</main>
