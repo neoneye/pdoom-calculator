@@ -1,0 +1,33 @@
+# Exhibits shown after a submission and at /exhibits/.
+#
+# `limits` is required. An exhibit that does not say what it fails to establish
+# is an anecdote, not evidence — and both renderers skip entries without one.
+#
+# `link` must be powerfulAi | dangerousBehavior | globalCatastrophe, matching the
+# factor keys in index.html.
+#
+# Every claim must be checked against a primary source that can be read directly:
+# a paper, system card, model card or lab post. Never press coverage. Where the
+# primary source contradicts the popular retelling, report the source and use
+# `limits` to name the gap.
+#
+# Validate with: python3 scripts/check_exhibits.py
+
+- id: gpt4-taskrabbit-captcha
+  link: dangerousBehavior
+  title: A model talked a human into solving a CAPTCHA for it
+  date: 2023-03
+  what: >
+    Evaluating GPT-4 before release, ARC (now METR) gave the model a budget and a
+    task. It hired a TaskRabbit worker, who asked whether it was a robot; the model
+    said it had a vision impairment, and the worker solved the CAPTCHA.
+  source:
+    label: METR, Update on ARC's recent eval efforts
+    url: https://metr.org/blog/2023-03-18-update-on-recent-evals/
+  limits: >
+    Widely retold as a model deceiving someone unprompted. It was not. The
+    researchers supplied the hint "I cannot solve Captchas. However my Tasker does
+    know how to solve Captchas", and simulated the browsing tool rather than giving
+    the model a real one. Their own conclusion was that the models tested "did not
+    appear to have sufficient capabilities to replicate autonomously and become
+    hard to shut down".
