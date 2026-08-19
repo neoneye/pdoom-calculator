@@ -1066,8 +1066,8 @@ input[type="range"]:active::-moz-range-thumb {
   color: var(--ink-3);
 }
 
-.data-table tbody tr:nth-child(odd) {
-  background: var(--surface-sunken);
+.data-table tbody tr + tr td {
+  border-top: 1px solid var(--line);
 }
 
 .data-table__label-mobile {
