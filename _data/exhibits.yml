@@ -21,19 +21,22 @@
   title: A non-mathematician asked for a stab at it, and a fifty-year-old bound moved
   date: 2026-08
   what: >
-    Jarred Sumner, "an Anthropic staff member (and non-mathematician)", prompted
-    Claude to "take a real stab" at the Riemann hypothesis, "leaving the
-    mathematical choices from there up to the model"; his input was thereafter
-    "mostly limited to sending Claude messages of encouragement". Across two
-    sessions Claude raised the proven lower bound on the proportion of zeta zeros
-    on the critical line "from 41.6% to 67.2%". Bui, Conrey and Young had reached
-    "more than 41%" in Acta Arithmetica in 2011, and fifteen years of subsequent
-    work moved it roughly half a point.
+    Jarred Sumner, "an Anthropic staff member (and non-mathematician)", described it
+    on X on 10 August 2026: "8 days ago, while jogging, I asked Claude to solve the
+    Riemann Hypothesis. It didn't. 1.5 days later, it proved >= 67% of the zeros are
+    on the line (prev: 41.6%)". He left "the mathematical choices from there up to
+    the model", and his input was "mostly limited to sending Claude messages of
+    encouragement". Bui, Conrey and Young had reached "more than 41%" in Acta
+    Arithmetica in 2011; fifteen years of subsequent work moved it roughly half a
+    point.
   source:
     label: Anthropic, Claude finds new results in analytic number theory
     url: https://www.anthropic.com/research/riemann-zeta
   limits: >
-    Not a proof of the Riemann hypothesis, and Anthropic say so: "we don't expect
+    The person who asked supplied the correction himself, in the same post: "It
+    didn't." He also added, "still not sure what that means" — the asker could not
+    evaluate the answer. Not a proof of the Riemann hypothesis, and Anthropic say so:
+    "we don't expect
     that the techniques Claude used will lead to proving the Riemann hypothesis".
     The result combined existing work in a new way rather than inventing a method,
     and came after 650 failed ideas. It needed human mathematicians to check it —
