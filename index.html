@@ -72,7 +72,7 @@ Gaps / potential future questions:
           <ol class="wizard-question-list" id="wizardQuestionList"></ol>
           <div class="wizard-actions">
             <button class="secondary-button" type="button" id="wizardBackButton">Choose a different level</button>
-            <button class="primary-button" type="button" id="wizardSubmitButton">Submit answers</button>
+            <button class="primary-button" type="button" id="wizardSubmitButton">Continue to the sliders</button>
           </div>
           <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
           <div class="quiz-result-actions" id="wizardResultActions" hidden></div>
@@ -1541,7 +1541,9 @@ Gaps / potential future questions:
     function renderSelectedFlow(flow) {
       const submitButton = document.getElementById('wizardSubmitButton');
       if (submitButton) {
-        submitButton.textContent = flow.kind === 'knowledge-check' ? 'Check my answers' : `Submit ${flow.label}`;
+        submitButton.textContent = flow.kind === 'knowledge-check'
+          ? 'Check my answers'
+          : 'Continue to the sliders';
       }
     }
 
