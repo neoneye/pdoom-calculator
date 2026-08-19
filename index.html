@@ -70,7 +70,6 @@ Gaps / potential future questions:
           </div>
         </div>
         <div class="wizard-panel" id="wizardStepQuiz" data-step="quiz" hidden>
-          <div class="wizard-selected" id="wizardSelectedFlow"></div>
           <ol class="wizard-question-list" id="wizardQuestionList"></ol>
           <div class="wizard-actions">
             <button class="secondary-button" type="button" id="wizardBackButton">Choose a different level</button>
@@ -1524,14 +1523,9 @@ Gaps / potential future questions:
       });
     }
 
+    // Only the submit label now: the flow's title, description and meta already
+    // appear in the wizard header, and repeating them read as a stutter on paper.
     function renderSelectedFlow(flow) {
-      const selectedEl = document.getElementById('wizardSelectedFlow');
-      if (!selectedEl) return;
-      selectedEl.innerHTML = `
-        <p class="wizard-selected__meta">${flow.meta}</p>
-        <h3 class="wizard-selected__title">${flow.label}</h3>
-        <p class="wizard-selected__meta">${flow.description}</p>
-      `;
       const submitButton = document.getElementById('wizardSubmitButton');
       if (submitButton) {
         submitButton.textContent = flow.kind === 'knowledge-check' ? 'Check my answers' : `Submit ${flow.label}`;
@@ -1675,10 +1669,6 @@ Gaps / potential future questions:
       const questionList = document.getElementById('wizardQuestionList');
       if (questionList) {
         questionList.innerHTML = '';
-      }
-      const selectedFlow = document.getElementById('wizardSelectedFlow');
-      if (selectedFlow) {
-        selectedFlow.innerHTML = '';
       }
       resetWizardResult();
       updateCalibrationPreview();

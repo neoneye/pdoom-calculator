@@ -32,7 +32,9 @@
 
   --ink: #1c1a17;
   --ink-2: #55504a;
-  --ink-3: #8a837a;
+  /* 5.1:1 on --paper. The lighter #8a837a this replaced measured 3.56:1,
+     which fails WCAG AA for the card meta, footer quote and slider notes. */
+  --ink-3: #6f6a61;
 
   --accent: #9a3412;
   --accent-hover: #852d10;

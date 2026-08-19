@@ -37,7 +37,7 @@ Custom properties on `:root` in `main.css`, referenced by every rule in both sty
 |---|---|
 | Ground | `--paper #faf9f6`, `--surface #ffffff`, `--surface-sunken #f3f1ea` |
 | Line | `--line #e2ded4`, `--line-strong #c9c3b5` |
-| Ink | `--ink #1c1a17`, `--ink-2 #55504a`, `--ink-3 #8a837a` |
+| Ink | `--ink #1c1a17`, `--ink-2 #55504a`, `--ink-3 #6f6a61` |
 | Accent | `--accent #9a3412`, `--accent-ink #ffffff`, `--accent-soft #fbf1ef` |
 | Semantic | `--ok #4a7c59`, `--ok-soft #f0f5f0`, `--ok-ink #2c4a34`, `--bad #b04a3d`, `--bad-soft #fbf1ef`, `--bad-ink #7a2e24`, `--warn #9a6a1c` |
 | Type | `--font-serif`, `--font-sans`, scale `--text-xs .8125rem` through `--text-3xl 2.5rem` |
@@ -94,9 +94,25 @@ This keeps one source of truth and means a later dark mode fixes the canvas for 
 
 ### Accessibility
 
-Every text/ground pairing in the token table meets WCAG AA at its intended size. Focus
-states are a 2px accent outline with 2px offset, applied to every interactive element
-rather than the subset that has one today.
+Measured contrast against `--paper`, not assumed:
+
+| Token | Ratio | |
+|---|---|---|
+| `--ink` | 16.49 | AAA |
+| `--ink-2` | 7.58 | AAA |
+| `--ink-3` | 5.10 | AA |
+| `--accent` | 6.94 | AAA |
+| `--ok-ink` on `--ok-soft` | 8.91 | AAA |
+| `--bad-ink` on `--bad-soft` | 8.44 | AAA |
+| `--accent-ink` on `--accent` | 7.31 | AAA |
+
+`--ink-3` was first set to `#8a837a`, which measured 3.56:1 and fails AA for normal text
+-- it carries the card meta, the footer quote and the slider notes. It was darkened to
+`#6f6a61` after measurement. `--warn` (4.48:1) is used only as a border, where the
+threshold is 3:1 for non-text UI, so it is unchanged.
+
+Focus states are a 2px accent outline with 2px offset, applied to every interactive
+element rather than the subset that has one today.
 
 ## Scope
 

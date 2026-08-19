@@ -164,23 +164,6 @@
   color: var(--ink-3);
 }
 
-.wizard-selected {
-  padding: 1rem 1.2rem;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--surface-sunken);
-}
-
-.wizard-selected__title {
-  margin: 0;
-}
-
-.wizard-selected__meta {
-  margin: 0.2rem 0 0;
-  color: var(--ink-3);
-  font-size: 0.9rem;
-}
-
 .wizard-question-list {
   list-style: none;
   padding: 0;
@@ -499,13 +482,7 @@
   }
 
   /* Selected flow indicator - minimal */
-  .wizard-selected {
-    padding: 0.6rem 0.8rem;
-    border-radius: 10px;
-    margin-bottom: 0.25rem;
-  }
-
-  /* Questions - flatten the hierarchy */
+    /* Questions - flatten the hierarchy */
   .wizard-question-list {
     gap: 0.5rem;
   }
