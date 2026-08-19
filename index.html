@@ -2234,6 +2234,11 @@ Gaps / potential future questions:
       }
     }
 
+    // Clears saved answers and the in-progress path only. The visitor identity and
+    // its submit counter live in IndexedDB and must survive this: they are what
+    // ties a person's submissions together in the published export, and wiping
+    // them here would hand anyone a one-click way to become a new visitor.
+    // Do not "tidy" this into localStorage.clear() or an IndexedDB wipe.
     function handleWizardReset() {
       const shouldReset = window.confirm('Reset all saved quiz answers? This will wipe stored selections.');
       if (!shouldReset) return;
