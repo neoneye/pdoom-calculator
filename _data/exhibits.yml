@@ -18,15 +18,16 @@
 
 - id: claude-riemann-zeta
   link: powerfulAi
-  title: A non-mathematician asked for a stab at it, and a fifty-year-old bound moved
+  title: A non-mathematician asked for a real stab at it, and a fifty-year-old bound moved
   date: 2026-08
   what: >
     Jarred Sumner, "an Anthropic staff member (and non-mathematician)", described it
     on X on 10 August 2026: "8 days ago, while jogging, I asked Claude to solve the
     Riemann Hypothesis. It didn't. 1.5 days later, it proved >= 67% of the zeros are
-    on the line (prev: 41.6%)". He left "the mathematical choices from there up to
-    the model", and his input was "mostly limited to sending Claude messages of
-    encouragement". Bui, Conrey and Young had reached "more than 41%" in Acta
+    on the line (prev: 41.6%)". Anthropic record the prompt as asking Claude to
+    "take a real stab" at the hypothesis, "leaving the mathematical choices from
+    there up to the model"; his input was thereafter "mostly limited to sending
+    Claude messages of encouragement". Bui, Conrey and Young had reached "more than 41%" in Acta
     Arithmetica in 2011; fifteen years of subsequent work moved it roughly half a
     point.
   source:
