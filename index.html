@@ -144,6 +144,14 @@ Gaps / potential future questions:
     const SUPABASE_URL = window.SUPABASE_URL;
     const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
     const SUBMISSIONS_TABLE = 'submissions';
+
+    // ?developer=1 builds and signs the submission exactly as normal but stops short
+    // of the insert, so the live table stays clean while working on the page. A bare
+    // ?developer counts too; ?developer=0 does not.
+    const DEVELOPER_MODE = (() => {
+      const value = new URLSearchParams(window.location.search).get('developer');
+      return value !== null && value !== '0' && value !== 'false';
+    })();
     let supabaseClient = null;
     let latestSnapshot = null;
     let latestQuizData = null;
@@ -1344,7 +1352,7 @@ Gaps / potential future questions:
       const hash = id === 'start' ? '' : '#' + id;
       if (window.location.hash === hash || (!window.location.hash && hash === '')) return;
       suppressHashChange = true;
-      history.pushState(null, '', hash || window.location.pathname);
+      history.pushState(null, '', hash || (window.location.pathname + window.location.search));
       suppressHashChange = false;
     }
 
@@ -2460,6 +2468,22 @@ Gaps / potential future questions:
 
     async function submitParameters() {
       const button = document.getElementById('submitParametersButton');
+
+      if (DEVELOPER_MODE) {
+        const draft = buildSubmissionPayload();
+        if (!draft) {
+          setSubmissionStatus('Nothing to submit yet. Adjust the sliders first.', 'error');
+          return;
+        }
+        // Sign it anyway so the whole path is exercised, then stop. The submit
+        // counter is deliberately not advanced: no row landed, so advancing it
+        // would leave a gap in this browser's sequence.
+        await signSubmission(draft);
+        console.info('[developer] submission withheld, nothing sent:', draft);
+        setSubmissionStatus('Developer mode — nothing was sent. Payload logged to the console.', 'error');
+        return;
+      }
+
       if (!supabaseClient) {
         initSupabase();
       }
