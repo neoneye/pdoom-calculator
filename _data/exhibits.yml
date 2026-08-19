@@ -16,6 +16,31 @@
 
 # ---------------------------------------------------------------- powerful AI
 
+- id: claude-riemann-zeta
+  link: powerfulAi
+  title: A model moved a fifty-year-old bound further than the field had in fifteen
+  date: 2026-08
+  what: >
+    Working in two sessions and 31 million output tokens, Claude raised the proven
+    lower bound on the proportion of Riemann zeta zeros lying on the critical line
+    "from 41.6% to 67.2%". Bui, Conrey and Young had reached "more than 41%" in
+    Acta Arithmetica in 2011; fifteen years of subsequent work had moved it roughly
+    half a point. Human input was "mostly limited to sending Claude messages of
+    encouragement". One session was "a day and a half coordinating about 60 Claude
+    subagents".
+  source:
+    label: Anthropic, Claude finds new results in analytic number theory
+    url: https://www.anthropic.com/research/riemann-zeta
+  limits: >
+    Not a proof of the Riemann hypothesis, and Anthropic say so: "we don't expect
+    that the techniques Claude used will lead to proving the Riemann hypothesis".
+    The result combined existing work in a new way rather than inventing a method,
+    and came after 650 failed ideas. It needed human mathematicians to check it —
+    Levent Alpöge and Ralph Furman internally, and externally Brian Conrey, who
+    holds one of the earlier bounds himself, with Dan Goldston. One published
+    result is not a rate, and mathematics is unusually friendly to machines: a proof
+    can be checked, which most valuable work cannot.
+
 - id: metr-frontier-2026
   link: powerfulAi
   title: Agents now finish software tasks that take a person a day and a half
