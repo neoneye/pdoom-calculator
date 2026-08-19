@@ -52,7 +52,7 @@ ALTER TABLE submissions
   ADD COLUMN IF NOT EXISTS signature text;
 ```
 
-Rows submitted before this date keep `NULL` in all seven. The three gate columns
+Rows submitted before this date keep `NULL` in all eight. The four gate columns
 are also `NULL` for any beginner or medium submission that never met the gate,
 and the four identity columns are `NULL` whenever the browser could not generate
 a key — a submission is never blocked over identity.
