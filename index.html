@@ -40,6 +40,22 @@ Gaps / potential future questions:
 -->
 <main>
     <h1>P(doom) Calculator</h1>
+
+    <section class="page-lede" id="pageLede">
+      <p>
+        P(doom) is shorthand for the probability that AI causes a global catastrophe.
+        Asked directly, it invites a gut number. This calculator asks three narrower
+        questions instead &mdash; whether AI becomes powerful enough to matter, whether
+        such a system would behave dangerously, and whether that would end in
+        catastrophe &mdash; and multiplies your answers together.
+      </p>
+      <p>
+        The quiz sets where each slider starts, based on what you already recognise.
+        Nothing is fixed: you can move all three afterwards, and submit the result
+        anonymously to a <a href="{{ '/stats/' | relative_url }}">public dataset</a>.
+      </p>
+    </section>
+
     <div class="sticky-header">
       <div class="sticky-pdoom" id="stickyPdoom" hidden>
         <span class="sticky-pdoom__label">P(doom)</span>
@@ -59,7 +75,7 @@ Gaps / potential future questions:
       <header class="wizard-header">
         <h2 id="wizardHeaderTitle">Choose your quiz path</h2>
         <p class="wizard-intro" id="wizardHeaderIntro">
-          Pick a level. Beginner and medium start straight away; the expert quiz opens with a short knowledge check.
+          The level only changes which questions you are asked; everyone ends on the same three sliders.
         </p>
       </header>
       <div class="wizard-body">
@@ -406,7 +422,7 @@ Gaps / potential future questions:
       {
         id: 'beginner',
         label: 'Beginner quiz',
-        description: 'Perfect if you are just getting acquainted with AI risk language.',
+        description: 'Start here if the vocabulary of AI risk is new to you.',
         meta: '4 questions · ~5 minutes',
         kind: 'fixed',
         completionMessage: 'Nice! This beginner path keeps uncertainty wide while you learn.',
@@ -843,7 +859,7 @@ Gaps / potential future questions:
       {
         id: 'expert',
         label: 'Expert quiz',
-        description: 'For AI experts that already knows about threats and AI capabilities.',
+        description: 'For people who follow AI safety research closely.',
         meta: 'Knowledge check first · 8 questions · ~10 minutes',
         kind: 'fixed',
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
@@ -1293,7 +1309,7 @@ Gaps / potential future questions:
 
     const wizardHeaderDefaults = {
       title: 'Choose your quiz path',
-      intro: 'Pick a level. Beginner and medium start straight away; the expert quiz opens with a short knowledge check.'
+      intro: 'The level only changes which questions you are asked; everyone ends on the same three sliders.'
     };
     const wizardState = {
       step: 'welcome',
@@ -2081,6 +2097,14 @@ Gaps / potential future questions:
       }
     }
 
+    // The lede introduces the choice of level, so it is shown on the welcome step
+    // and nowhere else -- not on a quiz, and not on the sliders.
+    function updateLedeVisibility() {
+      const lede = document.getElementById('pageLede');
+      if (!lede) return;
+      lede.hidden = wizardState.step !== 'welcome' || Boolean(wizardState.flowId);
+    }
+
     function goToWizardStep(step) {
       const wizardRoot = document.getElementById('levelWizard');
       if (!wizardRoot) return;
@@ -2092,6 +2116,7 @@ Gaps / potential future questions:
         panel.classList.toggle('wizard-panel--active', isActive);
       });
       updateWizardHeader(step, flow);
+      updateLedeVisibility();
       if (step === 'welcome') {
         resetWizardResult();
       }
@@ -2117,6 +2142,7 @@ Gaps / potential future questions:
       if (stickyPdoom) {
         stickyPdoom.hidden = !visible;
       }
+      updateLedeVisibility();
       if (!container) return;
       const wasHidden = container.hidden;
       container.hidden = !visible;
