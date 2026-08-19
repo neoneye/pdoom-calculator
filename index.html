@@ -121,12 +121,17 @@ Gaps / potential future questions:
           <a class="stats-link" href="{{ '/stats/' | relative_url }}">public dataset</a>.
         </p>
         <p class="submission-status" id="submissionStatus" aria-live="polite"></p>
+        <div class="exhibit-result" id="exhibitResult" hidden></div>
       </section>
     </div>
 
     <p class="footer-note">
       Stephen Hawking cautioned: "The development of full artificial intelligence could spell the end of the human race."
     </p>
+
+    <script type="application/json" id="exhibitsData">
+      {{ site.data.exhibits | jsonify }}
+    </script>
 
     <div class="wizard-welcome-actions" id="wizardWelcomeActions">
       <button class="quiet-button" type="button" id="wizardResetButton">Reset saved answers</button>
@@ -2353,6 +2358,74 @@ Gaps / potential future questions:
       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
+    // Shown only after a submission has landed, so the estimate is already fixed
+    // and nothing here can influence the number that was recorded.
+    const EXHIBIT_GROUPS = [
+      { key: 'powerfulAi', label: 'P(powerful AI)' },
+      { key: 'dangerousBehavior', label: 'P(dangerous behavior | powerful AI)' },
+      { key: 'globalCatastrophe', label: 'P(global catastrophe | dangerous behavior)' }
+    ];
+
+    function loadExhibits() {
+      const el = document.getElementById('exhibitsData');
+      if (!el) return [];
+      try {
+        const parsed = JSON.parse(el.textContent);
+        // An exhibit without `limits` does not render, here as on the page.
+        return Array.isArray(parsed) ? parsed.filter(e => e && e.limits) : [];
+      } catch (error) {
+        console.warn('Unable to read exhibits', error);
+        return [];
+      }
+    }
+
+    function renderExhibits() {
+      const host = document.getElementById('exhibitResult');
+      if (!host) return;
+      const exhibits = loadExhibits();
+      if (!exhibits.length) return;
+
+      const midpointFor = (key) => {
+        const factor = ((latestSnapshot && latestSnapshot.factors) || []).find(f => f.key === key);
+        return factor ? `${(factor.midpoint * 100).toFixed(1)}%` : null;
+      };
+
+      const escape = (text) => String(text).replace(/[&<>"]/g, c => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]
+      ));
+
+      host.innerHTML = `
+        <h2 class="exhibit-result__head">What the evidence looks like</h2>
+        <p class="exhibit-preamble">
+          Exhibits, not predictions. Your estimate is already recorded &mdash; this changes nothing about it.
+        </p>
+        ${EXHIBIT_GROUPS.map((group) => {
+          const items = exhibits.filter(e => e.link === group.key);
+          const mine = midpointFor(group.key);
+          return `
+            <section class="exhibit-group">
+              <h3 class="exhibit-group__head">
+                ${escape(group.label)}${mine ? ` <span class="exhibit-group__mine">you put this at ${mine}</span>` : ''}
+              </h3>
+              ${group.key === 'globalCatastrophe' ? `
+                <p class="exhibit-empty">Nothing has caused a global catastrophe. These measure routes, not outcomes.</p>` : ''}
+              ${items.length ? items.map(e => `
+                <article class="exhibit">
+                  <h4 class="exhibit__title">${escape(e.title)}</h4>
+                  <p class="exhibit__what">${escape(e.what)}</p>
+                  <p class="exhibit__source">${escape(e.date)} &middot;
+                    <a href="${escape(e.source.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source.label)}</a>
+                  </p>
+                  <p class="exhibit__limits">${escape(e.limits)}</p>
+                </article>`).join('') : '<p class="exhibit-empty">Nothing here yet.</p>'}
+            </section>`;
+        }).join('')}
+        <p class="exhibit-result__more">
+          The same collection lives at <a href="{{ '/exhibits/' | relative_url }}">Exhibits</a>.
+        </p>`;
+      host.hidden = false;
+    }
+
     function setSubmissionStatus(message, tone = 'info') {
       const statusEl = document.getElementById('submissionStatus');
       if (!statusEl) return;
@@ -2470,6 +2543,7 @@ Gaps / potential future questions:
         await signSubmission(draft);
         console.info('[developer] submission withheld, nothing sent:', draft);
         setSubmissionStatus('Developer mode — nothing was sent. Payload logged to the console.', 'error');
+        renderExhibits();
         return;
       }
 
@@ -2500,6 +2574,7 @@ Gaps / potential future questions:
         // between their first submission and their fortieth.
         if (identity) persistSubmitCount(nextCount);
         setSubmissionStatus('Submitted! Thanks for contributing.', 'success');
+        renderExhibits();
       } catch (error) {
         console.error('Supabase submission failed', error);
         setSubmissionStatus('Submission failed. Please try again later.', 'error');
