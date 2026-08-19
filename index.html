@@ -5,8 +5,9 @@ extra_styles: /assets/css/quiz.css
 ---
 <!--
 Similar to a **Windows Wizard**. First page is the welcome page.
-From there the visitor picks a level: **beginner**, **medium** or **expert**,
-or skips to the **sliders**.
+From there the visitor picks a level: **beginner**, **medium** or **expert**.
+Every level ends on the **sliders**, which are not offered as a way to skip the
+quiz -- they are also reachable by the Sliders breadcrumb and the #sliders hash.
 
 Beginner and medium open their quiz directly. Expert opens a knowledge check
 first: 30 terms, 15 genuinely AI-related and 15 decoys. Each term scores
@@ -1069,11 +1070,14 @@ Gaps / potential future questions:
           }
         ]
       },
+      // Reached by finishing a quiz, by the Sliders breadcrumb, or by #sliders --
+      // no longer offered as a way to skip the quiz from the welcome screen.
       {
         id: 'sliders',
         label: 'Sliders',
-        description: 'Skip the quiz and jump straight to tweaking the P(doom) parameters.',
+        description: 'Tweak the P(doom) parameters directly.',
         meta: 'Manual control',
+        hiddenFromChooser: true,
         kind: 'sliders',
         questions: []
       }
