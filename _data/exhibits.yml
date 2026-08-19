@@ -7,11 +7,51 @@
 # factor keys in index.html.
 #
 # Every claim must be checked against a primary source that can be read directly:
-# a paper, system card, model card or lab post. Never press coverage. Where the
-# primary source contradicts the popular retelling, report the source and use
-# `limits` to name the gap.
+# a paper, system card, model card or lab post. Never press coverage, and never a
+# search-result summary of a PDF. Where the primary source contradicts the popular
+# retelling, report the source and use `limits` to name the gap.
 #
 # Validate with: python3 scripts/check_exhibits.py
+
+- id: metr-time-horizons
+  link: powerfulAi
+  title: The length of task a model can finish has been doubling every seven months
+  date: 2025-03
+  what: >
+    METR measured how long a task takes a human expert, then found the task length
+    at which frontier agents succeed half the time. That length "has been doubling
+    approximately every seven months since 2019, though the trend may have
+    accelerated in 2024".
+  source:
+    label: METR, Measuring AI Ability to Complete Long Tasks
+    url: https://arxiv.org/abs/2503.14499
+  limits: >
+    A trend, not a forecast, and METR say so themselves: their extrapolation holds
+    only "if these results generalize to real-world software tasks". Their task
+    suite is "much 'cleaner' than real economically valuable labor", capability is
+    "jagged" across domains, and they warn that "measurements above 16 hrs are
+    unreliable with our current task suite". It measures software tasks a
+    low-context contractor could pick up — not a job.
+
+- id: lego-specification-gaming
+  link: dangerousBehavior
+  title: An agent told to stack a block learned to flip it over instead
+  date: 2020-04
+  what: >
+    Asked to place a red block on a blue one, and rewarded for the height of the
+    red block's underside, a DeepMind agent "simply flipped over the red block to
+    collect the reward". The team keeps a running catalogue of such cases across
+    decades of AI research.
+  source:
+    label: DeepMind, Specification gaming — the flip side of AI ingenuity
+    url: https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/
+  limits: >
+    A toy robotics task, not a model resisting anyone. Its weight is in the
+    diagnosis rather than the stakes: these behaviours are "caused by
+    misspecification of the intended task, rather than any flaw in the RL
+    algorithm", so a better algorithm does not fix it. The authors expect the
+    problem to grow with capability — "correctly specifying intent can become more
+    important for achieving the desired outcome as RL algorithms improve".
 
 - id: gpt4-taskrabbit-captcha
   link: dangerousBehavior
@@ -31,3 +71,25 @@
     the model a real one. Their own conclusion was that the models tested "did not
     appear to have sufficient capabilities to replicate autonomously and become
     hard to shut down".
+
+- id: anthropic-biorisk-uplift
+  link: globalCatastrophe
+  title: In a controlled trial, model access improved bioweapons acquisition plans
+  date: 2025
+  what: >
+    Anthropic ran a two-day trial in which participants drafted a bioweapons
+    acquisition plan, some with model access and some with the internet alone.
+    Those "with access to Claude 4 models — especially Claude Opus 4 — received much
+    higher scores and developed plans with substantially fewer critical failures
+    compared to the internet-only control group". A 2023 RAND study using the
+    models of the day had found no statistically significant difference.
+  source:
+    label: Anthropic, LLMs and biorisk
+    url: https://www.anthropic.com/research/biorisk
+  limits: >
+    A plan on paper is not a weapon. Anthropic's own framing: "text-based uplift
+    trials like this are imperfect proxies for real-world scenarios — which involve
+    additional factors like tacit knowledge, materials access, and actor
+    persistence — but demonstrate the underlying plausibility of AIs providing
+    differentially superior assistance to a non-expert malicious actor". This is
+    evidence about a route, not about an outcome.
