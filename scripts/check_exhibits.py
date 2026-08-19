@@ -64,14 +64,17 @@ def main():
         seen.add(e.get("id"))
         if e.get("era") and e["era"] not in ERAS:
             errors.append(f"{where}: era '{e['era']}' is not one of {sorted(ERAS)}")
-        src = e.get("source")
-        if isinstance(src, dict):
-            if not str(src.get("url", "")).startswith("http"):
-                errors.append(f"{where}: source.url must be an absolute URL")
-            if not src.get("label"):
-                errors.append(f"{where}: source.label missing")
-        elif e.get("source"):
-            errors.append(f"{where}: source must have label and url")
+        for field in ("source", "source2"):
+            src = e.get(field)
+            if src is None or src == "":
+                continue
+            if isinstance(src, dict):
+                if not str(src.get("url", "")).startswith("http"):
+                    errors.append(f"{where}: {field}.url must be an absolute URL")
+                if not src.get("label"):
+                    errors.append(f"{where}: {field}.label missing")
+            else:
+                errors.append(f"{where}: {field} must have label and url")
 
     print(f"{len(entries)} exhibits, {len(errors)} problems")
     for err in errors:

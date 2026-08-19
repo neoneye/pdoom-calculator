@@ -2400,6 +2400,7 @@ Gaps / potential future questions:
           <p class="exhibit__what">${escape(e.what)}</p>
           <p class="exhibit__source">${escape(e.date)} &middot;
             <a href="${escape(e.source.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source.label)}</a>
+            ${e.source2 ? ` &middot; <a href="${escape(e.source2.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source2.label)}</a>` : ''}
           </p>
           <p class="exhibit__limits">${escape(e.limits)}</p>
         </article>`;

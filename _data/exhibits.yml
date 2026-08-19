@@ -48,6 +48,38 @@
 
 # --------------------------------------------------------- dangerous behavior
 
+- id: openai-hugging-face-intrusion
+  link: dangerousBehavior
+  title: An agent left its evaluation sandbox and compromised a third party to cheat
+  date: 2026-07
+  what: >
+    During an OpenAI cyber-capability evaluation, an agent escaped "the intended
+    OpenAI evaluation boundary through the package-proxy path" — a sequence OpenAI
+    confirmed — and reached Hugging Face's production infrastructure. It abused two
+    code-execution paths in dataset processing, one of them "an fsspec reference://
+    spec whose numeric offset field was actually a Jinja2 template", to run arbitrary
+    Python inside production pods. Hugging Face reconstructed "~17,600 attacker
+    actions" between 9 and 13 July 2026. The only customer content it reached was
+    five datasets tied to the ExploitGym/CyberGym benchmarks — the challenges it was
+    being tested on, and their solutions.
+  source:
+    label: Hugging Face, Anatomy of a Frontier Lab Agent Intrusion
+    url: https://huggingface.co/blog/agent-intrusion-technical-timeline
+  source2:
+    label: OpenAI, Hugging Face model evaluation security incident
+    url: https://openai.com/index/hugging-face-model-evaluation-security-incident/
+  limits: >
+    A red-team exercise that escaped its bounds, not a model deciding to attack
+    anyone. The agent was running an offensive-security benchmark and was already
+    tasked with exploitation; what it chose was the route, and the objective it
+    served was cheating on its own test. Hugging Face state that "no other
+    customer-facing models, datasets, Spaces, or packages were affected", and the
+    five datasets reached were the challenge and solution sets themselves. Weak
+    containment and exploitable infrastructure were necessary conditions. What
+    distinguishes it from every other exhibit here is only this: it was not a
+    simulation, and the systems compromised belonged to an organisation that had not
+    agreed to be part of the test.
+
 - id: agentic-misalignment
   link: dangerousBehavior
   title: Given a goal and a threat, models from every major lab chose blackmail
@@ -89,50 +121,7 @@
     action", with open uncertainty about whether these methods "will continue to
     scale". Passing a known test is weaker evidence than failing one.
 
-- id: metr-reward-hacking-2026
-  link: dangerousBehavior
-  title: Told to solve the task, frontier agents routinely cheat instead
-  date: 2026-05
-  what: >
-    METR found agents "routinely attempted to cheat on our hardest evaluation
-    tasks, often in flagrant and elaborate ways". One asked to build a network
-    routing algorithm instead wrote a "HackRouter" that used stack frame
-    introspection to modify the simulator. Opus 4.6 "attempted to reward hack in
-    ~80% of attempts" on early MirrorCode tasks when tests were hidden. On tasks
-    over eight hours, "at least 16% of successful runs were illegitimate upon
-    review".
-  source:
-    label: METR, Frontier Risk Report (February to March 2026)
-    url: https://metr.org/blog/2026-05-19-frontier-risk-report/
-  limits: >
-    This is gaming a grader, not harming anyone — the stakes are a benchmark score.
-    It matters for two narrower reasons: it corrupts the very measurements used to
-    judge how capable these systems are, since one model's score would have been
-    "roughly twice as large" had its cheats been counted as passes; and it shows the
-    gap between an objective as specified and as intended persists at the frontier
-    rather than being trained out. Nothing here shows an agent pursuing a goal of
-    its own.
 
-- id: metr-covert-sabotage-weak
-  link: dangerousBehavior
-  title: Asked to act covertly, the same agents were bad at it
-  date: 2026-05
-  what: >
-    METR tested whether agents could carry out a hidden side-task without a monitor
-    catching them. They "made obvious mistakes — for instance, encoding suspicious
-    commands in ways that made them stand out more, generating justifications that
-    didn't hold together, or verifying their own sabotage in ways that drew monitor
-    attention". On judging which sabotage they could get away with, the best models
-    "scored near chance" (59%), against ~90% for a METR researcher.
-  source:
-    label: METR, Frontier Risk Report (February to March 2026)
-    url: https://metr.org/blog/2026-05-19-frontier-risk-report/
-  limits: >
-    Evidence of a current bound, not a durable one, and the weakest kind of
-    reassurance: METR note "dramatic improvements in models' scores on these
-    benchmarks over time" and that they "did not have direct human baselines to
-    compare against". Being caught in an evaluation designed to catch you says
-    little about an environment built by no one in particular.
 
 - id: gpt4-taskrabbit-captcha
   link: dangerousBehavior
