@@ -71,7 +71,6 @@ Gaps / potential future questions:
         <div class="wizard-panel" id="wizardStepQuiz" data-step="quiz" hidden>
           <ol class="wizard-question-list" id="wizardQuestionList"></ol>
           <div class="wizard-actions">
-            <button class="secondary-button" type="button" id="wizardBackButton">Choose a different level</button>
             <button class="primary-button" type="button" id="wizardSubmitButton">Continue to the sliders</button>
           </div>
           <p class="quiz-result" id="wizardResult" aria-live="polite"></p>
@@ -81,9 +80,6 @@ Gaps / potential future questions:
     </section>
 
     <div class="sliders-ui" id="slidersUi" hidden>
-      <div class="sliders-back">
-        <button class="secondary-button" type="button" id="slidersBackButton">Choose a different level</button>
-      </div>
       <p class="slider-hint" id="sliderHint">Drag inside the bell curves to shift your estimate left or right.</p>
       <p class="description">
         Choose your best guess for each stage and how uncertain you are (± pts).
@@ -1383,14 +1379,6 @@ Gaps / potential future questions:
       }
     }
 
-    // The only way back to the chooser now that the breadcrumb trail is gone.
-    // Deliberately goes to 'start' and nowhere else: a control that could jump
-    // straight to the sliders would reinstate the skip-the-quiz path.
-    function handleBackToStart() {
-      updateHash('start');
-      navigateTo('start', true);
-    }
-
     function loadStoredWizardAnswers() {
       if (typeof localStorage === 'undefined') return {};
       try {
@@ -2305,10 +2293,6 @@ Gaps / potential future questions:
       if (resetButton) {
         resetButton.addEventListener('click', handleWizardReset);
       }
-      ['wizardBackButton', 'slidersBackButton'].forEach((id) => {
-        const backButton = document.getElementById(id);
-        if (backButton) backButton.addEventListener('click', handleBackToStart);
-      });
       document.addEventListener('change', (event) => {
         const target = event.target;
         const withinWizardQuestions = target && target.closest('#wizardQuestionList');

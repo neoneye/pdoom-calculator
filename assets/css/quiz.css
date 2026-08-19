@@ -684,11 +684,4 @@
   }
 }
 
-/* Back to the chooser. Sits above the sliders because the sliders screen hides
-   the wizard entirely, so it carries no other navigation. */
-.sliders-back {
-  display: flex;
-  justify-content: flex-start;
-  margin: 0 0 0.75rem;
-}
 
