@@ -161,21 +161,6 @@
   outline-offset: -2px;
 }
 
-.wizard-flow-card--recommended {
-  border-color: var(--line);
-}
-
-.wizard-card-badge {
-  align-self: flex-start;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-
 .wizard-flow-card__title {
   margin: 0;
   font-family: var(--font-serif);
@@ -188,6 +173,14 @@
   margin: 0;
   color: var(--ink-2);
   font-size: 0.9rem;
+}
+
+/* The one condition attached to a level, so it carries the accent rather than
+   sitting muted with the rest of the card's detail. */
+.wizard-flow-card__note {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--accent);
 }
 
 .wizard-flow-card__meta {
@@ -508,12 +501,7 @@
     font-size: 0.95rem;
   }
 
-  .wizard-card-badge {
-    font-size: 0.7rem;
-    padding: 0.15rem 0.5rem;
-  }
-
-  /* Selected flow indicator - minimal */
+    /* Selected flow indicator - minimal */
     /* Questions - flatten the hierarchy */
   .wizard-question-list {
     gap: 0.5rem;

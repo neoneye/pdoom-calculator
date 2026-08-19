@@ -853,6 +853,7 @@ Gaps / potential future questions:
         id: 'expert',
         label: 'Expert quiz',
         description: 'For people who follow AI safety research closely.',
+        cardNote: 'Opens with a short check that you know the field.',
         meta: '8 questions · ~10 minutes',
         kind: 'fixed',
         completionMessage: 'Expert mode engaged. We pinned the sliders tighter so your signals stay crisp.',
@@ -1504,17 +1505,15 @@ Gaps / potential future questions:
       quizFlows.filter(flow => !flow.hiddenFromChooser).forEach((flow) => {
         const button = document.createElement('button');
         button.type = 'button';
-        const classes = ['wizard-flow-card'];
-        if (flow.recommended) {
-          classes.push('wizard-flow-card--recommended');
-        }
-        button.className = classes.join(' ');
+        button.className = 'wizard-flow-card';
         button.dataset.flowId = flow.id;
-        const badge = flow.recommended ? '<span class="wizard-card-badge">Recommended</span>' : '';
+        const note = flow.cardNote
+          ? `<p class="wizard-flow-card__note">${flow.cardNote}</p>`
+          : '';
         button.innerHTML = `
-          ${badge}
           <h3 class="wizard-flow-card__title">${flow.label}</h3>
           <p class="wizard-flow-card__description">${flow.description}</p>
+          ${note}
           <p class="wizard-flow-card__meta">${flow.meta}</p>
         `;
         // navigateTo, not handleFlowSelection, so the expert card lands on the gate.
