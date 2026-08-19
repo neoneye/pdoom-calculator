@@ -27,11 +27,15 @@ Filing each exhibit under the link it bears on is what separates this from a
 gallery of alarming anecdotes. A jailbreak transcript is evidence about link 2 and
 says nothing whatever about link 3.
 
-The filing also produces an asymmetry that must be shown rather than hidden:
-link 2 has abundant documented incidents, link 1 has capability trends and
-forecasts, and link 3 has almost no direct evidence, because nothing has yet
-caused a global catastrophe. A reader who notices the third group is nearly empty
-has learned where the real uncertainty lives.
+The filing also produces an asymmetry that must be shown rather than hidden.
+Link 2 has abundant documented incidents. Link 1 has measured capability trends.
+Link 3 has no direct evidence -- nothing has yet caused a global catastrophe --
+but it is not empty: the labs' own CBRN uplift trials measure whether a model
+moves non-experts toward mass-casualty capability, which is evidence about the
+*pathway* even though it is not evidence about an outcome.
+
+That distinction is the most useful thing on the page. Link 3 exhibits describe
+routes, not events, and must say so.
 
 ## Placement, and why
 
@@ -113,6 +117,20 @@ Every claim is checked against a primary source -- a paper, system card, model
 card, or lab publication -- not press coverage. Anything that cannot be confirmed
 against such a source is dropped rather than softened or hedged. Dates state when
 the thing happened, not when it was reported.
+
+**This machine cannot extract text from PDFs** (no poppler/pdftotext), and many
+system cards are PDF-only. Sources must therefore be HTML-readable, or the claim
+gets dropped. HTML-accessible primaries confirmed to work: `metr.org` blog posts,
+`red.anthropic.com`, lab blog posts, and arXiv HTML renderings.
+
+Where a primary source contradicts the popular account of an incident, the exhibit
+reports the primary source and uses `limits` to name the gap. The GPT-4 TaskRabbit
+episode is the model case: METR's own writeup records that researchers supplied
+the hint "I cannot solve Captchas. However my Tasker does know how to solve
+Captchas", simulated the browsing tool, and concluded the tested models "did not
+appear to have sufficient capabilities to replicate autonomously and become hard
+to shut down". An exhibit that repeated the headline version would be teaching
+something false.
 
 Roughly ten entries for the first version, weighted as the material actually
 falls: three to four on capability trends, five to six on demonstrated model
