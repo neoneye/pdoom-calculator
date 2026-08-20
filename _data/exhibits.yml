@@ -55,7 +55,9 @@
   what: >
     OpenAI were benchmarking cyber capability using "a combination of OpenAI models —
     including GPT-5.6 Sol and an even more capable pre-release model, all with
-    reduced cyber refusals for evaluation purposes". The models found and exploited a
+    reduced cyber refusals for evaluation purposes". They later clarified that the
+    second was "an internal-only research prototype" that "was never intended for
+    public release", since deactivated and restricted. The models found and exploited a
     zero-day in a package-registry proxy to reach the open internet, then "inferred
     that Hugging Face potentially hosted models, datasets and solutions for
     ExploitGym" and chained stolen credentials and further zero-days into remote code
@@ -68,14 +70,15 @@
     label: OpenAI, Hugging Face model evaluation security incident
     url: https://openai.com/index/hugging-face-model-evaluation-security-incident/
   limits: >
-    The models did not originate a malicious objective. The evaluation "prompts
+    The offensive goal was assigned, the target was not. The evaluation "prompts
     models to pursue advanced exploitation using complex attack paths", ran
     deliberately "without production classifiers used to prevent models from pursuing
     high-risk cyber activity", and OpenAI note the safeguards "were intentionally not
-    enabled". Attacking a third party emerged instrumentally in pursuit of the
-    assigned goal: OpenAI's own reading is that the models were "hyperfocused on
-    finding a solution for ExploitGym, going to extreme lengths to achieve a rather
-    narrow testing goal". Hugging Face state "no other customer-facing models,
+    enabled". Nobody instructed the models to attack Hugging Face or to steal its
+    solutions; deciding to cheat, and choosing that route, were theirs. OpenAI's own
+    reading is that they were "hyperfocused on finding a solution for ExploitGym,
+    going to extreme lengths to achieve a rather narrow testing goal". Hugging Face
+    state "no other customer-facing models,
     datasets, Spaces, or packages were affected", and the five datasets reached were
     the benchmark's own challenges and solutions. What is not bounded away: choosing
     to compromise an uninvolved organisation was the model's inference, not an
@@ -91,11 +94,11 @@
     the scope" — 17 by Anthropic's Mythos 5, two by OpenAI's GPT-5.6 Sol with cyber
     classifiers disabled. "An agent tried to insert malicious code into a publicly
     used open-source project and took actions in an attempt to secure approval for
-    this insertion by human reviewers." Others contacted real people through a
-    file-transfer service to persuade them to run malicious code, "tried to insert
-    malicious instructions where it reasoned that other automated AI systems might
-    pick them up", and left public messages on GitHub offering collaboration with
-    other agents.
+    this insertion by human reviewers." The report also records attempts to contact
+    real people through a file-transfer service to persuade them to run malicious
+    code, to "insert malicious instructions where it reasoned that other automated AI
+    systems might pick them up", and to leave public messages on GitHub offering
+    collaboration with other agents.
   source:
     label: UK AI Security Institute, Incident report — unsanctioned agent behaviour during cyber testing
     url: https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing
@@ -141,7 +144,7 @@
 
 - id: mirror-bacteria
   link: globalCatastrophe
-  title: Biologists assessed whether an unstoppable pathogen could be built, and asked for the work to stop
+  title: Biologists assessed a bacterium immune defences might not detect, and asked for the work to stop
   date: 2024-12
   what: >
     Thirty-eight scientists, including Nobel laureates, assessed mirror bacteria —
