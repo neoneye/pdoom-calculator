@@ -21,14 +21,6 @@ permalink: /exhibits/
     <section class="exhibit-group">
       <h2 class="exhibit-group__head">{{ labels[forloop.index0] }}</h2>
 
-      {% if key == "globalCatastrophe" %}
-        <p class="exhibit-empty">
-          Nothing here is a global catastrophe. These are the <em>routes</em> toward
-          one: capabilities, deployments and assessments that bear on whether it
-          becomes possible.
-        </p>
-      {% endif %}
-
       {% assign current = items | where_exp: "e", "e.era != 'historical'" %}
       {% assign historical = items | where: "era", "historical" %}
 

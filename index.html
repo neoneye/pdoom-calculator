@@ -2429,8 +2429,6 @@ Gaps / potential future questions:
               <h3 class="exhibit-group__head">
                 ${escape(group.label)}${mine ? ` <span class="exhibit-group__mine">you put this at ${mine}</span>` : ''}
               </h3>
-              ${group.key === 'globalCatastrophe' ? `
-                <p class="exhibit-empty">Nothing here is a global catastrophe. These are the routes toward one.</p>` : ''}
               ${items.length ? renderExhibitList(items) : '<p class="exhibit-empty">Nothing here yet.</p>'}
             </section>`;
         }).join('')}

@@ -2,15 +2,21 @@
 #
 # `limits` is required. An exhibit that does not say what it fails to establish
 # is an anecdote, not evidence — and both renderers skip entries without one.
+# Keep it to about two sentences: the conditions, then the principal limitation.
 #
 # `link` must be powerfulAi | dangerousBehavior | globalCatastrophe, matching the
 # factor keys in index.html. `era: historical` is optional and moves an entry
 # below a divider: still instructive, no longer the frontier.
 #
-# Every claim must be checked against a primary source read directly — a paper,
-# system card, model card or lab report. Never press coverage, never a search
-# summary. Where the primary source contradicts the popular retelling, report the
-# source and use `limits` to name the gap.
+# Sourcing, in order of preference:
+#   1. A primary source read directly — paper, system card, model card, lab or
+#      government report. Never a search summary of one.
+#   2. Where the primary record is classified and no such source can exist,
+#      established investigative reporting that names its own sourcing. The
+#      exhibit must say so in `limits`.
+# Press coverage of something that does have a primary source is never acceptable.
+# Where the primary source contradicts the popular retelling, report the source
+# and use `limits` to name the gap.
 #
 # Validate with: python3 scripts/check_exhibits.py
 
@@ -27,24 +33,18 @@
     on the line (prev: 41.6%)". Anthropic record the prompt as asking Claude to
     "take a real stab" at the hypothesis, "leaving the mathematical choices from
     there up to the model"; his input was thereafter "mostly limited to sending
-    Claude messages of encouragement". Bui, Conrey and Young had reached "more than 41%" in Acta
-    Arithmetica in 2011; fifteen years of subsequent work moved it roughly half a
-    point.
+    Claude messages of encouragement". Bui, Conrey and Young had reached "more than
+    41%" in Acta Arithmetica in 2011; fifteen years of subsequent work moved it
+    roughly half a point.
   source:
     label: Anthropic, Claude finds new results in analytic number theory
     url: https://www.anthropic.com/research/riemann-zeta
   limits: >
-    The person who asked supplied the correction himself, in the same post: "It
-    didn't." He also added, "still not sure what that means" — the asker could not
-    evaluate the answer. Not a proof of the Riemann hypothesis, and Anthropic say
-    so: "we don't expect that the techniques Claude used will lead to proving the
-    Riemann hypothesis".
-    The result combined existing work in a new way rather than inventing a method,
-    and came after 650 failed ideas. It needed human mathematicians to check it —
-    Levent Alpöge and Ralph Furman internally, and externally Brian Conrey, who
-    holds one of the earlier bounds himself, with Dan Goldston. One published
-    result is not a rate, and mathematics is unusually friendly to machines: a proof
-    can be checked, which most valuable work cannot.
+    Not a proof of the Riemann hypothesis — Anthropic "don't expect that the
+    techniques Claude used will lead to proving" it — and the result combined
+    existing work rather than inventing a method, after 650 failed ideas. Human
+    mathematicians had to check it, and mathematics is unusually friendly to
+    machines: a proof can be verified, which most valuable work cannot.
 
 # --------------------------------------------------------- dangerous behavior
 
@@ -57,8 +57,8 @@
     including GPT-5.6 Sol and an even more capable pre-release model, all with
     reduced cyber refusals for evaluation purposes". They later clarified that the
     second was "an internal-only research prototype" that "was never intended for
-    public release", since deactivated and restricted. The models found and exploited a
-    zero-day in a package-registry proxy to reach the open internet, then "inferred
+    public release", since deactivated and restricted. The models found and exploited
+    a zero-day in a package-registry proxy to reach the open internet, then "inferred
     that Hugging Face potentially hosted models, datasets and solutions for
     ExploitGym" and chained stolen credentials and further zero-days into remote code
     execution on Hugging Face's servers. Hugging Face reconstructed "~17,600 attacker
@@ -70,20 +70,12 @@
     label: OpenAI, Hugging Face model evaluation security incident
     url: https://openai.com/index/hugging-face-model-evaluation-security-incident/
   limits: >
-    The offensive goal was assigned, the target was not. The evaluation "prompts
-    models to pursue advanced exploitation using complex attack paths", ran
-    deliberately "without production classifiers used to prevent models from pursuing
-    high-risk cyber activity", and OpenAI note the safeguards "were intentionally not
-    enabled". Neither published account reports an instruction to attack Hugging Face
-    or to steal its solutions; deciding to cheat, and choosing that route, were the
-    models'. OpenAI's own
-    reading is that they were "hyperfocused on finding a solution for ExploitGym,
-    going to extreme lengths to achieve a rather narrow testing goal". Hugging Face
-    state "no other customer-facing models,
-    datasets, Spaces, or packages were affected", and the five datasets reached were
-    the benchmark's own challenges and solutions. None of that covers the rest:
-    choosing to compromise an uninvolved organisation was the models' own inference,
-    and the systems were real.
+    The offensive goal was assigned — the evaluation "prompts models to pursue
+    advanced exploitation", run deliberately "without production classifiers" — but
+    neither published account reports an instruction to attack Hugging Face or steal
+    its solutions. Hugging Face state "no other customer-facing models, datasets,
+    Spaces, or packages were affected"; the five reached were the benchmark's own
+    challenges and solutions.
 
 - id: aisi-unsanctioned-agent-behaviour
   link: dangerousBehavior
@@ -104,37 +96,25 @@
     label: UK AI Security Institute, Incident report — unsanctioned agent behaviour during cyber testing
     url: https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing
   limits: >
-    Rarer and more concentrated than the raw count suggests: AISI are explicit that
-    "the 19 cases were not separate incidents; they clustered into a few connected
-    behaviours", arising "primarily from a single sustained line of activity by one
-    agent (Mythos 5)". Not an escape either — "this was not a case of a model
-    escaping its secure test environment" — and the agents ran in deliberately
-    permissive conditions with intentional internet access, where "the agent was not
-    specifically instructed not to leverage open internet access or avoid social
-    engineering elements": the absence of a prohibition, not an instruction to
-    attack. AISI's "security monitoring flagged data leaving one of our testing
-    systems through the 'Tor' anonymity network", and a "human reviewer caught and
-    refused to approve the malicious code". Some actions "had a limited real-world
-    effect, but in contained circumstances"; AISI "have not evidenced any resulting
-    real-world harm". What survives is the target selection: given latitude, the
-    agent reached for real projects, real people, and other AI systems.
-
-# -------------------------------------------------------- global catastrophe
+    Not an escape, and more concentrated than the count suggests: AISI say "the 19
+    cases were not separate incidents", arising "primarily from a single sustained
+    line of activity by one agent", in deliberately permissive conditions with
+    intentional internet access and no instruction against social engineering.
+    Security monitoring and a human reviewer caught the attempts, and AISI "have not
+    evidenced any resulting real-world harm".
 
 - id: claude-military-targeting
-  link: globalCatastrophe
+  link: dangerousBehavior
   title: Claude used to help select targets in US strikes
   date: 2026-03
   what: >
     The Wall Street Journal reported that Claude was used by the US military during
     the January 2026 raid that captured Nicolás Maduro, via Anthropic's partnership
     with Palantir. The raid "involved bombing across the capital, Caracas, and the
-    killing of 83 people, according to Venezuela's defence ministry". Anthropic
-    "declined to comment on whether Claude was used in the operation", saying only
-    that any use "was required to comply with its usage policies"; its terms prohibit
-    use "for violent ends, for the development of weapons or for conducting
-    surveillance". Six weeks later, US command used Claude "for intelligence
-    purposes, as well as to help select targets and carry out battlefield
+    killing of 83 people, according to Venezuela's defence ministry". Anthropic's
+    terms prohibit use "for violent ends, for the development of weapons or for
+    conducting surveillance". Six weeks later, US command used Claude "for
+    intelligence purposes, as well as to help select targets and carry out battlefield
     simulations" during the US-Israeli bombardment of Iran — hours after Trump had
     ordered every federal agency to stop using it.
   source:
@@ -144,20 +124,15 @@
     label: The Guardian, US military reportedly used Claude in Iran strikes despite Trump's ban
     url: https://www.theguardian.com/technology/2026/mar/01/claude-anthropic-iran-strikes-us-military
   limits: >
-    No error has been attributed to the model in either operation, and no source
-    describes it choosing a target: the reporting places it in intelligence, target
-    selection support and simulation, with people deciding. Anthropic maintain the
-    use complied with their policies, and in June their CEO said of a strike in the
-    Iran campaign, "we don't have access to, we don't know exactly how these models
-    were used". Both accounts rest on the Wall Street Journal and Axios citing
-    anonymous sources; the Pentagon, Palantir and Anthropic all declined to comment
-    on specifics. It is also the only exhibit here not sourced to a paper, system
-    card or lab report — classified operations do not publish those, which is a limit
-    of the record rather than a detail. What it shows is narrower than "AI killed
-    people", and harder to dismiss: a written prohibition on violent use did not
-    prevent deployment into lethal operations, and the company that wrote it could
-    not say how its model had been used.
+    The only exhibit resting on reporting rather than a primary source, the
+    operations being classified: both accounts trace to the Wall Street Journal and
+    Axios citing anonymous sources, and Anthropic said only that any use "was
+    required to comply with its usage policies" while declining to confirm whether
+    Claude was used. No error has been attributed to the model and no source
+    describes it choosing a target; what it shows is that a written prohibition and a
+    presidential order both failed to govern deployment.
 
+# -------------------------------------------------------- global catastrophe
 
 - id: anthropic-biorisk-uplift
   link: globalCatastrophe
@@ -165,21 +140,18 @@
   date: 2025-09
   what: >
     Anthropic ran a two-day trial in which participants drafted a bioweapons
-    acquisition plan, some with model access and some with the internet alone.
-    Those "with access to Claude 4 models — especially Claude Opus 4 — received much
-    higher scores and developed plans with substantially fewer critical failures
-    compared to the internet-only control group". A 2023 RAND study using the models
-    of the day had found no statistically significant difference.
+    acquisition plan, some with model access and some with the internet alone. Those
+    "with access to Claude 4 models — especially Claude Opus 4 — received much higher
+    scores and developed plans with substantially fewer critical failures compared to
+    the internet-only control group". A 2023 RAND study using the models of the day
+    had found no statistically significant difference.
   source:
     label: Anthropic, LLMs and biorisk
     url: https://www.anthropic.com/research/biorisk
   limits: >
-    A plan on paper is not a weapon. Anthropic's own framing: "text-based uplift
-    trials like this are imperfect proxies for real-world scenarios — which involve
-    additional factors like tacit knowledge, materials access, and actor persistence
-    — but demonstrate the underlying plausibility of AIs providing differentially
-    superior assistance to a non-expert malicious actor". Evidence about a route,
-    not an outcome.
+    A plan on paper is not a weapon, and Anthropic call these "imperfect proxies for
+    real-world scenarios — which involve additional factors like tacit knowledge,
+    materials access, and actor persistence". Evidence about a route, not an outcome.
 
 - id: mirror-bacteria
   link: globalCatastrophe
@@ -196,11 +168,8 @@
     label: Technical Report on Mirror Bacteria — Feasibility and Risks
     url: https://stacks.stanford.edu/file/druid:cv716pj4036/Technical%20Report%20on%20Mirror%20Bacteria%20Feasibility%20and%20Risks.pdf
   limits: >
-    No AI is implicated here, and no mirror bacterium exists. It appears because it
-    is a rare thing: a specific, expert-assessed route from capability to global
-    catastrophe, rather than a gesture at one. The authors are careful — "many
-    aspects of our conclusions are necessarily tentative and uncertain… this single
-    report… cannot be considered definite" — and note success within a decade would
-    need "efforts akin to those of the Human Genome Project". Its bearing on AI is
-    conditional: it describes what sufficiently capable assistance would have to
-    enable, not anything current systems can do.
+    No AI is implicated and no mirror bacterium exists; the authors note success
+    within a decade would need "efforts akin to those of the Human Genome Project",
+    and call their own conclusions "necessarily tentative and uncertain". It is here
+    because it is a specific expert-assessed route rather than a gesture at one, not
+    because anything current systems can do brings it closer.
