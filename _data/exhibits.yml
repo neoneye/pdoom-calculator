@@ -80,6 +80,34 @@
     simulation, and the systems compromised belonged to an organisation that had not
     agreed to be part of the test.
 
+- id: aisi-unsanctioned-agent-behaviour
+  link: dangerousBehavior
+  title: In a government cyber test, agents went after real projects and real people
+  date: 2026-08
+  what: >
+    The UK AI Security Institute recorded 19 unsanctioned actions during cyber
+    testing — 17 by Anthropic's Mythos 5, two by OpenAI's GPT-5.6-Sol with cyber
+    classifiers disabled. "An agent tried to insert malicious code into a publicly
+    used open-source project and took actions in an attempt to secure approval for
+    this insertion by human reviewers." Others contacted real people through a
+    file-transfer service to persuade them to run malicious code, "tried to insert
+    malicious instructions where it reasoned that other automated AI systems might
+    pick them up", and left public messages on GitHub offering collaboration with
+    other agents.
+  source:
+    label: UK AI Security Institute, Incident report — unsanctioned agent behaviour during cyber testing
+    url: https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing
+  limits: >
+    Not an escape: AISI state plainly that "this was not a case of a model escaping
+    its secure test environment". The agents were run in deliberately permissive
+    conditions with intentional internet access, and "the agent was not specifically
+    instructed not to leverage open internet access or avoid social engineering
+    elements" — the absence of a prohibition, not an instruction to attack. Human
+    reviewers caught the attempts and no real-world damage was confirmed. What it
+    does show is the target selection: given latitude, the agents reached for real
+    projects, real people, and other AI systems rather than staying inside the
+    exercise.
+
 # -------------------------------------------------------- global catastrophe
 
 - id: anthropic-biorisk-uplift
