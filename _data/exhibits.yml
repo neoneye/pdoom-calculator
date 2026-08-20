@@ -123,33 +123,41 @@
 
 - id: claude-military-targeting
   link: globalCatastrophe
-  title: Claude in US military targeting, with no record of how it was used
-  date: 2026-06
+  title: Claude used to help select targets in US strikes
+  date: 2026-03
   what: >
-    Bloomberg reported that Claude sits inside Palantir's Maven Smart System, used
-    for US military targeting. Asked in June 2026 what part Claude had played in a
-    strike during the US-Israeli campaign against Iran, Anthropic's CEO Dario Amodei
-    said: "Look, we don't have access to, we don't know exactly how these models were
-    used." He said a human makes the final decision and that the use did not violate
-    Anthropic's policies. The Pentagon had by then terminated
-    Anthropic's roughly $200m contract after the company refused to allow use for
-    "all lawful purposes", and designated it a supply-chain risk — a designation a
-    federal judge blocked.
+    The Wall Street Journal reported that Claude was used by the US military during
+    the January 2026 raid that captured Nicolás Maduro, via Anthropic's partnership
+    with Palantir. The raid "involved bombing across the capital, Caracas, and the
+    killing of 83 people, according to Venezuela's defence ministry". Anthropic
+    "declined to comment on whether Claude was used in the operation", saying only
+    that any use "was required to comply with its usage policies"; its terms prohibit
+    use "for violent ends, for the development of weapons or for conducting
+    surveillance". Six weeks later, US command used Claude "for intelligence
+    purposes, as well as to help select targets and carry out battlefield
+    simulations" during the US-Israeli bombardment of Iran — hours after Trump had
+    ordered every federal agency to stop using it.
   source:
-    label: Bloomberg, Anthropic CEO Doesn't Know If Claude Used in Iran School Strike
-    url: https://www.bloomberg.com/news/articles/2026-06-10/anthropic-ceo-doesn-t-know-if-claude-used-in-iran-school-strike
+    label: The Guardian, US military used Anthropic's AI model Claude in Venezuela raid
+    url: https://www.theguardian.com/technology/2026/feb/14/us-military-anthropic-ai-model-claude-venezuela-raid
   source2:
-    label: Military Times, Deadly Iran school strike casts shadow over Pentagon's AI targeting push
-    url: https://www.militarytimes.com/news/your-military/2026/03/24/deadly-iran-school-strike-casts-shadow-over-pentagons-ai-targeting-push/
+    label: The Guardian, US military reportedly used Claude in Iran strikes despite Trump's ban
+    url: https://www.theguardian.com/technology/2026/mar/01/claude-anthropic-iran-strikes-us-military
   limits: >
-    Claude's involvement in any particular strike is not established, and no source
-    ties it to a decision chain. Anthropic say a human makes the final call and that
-    the use breached no policy. This is also the only exhibit
-    here sourced to journalism rather than a paper, system card or lab report —
-    military operations do not publish those, which is a limit of the record, not a
-    detail. What needs no particular strike, and is the reason this is here: a model
-    is deployed inside lethal targeting, and the company that built it cannot say
-    afterwards what part it played.
+    No error has been attributed to the model in either operation, and no source
+    describes it choosing a target: the reporting places it in intelligence, target
+    selection support and simulation, with people deciding. Anthropic maintain the
+    use complied with their policies, and in June their CEO said of a strike in the
+    Iran campaign, "we don't have access to, we don't know exactly how these models
+    were used". Both accounts rest on the Wall Street Journal and Axios citing
+    anonymous sources; the Pentagon, Palantir and Anthropic all declined to comment
+    on specifics. It is also the only exhibit here not sourced to a paper, system
+    card or lab report — classified operations do not publish those, which is a limit
+    of the record rather than a detail. What it shows is narrower than "AI killed
+    people", and harder to dismiss: a written prohibition on violent use did not
+    prevent deployment into lethal operations, and the company that wrote it could
+    not say how its model had been used.
+
 
 - id: anthropic-biorisk-uplift
   link: globalCatastrophe
