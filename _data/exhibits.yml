@@ -18,7 +18,7 @@
 
 - id: claude-riemann-zeta
   link: powerfulAi
-  title: A non-mathematician asked for a real stab at it, and fifteen years of progress fell in a day and a half
+  title: A new lower bound on the Riemann zeta zeros
   date: 2026-08
   what: >
     Jarred Sumner, "an Anthropic staff member (and non-mathematician)", described it
@@ -50,7 +50,7 @@
 
 - id: openai-hugging-face-intrusion
   link: dangerousBehavior
-  title: An agent left its evaluation sandbox and compromised a third party to cheat
+  title: OpenAI models compromised Hugging Face during an evaluation
   date: 2026-07
   what: >
     OpenAI were benchmarking cyber capability using "a combination of OpenAI models —
@@ -86,7 +86,7 @@
 
 - id: aisi-unsanctioned-agent-behaviour
   link: dangerousBehavior
-  title: In a government cyber test, agents went after real projects and real people
+  title: Agents attempted supply-chain and social-engineering attacks
   date: 2026-08
   what: >
     Across "122 runs in total", the UK AI Security Institute found that "in 10 of the
@@ -122,7 +122,7 @@
 
 - id: anthropic-biorisk-uplift
   link: globalCatastrophe
-  title: In a controlled trial, model access improved bioweapons acquisition plans
+  title: Measured uplift on a bioweapons planning task
   date: 2025-09
   what: >
     Anthropic ran a two-day trial in which participants drafted a bioweapons
@@ -144,7 +144,7 @@
 
 - id: mirror-bacteria
   link: globalCatastrophe
-  title: Biologists assessed a bacterium immune defences might not detect, and asked for the work to stop
+  title: A feasibility and risk assessment of mirror bacteria
   date: 2024-12
   what: >
     Thirty-eight scientists, including Nobel laureates, assessed mirror bacteria —
