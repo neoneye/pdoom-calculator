@@ -105,20 +105,19 @@
 
 - id: claude-military-targeting
   link: dangerousBehavior
-  title: Claude used to help select targets in US strikes
+  title: Claude reportedly used to help select targets in US strikes
   date: 2026-03
   what: >
     The Wall Street Journal reported that Claude was used by the US military during
     the January 2026 raid that captured Nicolás Maduro, via Anthropic's partnership
-    with Palantir. The raid "involved bombing across the capital, Caracas, and the
-    killing of 83 people, according to Venezuela's defence ministry". Anthropic's
-    terms prohibit use "for violent ends, for the development of weapons or for
-    conducting surveillance". Six weeks later, US command used Claude "for
+    with Palantir. The reporting does not establish how Claude was used there.
+    Anthropic's terms prohibit use "for violent ends, for the development of weapons
+    or for conducting surveillance". Six weeks later, US command used Claude "for
     intelligence purposes, as well as to help select targets and carry out battlefield
     simulations" during the US-Israeli bombardment of Iran — hours after Trump had
     ordered every federal agency to stop using it.
   source:
-    label: The Guardian, US military used Anthropic's AI model Claude in Venezuela raid
+    label: The Guardian, US military used Anthropic's AI model Claude in Venezuela raid, report says
     url: https://www.theguardian.com/technology/2026/feb/14/us-military-anthropic-ai-model-claude-venezuela-raid
   source2:
     label: The Guardian, US military reportedly used Claude in Iran strikes despite Trump's ban
@@ -129,8 +128,9 @@
     Axios citing anonymous sources, and Anthropic said only that any use "was
     required to comply with its usage policies" while declining to confirm whether
     Claude was used. No error has been attributed to the model and no source
-    describes it choosing a target; what it shows is that a written prohibition and a
-    presidential order both failed to govern deployment.
+    describes it choosing a target. If the reporting is accurate, policy boundaries
+    and an immediate federal ban did not keep Claude out of lethal military
+    operations.
 
 # -------------------------------------------------------- global catastrophe
 
@@ -171,5 +171,5 @@
     No AI is implicated and no mirror bacterium exists; the authors note success
     within a decade would need "efforts akin to those of the Human Genome Project",
     and call their own conclusions "necessarily tentative and uncertain". It is here
-    because it is a specific expert-assessed route rather than a gesture at one, not
-    because anything current systems can do brings it closer.
+    because it is a specific expert-assessed route rather than a gesture at one; the
+    report does not establish how much current AI systems shorten that route.
