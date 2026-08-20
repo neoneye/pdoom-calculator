@@ -50,7 +50,7 @@
 
 - id: openai-hugging-face-intrusion
   link: dangerousBehavior
-  title: OpenAI models compromised Hugging Face
+  title: OpenAI's models hacked Hugging Face
   date: 2026-07
   what: >
     OpenAI were benchmarking cyber capability using "a combination of OpenAI models —
