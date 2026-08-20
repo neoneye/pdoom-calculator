@@ -105,31 +105,36 @@
 
 - id: claude-military-targeting
   link: dangerousBehavior
-  title: Claude reportedly used to help select targets in US strikes
+  title: Claude reportedly used in US military operations, including target selection
   date: 2026-03
   what: >
-    The Wall Street Journal reported that Claude was used by the US military during
-    the January 2026 raid that captured Nicolás Maduro, via Anthropic's partnership
-    with Palantir. The reporting does not establish how Claude was used there.
-    Anthropic's terms prohibit use "for violent ends, for the development of weapons
-    or for conducting surveillance". Six weeks later, US command used Claude "for
+    Claude was reportedly used by the US military during the January 2026 raid that
+    captured Nicolás Maduro, via Anthropic's partnership with Palantir; the reporting
+    does not establish how it was used there. Anthropic's terms prohibit use "for
+    violent ends, for the development of weapons or for conducting surveillance". Six
+    weeks later Claude was reportedly used again in the US-Israeli bombardment of
+    Iran, where the Wall Street Journal reported that command used the tools "for
     intelligence purposes, as well as to help select targets and carry out battlefield
-    simulations" during the US-Israeli bombardment of Iran — hours after Trump had
-    ordered every federal agency to stop using it.
+    simulations" — hours after Trump had ordered all federal agencies to stop using
+    Claude immediately, and while Hegseth was allowing Anthropic "no more than six
+    months" to wind its services down.
   source:
     label: The Guardian, US military used Anthropic's AI model Claude in Venezuela raid, report says
     url: https://www.theguardian.com/technology/2026/feb/14/us-military-anthropic-ai-model-claude-venezuela-raid
   source2:
     label: The Guardian, US military reportedly used Claude in Iran strikes despite Trump's ban
     url: https://www.theguardian.com/technology/2026/mar/01/claude-anthropic-iran-strikes-us-military
+  source3:
+    label: Axios AM, Claude used in Iran strikes
+    url: https://www.axios.com/newsletters/axios-am-f0954cb2-2f31-4426-87fd-050095005344.html?chunk=2
   limits: >
-    The only exhibit resting on reporting rather than a primary source, the
-    operations being classified: both accounts trace to the Wall Street Journal and
-    Axios citing anonymous sources, and Anthropic said only that any use "was
-    required to comply with its usage policies" while declining to confirm whether
-    Claude was used. No error has been attributed to the model and no source
-    describes it choosing a target. If the reporting is accurate, policy boundaries
-    and an immediate federal ban did not keep Claude out of lethal military
+    The only exhibit resting on reporting rather than a primary source, the operations
+    being classified. Every account traces to unnamed sources, the target-selection
+    detail to a Wall Street Journal report that is paywalled and was not read directly
+    here. Anthropic said only that any use "was required to comply with its usage
+    policies", declining to confirm whether Claude was used at all; no source
+    describes the model choosing a target. If the reporting is accurate, policy
+    boundaries and a stop-use order did not keep Claude out of lethal military
     operations.
 
 # -------------------------------------------------------- global catastrophe

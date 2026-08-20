@@ -35,6 +35,9 @@ permalink: /exhibits/
               {% if e.source2 %}
                 &middot; <a href="{{ e.source2.url }}" target="_blank" rel="noopener noreferrer">{{ e.source2.label }}</a>
               {% endif %}
+              {% if e.source3 %}
+                &middot; <a href="{{ e.source3.url }}" target="_blank" rel="noopener noreferrer">{{ e.source3.label }}</a>
+              {% endif %}
             </p>
             <p class="exhibit__limits">{{ e.limits }}</p>
           </article>
@@ -53,6 +56,9 @@ permalink: /exhibits/
                 <a href="{{ e.source.url }}" target="_blank" rel="noopener noreferrer">{{ e.source.label }}</a>
                 {% if e.source2 %}
                   &middot; <a href="{{ e.source2.url }}" target="_blank" rel="noopener noreferrer">{{ e.source2.label }}</a>
+                {% endif %}
+                {% if e.source3 %}
+                  &middot; <a href="{{ e.source3.url }}" target="_blank" rel="noopener noreferrer">{{ e.source3.label }}</a>
                 {% endif %}
               </p>
               <p class="exhibit__limits">{{ e.limits }}</p>

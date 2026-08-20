@@ -64,7 +64,7 @@ def main():
         seen.add(e.get("id"))
         if e.get("era") and e["era"] not in ERAS:
             errors.append(f"{where}: era '{e['era']}' is not one of {sorted(ERAS)}")
-        for field in ("source", "source2"):
+        for field in ("source", "source2", "source3"):
             src = e.get(field)
             if src is None or src == "":
                 continue
