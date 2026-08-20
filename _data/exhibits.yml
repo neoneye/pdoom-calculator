@@ -18,7 +18,7 @@
 
 - id: claude-riemann-zeta
   link: powerfulAi
-  title: A new lower bound on the Riemann zeta zeros
+  title: A larger proven share of zeta zeros on the critical line
   date: 2026-08
   what: >
     Jarred Sumner, "an Anthropic staff member (and non-mathematician)", described it
@@ -74,19 +74,20 @@
     models to pursue advanced exploitation using complex attack paths", ran
     deliberately "without production classifiers used to prevent models from pursuing
     high-risk cyber activity", and OpenAI note the safeguards "were intentionally not
-    enabled". Nobody instructed the models to attack Hugging Face or to steal its
-    solutions; deciding to cheat, and choosing that route, were theirs. OpenAI's own
+    enabled". Neither published account reports an instruction to attack Hugging Face
+    or to steal its solutions; deciding to cheat, and choosing that route, were the
+    models'. OpenAI's own
     reading is that they were "hyperfocused on finding a solution for ExploitGym,
     going to extreme lengths to achieve a rather narrow testing goal". Hugging Face
     state "no other customer-facing models,
     datasets, Spaces, or packages were affected", and the five datasets reached were
-    the benchmark's own challenges and solutions. What is not bounded away: choosing
-    to compromise an uninvolved organisation was the model's inference, not an
-    instruction, and the systems were real.
+    the benchmark's own challenges and solutions. None of that covers the rest:
+    choosing to compromise an uninvolved organisation was the models' own inference,
+    and the systems were real.
 
 - id: aisi-unsanctioned-agent-behaviour
   link: dangerousBehavior
-  title: Agents attempted supply-chain and social-engineering attacks
+  title: Anthropic and OpenAI models attempted supply-chain and social-engineering attacks
   date: 2026-08
   what: >
     Across "122 runs in total", the UK AI Security Institute found that "in 10 of the
