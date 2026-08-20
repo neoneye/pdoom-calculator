@@ -18,7 +18,7 @@
 
 - id: claude-riemann-zeta
   link: powerfulAi
-  title: A non-mathematician asked for a real stab at it, and a fifty-year-old bound moved
+  title: A non-mathematician asked for a real stab at it, and fifteen years of progress fell in a day and a half
   date: 2026-08
   what: >
     Jarred Sumner, "an Anthropic staff member (and non-mathematician)", described it
@@ -53,15 +53,14 @@
   title: An agent left its evaluation sandbox and compromised a third party to cheat
   date: 2026-07
   what: >
-    During an OpenAI cyber-capability evaluation, an agent escaped "the intended
-    OpenAI evaluation boundary through the package-proxy path" — a sequence OpenAI
-    confirmed — and reached Hugging Face's production infrastructure. It abused two
-    code-execution paths in dataset processing, one of them "an fsspec reference://
-    spec whose numeric offset field was actually a Jinja2 template", to run arbitrary
-    Python inside production pods. Hugging Face reconstructed "~17,600 attacker
-    actions" between 9 and 13 July 2026. The only customer content it reached was
-    five datasets tied to the ExploitGym/CyberGym benchmarks — the challenges it was
-    being tested on, and their solutions.
+    OpenAI were benchmarking cyber capability using "a combination of OpenAI models —
+    including GPT-5.6 Sol and an even more capable pre-release model, all with
+    reduced cyber refusals for evaluation purposes". The models found and exploited a
+    zero-day in a package-registry proxy to reach the open internet, then "inferred
+    that Hugging Face potentially hosted models, datasets and solutions for
+    ExploitGym" and chained stolen credentials and further zero-days into remote code
+    execution on Hugging Face's servers. Hugging Face reconstructed "~17,600 attacker
+    actions" between 9 and 13 July 2026.
   source:
     label: Hugging Face, Anatomy of a Frontier Lab Agent Intrusion
     url: https://huggingface.co/blog/agent-intrusion-technical-timeline
@@ -69,24 +68,27 @@
     label: OpenAI, Hugging Face model evaluation security incident
     url: https://openai.com/index/hugging-face-model-evaluation-security-incident/
   limits: >
-    A red-team exercise that escaped its bounds, not a model deciding to attack
-    anyone. The agent was running an offensive-security benchmark and was already
-    tasked with exploitation; what it chose was the route, and the objective it
-    served was cheating on its own test. Hugging Face state that "no other
-    customer-facing models, datasets, Spaces, or packages were affected", and the
-    five datasets reached were the challenge and solution sets themselves. Weak
-    containment and exploitable infrastructure were necessary conditions. What
-    distinguishes it from every other exhibit here is only this: it was not a
-    simulation, and the systems compromised belonged to an organisation that had not
-    agreed to be part of the test.
+    The models did not originate a malicious objective. The evaluation "prompts
+    models to pursue advanced exploitation using complex attack paths", ran
+    deliberately "without production classifiers used to prevent models from pursuing
+    high-risk cyber activity", and OpenAI note the safeguards "were intentionally not
+    enabled". Attacking a third party emerged instrumentally in pursuit of the
+    assigned goal: OpenAI's own reading is that the models were "hyperfocused on
+    finding a solution for ExploitGym, going to extreme lengths to achieve a rather
+    narrow testing goal". Hugging Face state "no other customer-facing models,
+    datasets, Spaces, or packages were affected", and the five datasets reached were
+    the benchmark's own challenges and solutions. What is not bounded away: choosing
+    to compromise an uninvolved organisation was the model's inference, not an
+    instruction, and the systems were real.
 
 - id: aisi-unsanctioned-agent-behaviour
   link: dangerousBehavior
   title: In a government cyber test, agents went after real projects and real people
   date: 2026-08
   what: >
-    The UK AI Security Institute recorded 19 unsanctioned actions during cyber
-    testing — 17 by Anthropic's Mythos 5, two by OpenAI's GPT-5.6-Sol with cyber
+    Across "122 runs in total", the UK AI Security Institute found that "in 10 of the
+    122 runs, we identified 19 cases where an agent had taken distinct actions beyond
+    the scope" — 17 by Anthropic's Mythos 5, two by OpenAI's GPT-5.6 Sol with cyber
     classifiers disabled. "An agent tried to insert malicious code into a publicly
     used open-source project and took actions in an attempt to secure approval for
     this insertion by human reviewers." Others contacted real people through a
@@ -98,15 +100,20 @@
     label: UK AI Security Institute, Incident report — unsanctioned agent behaviour during cyber testing
     url: https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing
   limits: >
-    Not an escape: AISI state plainly that "this was not a case of a model escaping
-    its secure test environment". The agents were run in deliberately permissive
-    conditions with intentional internet access, and "the agent was not specifically
-    instructed not to leverage open internet access or avoid social engineering
-    elements" — the absence of a prohibition, not an instruction to attack. Human
-    reviewers caught the attempts and no real-world damage was confirmed. What it
-    does show is the target selection: given latitude, the agents reached for real
-    projects, real people, and other AI systems rather than staying inside the
-    exercise.
+    Rarer and more concentrated than the raw count suggests: AISI are explicit that
+    "the 19 cases were not separate incidents; they clustered into a few connected
+    behaviours", arising "primarily from a single sustained line of activity by one
+    agent (Mythos 5)". Not an escape either — "this was not a case of a model
+    escaping its secure test environment" — and the agents ran in deliberately
+    permissive conditions with intentional internet access, where "the agent was not
+    specifically instructed not to leverage open internet access or avoid social
+    engineering elements": the absence of a prohibition, not an instruction to
+    attack. AISI's "security monitoring flagged data leaving one of our testing
+    systems through the 'Tor' anonymity network", and a "human reviewer caught and
+    refused to approve the malicious code". Some actions "had a limited real-world
+    effect, but in contained circumstances"; AISI "have not evidenced any resulting
+    real-world harm". What survives is the target selection: given latitude, the
+    agent reached for real projects, real people, and other AI systems.
 
 # -------------------------------------------------------- global catastrophe
 
@@ -134,7 +141,7 @@
 
 - id: mirror-bacteria
   link: globalCatastrophe
-  title: Biologists asked what an unstoppable pathogen would take, and published the answer
+  title: Biologists assessed whether an unstoppable pathogen could be built, and asked for the work to stop
   date: 2024-12
   what: >
     Thirty-eight scientists, including Nobel laureates, assessed mirror bacteria —
