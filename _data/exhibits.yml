@@ -121,6 +121,38 @@
 
 # -------------------------------------------------------- global catastrophe
 
+- id: claude-military-targeting
+  link: globalCatastrophe
+  title: Claude in US military targeting, with no record of how it was used
+  date: 2026-02
+  what: >
+    Bloomberg reported that Claude sits inside Palantir's Maven Smart System, used
+    for US military targeting. On 28 February 2026, in the opening of US-Israeli
+    operations against Iran, a girls' primary school in Minab was struck; around 120
+    children were killed. Asked in June what part Claude had played, Anthropic's CEO
+    Dario Amodei said: "Look, we don't have access to, we don't know exactly how
+    these models were used." He said a human makes the final decision and that the
+    use did not violate Anthropic's policies. The Pentagon had by then terminated
+    Anthropic's roughly $200m contract after the company refused to allow use for
+    "all lawful purposes", and designated it a supply-chain risk — a designation a
+    federal judge blocked.
+  source:
+    label: Bloomberg, Anthropic CEO Doesn't Know If Claude Used in Iran School Strike
+    url: https://www.bloomberg.com/news/articles/2026-06-10/anthropic-ceo-doesn-t-know-if-claude-used-in-iran-school-strike
+  source2:
+    label: Military Times, Deadly Iran school strike casts shadow over Pentagon's AI targeting push
+    url: https://www.militarytimes.com/news/your-military/2026/03/24/deadly-iran-school-strike-casts-shadow-over-pentagons-ai-targeting-push/
+  limits: >
+    Claude's involvement in this particular strike is not established. No source ties
+    it to the decision chain, and US investigators attributed the strike to American
+    forces without identifying the targeting method. Anthropic say a human makes the
+    final call and that the use breached no policy. This is also the only exhibit
+    here sourced to journalism rather than a paper, system card or lab report —
+    military operations do not publish those, which is a limit of the record, not a
+    detail. What does not depend on Minab, and is the reason this is here: a model is
+    deployed inside lethal targeting, and the company that built it cannot say
+    afterwards what part it played.
+
 - id: anthropic-biorisk-uplift
   link: globalCatastrophe
   title: Measured uplift on a bioweapons planning task
