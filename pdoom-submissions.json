@@ -1,26 +1,26 @@
 {
   "source": "https://github.com/neoneye/pdoom-calculator",
-  "exported_at": "2026-09-01T22:34:38.191Z",
+  "exported_at": "2026-09-01T22:41:07.000Z",
   "summary": {
     "total_submissions": 202,
-    "average_pdoom": 0.4177459887870129,
+    "average_pdoom": 0.417745988787013,
     "factors": [
       {
         "label": "P(powerful AI)",
-        "average_lower": 0.42294338882831006,
-        "average_midpoint": 0.7604281918904611,
-        "average_upper": 0.9234421443090814
+        "average_lower": 0.42294338882831034,
+        "average_midpoint": 0.7604281918904606,
+        "average_upper": 0.9234421443090817
       },
       {
         "label": "P(dangerous behavior | powerful AI)",
-        "average_lower": 0.36583128334362736,
-        "average_midpoint": 0.6991842104379956,
-        "average_upper": 0.8962298945006817
+        "average_lower": 0.36583128334362747,
+        "average_midpoint": 0.6991842104379952,
+        "average_upper": 0.896229894500682
       },
       {
         "label": "P(global catastrophe | dangerous behavior)",
         "average_lower": 0.34552968948567586,
-        "average_midpoint": 0.6653758903552269,
+        "average_midpoint": 0.6653758903552267,
         "average_upper": 0.8548277129800829
       }
     ]
@@ -1181,11 +1181,11 @@
     {
       "submitted_at": "2025-10-10T07:41:02.402+00:00",
       "summary": {
-        "p10": 0.00006336329343828231,
+        "p10": 6.336329343828231e-05,
         "p90": 0.004292428295709909,
         "lower": 0,
         "upper": 0.013196249999999998,
-        "midpoint": 0.00007500000000000001
+        "midpoint": 7.500000000000001e-05
       },
       "factors": [
         {
@@ -1433,7 +1433,7 @@
     {
       "submitted_at": "2025-10-18T17:03:27.588+00:00",
       "summary": {
-        "p10": 0.000009603227195344485,
+        "p10": 9.603227195344485e-06,
         "p90": 0.000650552739711647,
         "lower": 0,
         "upper": 0.002,
@@ -9816,7 +9816,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:3FvB05Y9pQYWTjRBMeYRLgHW0MT9St-bMSWVwlDeBdgsobXTMr8-p5lPD8jnkcFLjOAAW02g-iopyj8K1TPxxw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:3FvB05Y9pQYWTjRBMeYRLgHW0MT9St-bMSWVwlDeBdgsobXTMr8-p5lPD8jnkcFLjOAAW02g-iopyj8K1TPxxw|n=1|t=2026-08-20T10:55:42.492Z|m=0|lo=0|hi=0.012677083287893633|p10=0.00034931906069049116|p90=0.0052890294524060855|f=0.3096729792230823:0.145,0:0.12,0.1323480073809581:0.1|q=medium|g=",
+      "signature": "m3kMvSoGpMNRVoAOiccHaakFBb8o-pyhq84oZTJiRZM-2UpjbUwVtS_8G_oQqK4R8RoLuPPfGaTDt8fjVM-TSw"
     },
     {
       "submitted_at": "2026-08-20T11:27:41.893+00:00",
@@ -9911,7 +9915,11 @@
           "value": "control-impossible",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:yqnNaQ2l-TQcBkfxkBOvtPjm0G0pj7wY3BFPdBN2a4pOyTZ4TvuDREsOlr8SsWfZzQ3mqftqaz_vYKyjcaoZpQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:yqnNaQ2l-TQcBkfxkBOvtPjm0G0pj7wY3BFPdBN2a4pOyTZ4TvuDREsOlr8SsWfZzQ3mqftqaz_vYKyjcaoZpQ|n=1|t=2026-08-20T11:27:41.893Z|m=0.21175419254106378|lo=0|hi=0.663503796397007|p10=0.043338609502535236|p90=0.44505648833004635|f=0.3482026286012708:0.425,0.6081614297734064:0.25,0.9999564801114108:0|q=beginner|g=",
+      "signature": "V1J1rvLKSlcl3zBIyNeVtpoQBKReBU0Ab14LNC4eiUOJdF-o5d1SL3Q8rEh52wlNuxTcuwqHSI_TT4gSZ7IIRw"
     },
     {
       "submitted_at": "2026-08-20T11:40:07.439+00:00",
@@ -10012,7 +10020,11 @@
           "value": "control-impossible",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:BIMp7fFabnPRMmtYjY6FCNUUz9OideJihmoogbNl_cHMo_auV4Kfbx0vavPFBrNgGbbqSkCRTd-t397w8A16WQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:BIMp7fFabnPRMmtYjY6FCNUUz9OideJihmoogbNl_cHMo_auV4Kfbx0vavPFBrNgGbbqSkCRTd-t397w8A16WQ|n=1|t=2026-08-20T11:40:07.439Z|m=0.778688|lo=0|hi=1|p10=0.008742004246137334|p90=0.3451198744180477|f=0.92:0.995,0.92:0.915,0.92:0.83|q=beginner|g=",
+      "signature": "L8E2VLlLZd8uPJ55MjsgMRwHBvQ5zPW98sIEca3Lk_IZe3j_DgigsXSLMnrwIhfdDjOLNv9rKFhZQpyW_0hU4A"
     },
     {
       "submitted_at": "2026-08-20T12:26:06.51+00:00",
@@ -10094,7 +10106,11 @@
           "value": "control-medium",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:_znLbJzCJ4kfxyE_hx1z3A15MOyqJEP_euZFqV_Xa5t1Gs3zgdludErjS9_To9gdHpedhp9BxdlkZjoAYbWaKQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:_znLbJzCJ4kfxyE_hx1z3A15MOyqJEP_euZFqV_Xa5t1Gs3zgdludErjS9_To9gdHpedhp9BxdlkZjoAYbWaKQ|n=1|t=2026-08-20T12:26:06.510Z|m=0.0441523598399074|lo=0|hi=0.3847989376018109|p10=0.007027315256732445|p90=0.10825410084281424|f=0.3769837815881857:0.435,0.5190326979429599:0.4,0.22565062233440686:0.29|q=beginner|g=",
+      "signature": "P3A9ChcZTHrYhs6mx8ltbDhpEsjBrQ3wwzcQa5_G2i0XlAeSN0GAlKtHGd4Mp_wa-SX8PntYOCpzBesav_pN2A"
     },
     {
       "submitted_at": "2026-08-20T12:59:47.069+00:00",
@@ -10180,7 +10196,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:22LjQmr8yxEeHFoUnJVIQ3Uh5KFotgS_-d8Mz9iYMB_wo6imncFCJZlo-9VIQT5yBeGBXTmbFER4Taw0nSoqXw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:22LjQmr8yxEeHFoUnJVIQ3Uh5KFotgS_-d8Mz9iYMB_wo6imncFCJZlo-9VIQT5yBeGBXTmbFER4Taw0nSoqXw|n=1|t=2026-08-20T12:59:47.069Z|m=0.9703667613320667|lo=0.010595516565159556|hi=1|p10=0.11793952481654094|p90=0.6743591029118025|f=0.9900691371615822:0.33399999999999996,0.99:0.8,0.99:0.905|q=medium|g=",
+      "signature": "Qi5pzQ9aQtgc6Xcx7zCd3GVKkaecJJPbL8PUFRWGS1130BZqAB6jsUjVoFrBbtaVCk8etepiNcEWT3OyC2LW-Q"
     },
     {
       "submitted_at": "2026-08-20T13:01:39.195+00:00",
@@ -10265,7 +10285,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w|n=1|t=2026-08-20T13:01:39.195Z|m=0.27821993908887455|lo=0|hi=0.9230521099088003|p10=0.07980727594013252|p90=0.4777611929284776|f=0.4230521099088003:0.5,0.6576493357966042:0.34600000000000003,1:0.145|q=medium|g=",
+      "signature": "iKGN9q6Td0FdmHyiBt4fkOnH0l_IojSrmXq4dNFRHDDrR0MIcpjRTJ6PdB7g3czsA12PPjEyK2D9FfYU0xDXSg"
     },
     {
       "submitted_at": "2026-08-20T13:01:42.613+00:00",
@@ -10350,7 +10374,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w",
+      "submit_count": 2,
+      "signed_payload": "pdoom/1|k=p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w|n=2|t=2026-08-20T13:01:42.613Z|m=0.27821993908887455|lo=0|hi=0.9230521099088003|p10=0.07980727594013252|p90=0.4777611929284776|f=0.4230521099088003:0.5,0.6576493357966042:0.34600000000000003,1:0.145|q=medium|g=",
+      "signature": "4CFfW6suEvcXhrHVa6wSoQRF-WYBBUuXdXvUursd1z9CAW-LsYAjEzY2WLBfL2fyrKxrSfeTC7cCKqzeP1wb-Q"
     },
     {
       "submitted_at": "2026-08-20T13:01:44.295+00:00",
@@ -10435,7 +10463,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w",
+      "submit_count": 3,
+      "signed_payload": "pdoom/1|k=p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w|n=3|t=2026-08-20T13:01:44.295Z|m=0.27821993908887455|lo=0|hi=0.9230521099088003|p10=0.07980727594013252|p90=0.4777611929284776|f=0.4230521099088003:0.5,0.6576493357966042:0.34600000000000003,1:0.145|q=medium|g=",
+      "signature": "5jc0FEIoZhOLAFDaSQUN-JTCYfJUCDNRtV8WOOjmHmAFDczqhobHYQClD66ItHsf5P5D5M1ClPljN_eTXnReVg"
     },
     {
       "submitted_at": "2026-08-20T13:01:45.013+00:00",
@@ -10520,7 +10552,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w",
+      "submit_count": 4,
+      "signed_payload": "pdoom/1|k=p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w|n=4|t=2026-08-20T13:01:45.013Z|m=0.27821993908887455|lo=0|hi=0.9230521099088003|p10=0.07980727594013252|p90=0.4777611929284776|f=0.4230521099088003:0.5,0.6576493357966042:0.34600000000000003,1:0.145|q=medium|g=",
+      "signature": "lfIULnVMWcb4S7Rcxut38rlsczQahJ2jTjsuboURvnzBF8oHdKdBXcDVciTv1Ug6_WGQZAJ4XMzgmazm7R4uJQ"
     },
     {
       "submitted_at": "2026-08-20T13:01:45.646+00:00",
@@ -10605,7 +10641,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w",
+      "submit_count": 5,
+      "signed_payload": "pdoom/1|k=p256:8n-uVc-nyYP3hpi-FqN71_37XSWEVFNxJi0EOllD8EpfvaHsYiXT2XFu_u7qFelItBmRAYstMuMSXtN3wuDX1w|n=5|t=2026-08-20T13:01:45.646Z|m=0.27821993908887455|lo=0|hi=0.9230521099088003|p10=0.07980727594013252|p90=0.4777611929284776|f=0.4230521099088003:0.5,0.6576493357966042:0.34600000000000003,1:0.145|q=medium|g=",
+      "signature": "ewH1rK07pZpQjtJLyEpHBJPykI7dknmrmsfnG6QG6VD3pXlaB73ov7rXwOq7cR2uacf7MhmTdN8S_uKel7Hj2g"
     },
     {
       "submitted_at": "2026-08-20T13:05:10.285+00:00",
@@ -10680,14 +10720,18 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:sX0T7yZyztQYxEsUhJWB9z-RSpMrK7qgObHBAJ1-7Csu43nhtUD24FhMZTxksLv_2kXD06Kb3UkHPNzr-5X1QQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:sX0T7yZyztQYxEsUhJWB9z-RSpMrK7qgObHBAJ1-7Csu43nhtUD24FhMZTxksLv_2kXD06Kb3UkHPNzr-5X1QQ|n=1|t=2026-08-20T13:05:10.285Z|m=0.3299376920448437|lo=0|hi=1|p10=0.06696940623963057|p90=0.5595261205693772|f=0.9082038678720852:0.105,0.7265718716170747:0.535,0.5:0.825|q=medium|g=",
+      "signature": "lpdMX6-LDtGqDXv4NfBg0fqlZ2iFw3HlW_G8RTl7mh8s5r-kYUUfPBKKsPQlXscq740jSX9Yzp2REh2rhqvy8g"
     },
     {
       "submitted_at": "2026-08-20T13:05:40.918+00:00",
       "summary": {
         "p10": 0.051396028857536365,
         "p90": 0.5518739404570588,
-        "lower": 0.000006916336271188377,
+        "lower": 6.916336271188377e-06,
         "upper": 1,
         "midpoint": 0.8652084949132707
       },
@@ -10776,7 +10820,30 @@
           "value": "expert-money-not-spending-enough",
           "question_id": "expert-money-alignment"
         }
-      ]
+      ],
+      "gate_score": 29,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:22LjQmr8yxEeHFoUnJVIQ3Uh5KFotgS_-d8Mz9iYMB_wo6imncFCJZlo-9VIQT5yBeGBXTmbFER4Taw0nSoqXw",
+      "submit_count": 2,
+      "signed_payload": "pdoom/1|k=p256:22LjQmr8yxEeHFoUnJVIQ3Uh5KFotgS_-d8Mz9iYMB_wo6imncFCJZlo-9VIQT5yBeGBXTmbFER4Taw0nSoqXw|n=2|t=2026-08-20T13:05:40.918Z|m=0.8652084949132707|lo=0.000006916336271188377|hi=1|p10=0.051396028857536365|p90=0.5518739404570588|f=0.9497697697293204:0.805,0.9526482959744819:0.945,0.9562464537809339:0.95|q=expert|g=29",
+      "signature": "SgwzNGx0VzFa2Bi378hLKlmEJbupvqs6sDS6pcsaA4RiX_CunwhriqJ9QQu1LKZRWtLkm6LGlYqSjtDaYYzwlQ"
     },
     {
       "submitted_at": "2026-08-20T14:49:03.771+00:00",
@@ -10884,7 +10951,30 @@
           "value": "expert-money-not-spending-enough",
           "question_id": "expert-money-alignment"
         }
-      ]
+      ],
+      "gate_score": 29,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:pm7R06MsCIYFQFFBq3mbPoBTwKQERH6k1dmN8B_pNXxby6fRhqy4YzfTZx8M6MbzQ_grI46Z44rrsUS1fU6iWQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:pm7R06MsCIYFQFFBq3mbPoBTwKQERH6k1dmN8B_pNXxby6fRhqy4YzfTZx8M6MbzQ_grI46Z44rrsUS1fU6iWQ|n=1|t=2026-08-20T14:49:03.771Z|m=0.5014111271026356|lo=0.06023820949896552|hi=0.9014111271026356|p10=0.19442172368789362|p90=0.6470567271725128|f=1:0.01,0.5014111271026356:0.4,1:0.4|q=expert|g=29",
+      "signature": "pQFtCy8lxXiQ4LFV415gxRS5O3RIiZURtF2xDxnTm7CjgyRR3_xcYVREO89yFtfElm3lFueobhDyJXfImz7qsA"
     },
     {
       "submitted_at": "2026-08-20T16:07:49.542+00:00",
@@ -10973,7 +11063,11 @@
           "value": "control-impossible",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:A5-KUiZWYxzCkMiwIpm5Ie9kZUBuwZbme8iICzfGuK0OXS1S74EXqnnx9se1ROlL2RUxGP-as5iGSSy14MqT-w",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:A5-KUiZWYxzCkMiwIpm5Ie9kZUBuwZbme8iICzfGuK0OXS1S74EXqnnx9se1ROlL2RUxGP-as5iGSSy14MqT-w|n=1|t=2026-08-20T16:07:49.542Z|m=0.1648022205889181|lo=0|hi=1|p10=0.023803472536818637|p90=0.3165874582851158|f=0.4044393459339378:0.605,0.7470592519756728:0.605,0.5454495793728831:0.495|q=beginner|g=",
+      "signature": "GxzghYwZPHFDr1cDQs6SB2SoFxQLDOCtKA_w7GOkh9ObuW-2AJkM5LX0MonlrfJ8L1XsAhxxiogtxG8ZmWq9VQ"
     },
     {
       "submitted_at": "2026-08-20T17:56:54.755+00:00",
@@ -11077,7 +11171,11 @@
           "value": "control-impossible",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:lQJB-w1MVku6Mf7kBinURwlVGzY5ZSyp_Jx9VUUojcdO-6efhM9rycU78IA3qkXQvXEGeH_ULfa3ln7QdtZKjw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:lQJB-w1MVku6Mf7kBinURwlVGzY5ZSyp_Jx9VUUojcdO-6efhM9rycU78IA3qkXQvXEGeH_ULfa3ln7QdtZKjw|n=1|t=2026-08-20T17:56:54.755Z|m=0.783777448|lo=0.19008069300000002|hi=1|p10=0.37074744232932677|p90=0.7771263529349891|f=0.922:0.295,0.922:0.195,0.922:0.505|q=beginner|g=",
+      "signature": "ZDHGg5nueM_Rx0TkseMX20slvEJWybHGbMkWV_oB6gkt_2nDOSfM9RRA3mts20ungpc1dyvygTBvbQtutKXs3g"
     },
     {
       "submitted_at": "2026-08-21T00:28:15.499+00:00",
@@ -11177,7 +11275,11 @@
           "value": "control-impossible",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:TezHfTYhE-qy4xEg0eyphjnoOVw5sBFqHQnxS1EW1q1AvzYe-pfAyakG8CtGV-5kSkIuifViR9I-2O_LtnGvUg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:TezHfTYhE-qy4xEg0eyphjnoOVw5sBFqHQnxS1EW1q1AvzYe-pfAyakG8CtGV-5kSkIuifViR9I-2O_LtnGvUg|n=1|t=2026-08-21T00:28:15.499Z|m=0.7610484969999999|lo=0|hi=1|p10=0.08557712351197333|p90=0.6256892657432732|f=0.9129999999999999:0.33,0.9129999999999999:0.8,0.9129999999999999:1|q=beginner|g=",
+      "signature": "VRudppprwQf4uzYKeiV8VpIde9OEB6zXGbf35r2SAQa9TmjpoBMpTsxMkbaQGeAKxL7rLH3M7yh1pdczGJOHWg"
     },
     {
       "submitted_at": "2026-08-21T00:32:18.117+00:00",
@@ -11275,7 +11377,29 @@
           "value": "expert-money-spending-about-right",
           "question_id": "expert-money-alignment"
         }
-      ]
+      ],
+      "gate_score": 28,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "isaac-asimov",
+        "agent",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:1TQ466qbI3ZWYbh-0C1lR81BW6qksT0iE_5XcM4lvwjxriUdHR7M1QywM7Vfiut1JLOcVBRADwnihi6yLZib3w",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:1TQ466qbI3ZWYbh-0C1lR81BW6qksT0iE_5XcM4lvwjxriUdHR7M1QywM7Vfiut1JLOcVBRADwnihi6yLZib3w|n=1|t=2026-08-21T00:32:18.117Z|m=0.003971684603233218|lo=0|hi=0.4899155475434844|p10=0.0073152736559556255|p90=0.15739025149752617|f=0.8212727530996976:0.484,0.508724291680998:0.484,0.0095061543763592:0.484|q=expert|g=28",
+      "signature": "gYY41N2uiE68qA0saFhgmrWZIlXyXm9RxdEH29lxeY0hcYE-2rKGAR2g9GtuamzmoGvQKDY6ztmScNlUqYxJaA"
     },
     {
       "submitted_at": "2026-08-21T05:53:20.953+00:00",
@@ -11361,7 +11485,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:GQ6oRACyVpY7oFH4BbUtRVY3fk0EiH4bqBN2_oH_MQYjSjS5qASnzsgyJ1bo0zxGiLAaYujv3ykP-VOE8VSj6w",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:GQ6oRACyVpY7oFH4BbUtRVY3fk0EiH4bqBN2_oH_MQYjSjS5qASnzsgyJ1bo0zxGiLAaYujv3ykP-VOE8VSj6w|n=1|t=2026-08-21T05:53:20.953Z|m=0.9673616690000003|lo=0.2784450770000002|hi=1|p10=0.4577027648715811|p90=0.8124464498797975|f=0.9890000000000001:0.336,0.9890000000000001:0.336,0.9890000000000001:0.336|q=medium|g=",
+      "signature": "dsGkN2ZrJ2bzWRnZtvr2P78UlcXur2tQXzhU6d3jDLb-tH43VA1cnRNNd9O8m3uaO6-dMM9L-ttnglaTlebScw"
     },
     {
       "submitted_at": "2026-08-21T05:53:36.777+00:00",
@@ -11447,7 +11575,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:GQ6oRACyVpY7oFH4BbUtRVY3fk0EiH4bqBN2_oH_MQYjSjS5qASnzsgyJ1bo0zxGiLAaYujv3ykP-VOE8VSj6w",
+      "submit_count": 2,
+      "signed_payload": "pdoom/1|k=p256:GQ6oRACyVpY7oFH4BbUtRVY3fk0EiH4bqBN2_oH_MQYjSjS5qASnzsgyJ1bo0zxGiLAaYujv3ykP-VOE8VSj6w|n=2|t=2026-08-21T05:53:36.777Z|m=0.9673616690000003|lo=0.2784450770000002|hi=1|p10=0.4577027648715811|p90=0.8124464498797975|f=0.9890000000000001:0.336,0.9890000000000001:0.336,0.9890000000000001:0.336|q=medium|g=",
+      "signature": "BxjbCIAjyYJwaBa4JszDh-3jONCh_1XMUGqvQfN9HehSy8V4Zbci9KN4sXyP6o_V9sXVV7Rs7VNi2uDEEn0LDw"
     },
     {
       "submitted_at": "2026-08-21T08:51:50.268+00:00",
@@ -11533,7 +11665,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:BC5iDNBtQSig3Smsxox9ofpHFt08gSzwTAkDSvfoaa6O6hUR_w6hYns8ZrHNW9lntEiJ-SO_8cHnAnLsmMWNIA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:BC5iDNBtQSig3Smsxox9ofpHFt08gSzwTAkDSvfoaa6O6hUR_w6hYns8ZrHNW9lntEiJ-SO_8cHnAnLsmMWNIA|n=1|t=2026-08-21T08:51:50.268Z|m=0.7965979830000002|lo=0.527277833|hi=0.977|p10=0.6566308153171487|p90=0.8487064834372215|f=0.927:0.1,0.927:0.05,0.927:0.2|q=medium|g=",
+      "signature": "KkZBeBwERAbROAVII5x_7YJC-qr3iOc3Vkn_rWooDNfR6ZXDku61vYTVtZoFTTsPeTVD2pzCdZPGx5KHfaUq_g"
     },
     {
       "submitted_at": "2026-08-21T09:11:49.674+00:00",
@@ -11691,7 +11827,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:x_kOVN7wfnM4HykI2Hz6iqnFsvJpWaEzJky4AbDamX4ApAqqvcB6pdpXytshwCQDU4tI965uWCofSBCPwaztCw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:x_kOVN7wfnM4HykI2Hz6iqnFsvJpWaEzJky4AbDamX4ApAqqvcB6pdpXytshwCQDU4tI965uWCofSBCPwaztCw|n=1|t=2026-08-21T12:41:51.766Z|m=0.7358711886363307|lo=0.23553719430090259|hi=0.8553538053167022|p10=0.3698784011196312|p90=0.7267607731705523|f=0.9329999999999999:0.402,0.9329999999999999:0.402,0.8453538053167022:0.01|q=medium|g=",
+      "signature": "qJNnFTHEsjyH1nxeqFaWGuNBjJSzNtCyyc0BgPL2G3AgOvI_JPApLYC2JQW4GbqY6yWmOuqAJW1MKJ1J6uQpVg"
     },
     {
       "submitted_at": "2026-08-21T12:41:57.798+00:00",
@@ -11777,7 +11917,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:x_kOVN7wfnM4HykI2Hz6iqnFsvJpWaEzJky4AbDamX4ApAqqvcB6pdpXytshwCQDU4tI965uWCofSBCPwaztCw",
+      "submit_count": 2,
+      "signed_payload": "pdoom/1|k=p256:x_kOVN7wfnM4HykI2Hz6iqnFsvJpWaEzJky4AbDamX4ApAqqvcB6pdpXytshwCQDU4tI965uWCofSBCPwaztCw|n=2|t=2026-08-21T12:41:57.798Z|m=0.7358711886363307|lo=0.23553719430090259|hi=0.8553538053167022|p10=0.3698784011196312|p90=0.7267607731705523|f=0.9329999999999999:0.402,0.9329999999999999:0.402,0.8453538053167022:0.01|q=medium|g=",
+      "signature": "LJSwkfMEQPIfFCCiyKF8czCqluxruCqJ2Y0OLhtlVBQCVwUdtQJsoGdS3VGQgYediJPIJSyCfpvFxH9MK-3FLw"
     },
     {
       "submitted_at": "2026-08-22T15:36:18.222+00:00",
@@ -11855,7 +11999,11 @@
           "value": "control-easy",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:pLhf1jUgc5czjVWkoIQze0-lfPRodEVK6ZwElBIKX4dfZSGO_Q3sXKk9FntTHhKaqBnBsQCAD0_tSRLlRrZXbw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:pLhf1jUgc5czjVWkoIQze0-lfPRodEVK6ZwElBIKX4dfZSGO_Q3sXKk9FntTHhKaqBnBsQCAD0_tSRLlRrZXbw|n=1|t=2026-08-22T15:36:18.222Z|m=0.37709642958450335|lo=0.002653607540677163|hi=1|p10=0.07149849344625178|p90=0.4952222609433414|f=0.65:0.574,0.7417918503193307:0.574,0.7820904920392192:0.574|q=beginner|g=",
+      "signature": "ketJTuP-5_5IE7W7BLXTsXB7vGz1R_AKL7yimONA7uNkwZN6Kqrav_K0llJfR4yf2OcTj7s9lcnzQTdziizewg"
     },
     {
       "submitted_at": "2026-08-27T01:06:27.275+00:00",
@@ -11943,7 +12091,11 @@
           "value": "control-impossible",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:vpyLP66tk8jXsapQq1Cqu4tmTn1gVHZ8t6v2keGvgAYdHzta6oeSdzt2qo2lUv-B8DPySk8P9U9KiNv7sNwG2A",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:vpyLP66tk8jXsapQq1Cqu4tmTn1gVHZ8t6v2keGvgAYdHzta6oeSdzt2qo2lUv-B8DPySk8P9U9KiNv7sNwG2A|n=1|t=2026-08-27T01:06:27.275Z|m=0.7314327009999998|lo=0|hi=1|p10=0.03576354987535527|p90=0.522997670216712|f=0.9009999999999999:1,0.9009999999999999:0.95,0.9009999999999999:0.88|q=beginner|g=",
+      "signature": "uUBkaXzHnzcOc6WJDcUXboBEu73l6M_cFHz9TcZWL6X3m8gaMvwYoeD2IDl1iOKxA5dSUfdACo7jSrj1X3-7iQ"
     },
     {
       "submitted_at": "2026-08-27T16:04:25.555+00:00",
@@ -12029,7 +12181,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:ZTI3zWBOoYxNBsQARkQTWAxVvT5ujtfj10lnNKo_F9iSe-e7JUR8O1WoKhMlNnAX7c5z91EDaHhQg79_5puzPg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:ZTI3zWBOoYxNBsQARkQTWAxVvT5ujtfj10lnNKo_F9iSe-e7JUR8O1WoKhMlNnAX7c5z91EDaHhQg79_5puzPg|n=1|t=2026-08-27T16:04:25.555Z|m=0.9211673169999999|lo=0.611212032|hi=1|p10=0.726061771590017|p90=0.9176149755188934|f=0.973:0.205,0.973:0.04,0.973:0.12|q=medium|g=",
+      "signature": "iAf7xXQFO99uXBUTkRww3jfbFR1Pi527xx9pu2mpyYsh-R-8DPRg354BDpJW_yywbKueUUS7kmU1ZtmKhavyUA"
     },
     {
       "submitted_at": "2026-08-29T11:30:25.26+00:00",
@@ -12110,7 +12266,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:A6Yp7uqy-Dsu29I_qQUM9M5gCDxRBUgWo8xNI-DML52OhH80FPqJlMPgExMvAYb-1u6WpJPRotIsS6k9oeQETA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:A6Yp7uqy-Dsu29I_qQUM9M5gCDxRBUgWo8xNI-DML52OhH80FPqJlMPgExMvAYb-1u6WpJPRotIsS6k9oeQETA|n=1|t=2026-08-29T11:30:25.260Z|m=0.09910400079258502|lo=0|hi=1|p10=0.007973307019659145|p90=0.30986675037629546|f=0.7596143527111772:0.905,0.21447597852721187:0.91,0.6083021720585143:0.905|q=medium|g=",
+      "signature": "j3UfVw7_pDUA1cOjNOWjpNhg6X6331-sEksTiloGPHXkksNkpKa-eC-OpIlBvgBInH8X9maNrl6aHflyWGUzcA"
     },
     {
       "submitted_at": "2026-08-31T14:21:15.46+00:00",
@@ -12214,7 +12374,11 @@
           "value": "control-medium",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:YkCYfBfCtiv_2fKpwba5fF-dUJPN2kD4rN_FszwOIzZUjRKvLGUcdm4-Y6u-K6zcnSAdWb_Wlsxj_DQ4vqAlpA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:YkCYfBfCtiv_2fKpwba5fF-dUJPN2kD4rN_FszwOIzZUjRKvLGUcdm4-Y6u-K6zcnSAdWb_Wlsxj_DQ4vqAlpA|n=1|t=2026-08-31T14:21:15.460Z|m=0.5863762530000002|lo=0.028658448000000007|hi=0.972|p10=0.1437698591405511|p90=0.633135984443866|f=0.8370000000000001:0.585,0.8370000000000001:0.675,0.8370000000000001:0.135|q=beginner|g=",
+      "signature": "6RFqEakiMlc7ugnDGSNwAokJyWCgWSVLmPtdPkM1wVTSi79J9binlS6AzTQmMidEbeMndjJ5s71TWY7FDz_6Sg"
     },
     {
       "submitted_at": "2026-08-31T23:55:27.337+00:00",
@@ -12306,7 +12470,11 @@
           "value": "control-medium",
           "question_id": "beginner-control"
         }
-      ]
+      ],
+      "visitor_key": "p256:7Dm7XxjHgb84PtkwWXPOcUCMmzfMNDdgrQRaT4zAQeYWl_BkDadjiGNcAJn_gjlyN4FudyQJZy95dAXJytMmSg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:7Dm7XxjHgb84PtkwWXPOcUCMmzfMNDdgrQRaT4zAQeYWl_BkDadjiGNcAJn_gjlyN4FudyQJZy95dAXJytMmSg|n=1|t=2026-08-31T23:55:27.337Z|m=0.1403571321787828|lo=0|hi=0.5450797811894034|p10=0.03847155139255744|p90=0.2535482882520395|f=0.37059049231183466:0.385,0.898773059976343:0.22,0.42139576494888864:0.3|q=beginner|g=",
+      "signature": "a-8GYHRRz_zvSFpDG7ZGgl-XBvQOlgECkQkh6mZTmDmOCUSGoHwnmLqu9BfQyuB32zQDEH-7EzRD4aZFVmslVw"
     },
     {
       "submitted_at": "2026-09-01T00:48:19.38+00:00",
@@ -12387,7 +12555,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:LDVGUgex5A8sEjmdgkCNhIKaa824-A6KcZUmlebjzstza3F2CAsuBWKnK_OTebIBq7smits4FVYf9BArlPXtSg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:LDVGUgex5A8sEjmdgkCNhIKaa824-A6KcZUmlebjzstza3F2CAsuBWKnK_OTebIBq7smits4FVYf9BArlPXtSg|n=1|t=2026-09-01T00:48:19.380Z|m=0.15025910513569385|lo=0|hi=0.5502591051356939|p10=0.04293527620505972|p90=0.3868501893908669|f=1:0,1:0.25,0.15025910513569385:0.4|q=medium|g=",
+      "signature": "LKgxo8IvTttmvBMLQDh26NkA2SM7ZCFqsPNTe7X0LaJvmksDRmcUMhe1KPGUAuiRpQ0Ym8rSUB8DXSWOSYdRzw"
     },
     {
       "submitted_at": "2026-09-01T20:49:19.178+00:00",
@@ -12488,7 +12660,30 @@
           "value": "expert-money-accelerating-defensive-technologies",
           "question_id": "expert-money-alignment"
         }
-      ]
+      ],
+      "gate_score": 29,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:K1VuTTNPNE3DK4KKKXEsvrC5Y2WSel3uK8KhOGrB1FDGJ999p0Fdoq-C-jxi6lPeYvAYpyHulY8Zljjmji2B9w",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:K1VuTTNPNE3DK4KKKXEsvrC5Y2WSel3uK8KhOGrB1FDGJ999p0Fdoq-C-jxi6lPeYvAYpyHulY8Zljjmji2B9w|n=1|t=2026-09-01T20:49:19.178Z|m=0.10023424651630063|lo=0|hi=0.7107089578920202|p10=0.009647218291130112|p90=0.2316033985976927|f=0.9504879283757969:0.8,0.500479767540043:0.6,0.2107089578920201:0.5|q=expert|g=29",
+      "signature": "Q4T4NRQ8Sk6s7Kc7b0X6NNoNhw2kXr_gshAeNkkDeTmqUyNAj6k3gwaAUxzJ6jCH71DLwzJwcoU6UydCV29TOQ"
     },
     {
       "submitted_at": "2026-09-01T21:27:46.587+00:00",
@@ -12569,7 +12764,11 @@
           "value": "medium-speed-risk",
           "question_id": "medium-speed"
         }
-      ]
+      ],
+      "visitor_key": "p256:VMFr8ihRphy_oF8w1nsz2mOeB7VesICVVBcpah37hpW8Gxr_lS_219FrOVK01FcKELhcqHiCwjP5gzn90PYS8w",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:VMFr8ihRphy_oF8w1nsz2mOeB7VesICVVBcpah37hpW8Gxr_lS_219FrOVK01FcKELhcqHiCwjP5gzn90PYS8w|n=1|t=2026-09-01T21:27:46.587Z|m=0.17987050182054587|lo=0|hi=1|p10=0.030924396205198778|p90=0.4432355741776248|f=0.2997698363595866:1,0.7497123173982588:0.365,0.80034524546062:0.625|q=medium|g=",
+      "signature": "wu8x8h5yLFrFAib4DhbeKznN66xc62yz6FVsIBkqBTuQ5NB9YdASkYmYm1v2GrMJ5eHUw1itKvQcjyCSVc0THg"
     }
   ]
 }

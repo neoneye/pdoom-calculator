@@ -140,7 +140,12 @@ permalink: /stats/
 
       const { data, error } = await supabaseClient
         .from(SUBMISSIONS_TABLE)
-        .select('submitted_at, summary, factors, quiz_flow_id, quiz_answers')
+        // Every column the report reads: the quiz answers, the expert-check verdict
+        // and the signed visitor identity. The gate and identity columns are null on
+        // rows from before 19 Aug 2026 and on any path that never met the check.
+        .select('submitted_at, summary, factors, quiz_flow_id, quiz_answers, ' +
+                'gate_score, gate_recommended_level, expert_verified, gate_answers, ' +
+                'visitor_key, submit_count, signed_payload, signature')
         .order('submitted_at', { ascending: true })
         .limit(MAX_ROWS);
 
@@ -408,8 +413,11 @@ permalink: /stats/
             summary: row.summary,
             factors: row.factors
           };
-          if (row.quiz_flow_id != null) clean.quiz_flow_id = row.quiz_flow_id;
-          if (row.quiz_answers != null) clean.quiz_answers = row.quiz_answers;
+          // Optional columns are written only when set, so old rows stay as compact
+          // as they were and a missing key means "never recorded", not "recorded null".
+          const optional = ['quiz_flow_id', 'quiz_answers', 'gate_score', 'gate_recommended_level',
+            'expert_verified', 'gate_answers', 'visitor_key', 'submit_count', 'signed_payload', 'signature'];
+          optional.forEach(key => { if (row[key] != null) clean[key] = row[key]; });
           return clean;
         })
       };

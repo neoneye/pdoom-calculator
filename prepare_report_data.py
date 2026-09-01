@@ -9,9 +9,10 @@ the report pages under ``reports/`` render from:
       "months":    [{"month", "n", "median", "p25", "p75"}, ...],
       "titles":    [{"id", "label", "seen", "of"}, ...],
       "risks":     [{"id", "label", "seen", "of"}, ...],
-      "flows":     [{"id", "label", "n"}, ...],
+      "flows":     {"before": [{"id", "label", "n"}, ...], "since": [...]},
       "expertQ":   [{"id", "label", "kind", "opts", "median", "none"}, ...],
-      "experts":   [{"names", "m"}, ...],
+      "experts":   [{"names", "of", "m", "v", "t", "q": {qid: ticked}}, ...],
+      "visitors":  {"dupRows", "repeat": [{"n", "levels", "m", "identical", "span"}, ...]},
       "knowledge": {"terms", "real", "decoys", "takers", "pairs": [...], "taker": {...}},
       "sliders":   [{"m", "p10", "p90", "factors"}, ...],
       "dupes":     {"records", "unique", "byLevel": {level: {records, unique, median, medianDedup}}},
@@ -19,16 +20,24 @@ the report pages under ``reports/`` render from:
                     "repeat", "maxPerVisitor", "replays", "mismatched"},
       "gate":      {"attempted", "verified", "overrode", "accepted", "acceptedTo",
                     "medianScore", "scores"},
-      "mediumQ":   [{"id", "label", "kind", "rho", "n"}, ...],
-      "prompts":   [{"label", "n", "median", "values"}, ...],
-      "mediumVuln":[{"known", "of", "m"}, ...],
-      "vulnList":  [{"label", "known", "of", "ai"}, ...],
+      "mediumQ":   [{"id", "label", "kind", "rho", "n", "rhoDedup", "nDedup"}, ...],
+      "prompts":   [{"label", "n", "median", "values", "dups"}, ...],
+      "mediumVuln":[{"known", "of", "m", "dup"}, ...],
+      "vulnList":  [{"label", "known", "of"}, ...],
       "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...]
     }
 
 ``rows`` is one entry per submission, sorted by timestamp; ``fx`` holds the
-midpoints of the three chain factors. ``months`` aggregates the final p(doom)
-midpoint per calendar month (UTC).
+midpoints of the three chain factors, ``v`` the expert-check verdict (true,
+false or null when the check never ran) and ``rep`` whether the row repeats an
+earlier, byte-identical submission from the same signed visitor. ``months``
+aggregates the final p(doom) midpoint per calendar month (UTC).
+
+Since 19 Aug 2026 the expert path opens with the knowledge check and every row
+carries a signed visitor identity, so two things the earlier report could only
+guess at are now measured: whether a self-declared expert cleared the bar, and
+whether two identical rows came from one browser. ``flows`` is therefore split
+into the era before the check and the era since.
 
 ``titles`` and ``beginners`` back the film-exposure section, and need the quiz
 option list, which is parsed out of ``index.html``. Each title's ``of`` is the
@@ -41,7 +50,7 @@ risks they recognised.
 Usage:
     python3 prepare_report_data.py                      # blob to stdout
     python3 prepare_report_data.py -o data.json         # blob to file
-    python3 prepare_report_data.py --inject reports/submissions-2026-08-18.html
+    python3 prepare_report_data.py --inject reports/submissions-2026-09-01.html
 
 A summary (group/era medians, factor correlations) is printed to stderr so the
 headline numbers quoted in the report can be re-checked after a data refresh.
@@ -96,12 +105,25 @@ RISK_B_MIN = 9
 # date predate the chooser entirely and are excluded from the flow breakdown.
 QUIZ_LAUNCH = "2026-03-09"
 
+# From this date the expert path opens with the knowledge check, the standalone
+# "decide" path and the sliders shortcut are gone, and submissions are signed.
+GATE_LAUNCH = "2026-08-19"
+
 FLOW_LABELS = [
     ("decide", "Decide the right level for me"),
     ("beginner", "Beginner quiz"),
     ("medium", "Medium quiz"),
     ("expert", "Expert quiz"),
     ("none", "No quiz (sliders)"),
+]
+
+# The chooser since the check: three cards, no shortcut. A row with no level can
+# only come from a page loaded before the change, or from outside the page.
+FLOW_LABELS_SINCE = [
+    ("beginner", "Beginner quiz"),
+    ("medium", "Medium quiz"),
+    ("expert", "Expert quiz (via the check)"),
+    ("none", "No quiz"),
 ]
 
 # The expert quiz mixes questions answerable by reasoning with questions that only
@@ -134,16 +156,6 @@ MEDIUM_QUESTIONS = [
     ("medium-competition", "Competition lowers barriers", "opinion"),
 ]
 
-# Which entries on the vulnerability checklist are AI-native rather than general
-# infosec. Editorial, like the expert-question split; the labels come from the page.
-AI_NATIVE_VULNS = {
-    "medium-vulnerabilities-prompt-injection",
-    "medium-vulnerabilities-data-poisoning",
-    "medium-vulnerabilities-sleeper-agent",
-    "medium-vulnerabilities-adversarial",
-    "medium-vulnerabilities-model-stealing",
-}
-
 EXPERT_QUESTIONS = [
     ("expert-continuous-learning", "Ways AI keeps learning", "concept"),
     ("expert-self-improvement", "Ways AI self-improves", "concept"),
@@ -167,6 +179,8 @@ def load_rows(submissions):
             "p90": round(summary["p90"], 4),
             "f": s.get("quiz_flow_id") or "untagged",
             "fx": [factors[k] for k in FACTOR_KEYS],
+            "v": s.get("expert_verified"),
+            "rep": bool(s.get("_dup")),
         })
     rows.sort(key=lambda r: r["t"])
     return rows
@@ -290,6 +304,52 @@ def duplicate_audit(submissions):
     return {"records": len(submissions),
             "unique": len({payload_key(s) for s in submissions}),
             "byLevel": by_level}
+
+
+def _parse_ts(value):
+    """Postgres writes "+00:00" and a variable number of fractional digits, both of
+    which ``fromisoformat`` accepts from Python 3.11 on."""
+    from datetime import datetime
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
+def visitor_duplicates(submissions):
+    """Repeat submissions that the signed identity can actually attribute.
+
+    ``duplicate_audit`` counts identical payloads anywhere in the table and has to
+    leave open whether they came from one person. Rows carrying a visitor key close
+    that question: a second, byte-identical payload from the same key is one browser
+    submitting twice, and is flagged ``_dup`` in place so the per-question analyses
+    can be run with and without it. Unsigned rows are never flagged -- the earlier
+    report's caution still applies to them."""
+    seen = set()
+    by_visitor = {}
+    dup_rows = 0
+    for s in submissions:
+        key = s.get("visitor_key")
+        s["_dup"] = False
+        if not key:
+            continue
+        pair = (key, payload_key(s))
+        if pair in seen:
+            s["_dup"] = True
+            dup_rows += 1
+        seen.add(pair)
+        by_visitor.setdefault(key, []).append(s)
+    repeat = []
+    for rows in by_visitor.values():
+        if len(rows) < 2:
+            continue
+        stamps = [_parse_ts(s["submitted_at"]) for s in rows]
+        repeat.append({
+            "n": len(rows),
+            "levels": [s.get("quiz_flow_id") or "none" for s in rows],
+            "m": [round(s["summary"]["midpoint"], 4) for s in rows],
+            "identical": len({payload_key(s) for s in rows}) == 1,
+            "span": round((max(stamps) - min(stamps)).total_seconds()),
+        })
+    repeat.sort(key=lambda r: -r["n"])
+    return {"dupRows": dup_rows, "repeat": repeat}
 
 
 def _public_key_from_visitor_key(visitor_key):
@@ -416,10 +476,13 @@ def verify_submissions(submissions):
 
 
 def flow_counts(submissions):
-    """How post-launch visitors answered the level chooser."""
-    post = [s for s in submissions if s["submitted_at"][:10] >= QUIZ_LAUNCH]
-    seen = Counter(s.get("quiz_flow_id") or "none" for s in post)
-    return [{"id": fid, "label": label, "n": seen.get(fid, 0)} for fid, label in FLOW_LABELS]
+    """How visitors answered the level chooser, before and since the expert check."""
+    def tally(rows, labels):
+        seen = Counter(s.get("quiz_flow_id") or "none" for s in rows)
+        return [{"id": fid, "label": label, "n": seen.get(fid, 0)} for fid, label in labels]
+    before = [s for s in submissions if QUIZ_LAUNCH <= s["submitted_at"][:10] < GATE_LAUNCH]
+    since = [s for s in submissions if s["submitted_at"][:10] >= GATE_LAUNCH]
+    return {"before": tally(before, FLOW_LABELS), "since": tally(since, FLOW_LABELS_SINCE)}
 
 
 def parse_question_options(index_html, question_id):
@@ -465,11 +528,16 @@ def expert_breakdown(submissions, index_html):
     name_total = sum(q["opts"] for q in questions if q["kind"] == "names")
     people = []
     for s in experts:
-        recalled = sum(len(a.get("values") or [])
-                       for a in s.get("quiz_answers") or []
-                       if a["question_id"] in name_ids)
+        ticked = {a["question_id"]: len(a.get("values") or [])
+                  for a in s.get("quiz_answers") or []}
+        recalled = sum(n for qid, n in ticked.items() if qid in name_ids)
         people.append({"names": recalled, "of": name_total,
-                       "m": round(s["summary"]["midpoint"], 4)})
+                       "m": round(s["summary"]["midpoint"], 4),
+                       # True: cleared the check. False: fell short, went on anyway.
+                       # None: submitted before the check existed -- self-declared.
+                       "v": s.get("expert_verified"),
+                       "t": s["submitted_at"][:10],
+                       "q": {qid: ticked.get(qid, 0) for qid, _, _ in EXPERT_QUESTIONS}})
     people.sort(key=lambda r: -r["names"])
     return questions, people
 
@@ -564,6 +632,9 @@ def knowledge_check(submissions, index_html):
         avoided = len(decoys) - tripped
         correct = hits + avoided
         takers.append({
+            # "gate": reached through the expert path since 19 Aug 2026;
+            # "decide": the retired standalone knowledge-check path.
+            "era": "gate" if s.get("gate_answers") is not None else "decide",
             "hits": hits, "tripped": tripped, "avoided": avoided,
             "correct": correct, "of": len(terms),
             "routed": ("beginner" if correct <= 20 else "medium" if correct <= 25 else "expert"),
@@ -572,14 +643,19 @@ def knowledge_check(submissions, index_html):
             "p10": round(s["summary"]["p10"], 4),
             "p90": round(s["summary"]["p90"], 4),
         })
-    # How each individual term fared, which the score alone cannot show.
+    # How each individual term fared, which the score alone cannot show. Counted
+    # separately for the expert-path takers and the retired standalone path.
     seen = Counter()
+    seen_gate = Counter()
     for s in submissions:
         picked = gate_picks(s)
         if picked is None:
             continue
         for tid in picked:
             seen[tid] += 1
+            if s.get("gate_answers") is not None:
+                seen_gate[tid] += 1
+    gate_takers = sum(1 for t in takers if t["era"] == "gate")
     per_term = [{
         "id": t["id"],
         "label": t["label"],
@@ -587,8 +663,10 @@ def knowledge_check(submissions, index_html):
         # For a real term this is how many spotted it; for a decoy, how many fell for it.
         "picked": seen.get(t["id"], 0),
         "of": len(takers),
+        "pickedGate": seen_gate.get(t["id"], 0),
+        "ofGate": gate_takers,
     } for t in terms]
-    per_term.sort(key=lambda t: (t["ai"], -t["picked"]))
+    per_term.sort(key=lambda t: (t["ai"], -t["pickedGate"], -t["picked"], t["label"]))
 
     return {
         "terms": len(terms),
@@ -642,7 +720,7 @@ def medium_breakdown(submissions, index_html):
     questions, prompts, vulns, vuln_list = [], [], [], []
     for qid, label, kind in MEDIUM_QUESTIONS:
         options = [oid for oid, _ in parse_question_options(index_html, qid)]
-        xs, ys = [], []
+        xs, ys, dups = [], [], []
         for s in meds:
             for a in s.get("quiz_answers") or []:
                 if a["question_id"] != qid:
@@ -654,25 +732,34 @@ def medium_breakdown(submissions, index_html):
                 else:
                     continue
                 ys.append(s["summary"]["midpoint"])
+                dups.append(bool(s.get("_dup")))
         if len(xs) < 3:
             continue
+        # One browser submitting the same answers five times is five identical points,
+        # which a rank correlation happily counts five times over. Both are published.
+        keep = [i for i, d in enumerate(dups) if not d]
         questions.append({"id": qid, "label": label, "kind": kind,
-                          "rho": round(spearman(xs, ys), 3), "n": len(xs)})
+                          "rho": round(spearman(xs, ys), 3), "n": len(xs),
+                          "rhoDedup": round(spearman([xs[i] for i in keep], [ys[i] for i in keep]), 3),
+                          "nDedup": len(keep)})
         if qid == "medium-system-prompts":
             labels = [lab for _, lab in parse_question_options(index_html, qid)]
             for level, lab in enumerate(labels):
-                vals = sorted(round(y, 4) for x, y in zip(xs, ys) if x == level)
+                pts = sorted((round(y, 4), d) for x, y, d in zip(xs, ys, dups) if x == level)
+                vals = [v for v, _ in pts]
+                fresh = [v for v, d in pts if not d]
                 prompts.append({"label": lab, "n": len(vals),
                                 "median": round(statistics.median(vals), 4) if vals else None,
-                                "values": vals})
+                                "medianDedup": round(statistics.median(fresh), 4) if fresh else None,
+                                "nDedup": len(fresh),
+                                "values": vals, "dups": [d for _, d in pts]})
         if qid == "medium-vulnerabilities":
             of = len(options)
-            vulns = [{"known": x, "of": of, "m": round(y, 4)} for x, y in zip(xs, ys)]
+            vulns = [{"known": x, "of": of, "m": round(y, 4), "dup": d} for x, y, d in zip(xs, ys, dups)]
             picked = Counter(v for s in meds for a in s.get("quiz_answers") or []
                              if a["question_id"] == qid for v in (a.get("values") or []))
             for oid, lab in parse_question_options(index_html, qid):
-                vuln_list.append({"label": lab, "known": picked.get(oid, 0),
-                                  "of": len(meds), "ai": oid in AI_NATIVE_VULNS})
+                vuln_list.append({"label": lab, "known": picked.get(oid, 0), "of": len(meds)})
             vuln_list.sort(key=lambda v: (-v["known"], v["label"]))
     questions.sort(key=lambda q: -q["rho"])
     return questions, prompts, vulns, vuln_list
@@ -740,15 +827,22 @@ def print_risk_summary(beginners, out=sys.stderr):
 
 
 def print_flow_summary(flows, expert_q, experts, out=sys.stderr):
-    total = sum(f["n"] for f in flows)
-    if not total:
-        return
-    print(f"level chooser ({QUIZ_LAUNCH} onward, {total} submissions):", file=out)
-    for f in flows:
-        print(f"  {f['label']:32s} {f['n']:>3}  {100 * f['n'] / total:>4.0f}%", file=out)
+    for era, label in (("before", f"{QUIZ_LAUNCH} to the day before the check"),
+                       ("since", f"{GATE_LAUNCH} onward")):
+        total = sum(f["n"] for f in flows[era])
+        if not total:
+            continue
+        print(f"level chooser, {label} ({total} submissions):", file=out)
+        for f in flows[era]:
+            print(f"  {f['label']:32s} {f['n']:>3}  {100 * f['n'] / total:>4.0f}%", file=out)
     if not experts:
         return
     med = statistics.median
+    for verdict, title in ((None, "self-declared, before the check"), (True, "cleared the check"),
+                           (False, "fell short, went on anyway")):
+        vals = [e["m"] for e in experts if e["v"] is verdict]
+        if vals:
+            print(f"  expert quiz, {title}: n={len(vals)} median p(doom)={med(vals):.3f}", file=out)
     for kind, title in (("concept", "reasoning questions"), ("names", "name-recognition questions")):
         qs = [q for q in expert_q if q["kind"] == kind]
         if qs:
@@ -763,12 +857,15 @@ def print_flow_summary(flows, expert_q, experts, out=sys.stderr):
 def print_medium_summary(medium_q, prompts, out=sys.stderr):
     if not medium_q:
         return
-    print(f"medium quiz (n={medium_q[0]['n']}), rank correlation with p(doom):", file=out)
+    print(f"medium quiz (n={medium_q[0]['n']}, {medium_q[0]['nDedup']} without visitor repeats), "
+          f"rank correlation with p(doom):", file=out)
     for q in medium_q:
-        print(f"  {q['rho']:+.2f}  {q['label']:30s} [{q['kind']}]", file=out)
+        print(f"  {q['rho']:+.2f} ({q['rhoDedup']:+.2f} dedup)  {q['label']:30s} [{q['kind']}]", file=out)
     for p in prompts:
         shown = f"{p['median']:.2f}" if p["median"] is not None else "--"
-        print(f"    system prompts: {p['label'][:38]:40s} n={p['n']:>2}  median={shown}", file=out)
+        dd = f"{p['medianDedup']:.2f}" if p["medianDedup"] is not None else "--"
+        print(f"    system prompts: {p['label'][:38]:40s} n={p['n']:>2}  median={shown}"
+              f"  (n={p['nDedup']} median={dd} dedup)", file=out)
 
 
 def print_gate_summary(gate, out=sys.stderr):
@@ -783,7 +880,7 @@ def print_gate_summary(gate, out=sys.stderr):
     print(f"median score {gate['medianScore']} of 30", file=out)
 
 
-def print_identity_summary(identity, out=sys.stderr):
+def print_identity_summary(identity, visitors, out=sys.stderr):
     print("\n-- visitor identity --", file=out)
     if identity["signed"] and not HAVE_CRYPTO:
         print(f"WARNING: {identity['signed']} signed rows NOT verified -- "
@@ -799,6 +896,10 @@ def print_identity_summary(identity, out=sys.stderr):
     if identity["mismatched"]:
         print(f"signed rows whose numbers disagree with the signed string: "
               f"{identity['mismatched']}", file=out)
+    print(f"identical repeats from one signed browser: {visitors['dupRows']} rows", file=out)
+    for r in visitors["repeat"]:
+        print(f"  {r['n']}x {'identical' if r['identical'] else 'different'} "
+              f"within {r['span']}s: levels {r['levels']} p(doom) {r['m']}", file=out)
 
 
 def inject(report_path, blob):
@@ -829,6 +930,7 @@ def main():
 
     with open(args.input) as f:
         submissions = json.load(f)["submissions"]
+    visitors = visitor_duplicates(submissions)  # flags _dup, which load_rows reads
     rows = load_rows(submissions)
     titles = option_counts(
         submissions,
@@ -861,6 +963,7 @@ def main():
         "gate": gate,
         "expertQ": expert_q,
         "experts": experts,
+        "visitors": visitors,
     }
     blob = json.dumps(data, separators=(",", ":"))
 
@@ -871,7 +974,7 @@ def main():
         print_flow_summary(data["flows"], expert_q, experts)
         print_medium_summary(medium_q, prompts)
         print_gate_summary(gate)
-        print_identity_summary(identity)
+        print_identity_summary(identity, visitors)
     if args.inject:
         inject(args.inject, blob)
         print(f"injected {len(blob) // 1024} KB into {args.inject}", file=sys.stderr)

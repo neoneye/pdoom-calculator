@@ -1,0 +1,1138 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p(doom) Submissions, September 2026</title>
+<style>
+  /* Newsreader is the calculator's own serif, self-hosted under assets/fonts. The report
+     borrows it for headings so it reads as part of the site rather than a bolt-on. */
+  @font-face {
+    font-family: 'Newsreader';
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: swap;
+    src: url('../assets/fonts/newsreader-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+      U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+      U+FEFF, U+FFFD;
+  }
+  :root {
+    color-scheme: light;
+    --paper: #faf9f6;
+    --surface: #ffffff;
+    --sunken: #f3f1ea;
+    --line: #e2ded4;
+    --line-strong: #c9c3b5;
+    --ink: #1c1a17;
+    --ink-2: #55504a;
+    --ink-3: #6f6a61;
+    --accent: #9a3412;
+    --accent-soft: #fbf1ef;
+    --accent-wash: rgba(154, 52, 18, 0.14);
+    /* Ordinal ramp for the three quiz levels, one hue, validated light-to-dark. */
+    --level-1: #cf8a68;
+    --level-2: #b04a24;
+    --level-3: #5c1d06;
+    --neutral: #8a857b;
+    --shadow: 0 1px 2px rgba(28, 26, 23, 0.05), 0 8px 24px -16px rgba(28, 26, 23, 0.25);
+    --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #171412;
+      --surface: #1f1b18;
+      --sunken: #262119;
+      --line: #322c26;
+      --line-strong: #4a423a;
+      --ink: #f2ede4;
+      --ink-2: #b8b0a3;
+      --ink-3: #8e8679;
+      --accent: #e0723f;
+      --accent-soft: #2c1f18;
+      --accent-wash: rgba(224, 114, 63, 0.18);
+      --level-1: #8c3a1c;
+      --level-2: #d0693f;
+      --level-3: #f0b699;
+      --neutral: #8e8679;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #171412;
+    --surface: #1f1b18;
+    --sunken: #262119;
+    --line: #322c26;
+    --line-strong: #4a423a;
+    --ink: #f2ede4;
+    --ink-2: #b8b0a3;
+    --ink-3: #8e8679;
+    --accent: #e0723f;
+    --accent-soft: #2c1f18;
+    --accent-wash: rgba(224, 114, 63, 0.18);
+    --level-1: #8c3a1c;
+    --level-2: #d0693f;
+    --level-3: #f0b699;
+    --neutral: #8e8679;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.7);
+  }
+
+  html, body { margin: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 0 48px;
+  }
+  .masthead { grid-column: 1 / -1; padding: 44px 0 28px; border-bottom: 1px solid var(--line-strong); }
+  .masthead .eyebrow { font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; margin: 0 0 14px; }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(34px, 4.6vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 0 0 16px;
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .masthead .dek { font-size: 17px; line-height: 1.55; color: var(--ink-2); max-width: 62ch; margin: 0 0 12px; }
+  .masthead .unit { font-size: 14px; color: var(--ink-2); max-width: 70ch; margin: 0; line-height: 1.6; }
+  .masthead .unit b { color: var(--ink); font-weight: 620; }
+
+  /* Contents rail: sticky on wide screens, a scrolling strip on narrow ones. */
+  .rail { position: sticky; top: 24px; align-self: start; padding-top: 32px; }
+  .rail h2 { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 10px; font-weight: 600; }
+  .rail ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
+  .rail li a {
+    display: block; padding: 5px 0 5px 14px; margin-left: -1px;
+    font-size: 13px; color: var(--ink-2); text-decoration: none; border-left: 1px solid transparent; line-height: 1.35;
+  }
+  .rail li a:hover { color: var(--ink); }
+  .rail li a.current { color: var(--accent); border-left-color: var(--accent); }
+  .rail .meta { margin-top: 18px; font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+  .rail .meta a { color: var(--ink-2); }
+
+  main { min-width: 0; padding-top: 32px; }
+
+  /* The strip of what changed since the previous report. */
+  .delta { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 0 0 8px; }
+  .delta .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px 15px; box-shadow: var(--shadow); }
+  .delta .v { font-size: 30px; font-weight: 560; letter-spacing: -0.02em; line-height: 1.05; }
+  .delta .v small { font-size: 15px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; margin-left: 6px; }
+  .delta .l { font-size: 12.5px; color: var(--ink-2); margin-top: 7px; line-height: 1.4; }
+  .delta .d { font-size: 11.5px; color: var(--ink-3); margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .delta .d.up { color: var(--accent); }
+
+  section.part { padding-top: 40px; }
+  .part-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 6px; }
+  .part-head .eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; white-space: nowrap; }
+  .part-head .rule { flex: 1; height: 1px; background: var(--line-strong); }
+  .part-head .count { font-size: 12px; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .part > h2 {
+    font-family: var(--serif); font-weight: 500; font-size: 30px; line-height: 1.15; letter-spacing: -0.01em;
+    margin: 6px 0 10px; max-width: 30ch; text-wrap: balance;
+  }
+  .part > .lede { font-size: 15.5px; color: var(--ink-2); max-width: 66ch; margin: 0 0 26px; line-height: 1.6; }
+
+  figure { margin: 0 0 36px; }
+  figure h3 { font-size: 17px; font-weight: 620; letter-spacing: -0.01em; margin: 0 0 5px; line-height: 1.3; text-wrap: balance; }
+  figure .how { color: var(--ink-2); font-size: 13.5px; line-height: 1.6; margin: 0 0 16px; max-width: 78ch; }
+  figure .how b { color: var(--ink); font-weight: 620; }
+  .plot { position: relative; }
+  .split { display: flex; flex-wrap: wrap; gap: 24px 32px; align-items: flex-start; }
+
+  .finding {
+    margin: 18px 0 0; padding: 16px 20px 16px 22px;
+    background: var(--sunken); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+    font-size: 14px; line-height: 1.65; color: var(--ink-2); max-width: 88ch;
+  }
+  .finding .lead { display: block; font-family: var(--serif); font-size: 20px; line-height: 1.3; color: var(--ink); margin: 0 0 6px; font-weight: 500; }
+  .finding b { color: var(--ink); font-weight: 620; }
+  .footnote { color: var(--ink-3); font-size: 12px; line-height: 1.55; margin: 10px 0 0; max-width: 88ch; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--ink-2); margin: 0 0 12px; }
+  .legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -0.5px; }
+
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  svg [tabindex]:focus { outline: none; }
+  svg [tabindex]:focus-visible > .hit-ring { opacity: 1; }
+  svg text { font-family: var(--sans); }
+  .tick { fill: var(--ink-3); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .axis-name { fill: var(--ink-3); font-size: 11px; }
+  .anno { fill: var(--ink-3); font-size: 11px; }
+  .direct { fill: var(--ink); font-size: 11.5px; font-weight: 640; font-variant-numeric: tabular-nums; }
+  .rowlab { fill: var(--ink); font-size: 12.5px; font-weight: 560; }
+  .rowsub { fill: var(--ink-3); font-size: 11px; }
+  .blockhead { fill: var(--ink-3); font-size: 10.5px; letter-spacing: 0.08em; font-weight: 600; }
+
+  .tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: var(--surface); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.10), 0 12px 28px -12px rgba(0,0,0,0.35);
+    padding: 9px 11px; font-size: 12.5px; line-height: 1.5; max-width: 260px; z-index: 5;
+  }
+  .tooltip .t { color: var(--ink-3); font-size: 11.5px; }
+  .tooltip b { font-variant-numeric: tabular-nums; }
+
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th {
+    text-align: left; color: var(--ink-3); font-weight: 600; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    border-bottom: 1px solid var(--line-strong); padding: 0 10px 8px;
+  }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; }
+  td.strong { font-weight: 620; }
+  td.dim { color: var(--ink-3); }
+
+
+  .notes { margin: 0; padding-left: 20px; max-width: 84ch; font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+  .notes li { margin-bottom: 12px; }
+  .notes li::marker { color: var(--accent); }
+  .notes b { color: var(--ink); font-weight: 620; }
+
+  .recs { list-style: none; margin: 0; padding: 0; max-width: 88ch; }
+  .recs li { padding: 16px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 4px 18px; }
+  .recs li:last-child { border-bottom: none; }
+  .recs .status { font-size: 10.5px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; padding-top: 4px; }
+  .recs .status.done { color: var(--ink-3); }
+  .recs .status.open { color: var(--accent); }
+  .recs .what { font-size: 15px; font-weight: 620; color: var(--ink); margin-bottom: 4px; }
+  .recs .what.done { text-decoration: line-through; text-decoration-color: var(--line-strong); color: var(--ink-2); font-weight: 560; }
+  .recs .why { font-size: 13.5px; color: var(--ink-2); line-height: 1.65; }
+  .recs .why b { color: var(--ink); font-weight: 620; }
+  .recs code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; background: var(--sunken); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+
+  @media (max-width: 860px) {
+    .page { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 18px 60px; }
+    .rail { position: static; padding-top: 20px; }
+    .rail ol { display: flex; flex-wrap: wrap; gap: 4px 14px; border-left: none; }
+    .rail li a { padding: 2px 0; border-left: none; }
+    .rail .meta { display: none; }
+    main { padding-top: 12px; }
+    .part > h2 { font-size: 26px; }
+    .recs li { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .rail li a { transition: color 120ms ease; }
+  }
+</style>
+
+<div class="page">
+  <header class="masthead">
+    <p class="eyebrow">p(doom) calculator · submissions report · export of 1 Sep 2026</p>
+    <h1>The expert gate closed, and the experts went quiet</h1>
+    <p class="dek">202 anonymous submissions between 5 October 2025 and 1 September 2026, 38 of them since the previous report. Each one is the midpoint of the reader's estimated probability that AI causes a global catastrophe.</p>
+    <p class="unit"><b>The unit is a submission, not a person, except where a signature says otherwise.</b> Since 19 August every submission is signed by a per-browser key, so repeat rows from one browser can now be told apart from two people agreeing. Before that date nothing distinguishes them. <span id="dupe-line"></span></p>
+  </header>
+
+  <nav class="rail" aria-label="Contents">
+    <h2>Contents</h2>
+    <ol id="toc"></ol>
+    <div class="meta">Built from <a href="../pdoom-submissions.json">pdoom-submissions.json</a> by <a href="../prepare_report_data.py">prepare_report_data.py</a>. Previous report: <a href="submissions-2026-08-18.html">18 Aug 2026</a>.</div>
+  </nav>
+
+  <main>
+    <div class="delta" id="delta"></div>
+    <p class="footnote" style="margin-bottom:8px">Changes are measured against the 18 August export (164 submissions). "Expert share" counts submissions that declared a level, in the window before the check went live and in the window since.</p>
+
+    <!-- ============ 1. ALL SUBMISSIONS ============ -->
+    <section class="part" id="all">
+      <div class="part-head"><span class="eyebrow">All submissions</span><span class="rule"></span><span class="count">202 · Oct 2025 – Sep 2026</span></div>
+      <h2>Still drifting upward, with August the busiest month yet</h2>
+      <p class="lede">The level chooser went live on 9 March 2026 and the expert check on 19 August. Submissions before March predate both. Six later submissions carry no level: five took the sliders shortcut, or reached the page after it was removed, and one came through the retired standalone knowledge check. They are shown hollow rather than folded into the early cohort.</p>
+
+      <figure>
+        <h3>Every submission, coloured by quiz level</h3>
+        <p class="how">Dashed line: monthly median. Expert-quiz submissions that cleared the check carry a ring. Hover or Tab to a dot for its p10–p90 range.</p>
+        <div class="legend" id="legend-a"></div>
+        <div class="plot"><div id="chart-scatter"></div><div class="tooltip" id="tt-a"></div></div>
+      </figure>
+
+      <figure>
+        <h3>Monthly median with interquartile band</h3>
+        <p class="how">Line: median of that month's submissions; band: 25th–75th percentile. September holds three submissions so far, so its point is a placeholder, not a trend.</p>
+        <div class="plot"><div id="chart-monthly"></div><div class="tooltip" id="tt-b"></div></div>
+      </figure>
+
+      <figure>
+        <h3>Who says what: distribution by quiz level</h3>
+        <p class="how">Each dot is one submission; the tall tick marks the group median. The expert row is split into the 22 who declared themselves experts before the check existed and the 4 who have cleared it since. Hollow dots in the medium row are identical repeats from one signed browser.</p>
+        <div class="plot"><div id="chart-groups"></div><div class="tooltip" id="tt-c"></div></div>
+      </figure>
+
+      <div class="split" style="margin-bottom:36px">
+        <figure style="flex:1 1 300px;max-width:420px;margin:0">
+          <h3>Monthly summary</h3>
+          <div class="tablewrap"><table id="tbl">
+            <thead><tr><th>Month</th><th class="num">n</th><th class="num">Median</th><th class="num">P25</th><th class="num">P75</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </figure>
+        <figure style="flex:1 1 420px;margin:0">
+          <h3>The belief chain: where the groups diverge</h3>
+          <p class="how">Group medians for each link of the chain, and the resulting p(doom). Quiz-takers rate every link near-certain; the pre-chooser cohort discounts each successive conditional. Final p(doom) multiplies each person's own chain, so it sits below the medians shown.</p>
+          <div class="plot"><div id="chart-chain"></div><div class="tooltip" id="tt-d"></div></div>
+        </figure>
+      </div>
+
+      <figure>
+        <h3>The widest-spread factor tracks the total most. That is arithmetic, not behaviour</h3>
+        <p class="how">Each panel: one factor's midpoint against the submission's own final p(doom). <b>Read this as a sensitivity check, not a finding about people.</b> Final p(doom) is the product of these three numbers, so each factor is being correlated with something it helped compute. What separates the panels is how much each factor varies across this set of submissions (SD 0.24, 0.27, 0.32), not where it sits in the chain; reordering the chain leaves every correlation unchanged.</p>
+        <div class="plot"><div id="chart-facets" style="display:flex;flex-wrap:wrap;gap:8px"></div><div class="tooltip" id="tt-e"></div></div>
+      </figure>
+    </section>
+
+    <!-- ============ 2. THE EXPERT CHECK ============ -->
+    <section class="part" id="check">
+      <div class="part-head"><span class="eyebrow">The expert check</span><span class="rule"></span><span class="count">since 19 Aug 2026 · 34 submissions</span></div>
+      <h2>Four asked for the expert quiz. Four cleared the bar. Nobody who fell short left a row.</h2>
+      <p class="lede">The previous report's first recommendation was to gate the expert path behind the decoy check. That shipped on 19 August: clicking <i>Expert quiz</i> now opens the 30-term check, a score of 26 or more clears it, and a lower score offers the recommended quiz alongside a "continue to expert anyway" button. The verdict, the score and the exact terms ticked are stored with the submission. Two weeks of data is what exists to judge it by.</p>
+
+      <figure>
+        <h3>What became of everyone who clicked Expert quiz</h3>
+        <p class="how">A score is recorded exactly when the check ran, which is exactly when the expert card was clicked. What the table cannot hold is anyone who took the check, saw the verdict and closed the tab.</p>
+        <div class="tablewrap" style="max-width:560px"><table id="journey"><tbody></tbody></table></div>
+        <p class="finding"><span class="lead">The check has not yet turned anyone away on the record. It has changed who shows up.</span>All four who finished scored 28 or 29 of 30 and were waved through, so among finishers the check discriminates nothing. Where it appears to have acted is before the finish line: in the 70 submissions between the chooser going live and the check, <b>33% of those who declared a level picked expert</b>. In the 34 since, <b>12% did</b>, and medium took the difference. Whether that is the check deterring self-declaration, people abandoning it partway, or two weeks of a different audience cannot be separated from submission rows alone. It is consistent with the gate costing something, which was the point.</p>
+      </figure>
+
+      <figure>
+        <h3>The level chooser, before and since the check</h3>
+        <p class="how">Completed submissions per path in each window. The standalone "decide for me" path and the sliders shortcut were retired when the check moved onto the expert card, so the two rows without a level since then came from a page loaded before the change, or from outside the page.</p>
+        <div class="plot"><div class="split" id="chart-flows"></div><div class="tooltip" id="tt-h"></div></div>
+      </figure>
+
+      <figure>
+        <h3>Term by term: what the four finishers ticked</h3>
+        <p class="how" id="terms-sub"></p>
+        <div class="plot"><div class="split" id="chart-terms"></div><div class="tooltip" id="tt-k"></div></div>
+        <p class="finding" id="terms-verdict"></p>
+        <p class="footnote">Decoy-to-term pairings are an editorial reading of the term list; the AI-related flags come from the page. The one submission through the retired standalone path (April 2026) is shown separately in the tooltip: it found 9 real terms, tripped 6 decoys and was routed to beginner.</p>
+      </figure>
+
+      <figure>
+        <h3>Verified experts against self-declared ones</h3>
+        <p class="how">Left: the share of options ticked on each expert-quiz question, for all 26 expert submissions. Right: how many of the 12 named organisations, commentators and creators each recognised, against the p(doom) they submitted. Filled dots cleared the check; hollow dots declared themselves experts before it existed.</p>
+        <div class="split">
+          <div class="plot" style="flex:3 1 380px;min-width:300px;max-width:470px"><div id="chart-expertq"></div><div class="tooltip" id="tt-i"></div></div>
+          <div class="plot" style="flex:2 1 320px;min-width:300px;max-width:400px"><div id="chart-expertnames"></div><div class="tooltip" id="tt-i2"></div></div>
+        </div>
+        <p class="finding"><span class="lead">The four verified experts submitted a median 30%. The 22 self-declared ones, 68%.</span>Their four values are 87%, 50%, 10% and 0.4%, so this is a hint on four points, not a result. It runs in the same direction as the earlier observation that those least embedded in the field submit the higher numbers. The quiz's own questions still cannot tell anyone apart: <b>22 of 22</b> self-declared experts ticked all four self-improvement answers, and 3 of the 4 verified ones did too. Name recognition remains the only discriminating block, and it disagrees with the check on one person: the verified expert who submitted 87% recognised <b>1 of 12 names and neither research organisation</b>, having scored 29 of 30 on the decoys six minutes after submitting a medium-quiz answer of 97% from the same browser.</p>
+        <p class="footnote">The expert quiz's funding question is an opinion, not a recognition test, so it is left out of both panels.</p>
+      </figure>
+    </section>
+
+    <!-- ============ 3. IDENTITY ============ -->
+    <section class="part" id="identity">
+      <div class="part-head"><span class="eyebrow">Visitor identity</span><span class="rule"></span><span class="count" id="identity-count"></span></div>
+      <h2>Six of the 34 recent rows are one browser pressing submit again</h2>
+      <p class="lede">Each browser now holds a non-extractable P-256 key and signs a canonical string of its submission. The report verifies every signature against the public key the row carries, so "these rows are one person" is checked rather than asserted. What a key cannot show is that two different keys are two different people.</p>
+      <div class="split" style="margin-bottom:12px">
+        <figure style="flex:1 1 300px;max-width:440px;margin:0">
+          <h3>Signatures</h3>
+          <div class="tablewrap"><table id="tbl-identity"><tbody></tbody></table></div>
+        </figure>
+        <figure style="flex:1 1 380px;margin:0">
+          <h3>Browsers that submitted more than once</h3>
+          <div class="tablewrap"><table id="tbl-repeat">
+            <thead><tr><th>Rows</th><th>Within</th><th>Levels</th><th>p(doom)</th><th>Reading</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </figure>
+      </div>
+      <p class="finding"><span class="lead">The earlier report guessed that identical payloads minutes apart were double-submits. The signatures confirm it.</span>Three browsers produced <b>six extra rows</b> that are byte-for-byte copies of their first, all within 16 seconds. One of them submitted five times in six seconds. Those six rows are flagged throughout this report and every medium-quiz figure is given with and without them. The fourth repeat visitor is different in kind: a medium submission at 97% followed by an expert one at 87% six minutes later, which is one person answering two quizzes, and is kept. <b>Nothing was replayed or tampered with</b>: every signed row verifies, and every signed string agrees with the numbers stored beside it.</p>
+    </section>
+
+    <!-- ============ 4. BEGINNER ============ -->
+    <section class="part" id="beginner">
+      <div class="part-head"><span class="eyebrow">Beginner quiz</span><span class="rule"></span><span class="count">33 submissions</span></div>
+      <h2>Ten more beginners, and the film result changed sign</h2>
+      <p class="lede">The beginner quiz asks which AI films the visitor has seen and which kinds of catastrophe they recognise. The previous report found neither predicted p(doom). With 33 submissions instead of 23, that holds, and the way it holds is instructive.</p>
+
+      <figure>
+        <h3>Watching AI films doesn't predict p(doom)</h3>
+        <p class="how">Left: how many of the 33 ticked each title. Right: those same people split by how many titles they ticked, against the p(doom) they submitted.</p>
+        <div class="split">
+          <div class="plot" style="flex:3 1 420px;min-width:300px;max-width:520px">
+            <div id="chart-titles"></div><div class="tooltip" id="tt-f"></div>
+            <p class="footnote">Sorted by share who ticked it. * = option added partway through, so its denominator is smaller.</p>
+          </div>
+          <div class="plot" style="flex:2 1 340px;min-width:300px;max-width:440px"><div id="chart-filmgroups"></div><div class="tooltip" id="tt-f2"></div></div>
+        </div>
+        <p class="finding"><span class="lead">The correlation flipped from −0.21 to +0.15 on ten new submissions.</span>Group medians now run A 70%, B 62%, C 51%, which reads as a trend in the opposite direction to last time. A sign change on n = 33 is the clearest demonstration available that there is nothing here: r = +0.15 (ρ = +0.14) is noise, and the earlier −0.21 was too. Film exposure remains mass-market rather than AI-canon: Terminator and The Matrix at 29 of 33, Ex Machina at 8, Eagle Eye still ticked by nobody.</p>
+      </figure>
+
+      <figure>
+        <h3>Risk awareness moves neither p(doom) nor stated uncertainty</h3>
+        <p class="how">Left: how many of the 33 recognised each of 12 risk types. Middle: those people grouped by how many they recognised, against p(doom). Right: risks recognised against the mean ± setting they put on the three sliders.</p>
+        <div class="split">
+          <div class="plot" style="flex:3 1 420px;min-width:300px;max-width:520px"><div id="chart-risks"></div><div class="tooltip" id="tt-g"></div></div>
+          <div class="plot" style="flex:2 1 340px;min-width:300px;max-width:440px"><div id="chart-riskgroups"></div><div class="tooltip" id="tt-g2"></div></div>
+          <div class="plot" style="flex:2 1 320px;min-width:300px;max-width:400px"><div id="chart-riskwidth"></div><div class="tooltip" id="tt-g3"></div></div>
+        </div>
+        <p class="finding"><span class="lead">Still non-monotonic, still a null, and the one descriptive pattern survived.</span>Group medians are A 65%, B 54%, C 71%: the middle group is lowest again. Pearson r = −0.30 against Spearman ρ = −0.15 says the linear figure is carried by a few extreme values. The tighter-uncertainty result the last report already dismissed sits at r = −0.29 and is not revisited. What did survive ten new submissions is that <b>the least-aware group contains no skeptics</b>: group C's minimum is 38%, while A and B both hold submissions under 5%.</p>
+      </figure>
+    </section>
+
+    <!-- ============ 5. MEDIUM ============ -->
+    <section class="part" id="medium">
+      <div class="part-head"><span class="eyebrow">Medium quiz</span><span class="rule"></span><span class="count">39 submissions · 33 without repeats</span></div>
+      <h2>The vulnerability checklist still tracks p(doom); the system-prompt cell that looked new was one browser</h2>
+      <p class="lede">The medium quiz asks six questions: three about what the visitor knows or has lived through, three about what they believe. It nearly doubled in size since August and is now the largest cohort. Every figure here is given twice, on all 39 rows and on the 33 that remain once the six confirmed repeats are dropped.</p>
+
+      <figure>
+        <h3>How strongly each answer tracks the p(doom) submitted</h3>
+        <p class="how">Rank correlation per question. The filled mark uses all 39 rows; the hollow mark drops the six identical repeats. Right: the system-prompt question in full, with the repeated rows hollow.</p>
+        <div class="split">
+          <div class="plot" style="flex:3 1 400px;min-width:300px;max-width:520px"><div id="chart-mediumq"></div><div class="tooltip" id="tt-j"></div></div>
+          <div class="plot" style="flex:2 1 340px;min-width:300px;max-width:440px"><div id="chart-prompts"></div><div class="tooltip" id="tt-j2"></div></div>
+        </div>
+        <p class="finding"><span class="lead">Recognising more vulnerabilities is still the strongest association in the data, and it got stronger once the repeats were removed.</span>ρ = +0.41 on all rows, <b>+0.51 without the repeats</b> (permutation p ≈ 0.004, n = 33), down from +0.66 on the August export and now on a cohort almost twice the size. The headline that would have been new is the system-prompt question: on all rows it reads −0.30, with the eight self-described experts at a median 28%, which looks like hands-on skill finally showing up. Five of those eight are one browser submitting the same 28% five times. Without them the cell holds <b>4 submissions at a median 39%</b> and the correlation is −0.20 (p ≈ 0.27). It is a lead, and a smaller one than it first appeared.</p>
+        <p class="footnote">The three opinion questions are shown for completeness and are not findings: a belief about whether governance can keep AI safe correlating with an estimate of catastrophe is close to tautological.</p>
+      </figure>
+
+      <figure>
+        <h3>The vulnerability checklist</h3>
+        <p class="how">Left: which of the 16 entries the 39 medium submissions recognised. Right: the count each recognised against the p(doom) they submitted; hollow dots are the repeats.</p>
+        <div class="split">
+          <div class="plot" style="flex:3 1 400px;min-width:300px;max-width:520px">
+            <div id="chart-vulnlist"></div><div class="tooltip" id="tt-l"></div>
+            <p class="footnote">Sorted by share who recognised it.</p>
+          </div>
+          <div class="plot" style="flex:2 1 320px;min-width:300px;max-width:400px"><div id="chart-vulns"></div><div class="tooltip" id="tt-l2"></div></div>
+        </div>
+        <p class="finding"><span class="lead">The entries recognised by nearly everyone are the ones the exhibits show AI already using.</span>Zero-days (38 of 39), social engineering (36) and supply-chain attacks (30) are the techniques in the <a href="https://neoneye.github.io/pdoom-calculator/exhibits/">documented incidents</a>: an OpenAI agent chaining zero-days and stolen credentials into remote code execution at Hugging Face, and Anthropic and OpenAI models attempting supply-chain and social-engineering attacks under test. Recognition drops for side-channel attacks (17), sleeper agents (20) and model stealing (22). A high count therefore mostly means knowing the long tail, and a reading consistent with the correlation is that knowing <i>that</i> more failure modes exist goes with a higher p(doom). It remains one association among six here and dozens across the report, with no correction for multiple comparisons.</p>
+      </figure>
+    </section>
+
+    <!-- ============ 6. NO QUIZ ============ -->
+    <section class="part" id="sliders">
+      <div class="part-head"><span class="eyebrow">No quiz</span><span class="rule"></span><span class="count">5 submissions</span></div>
+      <h2>Everyone who skipped the quiz landed on 12.5%, including two who arrived after the shortcut was removed</h2>
+      <p class="lede">The sliders shortcut dropped the reader straight onto the three probability controls. Three used it in April. It was removed on 19 August, and two more rows without a level arrived on 21 August anyway, unsigned, from a page that either predates the change or was not the page at all.</p>
+      <figure>
+        <div class="plot"><div id="chart-sliders" style="max-width:640px"></div></div>
+        <p class="finding" id="sliders-verdict"></p>
+      </figure>
+    </section>
+
+    <!-- ============ 7. WHAT THE DATA SAYS ============ -->
+    <section class="part" id="findings">
+      <div class="part-head"><span class="eyebrow">What the data says</span><span class="rule"></span></div>
+      <h2>Eleven things this export supports</h2>
+      <ul class="notes">
+        <li><b>Submitted p(doom) has kept drifting upward.</b> The median rose from <b>15%</b> in the first three months (Oct–Dec 2025, n = 83) to <b>67%</b> from June 2026 onward (n = 79). August 2026 alone holds 62 submissions at a median 69%, the busiest month since launch. Whether individuals got gloomier or the audience changed cannot be separated from this data.</li>
+        <li><b>The expert path is taken far less often since it opens with a check.</b> Of submissions that declared a level, 33% chose expert before 19 August and 12% since, on 66 and 32 submissions. Everyone who finished the check cleared it comfortably (28–29 of 30). The instrument's effect, if any, is on who reaches the finish, which rows cannot show.</li>
+        <li><b>Verified experts submit lower numbers than self-declared ones, on four data points.</b> Median 30% against 68%. Their four values span 0.4% to 87%. Treat it as direction, not size.</li>
+        <li><b>Six recent rows are confirmed double-submits.</b> Signed identity shows three browsers producing byte-identical repeats within 16 seconds, one of them five times. The 202 records hold 175 distinct payloads overall, and the older, unsigned repeats remain unattributable. Every "n" here counts records; where it matters, the de-duplicated figure is quoted alongside.</li>
+        <li><b>The three levels' medians are close and their ordering is not stable.</b> Beginner 68% (n = 33), medium 67% (n = 39, and unchanged without repeats), expert 59% (n = 26). The expert median moved from 68% to 59% on four verified submissions. All three still sit well above the pre-chooser cohort's 13%, and that comparison is confounded by time.</li>
+        <li><b>The vulnerability checklist is the one quiz answer that tracks p(doom).</b> ρ = +0.51 on 33 de-duplicated medium submissions (p ≈ 0.004), the same direction as August on nearly double the cohort. Hands-on system-prompt skill leans negative (ρ = −0.20) but does not clear noise once one browser's five copies are removed.</li>
+        <li><b>Film exposure and risk awareness predict nothing among beginners, and the film correlation changed sign.</b> r went from −0.21 to +0.15 when the cohort grew from 23 to 33. The one durable descriptive fact: nobody in the least risk-aware group has submitted below 38%.</li>
+        <li><b>P(powerful AI) is rated highest of the three links but is far from unanimous.</b> Its median is 87% against 76% and 80% for the two conditionals, yet <b>51 of 202 submissions (25%) put it at 50% or below</b>. The rising correlation along the chain (0.59, 0.74, 0.79) is arithmetic: it follows how much each factor varies (SD 0.24, 0.27, 0.32).</li>
+        <li><b>The extremes are used.</b> 11 submissions put the midpoint at exactly 0% and 4 at 99% or above. Two of the four verified experts are among the lowest values in the entire table.</li>
+        <li><b>Stated uncertainty varies enormously.</b> The p10–p90 band has a median width of 33 percentage points; the middle half runs from 15 to 39. This is a different quantity from the mean ± setting used in the beginner section, which is the radius set on each slider before clipping at 0 and 1.</li>
+        <li><b>Rows still arrive by a path that no longer exists.</b> Two unsigned, level-less submissions on 21 August, both at 12.5% with the first slider nudged, came in two days after the sliders shortcut was removed and signing began. A cached page is the likely explanation; a script posting to the table directly is the other.</li>
+      </ul>
+    </section>
+
+    <!-- ============ 8. DIRECTIONS ============ -->
+    <section class="part" id="directions">
+      <div class="part-head"><span class="eyebrow">Directions forward</span><span class="rule"></span><span class="count">three shipped, four open, three new</span></div>
+      <h2>What to change next, and what the previous list produced</h2>
+      <p class="lede">The August report listed seven changes. Three shipped on 19 August and this report is the first to measure them. The rest stand, and the new data adds three.</p>
+      <ul class="recs">
+        <li><span class="status done">Shipped</span><div><div class="what done">Gate the expert path behind a decoy check</div><div class="why">Live since 19 August. Four finishers, four cleared, and the expert share of declared submissions fell from 33% to 12%. What it needs now is the thing it cannot record: <b>how many people start the check and leave</b>. A single row written when the check is displayed, or a counter, would turn "the share fell" into "the check turned N away".</div></div></li>
+        <li><span class="status done">Shipped</span><div><div class="what done">Record what the knowledge check decided</div><div class="why">Score, recommended level, verdict and the exact terms ticked are stored. This is what made the term-by-term figure possible.</div></div></li>
+        <li><span class="status done">Shipped</span><div><div class="what done">Attribute repeat submissions</div><div class="why">Signed identity landed alongside the check and immediately paid for itself: six rows that would have been "probably double-submits" are now certainly one browser.</div></div></li>
+        <li><span class="status open">New</span><div><div class="what">Disable the submit button after the first click</div><div class="why">One browser submitted five identical rows in six seconds; two others submitted twice within 16 seconds. This is a button that stays clickable while the insert is in flight. Disabling it, or making the counter the page already keeps refuse a second identical payload, removes the largest known source of duplicate rows at the source instead of in the report.</div></div></li>
+        <li><span class="status open">New</span><div><div class="what">Reconsider Mary Shelley as a scored term</div><div class="why">She is flagged AI-related and <b>all four finishers left her unticked</b>, which cost each of them a point. No other real term was missed by more than one. Either she is the check's one hard question, or the flag is arguable, and a term that every strong candidate gets "wrong" the same way is a hint it is the latter. Red team, missed by one, is the only other real term anyone missed; no finisher tripped a single decoy.</div></div></li>
+        <li><span class="status open">New</span><div><div class="what">Reject rows without a level, or version the page</div><div class="why">Two level-less, unsigned rows arrived after the only path that could produce them was removed. Recording the page version with each submission would say whether these are stale tabs; a check on insert that requires a level would stop them.</div></div></li>
+        <li><span class="status open">Open</span><div><div class="what">Seed flagged decoys into all three self-selected quizzes</div><div class="why">The check is now on the expert path, but beginner and medium still contain no option that can be wrong, and medium is now the largest cohort. The vulnerability checklist in particular would gain from two or three fabricated entries, since its count is the one answer that tracks p(doom).</div></div></li>
+        <li><span class="status open">Open</span><div><div class="what">Replace or repair the expert quiz's reasoning questions</div><div class="why">22 of 22 self-declared experts and 3 of 4 verified ones ticked every self-improvement answer. The check now does the discriminating that these questions were meant to do; the questions themselves still carry no information.</div></div></li>
+        <li><span class="status open">Open</span><div><div class="what">Stamp each submission with the option set it was shown</div><div class="why">Eagle Eye was added on 18 August and has been offered to 33 beginners since, so its denominator is now the full cohort and the correction is moot for it. The next added option will need it again.</div></div></li>
+        <li><span class="status open">Open</span><div><div class="what">Ask one identical question at every level</div><div class="why">Still the only way to compare cohorts on something they all answered, and the reason the verified-versus-self-declared gap above can be attributed to the check rather than to whoever happened to pick that card that fortnight.</div></div></li>
+      </ul>
+      <p class="footnote">These are directions the data supports, not a verdict on the design. Several rest on very small cells: four verified experts, five knowledge-check finishers, two stray rows. The first thing any of them would buy is a larger, cleaner sample to test against.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+const DATA = {"rows":[{"t":"2025-10-05T14:21","m":0.7494,"p10":0.2768,"p90":0.6543,"f":"untagged","fx":[0.98,0.905,0.845],"v":null,"rep":false},{"t":"2025-10-05T14:46","m":0.2646,"p10":0.0384,"p90":0.4536,"f":"untagged","fx":[0.735,0.5,0.72],"v":null,"rep":false},{"t":"2025-10-05T15:56","m":0.1985,"p10":0.044,"p90":0.4228,"f":"untagged","fx":[0.9,0.245,0.9],"v":null,"rep":false},{"t":"2025-10-06T00:31","m":0,"p10":0.049,"p90":0.4505,"f":"untagged","fx":[1,1,0],"v":null,"rep":false},{"t":"2025-10-06T01:25","m":0.5686,"p10":0.3512,"p90":0.7515,"f":"untagged","fx":[0.9,0.665,0.95],"v":null,"rep":false},{"t":"2025-10-06T03:10","m":0.716,"p10":0.6698,"p90":0.7265,"f":"untagged","fx":[1,0.8,0.895],"v":null,"rep":false},{"t":"2025-10-06T05:32","m":0.4696,"p10":0.2927,"p90":0.5391,"f":"untagged","fx":[0.85,0.65,0.85],"v":null,"rep":false},{"t":"2025-10-06T15:10","m":0.0014,"p10":0.0005,"p90":0.0023,"f":"untagged","fx":[0.07,0.25,0.08],"v":null,"rep":false},{"t":"2025-10-06T18:28","m":0.0203,"p10":0.0082,"p90":0.0352,"f":"untagged","fx":[0.2,0.675,0.15],"v":null,"rep":false},{"t":"2025-10-07T00:08","m":0.6583,"p10":0.6178,"p90":0.6981,"f":"untagged","fx":[0.7,0.95,0.99],"v":null,"rep":false},{"t":"2025-10-07T02:40","m":0.9752,"p10":0.953,"p90":0.9821,"f":"untagged","fx":[0.995,0.99,0.99],"v":null,"rep":false},{"t":"2025-10-07T13:50","m":1,"p10":1,"p90":1,"f":"untagged","fx":[1,1,1],"v":null,"rep":false},{"t":"2025-10-07T14:09","m":0.125,"p10":0.0238,"p90":0.2257,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-10-07T14:17","m":0.1517,"p10":0.1013,"p90":0.2017,"f":"untagged","fx":[0.915,0.65,0.255],"v":null,"rep":false},{"t":"2025-10-07T14:40","m":0,"p10":0,"p90":0,"f":"untagged","fx":[1,0,0],"v":null,"rep":false},{"t":"2025-10-07T14:42","m":0,"p10":0.0033,"p90":0.0898,"f":"untagged","fx":[1,0,0],"v":null,"rep":false},{"t":"2025-10-07T14:42","m":0,"p10":0.0033,"p90":0.0898,"f":"untagged","fx":[1,0,0],"v":null,"rep":false},{"t":"2025-10-07T14:42","m":0,"p10":0.0033,"p90":0.0898,"f":"untagged","fx":[1,0,0],"v":null,"rep":false},{"t":"2025-10-07T14:43","m":0,"p10":0.0033,"p90":0.0898,"f":"untagged","fx":[1,0,0],"v":null,"rep":false},{"t":"2025-10-07T15:13","m":0.0286,"p10":0.006,"p90":0.1859,"f":"untagged","fx":[0.325,0.765,0.115],"v":null,"rep":false},{"t":"2025-10-07T15:32","m":0.0975,"p10":0.0131,"p90":0.3602,"f":"untagged","fx":[1,0.5,0.195],"v":null,"rep":false},{"t":"2025-10-07T16:00","m":0.1084,"p10":0.0692,"p90":0.6542,"f":"untagged","fx":[0.85,0.85,0.15],"v":null,"rep":false},{"t":"2025-10-07T17:20","m":0,"p10":0,"p90":0,"f":"untagged","fx":[0.6,1,0],"v":null,"rep":false},{"t":"2025-10-07T18:26","m":0.009,"p10":0.0026,"p90":0.0885,"f":"untagged","fx":[0.9,0.1,0.1],"v":null,"rep":false},{"t":"2025-10-07T19:53","m":0.0215,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.6,0.65,0.055],"v":null,"rep":false},{"t":"2025-10-07T20:01","m":0.648,"p10":0.1424,"p90":0.5334,"f":"untagged","fx":[0.8,0.9,0.9],"v":null,"rep":false},{"t":"2025-10-07T22:13","m":0.315,"p10":0.0183,"p90":0.3665,"f":"untagged","fx":[0.7,0.6,0.75],"v":null,"rep":false},{"t":"2025-10-07T22:13","m":0.315,"p10":0.0183,"p90":0.3665,"f":"untagged","fx":[0.7,0.6,0.75],"v":null,"rep":false},{"t":"2025-10-08T03:46","m":0.036,"p10":0.0146,"p90":0.1867,"f":"untagged","fx":[0.6,0.6,0.1],"v":null,"rep":false},{"t":"2025-10-08T06:40","m":0.135,"p10":0.0339,"p90":0.1594,"f":"untagged","fx":[0.9,0.6,0.25],"v":null,"rep":false},{"t":"2025-10-09T08:22","m":0.2377,"p10":0.1937,"p90":0.2707,"f":"untagged","fx":[0.385,0.95,0.65],"v":null,"rep":false},{"t":"2025-10-10T04:34","m":0.441,"p10":0.0384,"p90":0.5859,"f":"untagged","fx":[0.98,0.75,0.6],"v":null,"rep":false},{"t":"2025-10-10T07:41","m":0.0001,"p10":0.0001,"p90":0.0043,"f":"untagged","fx":[0.05,0.1,0.015],"v":null,"rep":false},{"t":"2025-10-15T14:00","m":0.01,"p10":0.005,"p90":0.0446,"f":"untagged","fx":[1,0.01,1],"v":null,"rep":false},{"t":"2025-10-16T07:36","m":0.4851,"p10":0.3996,"p90":0.5535,"f":"untagged","fx":[0.985,0.985,0.5],"v":null,"rep":false},{"t":"2025-10-16T17:31","m":0.25,"p10":0.0241,"p90":0.2264,"f":"untagged","fx":[1,0.5,0.5],"v":null,"rep":false},{"t":"2025-10-17T15:23","m":0.4832,"p10":0.2376,"p90":0.5766,"f":"untagged","fx":[0.755,0.8,0.8],"v":null,"rep":false},{"t":"2025-10-17T15:36","m":0.7396,"p10":0.4979,"p90":0.7761,"f":"untagged","fx":[0.95,0.9,0.865],"v":null,"rep":false},{"t":"2025-10-17T20:03","m":0.1184,"p10":0.0241,"p90":0.2982,"f":"untagged","fx":[0.315,0.94,0.4],"v":null,"rep":false},{"t":"2025-10-18T17:03","m":0.0003,"p10":0.0,"p90":0.0007,"f":"untagged","fx":[0.5,0.01,0.05],"v":null,"rep":false},{"t":"2025-10-18T18:53","m":0.3221,"p10":0.049,"p90":0.5312,"f":"untagged","fx":[0.9,0.515,0.695],"v":null,"rep":false},{"t":"2025-10-20T20:11","m":0.7312,"p10":0.4907,"p90":0.8047,"f":"untagged","fx":[0.92,0.85,0.935],"v":null,"rep":false},{"t":"2025-10-21T04:56","m":0.04,"p10":0.0032,"p90":0.041,"f":"untagged","fx":[1,0.2,0.2],"v":null,"rep":false},{"t":"2025-10-21T16:30","m":0,"p10":0.0187,"p90":0.5781,"f":"untagged","fx":[0,0.5,1],"v":null,"rep":false},{"t":"2025-10-22T00:39","m":0.084,"p10":0.0103,"p90":0.3242,"f":"untagged","fx":[0.755,0.42,0.265],"v":null,"rep":false},{"t":"2025-10-22T14:46","m":1,"p10":1,"p90":1,"f":"untagged","fx":[1,1,1],"v":null,"rep":false},{"t":"2025-10-22T17:38","m":0.0125,"p10":0.0241,"p90":0.2264,"f":"untagged","fx":[0.05,0.5,0.5],"v":null,"rep":false},{"t":"2025-10-22T19:49","m":0.8844,"p10":0.795,"p90":0.9279,"f":"untagged","fx":[0.95,0.98,0.95],"v":null,"rep":false},{"t":"2025-10-22T19:52","m":0.8844,"p10":0.795,"p90":0.9279,"f":"untagged","fx":[0.95,0.98,0.95],"v":null,"rep":false},{"t":"2025-10-22T21:00","m":0.01,"p10":0.0024,"p90":0.0691,"f":"untagged","fx":[0.995,0.1,0.1],"v":null,"rep":false},{"t":"2025-10-23T10:42","m":0.1629,"p10":0.0287,"p90":0.4337,"f":"untagged","fx":[0.905,0.6,0.3],"v":null,"rep":false},{"t":"2025-10-23T11:23","m":0.0553,"p10":0.0081,"p90":0.1174,"f":"untagged","fx":[0.885,0.5,0.125],"v":null,"rep":false},{"t":"2025-10-26T02:24","m":0.4582,"p10":0.0476,"p90":0.4776,"f":"untagged","fx":[0.865,0.65,0.815],"v":null,"rep":false},{"t":"2025-10-28T08:12","m":0.6716,"p10":0.5939,"p90":0.7457,"f":"untagged","fx":[0.955,0.725,0.97],"v":null,"rep":false},{"t":"2025-10-30T18:36","m":0.2227,"p10":0.0902,"p90":0.3309,"f":"untagged","fx":[0.655,0.5,0.68],"v":null,"rep":false},{"t":"2025-11-01T11:08","m":0.5,"p10":0.0892,"p90":0.8104,"f":"untagged","fx":[1,1,0.5],"v":null,"rep":false},{"t":"2025-11-02T18:13","m":0.5737,"p10":0.4679,"p90":0.6819,"f":"untagged","fx":[0.9,0.85,0.75],"v":null,"rep":false},{"t":"2025-11-03T07:46","m":0.7518,"p10":0.445,"p90":0.7999,"f":"untagged","fx":[0.86,0.935,0.935],"v":null,"rep":false},{"t":"2025-11-12T19:22","m":0.8935,"p10":0.8212,"p90":0.9296,"f":"untagged","fx":[0.95,0.99,0.95],"v":null,"rep":false},{"t":"2025-11-13T23:38","m":0.3273,"p10":0.0166,"p90":0.3777,"f":"untagged","fx":[0.91,0.66,0.545],"v":null,"rep":false},{"t":"2025-11-15T09:01","m":0,"p10":0.0191,"p90":0.1929,"f":"untagged","fx":[1,0.87,0],"v":null,"rep":false},{"t":"2025-11-16T22:12","m":0.4446,"p10":0.0793,"p90":0.6534,"f":"untagged","fx":[0.965,0.95,0.485],"v":null,"rep":false},{"t":"2025-11-17T23:47","m":0.325,"p10":0.0637,"p90":0.5939,"f":"untagged","fx":[0.65,1,0.5],"v":null,"rep":false},{"t":"2025-11-19T03:15","m":0.3,"p10":0.0086,"p90":0.343,"f":"untagged","fx":[0.6,1,0.5],"v":null,"rep":false},{"t":"2025-11-19T03:15","m":0.3,"p10":0.0086,"p90":0.343,"f":"untagged","fx":[0.6,1,0.5],"v":null,"rep":false},{"t":"2025-11-19T10:52","m":0.125,"p10":0.0936,"p90":0.1587,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-11-19T21:45","m":0.3019,"p10":0.1792,"p90":0.4282,"f":"untagged","fx":[0.75,0.805,0.5],"v":null,"rep":false},{"t":"2025-11-20T20:14","m":0.1509,"p10":0.0135,"p90":0.3824,"f":"untagged","fx":[0.85,0.5,0.355],"v":null,"rep":false},{"t":"2025-11-22T12:08","m":0.125,"p10":0.0936,"p90":0.1587,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-11-23T16:18","m":0.1148,"p10":0.0303,"p90":0.2324,"f":"untagged","fx":[0.4994,0.4594,0.5006],"v":null,"rep":false},{"t":"2025-11-23T20:15","m":0.075,"p10":0.0097,"p90":0.3064,"f":"untagged","fx":[0.2496,0.3335,0.9011],"v":null,"rep":false},{"t":"2025-11-23T20:33","m":0.0758,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.2496,0.3371,0.9011],"v":null,"rep":false},{"t":"2025-11-26T19:31","m":0.125,"p10":0.0936,"p90":0.1587,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-12-01T15:44","m":0.125,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-12-01T17:14","m":0.3089,"p10":0.0175,"p90":0.5428,"f":"untagged","fx":[0.65,0.9503,0.5],"v":null,"rep":false},{"t":"2025-12-05T16:58","m":0.6174,"p10":0.0825,"p90":0.4679,"f":"untagged","fx":[0.9157,0.8455,0.7975],"v":null,"rep":false},{"t":"2025-12-06T03:42","m":0.2112,"p10":0.0301,"p90":0.4616,"f":"untagged","fx":[0.5,0.5,0.8449],"v":null,"rep":false},{"t":"2025-12-07T15:32","m":0.5997,"p10":0.2562,"p90":0.7376,"f":"untagged","fx":[0.7495,0.8001,1],"v":null,"rep":false},{"t":"2025-12-19T17:05","m":0.125,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-12-19T22:04","m":0.125,"p10":0.0936,"p90":0.1587,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-12-19T22:04","m":0.125,"p10":0.0239,"p90":0.2286,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-12-22T00:28","m":0.125,"p10":0.0936,"p90":0.1587,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2025-12-22T21:48","m":0.125,"p10":0.0936,"p90":0.1587,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-01-07T23:12","m":0.0275,"p10":0.0133,"p90":0.412,"f":"untagged","fx":[0.3,0.9056,0.1011],"v":null,"rep":false},{"t":"2026-01-22T09:11","m":0.1808,"p10":0.1386,"p90":0.2255,"f":"untagged","fx":[0.5,0.7233,0.5],"v":null,"rep":false},{"t":"2026-01-22T20:01","m":0.225,"p10":0.0494,"p90":0.4046,"f":"untagged","fx":[0.9117,0.4001,0.6168],"v":null,"rep":false},{"t":"2026-01-22T20:01","m":0.225,"p10":0.0494,"p90":0.4046,"f":"untagged","fx":[0.9117,0.4001,0.6168],"v":null,"rep":false},{"t":"2026-02-11T20:50","m":0.125,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-02-13T13:43","m":0.125,"p10":0.0936,"p90":0.1587,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-02-13T13:44","m":0.125,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-02-13T13:49","m":0.2382,"p10":0.1805,"p90":0.286,"f":"untagged","fx":[0.5,0.9526,0.5],"v":null,"rep":false},{"t":"2026-02-17T17:05","m":0.0788,"p10":0.0273,"p90":0.1432,"f":"untagged","fx":[0.5,0.5,0.3151],"v":null,"rep":false},{"t":"2026-02-17T23:18","m":0.1347,"p10":0.01,"p90":0.3341,"f":"untagged","fx":[0.8705,0.5,0.3095],"v":null,"rep":false},{"t":"2026-02-18T16:19","m":0.9175,"p10":0.7129,"p90":0.9035,"f":"untagged","fx":[0.9747,0.9504,0.9904],"v":null,"rep":false},{"t":"2026-02-18T16:20","m":0.9175,"p10":0.7129,"p90":0.9035,"f":"untagged","fx":[0.9747,0.9504,0.9904],"v":null,"rep":false},{"t":"2026-02-27T00:41","m":0.7319,"p10":0.4102,"p90":0.7728,"f":"untagged","fx":[0.8059,0.9082,1],"v":null,"rep":false},{"t":"2026-03-04T20:16","m":0.125,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-03-08T22:18","m":0.0641,"p10":0.0137,"p90":0.4072,"f":"untagged","fx":[0.7694,0.2565,0.3247],"v":null,"rep":false},{"t":"2026-03-09T13:37","m":0.7661,"p10":0.3669,"p90":0.6952,"f":"expert","fx":[0.915,0.915,0.915],"v":null,"rep":false},{"t":"2026-03-10T23:16","m":0.6845,"p10":0.465,"p90":0.7971,"f":"expert","fx":[0.8007,0.9001,0.9498],"v":null,"rep":false},{"t":"2026-03-14T13:55","m":0.5101,"p10":0.0174,"p90":0.3688,"f":"beginner","fx":[0.799,0.799,0.799],"v":null,"rep":false},{"t":"2026-03-16T22:40","m":0.7097,"p10":0.0381,"p90":0.4815,"f":"expert","fx":[0.892,0.892,0.892],"v":null,"rep":false},{"t":"2026-03-17T10:24","m":0.8818,"p10":0.0818,"p90":0.4896,"f":"medium","fx":[0.9241,0.973,0.9808],"v":null,"rep":false},{"t":"2026-03-20T15:46","m":0.2533,"p10":0.0145,"p90":0.365,"f":"beginner","fx":[0.7498,0.9007,0.3751],"v":null,"rep":false},{"t":"2026-03-21T21:54","m":0.8578,"p10":0.1313,"p90":0.5187,"f":"beginner","fx":[0.9418,0.9519,0.9568],"v":null,"rep":false},{"t":"2026-03-22T02:39","m":0.3322,"p10":0.1472,"p90":0.4381,"f":"expert","fx":[0.4697,0.7073,1],"v":null,"rep":false},{"t":"2026-03-25T14:23","m":0.5374,"p10":0.081,"p90":0.5304,"f":"beginner","fx":[0.813,0.813,0.813],"v":null,"rep":false},{"t":"2026-04-04T01:20","m":0.4899,"p10":0.3241,"p90":0.6464,"f":"medium","fx":[0.7453,0.7469,0.8801],"v":null,"rep":false},{"t":"2026-04-05T03:35","m":0.9383,"p10":0.0518,"p90":0.6085,"f":"medium","fx":[0.979,0.979,0.979],"v":null,"rep":false},{"t":"2026-04-12T20:55","m":0.5178,"p10":0.1402,"p90":0.5258,"f":"beginner","fx":[0.803,0.803,0.803],"v":null,"rep":false},{"t":"2026-04-12T20:55","m":0.5178,"p10":0.1402,"p90":0.5258,"f":"beginner","fx":[0.803,0.803,0.803],"v":null,"rep":false},{"t":"2026-04-13T07:16","m":0.7889,"p10":0.1835,"p90":0.565,"f":"medium","fx":[0.924,0.924,0.924],"v":null,"rep":false},{"t":"2026-04-24T18:16","m":0.125,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-04-27T16:24","m":0.3564,"p10":0.1561,"p90":0.5404,"f":"beginner","fx":[0.709,0.709,0.709],"v":null,"rep":false},{"t":"2026-04-28T23:49","m":0.8298,"p10":0.3711,"p90":0.7045,"f":"expert","fx":[1,0.897,0.9251],"v":null,"rep":false},{"t":"2026-04-30T00:06","m":0.125,"p10":0.0048,"p90":0.3253,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-04-30T00:07","m":0.125,"p10":0.125,"p90":0.125,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-05-05T18:22","m":0.7115,"p10":0.3675,"p90":0.78,"f":"beginner","fx":[0.9481,0.7504,1],"v":null,"rep":false},{"t":"2026-05-08T17:44","m":0.6654,"p10":0.2768,"p90":0.6338,"f":"medium","fx":[0.7644,0.933,0.933],"v":null,"rep":false},{"t":"2026-05-18T12:50","m":0.7992,"p10":0.0048,"p90":0.3253,"f":"expert","fx":[0.928,0.928,0.928],"v":null,"rep":false},{"t":"2026-05-22T04:05","m":0.423,"p10":0.0274,"p90":0.4112,"f":"expert","fx":[0.9017,0.5073,0.9246],"v":null,"rep":false},{"t":"2026-05-22T04:05","m":0.423,"p10":0.0274,"p90":0.4112,"f":"expert","fx":[0.9017,0.5073,0.9246],"v":null,"rep":false},{"t":"2026-05-26T00:56","m":0.048,"p10":0.0096,"p90":0.1026,"f":"beginner","fx":[0.4044,0.1291,0.919],"v":null,"rep":false},{"t":"2026-06-02T14:16","m":0.6427,"p10":0.0095,"p90":0.3538,"f":"medium","fx":[0.863,0.863,0.863],"v":null,"rep":false},{"t":"2026-06-09T23:11","m":0.729,"p10":0.3805,"p90":0.7566,"f":"beginner","fx":[0.9,0.9,0.9],"v":null,"rep":false},{"t":"2026-06-10T02:03","m":0.0161,"p10":0.0039,"p90":0.1342,"f":"beginner","fx":[0.6123,0.2669,0.0983],"v":null,"rep":false},{"t":"2026-06-10T04:23","m":0.4368,"p10":0.2637,"p90":0.6011,"f":"expert","fx":[0.7843,0.7607,0.7322],"v":null,"rep":false},{"t":"2026-06-10T17:53","m":0.6653,"p10":0.3964,"p90":0.7304,"f":"medium","fx":[0.873,0.873,0.873],"v":null,"rep":false},{"t":"2026-06-16T15:22","m":0.9269,"p10":0.9269,"p90":0.9269,"f":"medium","fx":[0.975,0.975,0.975],"v":null,"rep":false},{"t":"2026-06-18T12:26","m":0.7038,"p10":0.1503,"p90":0.5393,"f":"beginner","fx":[0.8885,0.89,0.89],"v":null,"rep":false},{"t":"2026-06-24T13:21","m":0.4839,"p10":0.0317,"p90":0.4826,"f":"beginner","fx":[0.878,0.6277,0.878],"v":null,"rep":false},{"t":"2026-07-03T20:24","m":0.1596,"p10":0.0999,"p90":0.2234,"f":"medium","fx":[0.5993,0.7558,0.3523],"v":null,"rep":false},{"t":"2026-07-03T22:15","m":0,"p10":0.003,"p90":0.0396,"f":"medium","fx":[1,0,0.1211],"v":null,"rep":false},{"t":"2026-07-06T00:14","m":0.7629,"p10":0.703,"p90":0.7928,"f":"beginner","fx":[0.961,0.891,0.891],"v":null,"rep":false},{"t":"2026-07-09T00:43","m":0.6383,"p10":0.4003,"p90":0.6047,"f":"medium","fx":[0.6851,0.9693,0.9613],"v":null,"rep":false},{"t":"2026-07-10T08:09","m":0.125,"p10":0.0102,"p90":0.2893,"f":"decide","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-07-22T18:24","m":0.4954,"p10":0.3776,"p90":0.6173,"f":"medium","fx":[0.8828,0.7253,0.7738],"v":null,"rep":false},{"t":"2026-08-02T00:20","m":0.7486,"p10":0.3842,"p90":0.7761,"f":"beginner","fx":[0.908,0.908,0.908],"v":null,"rep":false},{"t":"2026-08-03T13:27","m":0.8046,"p10":0.6034,"p90":0.8054,"f":"beginner","fx":[1,0.897,0.897],"v":null,"rep":false},{"t":"2026-08-03T13:28","m":0.7412,"p10":0.0561,"p90":0.4279,"f":"medium","fx":[0.905,0.905,0.905],"v":null,"rep":false},{"t":"2026-08-03T13:52","m":0.2255,"p10":0.0094,"p90":0.2876,"f":"expert","fx":[0.2588,0.8712,1],"v":null,"rep":false},{"t":"2026-08-03T13:56","m":0.6784,"p10":0.1131,"p90":0.4987,"f":"expert","fx":[0.8781,0.879,0.879],"v":null,"rep":false},{"t":"2026-08-03T14:01","m":0.1747,"p10":0.0269,"p90":0.3004,"f":"expert","fx":[0.8297,0.8562,0.2459],"v":null,"rep":false},{"t":"2026-08-03T14:10","m":0.6348,"p10":0.031,"p90":0.4082,"f":"medium","fx":[0.7445,0.8526,1],"v":null,"rep":false},{"t":"2026-08-03T14:32","m":0.6886,"p10":0.0062,"p90":0.3284,"f":"expert","fx":[0.884,0.9174,0.8491],"v":null,"rep":false},{"t":"2026-08-03T14:54","m":0.118,"p10":0.0056,"p90":0.254,"f":"expert","fx":[0.9484,0.4975,0.2501],"v":null,"rep":false},{"t":"2026-08-03T16:06","m":0.0512,"p10":0.0067,"p90":0.2649,"f":"expert","fx":[0.6947,0.2241,0.3286],"v":null,"rep":false},{"t":"2026-08-03T16:54","m":0.9155,"p10":0.0178,"p90":0.4905,"f":"medium","fx":[0.971,0.971,0.971],"v":null,"rep":false},{"t":"2026-08-03T16:55","m":0.7145,"p10":0.0084,"p90":0.3416,"f":"expert","fx":[0.894,0.894,0.894],"v":null,"rep":false},{"t":"2026-08-04T00:17","m":0.676,"p10":0.1312,"p90":0.5418,"f":"beginner","fx":[0.8145,0.911,0.911],"v":null,"rep":false},{"t":"2026-08-04T13:14","m":0.7169,"p10":0.0124,"p90":0.385,"f":"beginner","fx":[0.895,0.895,0.895],"v":null,"rep":false},{"t":"2026-08-04T13:15","m":0.7169,"p10":0.0124,"p90":0.385,"f":"beginner","fx":[0.895,0.895,0.895],"v":null,"rep":false},{"t":"2026-08-04T13:43","m":0.761,"p10":0.0252,"p90":0.3724,"f":"beginner","fx":[0.913,0.913,0.913],"v":null,"rep":false},{"t":"2026-08-05T04:57","m":0.7462,"p10":0.05,"p90":0.4284,"f":"beginner","fx":[0.8952,0.9583,0.8698],"v":null,"rep":false},{"t":"2026-08-05T05:55","m":0.625,"p10":0.1069,"p90":0.5775,"f":"medium","fx":[0.855,0.855,0.855],"v":null,"rep":false},{"t":"2026-08-05T22:10","m":0.9989,"p10":0.9786,"p90":0.9953,"f":"expert","fx":[1,0.9989,1],"v":null,"rep":false},{"t":"2026-08-08T10:02","m":0.6905,"p10":0.3761,"p90":0.8199,"f":"medium","fx":[0.978,0.714,0.9889],"v":null,"rep":false},{"t":"2026-08-08T10:02","m":0.6905,"p10":0.3761,"p90":0.8199,"f":"medium","fx":[0.978,0.714,0.9889],"v":null,"rep":false},{"t":"2026-08-08T20:58","m":0.4465,"p10":0.1411,"p90":0.7069,"f":"expert","fx":[0.8425,0.9383,0.5649],"v":null,"rep":false},{"t":"2026-08-09T14:56","m":0.7266,"p10":0.1604,"p90":0.6853,"f":"beginner","fx":[0.899,0.899,0.899],"v":null,"rep":false},{"t":"2026-08-13T07:30","m":0.822,"p10":0.3134,"p90":0.6611,"f":"medium","fx":[0.936,0.936,0.9382],"v":null,"rep":false},{"t":"2026-08-18T00:55","m":0.6672,"p10":0.0582,"p90":0.5982,"f":"beginner","fx":[0.899,0.8256,0.899],"v":null,"rep":false},{"t":"2026-08-18T18:51","m":0.9528,"p10":0.1313,"p90":0.5672,"f":"medium","fx":[0.984,0.984,0.984],"v":null,"rep":false},{"t":"2026-08-18T21:38","m":1,"p10":0.0048,"p90":0.3253,"f":"expert","fx":[1,1,1],"v":null,"rep":false},{"t":"2026-08-18T22:47","m":0.9099,"p10":0.1588,"p90":0.5432,"f":"medium","fx":[0.969,0.969,0.969],"v":null,"rep":false},{"t":"2026-08-18T23:26","m":0.9632,"p10":0.1737,"p90":0.6694,"f":"expert","fx":[0.9867,0.9762,1],"v":null,"rep":false},{"t":"2026-08-18T23:26","m":0.9632,"p10":0.1737,"p90":0.6694,"f":"expert","fx":[0.9867,0.9762,1],"v":null,"rep":false},{"t":"2026-08-18T23:55","m":0.3367,"p10":0.1366,"p90":0.5189,"f":"expert","fx":[0.7,0.8007,0.6006],"v":null,"rep":false},{"t":"2026-08-19T02:39","m":0.5766,"p10":0.4385,"p90":0.6036,"f":"medium","fx":[0.961,0.6091,0.9851],"v":null,"rep":false},{"t":"2026-08-20T10:55","m":0,"p10":0.0003,"p90":0.0053,"f":"medium","fx":[0.3097,0,0.1323],"v":null,"rep":false},{"t":"2026-08-20T11:27","m":0.2118,"p10":0.0433,"p90":0.4451,"f":"beginner","fx":[0.3482,0.6082,1.0],"v":null,"rep":false},{"t":"2026-08-20T11:40","m":0.7787,"p10":0.0087,"p90":0.3451,"f":"beginner","fx":[0.92,0.92,0.92],"v":null,"rep":false},{"t":"2026-08-20T12:26","m":0.0442,"p10":0.007,"p90":0.1083,"f":"beginner","fx":[0.377,0.519,0.2257],"v":null,"rep":false},{"t":"2026-08-20T12:59","m":0.9704,"p10":0.1179,"p90":0.6744,"f":"medium","fx":[0.9901,0.99,0.99],"v":null,"rep":false},{"t":"2026-08-20T13:01","m":0.2782,"p10":0.0798,"p90":0.4778,"f":"medium","fx":[0.4231,0.6576,1],"v":null,"rep":false},{"t":"2026-08-20T13:01","m":0.2782,"p10":0.0798,"p90":0.4778,"f":"medium","fx":[0.4231,0.6576,1],"v":null,"rep":true},{"t":"2026-08-20T13:01","m":0.2782,"p10":0.0798,"p90":0.4778,"f":"medium","fx":[0.4231,0.6576,1],"v":null,"rep":true},{"t":"2026-08-20T13:01","m":0.2782,"p10":0.0798,"p90":0.4778,"f":"medium","fx":[0.4231,0.6576,1],"v":null,"rep":true},{"t":"2026-08-20T13:01","m":0.2782,"p10":0.0798,"p90":0.4778,"f":"medium","fx":[0.4231,0.6576,1],"v":null,"rep":true},{"t":"2026-08-20T13:05","m":0.3299,"p10":0.067,"p90":0.5595,"f":"medium","fx":[0.9082,0.7266,0.5],"v":null,"rep":false},{"t":"2026-08-20T13:05","m":0.8652,"p10":0.0514,"p90":0.5519,"f":"expert","fx":[0.9498,0.9526,0.9562],"v":true,"rep":false},{"t":"2026-08-20T14:49","m":0.5014,"p10":0.1944,"p90":0.6471,"f":"expert","fx":[1,0.5014,1],"v":true,"rep":false},{"t":"2026-08-20T16:07","m":0.1648,"p10":0.0238,"p90":0.3166,"f":"beginner","fx":[0.4044,0.7471,0.5454],"v":null,"rep":false},{"t":"2026-08-20T17:56","m":0.7838,"p10":0.3707,"p90":0.7771,"f":"beginner","fx":[0.922,0.922,0.922],"v":null,"rep":false},{"t":"2026-08-21T00:28","m":0.761,"p10":0.0856,"p90":0.6257,"f":"beginner","fx":[0.913,0.913,0.913],"v":null,"rep":false},{"t":"2026-08-21T00:32","m":0.004,"p10":0.0073,"p90":0.1574,"f":"expert","fx":[0.8213,0.5087,0.0095],"v":true,"rep":false},{"t":"2026-08-21T05:53","m":0.9674,"p10":0.4577,"p90":0.8124,"f":"medium","fx":[0.989,0.989,0.989],"v":null,"rep":false},{"t":"2026-08-21T05:53","m":0.9674,"p10":0.4577,"p90":0.8124,"f":"medium","fx":[0.989,0.989,0.989],"v":null,"rep":true},{"t":"2026-08-21T08:51","m":0.7966,"p10":0.6566,"p90":0.8487,"f":"medium","fx":[0.927,0.927,0.927],"v":null,"rep":false},{"t":"2026-08-21T09:11","m":0.125,"p10":0.0795,"p90":0.1731,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-08-21T09:36","m":0.125,"p10":0.0795,"p90":0.1731,"f":"untagged","fx":[0.5,0.5,0.5],"v":null,"rep":false},{"t":"2026-08-21T12:41","m":0.7359,"p10":0.3699,"p90":0.7268,"f":"medium","fx":[0.933,0.933,0.8454],"v":null,"rep":false},{"t":"2026-08-21T12:41","m":0.7359,"p10":0.3699,"p90":0.7268,"f":"medium","fx":[0.933,0.933,0.8454],"v":null,"rep":true},{"t":"2026-08-22T15:36","m":0.3771,"p10":0.0715,"p90":0.4952,"f":"beginner","fx":[0.65,0.7418,0.7821],"v":null,"rep":false},{"t":"2026-08-27T01:06","m":0.7314,"p10":0.0358,"p90":0.523,"f":"beginner","fx":[0.901,0.901,0.901],"v":null,"rep":false},{"t":"2026-08-27T16:04","m":0.9212,"p10":0.7261,"p90":0.9176,"f":"medium","fx":[0.973,0.973,0.973],"v":null,"rep":false},{"t":"2026-08-29T11:30","m":0.0991,"p10":0.008,"p90":0.3099,"f":"medium","fx":[0.7596,0.2145,0.6083],"v":null,"rep":false},{"t":"2026-08-31T14:21","m":0.5864,"p10":0.1438,"p90":0.6331,"f":"beginner","fx":[0.837,0.837,0.837],"v":null,"rep":false},{"t":"2026-08-31T23:55","m":0.1404,"p10":0.0385,"p90":0.2535,"f":"beginner","fx":[0.3706,0.8988,0.4214],"v":null,"rep":false},{"t":"2026-09-01T00:48","m":0.1503,"p10":0.0429,"p90":0.3869,"f":"medium","fx":[1,1,0.1503],"v":null,"rep":false},{"t":"2026-09-01T20:49","m":0.1002,"p10":0.0096,"p90":0.2316,"f":"expert","fx":[0.9505,0.5005,0.2107],"v":true,"rep":false},{"t":"2026-09-01T21:27","m":0.1799,"p10":0.0309,"p90":0.4432,"f":"medium","fx":[0.2998,0.7497,0.8003],"v":null,"rep":false}],"months":[{"month":"2025-10","n":55,"median":0.1517,"p25":0.01,"p75":0.4851},{"month":"2025-11","n":18,"median":0.3,"p25":0.1225,"p75":0.4585},{"month":"2025-12","n":10,"median":0.125,"p25":0.125,"p75":0.3816},{"month":"2026-01","n":4,"median":0.2029,"p25":0.0658,"p75":0.225},{"month":"2026-02","n":9,"median":0.1347,"p25":0.125,"p75":0.8247},{"month":"2026-03","n":11,"median":0.5374,"p25":0.2533,"p75":0.7661},{"month":"2026-04","n":10,"median":0.5039,"p25":0.125,"p75":0.7991},{"month":"2026-05","n":6,"median":0.5442,"p25":0.3292,"p75":0.7334},{"month":"2026-06","n":8,"median":0.654,"p25":0.4486,"p75":0.7227},{"month":"2026-07","n":6,"median":0.3275,"p25":0.0938,"p75":0.6694},{"month":"2026-08","n":62,"median":0.6895,"p25":0.2782,"p75":0.787},{"month":"2026-09","n":3,"median":0.1503,"p25":0.1002,"p75":0.1799}],"titles":[{"id":"entertainment-terminator","label":"Terminator","seen":29,"of":33},{"id":"entertainment-matrix","label":"The Matrix","seen":29,"of":33},{"id":"entertainment-wall-e","label":"Wall-E","seen":23,"of":33},{"id":"entertainment-starwars","label":"Star Wars (R2-D2, C-3PO)","seen":21,"of":33},{"id":"entertainment-blade-runner","label":"Blade Runner","seen":19,"of":33},{"id":"entertainment-trumanshow","label":"The Truman Show","seen":19,"of":33},{"id":"entertainment-irobot","label":"I, Robot","seen":18,"of":33},{"id":"entertainment-startrek","label":"Star Trek (Data, The Borg)","seen":18,"of":33},{"id":"entertainment-alien","label":"Alien (Ash, Bishop, Call, David, Walter)","seen":17,"of":33},{"id":"entertainment-ironman","label":"Iron Man (J.A.R.V.I.S.)","seen":11,"of":22},{"id":"entertainment-robocop","label":"RoboCop","seen":16,"of":33},{"id":"entertainment-hitchhikersguide","label":"The Hitchhiker's Guide to the Galaxy (Marvin)","seen":15,"of":33},{"id":"entertainment-2001","label":"2001: A Space Odyssey (HAL 9000)","seen":14,"of":33},{"id":"entertainment-wargames","label":"Wargames","seen":14,"of":33},{"id":"entertainment-blackmirror","label":"Black Mirror","seen":13,"of":33},{"id":"entertainment-her","label":"Her","seen":12,"of":33},{"id":"entertainment-judgedredd","label":"Judge Dredd","seen":11,"of":33},{"id":"entertainment-ghostintheshell","label":"Ghost in the Shell (Motoko Kusanagi)","seen":8,"of":33},{"id":"entertainment-portal","label":"Portal (GlaDOS)","seen":8,"of":33},{"id":"entertainment-westworld","label":"Westworld (Arnold, Dolores, Bernard, Maeve)","seen":8,"of":33},{"id":"entertainment-ex-machina","label":"Ex Machina","seen":7,"of":33},{"id":"entertainment-silo","label":"Silo (The Algorithm)","seen":4,"of":33},{"id":"entertainment-foundation","label":"Foundation (Demerzel)","seen":3,"of":33},{"id":"entertainment-murderbot","label":"Murderbot","seen":2,"of":33},{"id":"entertainment-neuromancer","label":"Neuromancer (Wintermute)","seen":2,"of":33},{"id":"entertainment-pantheon","label":"Pantheon","seen":1,"of":33},{"id":"entertainment-transcendence","label":"Transcendence","seen":1,"of":33},{"id":"entertainment-eagle-eye","label":"Eagle Eye (ARIIA)","seen":0,"of":10}],"risks":[{"id":"catastrophe-impactevent","label":"Asteroid or comet impact","seen":32,"of":33},{"id":"catastrophe-nuclearwar","label":"Nuclear war","seen":32,"of":33},{"id":"catastrophe-pandemic","label":"Pandemic","seen":32,"of":33},{"id":"catastrophe-weaponofmassdestruction","label":"Weapon of mass destruction (WMD)","seen":32,"of":33},{"id":"catastrophe-climatechange","label":"Climate change","seen":30,"of":33},{"id":"catastrophe-supernova","label":"Supernova","seen":29,"of":33},{"id":"catastrophe-xriskai","label":"Extinction or collapse from AI","seen":27,"of":33},{"id":"catastrophe-geomagneticstorm","label":"Geomagnetic storm","seen":25,"of":33},{"id":"catastrophe-supervulcano","label":"Supervolcano","seen":25,"of":33},{"id":"catastrophe-unknownunknowns","label":"Unknown unknowns","seen":21,"of":33},{"id":"catastrophe-sriskai","label":"Astronomical suffering from AI (s-risks)","seen":19,"of":33},{"id":"catastrophe-gamma-ray-burst","label":"Gamma-ray burst","seen":18,"of":33}],"beginners":[{"films":23,"risks":11,"m":0.7838,"p10":0.3707,"p90":0.7771,"spread":0.3317,"g":"A","rg":"A"},{"films":22,"risks":12,"m":0.5864,"p10":0.1438,"p90":0.6331,"spread":0.465,"g":"A","rg":"A"},{"films":21,"risks":11,"m":0.761,"p10":0.0856,"p90":0.6257,"spread":0.71,"g":"A","rg":"A"},{"films":19,"risks":12,"m":0.7787,"p10":0.0087,"p90":0.3451,"spread":0.9133,"g":"A","rg":"A"},{"films":17,"risks":10,"m":0.3564,"p10":0.1561,"p90":0.5404,"spread":0.328,"g":"A","rg":"B"},{"films":17,"risks":12,"m":0.048,"p10":0.0096,"p90":0.1026,"spread":0.18,"g":"A","rg":"A"},{"films":17,"risks":10,"m":0.676,"p10":0.1312,"p90":0.5418,"spread":0.51,"g":"A","rg":"B"},{"films":14,"risks":6,"m":0.7169,"p10":0.0124,"p90":0.385,"spread":0.8583,"g":"A","rg":"C"},{"films":14,"risks":6,"m":0.7169,"p10":0.0124,"p90":0.385,"spread":0.8583,"g":"A","rg":"C"},{"films":13,"risks":11,"m":0.761,"p10":0.0252,"p90":0.3724,"spread":0.8183,"g":"A","rg":"A"},{"films":13,"risks":12,"m":0.2118,"p10":0.0433,"p90":0.4451,"spread":0.225,"g":"A","rg":"A"},{"films":12,"risks":7,"m":0.6672,"p10":0.0582,"p90":0.5982,"spread":0.51,"g":"A","rg":"C"},{"films":11,"risks":9,"m":0.5374,"p10":0.081,"p90":0.5304,"spread":0.4717,"g":"B","rg":"B"},{"films":11,"risks":9,"m":0.729,"p10":0.3805,"p90":0.7566,"spread":0.235,"g":"B","rg":"B"},{"films":10,"risks":12,"m":0.2533,"p10":0.0145,"p90":0.365,"spread":0.75,"g":"B","rg":"A"},{"films":10,"risks":9,"m":0.7314,"p10":0.0358,"p90":0.523,"spread":0.9433,"g":"B","rg":"B"},{"films":10,"risks":12,"m":0.1404,"p10":0.0385,"p90":0.2535,"spread":0.3017,"g":"B","rg":"A"},{"films":8,"risks":12,"m":0.7115,"p10":0.3675,"p90":0.78,"spread":0.2267,"g":"B","rg":"A"},{"films":8,"risks":11,"m":0.7486,"p10":0.3842,"p90":0.7761,"spread":0.1667,"g":"B","rg":"A"},{"films":7,"risks":9,"m":0.5178,"p10":0.1402,"p90":0.5258,"spread":0.446,"g":"B","rg":"B"},{"films":7,"risks":9,"m":0.5178,"p10":0.1402,"p90":0.5258,"spread":0.446,"g":"B","rg":"B"},{"films":7,"risks":10,"m":0.7462,"p10":0.05,"p90":0.4284,"spread":0.7167,"g":"B","rg":"B"},{"films":7,"risks":9,"m":0.7266,"p10":0.1604,"p90":0.6853,"spread":0.3717,"g":"B","rg":"B"},{"films":7,"risks":12,"m":0.1648,"p10":0.0238,"p90":0.3166,"spread":0.5683,"g":"B","rg":"A"},{"films":6,"risks":8,"m":0.8578,"p10":0.1313,"p90":0.5187,"spread":0.604,"g":"C","rg":"C"},{"films":6,"risks":10,"m":0.0161,"p10":0.0039,"p90":0.1342,"spread":0.437,"g":"C","rg":"B"},{"films":6,"risks":8,"m":0.3771,"p10":0.0715,"p90":0.4952,"spread":0.574,"g":"C","rg":"C"},{"films":5,"risks":8,"m":0.7629,"p10":0.703,"p90":0.7928,"spread":0.045,"g":"C","rg":"C"},{"films":4,"risks":9,"m":0.5101,"p10":0.0174,"p90":0.3688,"spread":0.7517,"g":"C","rg":"B"},{"films":4,"risks":8,"m":0.7038,"p10":0.1503,"p90":0.5393,"spread":0.513,"g":"C","rg":"C"},{"films":3,"risks":5,"m":0.4839,"p10":0.0317,"p90":0.4826,"spread":0.5833,"g":"C","rg":"C"},{"films":2,"risks":12,"m":0.8046,"p10":0.6034,"p90":0.8054,"spread":0.1183,"g":"C","rg":"A"},{"films":2,"risks":11,"m":0.0442,"p10":0.007,"p90":0.1083,"spread":0.375,"g":"C","rg":"A"}],"flows":{"before":[{"id":"decide","label":"Decide the right level for me","n":1},{"id":"beginner","label":"Beginner quiz","n":23},{"id":"medium","label":"Medium quiz","n":21},{"id":"expert","label":"Expert quiz","n":22},{"id":"none","label":"No quiz (sliders)","n":3}],"since":[{"id":"beginner","label":"Beginner quiz","n":10},{"id":"medium","label":"Medium quiz","n":18},{"id":"expert","label":"Expert quiz (via the check)","n":4},{"id":"none","label":"No quiz","n":2}]},"knowledge":{"terms":30,"real":15,"decoys":15,"takers":[{"era":"decide","hits":9,"tripped":6,"avoided":9,"correct":18,"of":30,"routed":"beginner","calibrated":3,"m":0.125,"p10":0.0102,"p90":0.2893},{"era":"gate","hits":14,"tripped":0,"avoided":15,"correct":29,"of":30,"routed":"expert","calibrated":14,"m":0.8652,"p10":0.0514,"p90":0.5519},{"era":"gate","hits":14,"tripped":0,"avoided":15,"correct":29,"of":30,"routed":"expert","calibrated":14,"m":0.5014,"p10":0.1944,"p90":0.6471},{"era":"gate","hits":13,"tripped":0,"avoided":15,"correct":28,"of":30,"routed":"expert","calibrated":13,"m":0.004,"p10":0.0073,"p90":0.1574},{"era":"gate","hits":14,"tripped":0,"avoided":15,"correct":29,"of":30,"routed":"expert","calibrated":14,"m":0.1002,"p10":0.0096,"p90":0.2316}],"pairs":[{"decoy":"Agent Orange","collides":"Agent"},{"decoy":"James Bond","collides":"Agent"},{"decoy":"All You Need Is Love","collides":"Attention Is All You Need"},{"decoy":"Attention deficit hyperactivity disorder","collides":"Attention Is All You Need"},{"decoy":"May I have your attention, please?","collides":"Attention Is All You Need"},{"decoy":"The Standard Model","collides":"Model"},{"decoy":"Wire-frame model","collides":"Model"},{"decoy":"Operation Paperclip","collides":"Paperclip maximizer"},{"decoy":"Reinforced concrete","collides":"Reinforcement learning"},{"decoy":"Personal trainer","collides":"Training data"},{"decoy":"Clinical supervisor","collides":"Unsupervised learning"},{"decoy":"Cherenkov Radiation","collides":null},{"decoy":"Magnus effect","collides":null},{"decoy":"Moir\u00e9 pattern","collides":null},{"decoy":"Schr\u00f6dinger's cat","collides":null}],"perTerm":[{"id":"all-you-need-is-love","label":"All You Need Is Love","ai":false,"picked":1,"of":5,"pickedGate":0,"ofGate":4},{"id":"adhd","label":"Attention deficit hyperactivity disorder","ai":false,"picked":1,"of":5,"pickedGate":0,"ofGate":4},{"id":"the-real-slim-shady","label":"May I have your attention, please?","ai":false,"picked":1,"of":5,"pickedGate":0,"ofGate":4},{"id":"personal-trainer","label":"Personal trainer","ai":false,"picked":1,"of":5,"pickedGate":0,"ofGate":4},{"id":"reinforced-concrete","label":"Reinforced concrete","ai":false,"picked":1,"of":5,"pickedGate":0,"ofGate":4},{"id":"schrodingers-cat","label":"Schr\u00f6dinger's cat","ai":false,"picked":1,"of":5,"pickedGate":0,"ofGate":4},{"id":"agent-orange","label":"Agent Orange","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"cherenkov-radiation","label":"Cherenkov Radiation","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"clinical-supervisor","label":"Clinical supervisor","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"james-bond","label":"James Bond","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"magnus-effect","label":"Magnus effect","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"moire-pattern","label":"Moir\u00e9 pattern","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"operation-paperclip","label":"Operation Paperclip","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"standard-model","label":"The Standard Model","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"wireframe-model","label":"Wire-frame model","ai":false,"picked":0,"of":5,"pickedGate":0,"ofGate":4},{"id":"agent","label":"Agent","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"alan-turing","label":"Alan Turing","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"attention-is-all-you-need","label":"Attention Is All You Need","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"backpropagation","label":"Backpropagation","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"hallucination","label":"Hallucination","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"overfitting","label":"Overfitting","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"reward-hacking","label":"Reward hacking","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"training-data","label":"Training data","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"unsupervised-learning","label":"Unsupervised learning","ai":true,"picked":5,"of":5,"pickedGate":4,"ofGate":4},{"id":"isaac-asimov","label":"Isaac Asimov","ai":true,"picked":4,"of":5,"pickedGate":4,"ofGate":4},{"id":"john-von-neumann","label":"John von Neumann","ai":true,"picked":4,"of":5,"pickedGate":4,"ofGate":4},{"id":"latent-space","label":"Latent space","ai":true,"picked":4,"of":5,"pickedGate":4,"ofGate":4},{"id":"paperclip-maximizer","label":"Paperclip maximizer","ai":true,"picked":4,"of":5,"pickedGate":4,"ofGate":4},{"id":"red-team","label":"Red team","ai":true,"picked":3,"of":5,"pickedGate":3,"ofGate":4},{"id":"mary-shelley","label":"Mary Shelley","ai":true,"picked":0,"of":5,"pickedGate":0,"ofGate":4}]},"mediumQ":[{"id":"medium-vulnerabilities","label":"Vulnerabilities recognised","kind":"knowledge","rho":0.411,"n":39,"rhoDedup":0.505,"nDedup":33},{"id":"medium-competition","label":"Competition lowers barriers","kind":"opinion","rho":0.355,"n":39,"rhoDedup":0.453,"nDedup":33},{"id":"medium-speed","label":"Can humans react in time?","kind":"opinion","rho":0.346,"n":39,"rhoDedup":0.367,"nDedup":33},{"id":"medium-governance","label":"Can governance keep AI safe?","kind":"opinion","rho":0.287,"n":39,"rhoDedup":0.408,"nDedup":33},{"id":"medium-off-the-rails","label":"Seen AI go off the rails","kind":"knowledge","rho":0.095,"n":39,"rhoDedup":0.037,"nDedup":33},{"id":"medium-system-prompts","label":"System-prompt familiarity","kind":"knowledge","rho":-0.301,"n":39,"rhoDedup":-0.198,"nDedup":33}],"prompts":[{"label":"I don\u2019t know what a system prompt is","n":5,"median":0.6348,"medianDedup":0.6348,"nDedup":5,"values":[0.1596,0.4899,0.6348,0.7412,0.9528],"dups":[false,false,false,false,false]},{"label":"Basic understanding of system prompts","n":13,"median":0.7966,"medianDedup":0.7966,"nDedup":13,"values":[0.1503,0.1799,0.3299,0.625,0.6427,0.7889,0.7966,0.8818,0.9099,0.9155,0.9212,0.9269,0.9704],"dups":[false,false,false,false,false,false,false,false,false,false,false,false,false]},{"label":"I regularly use system prompts","n":13,"median":0.6905,"medianDedup":0.6905,"nDedup":11,"values":[0,0.0991,0.5766,0.6383,0.6653,0.6905,0.6905,0.7359,0.7359,0.822,0.9383,0.9674,0.9674],"dups":[false,false,false,false,false,false,false,false,true,false,false,false,true]},{"label":"I'm an expert at using system prompts","n":8,"median":0.2782,"medianDedup":0.3868,"nDedup":4,"values":[0,0.2782,0.2782,0.2782,0.2782,0.2782,0.4954,0.6654],"dups":[false,false,true,true,true,true,false,false]}],"mediumVuln":[{"known":16,"of":16,"m":0.8818,"dup":false},{"known":10,"of":16,"m":0.4899,"dup":false},{"known":16,"of":16,"m":0.9383,"dup":false},{"known":13,"of":16,"m":0.7889,"dup":false},{"known":10,"of":16,"m":0.6654,"dup":false},{"known":11,"of":16,"m":0.6427,"dup":false},{"known":8,"of":16,"m":0.6653,"dup":false},{"known":12,"of":16,"m":0.9269,"dup":false},{"known":13,"of":16,"m":0.1596,"dup":false},{"known":6,"of":16,"m":0,"dup":false},{"known":13,"of":16,"m":0.6383,"dup":false},{"known":9,"of":16,"m":0.4954,"dup":false},{"known":7,"of":16,"m":0.7412,"dup":false},{"known":7,"of":16,"m":0.6348,"dup":false},{"known":14,"of":16,"m":0.9155,"dup":false},{"known":5,"of":16,"m":0.625,"dup":false},{"known":10,"of":16,"m":0.6905,"dup":false},{"known":10,"of":16,"m":0.6905,"dup":false},{"known":13,"of":16,"m":0.822,"dup":false},{"known":16,"of":16,"m":0.9528,"dup":false},{"known":12,"of":16,"m":0.9099,"dup":false},{"known":13,"of":16,"m":0.5766,"dup":false},{"known":16,"of":16,"m":0,"dup":false},{"known":16,"of":16,"m":0.9704,"dup":false},{"known":15,"of":16,"m":0.2782,"dup":false},{"known":15,"of":16,"m":0.2782,"dup":true},{"known":15,"of":16,"m":0.2782,"dup":true},{"known":15,"of":16,"m":0.2782,"dup":true},{"known":15,"of":16,"m":0.2782,"dup":true},{"known":5,"of":16,"m":0.3299,"dup":false},{"known":16,"of":16,"m":0.9674,"dup":false},{"known":16,"of":16,"m":0.9674,"dup":true},{"known":16,"of":16,"m":0.7966,"dup":false},{"known":16,"of":16,"m":0.7359,"dup":false},{"known":16,"of":16,"m":0.7359,"dup":true},{"known":16,"of":16,"m":0.9212,"dup":false},{"known":11,"of":16,"m":0.0991,"dup":false},{"known":11,"of":16,"m":0.1503,"dup":false},{"known":11,"of":16,"m":0.1799,"dup":false}],"vulnList":[{"label":"Malware","known":38,"of":39},{"label":"Phishing","known":38,"of":39},{"label":"Zero day","known":38,"of":39},{"label":"Ransomware","known":37,"of":39},{"label":"Social engineering","known":36,"of":39},{"label":"Prompt injection","known":35,"of":39},{"label":"Injection attacks (SQL, JS, Python, Ruby, Command line)","known":32,"of":39},{"label":"Insider threat","known":32,"of":39},{"label":"Man-in-the-middle (MitM)","known":30,"of":39},{"label":"Supply chain attack","known":30,"of":39},{"label":"Data poisoning","known":29,"of":39},{"label":"Obfuscation / Steganography","known":26,"of":39},{"label":"Adversarial attack","known":25,"of":39},{"label":"Model stealing","known":22,"of":39},{"label":"Sleeper agent","known":20,"of":39},{"label":"Side-channel attack","known":17,"of":39}],"sliders":[{"date":"2026-04-24","m":0.125,"p10":0.0048,"p90":0.3253,"factors":[{"lower":0,"mid":0.5,"upper":1},{"lower":0,"mid":0.5,"upper":1},{"lower":0,"mid":0.5,"upper":1}]},{"date":"2026-04-30","m":0.125,"p10":0.0048,"p90":0.3253,"factors":[{"lower":0,"mid":0.5,"upper":1},{"lower":0,"mid":0.5,"upper":1},{"lower":0,"mid":0.5,"upper":1}]},{"date":"2026-04-30","m":0.125,"p10":0.125,"p90":0.125,"factors":[{"lower":0.5,"mid":0.5,"upper":0.5},{"lower":0.5,"mid":0.5,"upper":0.5},{"lower":0.5,"mid":0.5,"upper":0.5}]},{"date":"2026-08-21","m":0.125,"p10":0.0795,"p90":0.1731,"factors":[{"lower":0.3,"mid":0.5,"upper":0.7},{"lower":0.4,"mid":0.5,"upper":0.6},{"lower":0.4,"mid":0.5,"upper":0.6}]},{"date":"2026-08-21","m":0.125,"p10":0.0795,"p90":0.1731,"factors":[{"lower":0.3,"mid":0.5,"upper":0.7},{"lower":0.4,"mid":0.5,"upper":0.6},{"lower":0.4,"mid":0.5,"upper":0.6}]}],"dupes":{"records":202,"unique":175,"byLevel":{"beginner":{"records":33,"unique":31,"median":0.676,"medianDedup":0.676},"medium":{"records":39,"unique":32,"median":0.6653,"medianDedup":0.6654},"expert":{"records":26,"unique":24,"median":0.5899,"medianDedup":0.5899}}},"identity":{"signed":31,"valid":31,"invalid":0,"unchecked":0,"unsigned":171,"visitors":24,"repeat":4,"maxPerVisitor":5,"replays":0,"mismatched":0},"gate":{"attempted":4,"verified":4,"overrode":0,"accepted":0,"acceptedTo":{},"medianScore":29.0,"scores":[28,29,29,29]},"expertQ":[{"id":"expert-continuous-learning","label":"Ways AI keeps learning","kind":"concept","opts":3,"median":3.0,"none":1},{"id":"expert-self-improvement","label":"Ways AI self-improves","kind":"concept","opts":4,"median":4.0,"none":0},{"id":"expert-self-replication","label":"Ways AI self-replicates","kind":"concept","opts":5,"median":5.0,"none":0},{"id":"expert-campaign-organisations","label":"Campaign organisations","kind":"names","opts":3,"median":2.0,"none":2},{"id":"expert-research-organisations","label":"Research organisations","kind":"names","opts":2,"median":1.0,"none":8},{"id":"expert-commentators","label":"Commentators","kind":"names","opts":2,"median":1.0,"none":10},{"id":"expert-content-creators","label":"Content creators","kind":"names","opts":5,"median":1.5,"none":12}],"experts":[{"names":12,"of":12,"m":0.7992,"v":null,"t":"2026-05-18","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":3,"expert-research-organisations":2,"expert-commentators":2,"expert-content-creators":5}},{"names":12,"of":12,"m":1,"v":null,"t":"2026-08-18","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":3,"expert-research-organisations":2,"expert-commentators":2,"expert-content-creators":5}},{"names":11,"of":12,"m":0.3367,"v":null,"t":"2026-08-18","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":3,"expert-research-organisations":2,"expert-commentators":2,"expert-content-creators":4}},{"names":10,"of":12,"m":0.5014,"v":true,"t":"2026-08-20","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":2,"expert-research-organisations":2,"expert-commentators":2,"expert-content-creators":4}},{"names":9,"of":12,"m":0.7661,"v":null,"t":"2026-03-09","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":3,"expert-research-organisations":1,"expert-commentators":1,"expert-content-creators":4}},{"names":9,"of":12,"m":0.3322,"v":null,"t":"2026-03-22","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":2,"expert-research-organisations":2,"expert-commentators":2,"expert-content-creators":3}},{"names":9,"of":12,"m":0.423,"v":null,"t":"2026-05-22","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":3,"expert-research-organisations":1,"expert-commentators":2,"expert-content-creators":3}},{"names":9,"of":12,"m":0.423,"v":null,"t":"2026-05-22","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":3,"expert-research-organisations":1,"expert-commentators":2,"expert-content-creators":3}},{"names":7,"of":12,"m":0.6845,"v":null,"t":"2026-03-10","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":2,"expert-research-organisations":0,"expert-commentators":1,"expert-content-creators":4}},{"names":7,"of":12,"m":0.8298,"v":null,"t":"2026-04-28","q":{"expert-continuous-learning":1,"expert-self-improvement":4,"expert-self-replication":4,"expert-campaign-organisations":3,"expert-research-organisations":0,"expert-commentators":1,"expert-content-creators":3}},{"names":7,"of":12,"m":0.2255,"v":null,"t":"2026-08-03","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":2,"expert-research-organisations":1,"expert-commentators":1,"expert-content-creators":3}},{"names":5,"of":12,"m":0.4465,"v":null,"t":"2026-08-08","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":2,"expert-research-organisations":2,"expert-commentators":1,"expert-content-creators":0}},{"names":5,"of":12,"m":0.004,"v":true,"t":"2026-08-21","q":{"expert-continuous-learning":2,"expert-self-improvement":3,"expert-self-replication":2,"expert-campaign-organisations":2,"expert-research-organisations":1,"expert-commentators":1,"expert-content-creators":1}},{"names":4,"of":12,"m":0.4368,"v":null,"t":"2026-06-10","q":{"expert-continuous-learning":2,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":1,"expert-research-organisations":1,"expert-commentators":0,"expert-content-creators":2}},{"names":4,"of":12,"m":0.1002,"v":true,"t":"2026-09-01","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":1,"expert-research-organisations":2,"expert-commentators":1,"expert-content-creators":0}},{"names":3,"of":12,"m":0.7097,"v":null,"t":"2026-03-16","q":{"expert-continuous-learning":2,"expert-self-improvement":4,"expert-self-replication":4,"expert-campaign-organisations":1,"expert-research-organisations":1,"expert-commentators":1,"expert-content-creators":0}},{"names":3,"of":12,"m":0.1747,"v":null,"t":"2026-08-03","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":2,"expert-research-organisations":0,"expert-commentators":1,"expert-content-creators":0}},{"names":3,"of":12,"m":0.0512,"v":null,"t":"2026-08-03","q":{"expert-continuous-learning":0,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":1,"expert-research-organisations":0,"expert-commentators":0,"expert-content-creators":2}},{"names":3,"of":12,"m":0.7145,"v":null,"t":"2026-08-03","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":3,"expert-research-organisations":0,"expert-commentators":0,"expert-content-creators":0}},{"names":2,"of":12,"m":0.6886,"v":null,"t":"2026-08-03","q":{"expert-continuous-learning":1,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":1,"expert-research-organisations":1,"expert-commentators":0,"expert-content-creators":0}},{"names":2,"of":12,"m":0.9989,"v":null,"t":"2026-08-05","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":1,"expert-research-organisations":1,"expert-commentators":0,"expert-content-creators":0}},{"names":1,"of":12,"m":0.6784,"v":null,"t":"2026-08-03","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":2,"expert-campaign-organisations":1,"expert-research-organisations":0,"expert-commentators":0,"expert-content-creators":0}},{"names":1,"of":12,"m":0.118,"v":null,"t":"2026-08-03","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":1,"expert-research-organisations":0,"expert-commentators":0,"expert-content-creators":0}},{"names":1,"of":12,"m":0.9632,"v":null,"t":"2026-08-18","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":3,"expert-campaign-organisations":0,"expert-research-organisations":1,"expert-commentators":0,"expert-content-creators":0}},{"names":1,"of":12,"m":0.9632,"v":null,"t":"2026-08-18","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":3,"expert-campaign-organisations":0,"expert-research-organisations":1,"expert-commentators":0,"expert-content-creators":0}},{"names":1,"of":12,"m":0.8652,"v":true,"t":"2026-08-20","q":{"expert-continuous-learning":3,"expert-self-improvement":4,"expert-self-replication":5,"expert-campaign-organisations":1,"expert-research-organisations":0,"expert-commentators":0,"expert-content-creators":0}}],"visitors":{"dupRows":6,"repeat":[{"n":5,"levels":["medium","medium","medium","medium","medium"],"m":[0.2782,0.2782,0.2782,0.2782,0.2782],"identical":true,"span":6},{"n":2,"levels":["medium","expert"],"m":[0.9704,0.8652],"identical":false,"span":354},{"n":2,"levels":["medium","medium"],"m":[0.9674,0.9674],"identical":true,"span":16},{"n":2,"levels":["medium","medium"],"m":[0.7359,0.7359],"identical":true,"span":6}]}};
+const GROUPS = {
+  beginner:  { label: 'Beginner quiz', color: 'var(--level-1)' },
+  medium:    { label: 'Medium quiz',   color: 'var(--level-2)' },
+  expert:    { label: 'Expert quiz',   color: 'var(--level-3)' },
+  prelaunch: { label: 'Before the chooser existed', color: 'var(--neutral)' },
+  otherpath: { label: 'No level: sliders or the retired check', color: 'var(--neutral)' },
+};
+const LAUNCH = '2026-03-09';   // level chooser
+const GATE = '2026-08-19';     // expert check + signed identity
+const grp = (f, t) => (f === 'beginner' || f === 'medium' || f === 'expert') ? f : (t < LAUNCH ? 'prelaunch' : 'otherpath');
+const pct = v => (v * 100).toFixed(v * 100 >= 10 ? 0 : 1) + '%';
+const NS = 'http://www.w3.org/2000/svg';
+function el(name, attrs, parent, text) {
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const parseT = s => new Date(s + ':00Z').getTime();
+const rows = DATA.rows.map((r, i) => ({ ...r, ms: parseT(r.t), g: grp(r.f, r.t), i }));
+const months = DATA.months;
+const med = a => { const s = [...a].sort((x, y) => x - y), n = s.length; return n ? (n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2) : NaN; };
+const fmtDate = ms => new Date(ms).toLocaleDateString('en', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+const stripTags = html => html.replace(/<br\s*\/?>/gi, '. ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+
+// ---- contents rail ----
+{
+  const toc = document.getElementById('toc');
+  const parts = [...document.querySelectorAll('section.part')];
+  for (const p of parts) {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + p.id;
+    a.textContent = p.querySelector('.eyebrow').textContent;
+    li.appendChild(a); toc.appendChild(li);
+  }
+  if ('IntersectionObserver' in window) {
+    const links = new Map(parts.map(p => [p.id, toc.querySelector('a[href="#' + p.id + '"]')]));
+    let current = null;
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) current = e.target.id;
+      links.forEach((a, id) => a.classList.toggle('current', id === current));
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    parts.forEach(p => io.observe(p));
+  }
+}
+
+// ---- masthead: duplicate note ----
+{
+  const dp = DATA.dupes, lv = dp.byLevel;
+  document.getElementById('dupe-line').innerHTML =
+    'Excluding timestamps, the ' + dp.records + ' records hold <b>' + dp.unique + ' distinct payloads</b> (beginner ' +
+    lv.beginner.unique + '/' + lv.beginner.records + ', medium ' + lv.medium.unique + '/' + lv.medium.records +
+    ', expert ' + lv.expert.unique + '/' + lv.expert.records + ').';
+}
+
+// ---- delta strip ----
+{
+  const early = rows.filter(r => r.t < '2026-01').map(r => r.m);
+  const late = rows.filter(r => r.t >= '2026-06').map(r => r.m);
+  const fl = DATA.flows;
+  const share = era => { const lv = fl[era].filter(f => ['beginner', 'medium', 'expert'].includes(f.id)); const tot = lv.reduce((a, f) => a + f.n, 0); return { tot, x: lv.find(f => f.id === 'expert').n / tot }; };
+  const b = share('before'), s = share('since');
+  const ver = DATA.experts.filter(e => e.v === true).map(e => e.m), self = DATA.experts.filter(e => e.v == null).map(e => e.m);
+  const id = DATA.identity, vis = DATA.visitors;
+  const tiles = [
+    { v: rows.length, s: '+' + (rows.length - 164), l: 'Submissions', d: fmtDate(rows[0].ms) + ' – ' + fmtDate(rows[rows.length - 1].ms) },
+    { v: pct(med(late)), l: 'Median p(doom), Jun 2026 onward', d: 'n = ' + late.length + ' · was ' + pct(med(early)) + ' in Oct–Dec 2025 (n = ' + early.length + ')' },
+    { v: Math.round(100 * s.x) + '%', s: 'was ' + Math.round(100 * b.x) + '%', l: 'Expert share of declared submissions since the check', d: s.tot + ' since · ' + b.tot + ' before', up: true },
+    { v: pct(med(ver)), s: 'vs ' + pct(med(self)), l: 'Median p(doom), verified experts vs self-declared', d: 'n = ' + ver.length + ' verified · ' + self.length + ' self-declared' },
+    { v: id.valid + '/' + id.signed, l: 'Signed rows that verify', d: id.visitors + ' browsers · ' + vis.dupRows + ' confirmed repeat rows' },
+  ];
+  const box = document.getElementById('delta');
+  for (const t of tiles) {
+    const d = document.createElement('div'); d.className = 'tile';
+    d.innerHTML = '<div class="v">' + t.v + (t.s ? '<small>' + t.s + '</small>' : '') + '</div><div class="l">' + t.l + '</div><div class="d' + (t.up ? ' up' : '') + '">' + t.d + '</div>';
+    box.appendChild(d);
+  }
+}
+
+// ---- legend ----
+{
+  const legend = document.getElementById('legend-a');
+  for (const k of ['beginner', 'medium', 'expert', 'prelaunch', 'otherpath']) {
+    const s = document.createElement('span');
+    const hollow = k === 'otherpath';
+    s.innerHTML = '<span class="sw" style="' + (hollow ? 'background:var(--surface);box-shadow:inset 0 0 0 2px ' + GROUPS[k].color : 'background:' + GROUPS[k].color) + '"></span>' +
+      GROUPS[k].label + ' (n=' + rows.filter(r => r.g === k).length + ')';
+    legend.appendChild(s);
+  }
+  const s = document.createElement('span');
+  s.innerHTML = '<span class="sw" style="background:var(--level-3);box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--accent)"></span>Cleared the expert check (n=' + rows.filter(r => r.v === true).length + ')';
+  legend.appendChild(s);
+}
+
+// ---- tooltip helpers (hover + keyboard twin) ----
+function makeFocusable(svg, items, render, tt, place) {
+  if (!items || !items.length) return;
+  const layer = el('g', { class: 'kb-layer' }, svg);
+  items.forEach(({ it, box: b }) => {
+    const g = el('g', { tabindex: '0', role: 'img', 'aria-label': stripTags(render(it)) }, layer);
+    el('rect', { x: b.x, y: b.y, width: b.w, height: b.h, fill: 'transparent' }, g);
+    el('rect', { class: 'hit-ring', x: b.x, y: b.y, width: b.w, height: b.h, rx: 4, fill: 'none', stroke: 'var(--ink)', 'stroke-width': 2, opacity: 0 }, g);
+    g.addEventListener('focus', () => { tt.innerHTML = render(it); tt.style.display = 'block'; place(); });
+    g.addEventListener('blur', () => { tt.style.display = 'none'; });
+  });
+}
+function attachTooltip(svg, ttId, findNearest, render, items) {
+  const tt = document.getElementById(ttId);
+  const card = tt.parentElement;
+  svg.addEventListener('mousemove', ev => {
+    const rect = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
+    const x = (ev.clientX - rect.left) * vb.width / rect.width, y = (ev.clientY - rect.top) * vb.height / rect.height;
+    const hit = findNearest(x, y);
+    if (!hit) { tt.style.display = 'none'; return; }
+    tt.innerHTML = render(hit); tt.style.display = 'block';
+    const crect = card.getBoundingClientRect();
+    let left = ev.clientX - crect.left + 14, top = ev.clientY - crect.top + 10;
+    if (left + tt.offsetWidth > crect.width - 8) left = ev.clientX - crect.left - tt.offsetWidth - 14;
+    if (top + tt.offsetHeight > crect.height - 4) top = ev.clientY - crect.top - tt.offsetHeight - 10;
+    tt.style.left = left + 'px'; tt.style.top = top + 'px';
+  });
+  svg.addEventListener('mouseleave', () => tt.style.display = 'none');
+  if (items) {
+    const vb = svg.viewBox.baseVal;
+    // Row bands span the plot width; column marks (a month with no y) span its height; points get a square.
+    const boxed = items.map(it => ({ it, box: (it.y0 != null && it.y1 != null) ? { x: 0, y: it.y0, w: vb.width, h: it.y1 - it.y0 }
+      : it.y == null ? { x: it.x - 10, y: 0, w: 20, h: vb.height } : { x: it.x - 10, y: it.y - 10, w: 20, h: 20 } }));
+    makeFocusable(svg, boxed, render, tt, () => {
+      const cr = card.getBoundingClientRect(), sr = svg.getBoundingClientRect();
+      tt.style.left = (sr.left - cr.left + 12) + 'px'; tt.style.top = (sr.top - cr.top + 12) + 'px';
+    });
+  }
+}
+const nearest = (pts, rad) => (x, y) => { let best = null, bd = rad * rad; for (const p of pts) { const d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < bd) { bd = d; best = p; } } return best; };
+const inRow = hits => (x, y) => hits.find(h => y >= h.y0 && y < h.y1) || null;
+const dotTip = r => '<span class="t">' + fmtDate(r.ms) + ' · ' + GROUPS[r.g].label + (r.v === true ? ' · cleared the check' : '') + (r.rep ? ' · repeat row' : '') + '</span><br>p(doom) midpoint <b>' + pct(r.m) + '</b><br>p10–p90: <b>' + pct(r.p10) + ' – ' + pct(r.p90) + '</b>';
+
+// ---- shared time axis ----
+const T0 = Date.UTC(2025, 9, 1), T1 = Date.UTC(2026, 8, 8);
+const monthTicks = [];
+{
+  let d = new Date(Date.UTC(2025, 9, 1));
+  const end = new Date(Date.UTC(2026, 8, 1));
+  while (d <= end) { monthTicks.push({ ms: d.getTime(), lab: d.toLocaleString('en', { month: 'short', timeZone: 'UTC' }) + (d.getUTCMonth() === 0 ? " '26" : d.getUTCMonth() === 9 ? " '25" : '') }); d = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1)); }
+}
+function yGrid(svg, Y, ML, W, MR) {
+  for (let v = 0; v <= 1.0001; v += 0.25) {
+    el('line', { x1: ML, x2: W - MR, y1: Y(v), y2: Y(v), stroke: v === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+    el('text', { x: ML - 8, y: Y(v) + 4, 'text-anchor': 'end', class: 'tick' }, svg, (v * 100).toFixed(0) + '%');
+  }
+}
+function xGrid(svg, X, MT, H, MB, labelY) {
+  for (let v = 0; v <= 1.0001; v += 0.25) {
+    el('line', { x1: X(v), x2: X(v), y1: MT, y2: H - MB, stroke: v === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+    el('text', { x: X(v), y: labelY, 'text-anchor': v === 0 ? 'start' : v >= 1 ? 'end' : 'middle', class: 'tick' }, svg, (v * 100).toFixed(0) + '%');
+  }
+}
+function eventLine(svg, x, MT, H, MB, label) {
+  el('line', { x1: x, x2: x, y1: MT, y2: H - MB, stroke: 'var(--line-strong)', 'stroke-width': 1, 'stroke-dasharray': '2 3' }, svg);
+  el('text', { x: x + 6, y: MT + 12, class: 'anno' }, svg, label);
+}
+
+// ---- chart A: timeline scatter ----
+{
+  const W = 920, H = 430, ML = 46, MR = 16, MT = 16, MB = 32;
+  const X = ms => ML + (ms - T0) / (T1 - T0) * (W - ML - MR), Y = v => MT + (1 - v) * (H - MT - MB);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-scatter'));
+  yGrid(svg, Y, ML, W, MR);
+  for (const mt of monthTicks) el('text', { x: X(mt.ms), y: H - 8, 'text-anchor': 'start', class: 'tick' }, svg, mt.lab);
+  eventLine(svg, X(Date.UTC(2026, 2, 9)), MT, H, MB, 'quiz levels introduced');
+  eventLine(svg, X(Date.UTC(2026, 7, 19)), MT, H, MB, 'expert check');
+  let path = '';
+  months.forEach((mo, i) => { const [y, m] = mo.month.split('-').map(Number); path += (i ? 'L' : 'M') + X(Date.UTC(y, m - 1, 15)).toFixed(1) + ' ' + Y(mo.median).toFixed(1); });
+  el('path', { d: path, fill: 'none', stroke: 'var(--ink-2)', 'stroke-width': 2, 'stroke-dasharray': '5 4', 'stroke-linejoin': 'round', opacity: 0.8 }, svg);
+  const pts = [];
+  const LAYER = { prelaunch: 0, otherpath: 1, beginner: 2, medium: 3, expert: 4 };
+  const drawOrder = [...rows].sort((a, b) => (LAYER[a.g] - LAYER[b.g]) || (a.ms - b.ms));
+  for (const r of drawOrder) {
+    const x = X(r.ms), y = Y(r.m), hollow = r.g === 'otherpath';
+    if (r.v === true) el('circle', { cx: x, cy: y, r: 8, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 1.5 }, svg);
+    el('circle', { cx: x, cy: y, r: 4.2, fill: hollow ? 'var(--surface)' : GROUPS[r.g].color, stroke: hollow ? GROUPS[r.g].color : 'var(--surface)', 'stroke-width': 2, opacity: r.g === 'prelaunch' ? 0.75 : 1 }, svg);
+    pts.push({ x, y, r });
+  }
+  attachTooltip(svg, 'tt-a', nearest(pts, 20), p => dotTip(p.r), pts);
+}
+
+// ---- chart B: monthly median + IQR ----
+{
+  const W = 920, H = 320, ML = 46, MR = 16, MT = 16, MB = 32;
+  const X = ms => ML + (ms - T0) / (T1 - T0) * (W - ML - MR), Y = v => MT + (1 - v) * (H - MT - MB);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-monthly'));
+  yGrid(svg, Y, ML, W, MR);
+  for (const mt of monthTicks) el('text', { x: X(mt.ms), y: H - 8, 'text-anchor': 'start', class: 'tick' }, svg, mt.lab);
+  const mpts = months.map(mo => { const [y, m] = mo.month.split('-').map(Number); return { x: X(Date.UTC(y, m - 1, 15)), mo }; });
+  let band = '';
+  mpts.forEach((p, i) => band += (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + Y(p.mo.p75).toFixed(1));
+  for (let i = mpts.length - 1; i >= 0; i--) band += 'L' + mpts[i].x.toFixed(1) + ' ' + Y(mpts[i].mo.p25).toFixed(1);
+  el('path', { d: band + 'Z', fill: 'var(--accent)', opacity: 0.14 }, svg);
+  let line = '';
+  mpts.forEach((p, i) => line += (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + Y(p.mo.median).toFixed(1));
+  el('path', { d: line, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2, 'stroke-linejoin': 'round' }, svg);
+  for (const p of mpts) el('circle', { cx: p.x, cy: Y(p.mo.median), r: p.mo.n < 5 ? 3 : 4.5, fill: p.mo.n < 5 ? 'var(--surface)' : 'var(--accent)', stroke: 'var(--accent)', 'stroke-width': 2 }, svg);
+  const last = mpts[mpts.length - 2]; // August: the last full month
+  el('text', { x: last.x, y: Y(last.mo.median) - 12, 'text-anchor': 'middle', class: 'direct' }, svg, pct(last.mo.median) + ' · n=' + last.mo.n);
+  el('text', { x: mpts[0].x + 8, y: Y(months[0].median) - 10, class: 'direct' }, svg, pct(months[0].median));
+  const crossh = el('line', { y1: MT, y2: H - MB, stroke: 'var(--line-strong)', 'stroke-width': 1, visibility: 'hidden' }, svg);
+  attachTooltip(svg, 'tt-b',
+    x => { let best = null, bd = Infinity; for (const p of mpts) { const d = Math.abs(p.x - x); if (d < bd) { bd = d; best = p; } } if (best) { crossh.setAttribute('x1', best.x); crossh.setAttribute('x2', best.x); crossh.setAttribute('visibility', 'visible'); } return best; },
+    p => '<span class="t">' + p.mo.month + ' · n=' + p.mo.n + '</span><br>median <b>' + pct(p.mo.median) + '</b><br>IQR: <b>' + pct(p.mo.p25) + ' – ' + pct(p.mo.p75) + '</b>', mpts);
+  svg.addEventListener('mouseleave', () => crossh.setAttribute('visibility', 'hidden'));
+}
+
+// ---- chart C: dot strips per group ----
+{
+  const strips = [
+    { key: 'beginner', label: 'Beginner quiz', color: 'var(--level-1)', pick: r => r.g === 'beginner' },
+    { key: 'medium', label: 'Medium quiz', color: 'var(--level-2)', pick: r => r.g === 'medium' },
+    { key: 'expert-self', label: 'Expert, self-declared', sub: 'before the check', color: 'var(--level-3)', pick: r => r.g === 'expert' && r.v == null, hollowFill: true },
+    { key: 'expert-ver', label: 'Expert, verified', sub: 'cleared the check', color: 'var(--level-3)', pick: r => r.g === 'expert' && r.v === true },
+    { key: 'prelaunch', label: 'Before the chooser', sub: 'before 9 Mar 2026', color: 'var(--neutral)', pick: r => r.g === 'prelaunch' },
+    { key: 'otherpath', label: 'No level', sub: 'sliders, or the retired check', color: 'var(--neutral)', pick: r => r.g === 'otherpath', hollowFill: true },
+  ];
+  const W = 920, ROWH = 62, ML = 190, MR = 24, MT = 8, MB = 30, H = MT + strips.length * ROWH + MB;
+  const X = v => ML + v * (W - ML - MR);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-groups'));
+  xGrid(svg, X, MT, H, MB, H - 10);
+  const pts = [];
+  strips.forEach((s, gi) => {
+    const cy = MT + gi * ROWH + ROWH / 2, vals = rows.filter(s.pick);
+    el('text', { x: 8, y: cy - 2, class: 'rowlab' }, svg, s.label);
+    el('text', { x: 8, y: cy + 14, class: 'rowsub' }, svg, 'n=' + vals.length + (s.sub ? ' · ' + s.sub : ''));
+    vals.forEach((r, i) => {
+      const y = cy + ((i * 37) % 17 - 8) * 1.5, x = X(r.m);
+      const hollow = s.hollowFill || r.rep;
+      el('circle', { cx: x, cy: y, r: 4.5, fill: hollow ? 'var(--surface)' : s.color, stroke: hollow ? s.color : 'var(--surface)', 'stroke-width': 2, opacity: 0.9 }, svg);
+      pts.push({ x, y, r });
+    });
+    if (vals.length) {
+      const m = med(vals.map(r => r.m));
+      el('line', { x1: X(m), x2: X(m), y1: cy - 21, y2: cy + 21, stroke: 'var(--ink)', 'stroke-width': 2.5 }, svg);
+      el('text', { x: X(m), y: cy - 26, 'text-anchor': 'middle', class: 'direct' }, svg, pct(m));
+    }
+  });
+  attachTooltip(svg, 'tt-c', nearest(pts, 15), p => dotTip(p.r), pts);
+}
+
+// ---- table: monthly ----
+{
+  const tb = document.querySelector('#tbl tbody');
+  for (const mo of months) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + mo.month + '</td><td class="num">' + mo.n + '</td><td class="num strong">' + pct(mo.median) + '</td><td class="num dim">' + pct(mo.p25) + '</td><td class="num dim">' + pct(mo.p75) + '</td>';
+    tb.appendChild(tr);
+  }
+}
+
+// ---- chart D: belief chain ----
+{
+  const order = ['beginner', 'medium', 'expert', 'prelaunch'];
+  const stages = ['powerful AI', 'dangerous | powerful', 'catastrophe | dangerous', 'p(doom)'];
+  const W = 560, H = 300, ML = 40, MR = 112, MT = 16, MB = 34;
+  const X = i => ML + i / 3 * (W - ML - MR), Y = v => MT + (1 - v) * (H - MT - MB);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-chain'));
+  yGrid(svg, Y, ML, W, MR);
+  stages.forEach((st, i) => el('text', { x: X(i), y: H - 12, 'text-anchor': i === 0 ? 'start' : i === 3 ? 'end' : 'middle', class: 'tick', 'font-size': '10.5' }, svg, st));
+  const series = order.map(g => { const vals = rows.filter(r => r.g === g); return { g, n: vals.length, pts: [0, 1, 2].map(i => med(vals.map(r => r.fx[i]))).concat([med(vals.map(r => r.m))]) }; });
+  const hits = [];
+  for (const s of series) {
+    let d = ''; s.pts.forEach((v, i) => d += (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1));
+    el('path', { d, fill: 'none', stroke: GROUPS[s.g].color, 'stroke-width': 2, 'stroke-linejoin': 'round' }, svg);
+    s.pts.forEach((v, i) => { el('circle', { cx: X(i), cy: Y(v), r: 4, fill: GROUPS[s.g].color, stroke: 'var(--surface)', 'stroke-width': 2 }, svg); hits.push({ x: X(i), y: Y(v), g: s.g, stage: stages[i], v, n: s.n }); });
+  }
+  const labs = series.map(s => ({ s, y: Y(s.pts[3]) })).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 15) labs[i].y = labs[i - 1].y + 15;
+  for (const L of labs) el('text', { x: X(3) + 10, y: L.y + 4, class: 'direct' }, svg, { beginner: 'Beginner', medium: 'Medium', expert: 'Expert', prelaunch: 'Pre-chooser' }[L.s.g] + ' ' + pct(L.s.pts[3]));
+  attachTooltip(svg, 'tt-d', nearest(hits, 18), p => '<span class="t">' + GROUPS[p.g].label + ' · n=' + p.n + '</span><br>' + p.stage + ': median <b>' + pct(p.v) + '</b>', hits);
+}
+
+// ---- chart E: factor facets ----
+{
+  const facets = [{ i: 0, lab: 'P(powerful AI)', r: '0.59' }, { i: 1, lab: 'P(dangerous | powerful)', r: '0.74' }, { i: 2, lab: 'P(catastrophe | dangerous)', r: '0.79' }];
+  const box = document.getElementById('chart-facets');
+  for (const fc of facets) {
+    const pts = [], W = 296, H = 250, ML = 34, MR = 8, MT = 26, MB = 26;
+    const wrap = document.createElement('div'); wrap.style.flex = '1 1 240px'; box.appendChild(wrap);
+    const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, wrap);
+    el('text', { x: ML, y: 13, class: 'rowlab', 'font-size': '12' }, svg, fc.lab);
+    el('text', { x: W - MR, y: 13, 'text-anchor': 'end', class: 'rowsub' }, svg, 'r = ' + fc.r);
+    const X = v => ML + v * (W - ML - MR), Y = v => MT + (1 - v) * (H - MT - MB);
+    for (let v = 0; v <= 1.0001; v += 0.5) {
+      el('line', { x1: ML, x2: W - MR, y1: Y(v), y2: Y(v), stroke: v === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+      el('text', { x: ML - 5, y: Y(v) + 3.5, 'text-anchor': 'end', class: 'tick', 'font-size': '10' }, svg, (v * 100).toFixed(0));
+      el('text', { x: X(v), y: H - 10, 'text-anchor': v === 0 ? 'start' : v >= 1 ? 'end' : 'middle', class: 'tick', 'font-size': '10' }, svg, (v * 100).toFixed(0) + '%');
+    }
+    for (const r of rows) { const x = X(r.fx[fc.i]), y = Y(r.m); el('circle', { cx: x, cy: y, r: 3.2, fill: 'var(--accent)', opacity: 0.45 }, svg); pts.push({ x, y, r }); }
+    attachTooltip(svg, 'tt-e', nearest(pts, 12), p => '<span class="t">' + fmtDate(p.r.ms) + ' · ' + GROUPS[p.r.g].label + '</span><br>' + fc.lab + ': <b>' + pct(p.r.fx[fc.i]) + '</b><br>final p(doom): <b>' + pct(p.r.m) + '</b>', pts);
+  }
+}
+
+// ---- journey: the expert check ----
+{
+  const g = DATA.gate;
+  const tb = document.querySelector('#journey tbody');
+  const row = (what, n, note, dim) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td' + (dim ? ' class="dim"' : '') + '>' + what + '</td><td class="num' + (dim ? ' dim' : ' strong') + '">' + n + '</td><td class="dim">' + (note || '') + '</td>';
+    tb.appendChild(tr);
+  };
+  row('Took the check and went on to submit', g.attempted);
+  row('Cleared it with 26 or more', g.verified, 'scores ' + g.scores.join(', ') + ' of 30');
+  row('Fell short, took the recommended quiz', g.accepted, '', !g.accepted);
+  row('Fell short, continued to expert anyway', g.overrode, '', !g.overrode);
+  row('Took the check and never submitted', 'not recorded', 'leaves no row', true);
+}
+
+// ---- chart H1: chooser split, before and since ----
+{
+  const fl = DATA.flows;
+  const panels = [{ era: 'before', title: 'Before the check', sub: '9 Mar – 18 Aug 2026' }, { era: 'since', title: 'Since the check', sub: '19 Aug – 1 Sep 2026' }];
+  const box = document.getElementById('chart-flows');
+  const maxN = Math.max(...panels.flatMap(p => fl[p.era].map(f => f.n)), 1);
+  for (const p of panels) {
+    const flows = fl[p.era], total = flows.reduce((a, f) => a + f.n, 0) || 1;
+    const ROW = 30, ML = 176, MR = 66, MT = 40, MB = 8, W = 440, H = MT + flows.length * ROW + MB;
+    const wrap = document.createElement('div'); wrap.style.flex = '1 1 320px'; wrap.style.maxWidth = '460px'; box.appendChild(wrap);
+    const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, wrap);
+    el('text', { x: 0, y: 14, class: 'rowlab' }, svg, p.title);
+    el('text', { x: 0, y: 29, class: 'rowsub' }, svg, p.sub + ' · ' + total + ' submissions');
+    el('line', { x1: ML, x2: ML, y1: MT, y2: H - MB, stroke: 'var(--line-strong)', 'stroke-width': 1 }, svg);
+    const X = n => ML + n / maxN * (W - ML - MR);
+    const hits = [];
+    flows.forEach((f, i) => {
+      const y = MT + i * ROW, w = Math.max(X(f.n) - ML, f.n ? 2 : 0);
+      const lvl = { beginner: 'var(--level-1)', medium: 'var(--level-2)', expert: 'var(--level-3)' }[f.id] || 'var(--neutral)';
+      el('text', { x: ML - 10, y: y + ROW / 2 + 4, 'text-anchor': 'end', class: 'rowsub', 'font-size': '11.5' }, svg, f.label);
+      if (w) el('rect', { x: ML, y: y + 7, width: w, height: ROW - 14, rx: 4, fill: lvl }, svg);
+      el('text', { x: ML + w + 8, y: y + ROW / 2 + 4, class: 'direct' }, svg, f.n + ' (' + Math.round(100 * f.n / total) + '%)');
+      hits.push({ y0: y, y1: y + ROW, f, total });
+    });
+    attachTooltip(svg, 'tt-h', inRow(hits), h => '<span class="t">' + p.title + ' · ' + h.f.label + '</span><br><b>' + h.f.n + '</b> of ' + h.total + ' submissions (' + pct(h.f.n / h.total) + ')', hits);
+  }
+}
+
+// ---- chart K: term by term ----
+{
+  const kc = DATA.knowledge;
+  const gate = kc.takers.filter(t => t.era === 'gate'), n = gate.length;
+  document.getElementById('terms-sub').innerHTML =
+    'The check shows ' + kc.terms + ' terms and asks the reader to pick the AI-related ones: ' + kc.real + ' are genuine and ' + kc.decoys +
+    ' are decoys, most of them a keyword collision with a real term. Left: how many of the ' + n + ' finishers spotted each real term. Right: how many fell for each decoy.';
+  const box = document.getElementById('chart-terms');
+  const blocks = [
+    { title: 'Real terms · spotted by', items: kc.perTerm.filter(t => t.ai) },
+    { title: 'Decoys · tripped', items: kc.perTerm.filter(t => !t.ai) },
+  ];
+  const pairs = new Map(kc.pairs.map(p => [p.decoy, p.collides]));
+  for (const b of blocks) {
+    const ROW = 21, ML = 196, MR = 64, MT = 24, MB = 8, W = 440, H = MT + b.items.length * ROW + MB;
+    const wrap = document.createElement('div'); wrap.style.flex = '1 1 320px'; wrap.style.maxWidth = '460px'; box.appendChild(wrap);
+    const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, wrap);
+    el('text', { x: 0, y: 12, class: 'blockhead' }, svg, b.title.toUpperCase());
+    el('text', { x: W, y: 12, 'text-anchor': 'end', class: 'rowsub' }, svg, '○ the April taker, retired path');
+    const X = k => ML + k / n * (W - ML - MR);
+    for (let k = 0; k <= n; k++) el('line', { x1: X(k), x2: X(k), y1: MT - 4, y2: H - MB, stroke: k === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+    const hits = [];
+    b.items.forEach((t, i) => {
+      const y = MT + i * ROW, w = Math.max(X(t.pickedGate) - ML, t.pickedGate ? 2 : 0);
+      const short = t.label.length > 30 ? t.label.slice(0, 29) + '…' : t.label;
+      el('text', { x: ML - 9, y: y + ROW / 2 + 4, 'text-anchor': 'end', class: 'rowsub', 'font-size': '11.5' }, svg, short);
+      if (w) el('rect', { x: ML, y: y + 4, width: w, height: ROW - 9, rx: 4, fill: 'var(--accent)', opacity: t.ai ? 0.9 : 1 }, svg);
+      const decideHit = t.picked - t.pickedGate; // the retired path's one taker
+      if (decideHit) el('circle', { cx: W - 8, cy: y + ROW / 2, r: 3.5, fill: 'none', stroke: 'var(--ink-3)', 'stroke-width': 1.5 }, svg);
+      el('text', { x: ML + w + 7, y: y + ROW / 2 + 4, class: 'rowsub', 'font-size': '11' }, svg, t.pickedGate + '/' + n);
+      hits.push({ y0: y, y1: y + ROW, t, decideHit });
+    });
+    attachTooltip(svg, 'tt-k', inRow(hits), h => '<span class="t">' + h.t.label + (h.t.ai ? ' · real term' : ' · decoy' + (pairs.get(h.t.label) ? ', collides with ' + pairs.get(h.t.label) : ', free-standing')) + '</span><br>' +
+      (h.t.ai ? 'spotted by <b>' + h.t.pickedGate + ' of ' + n + '</b> finishers' : 'tripped <b>' + h.t.pickedGate + ' of ' + n + '</b> finishers') +
+      '<br><span class="t">April’s standalone-path taker: ' + (h.decideHit ? (h.t.ai ? 'spotted it' : 'fell for it') : (h.t.ai ? 'missed it' : 'avoided it')) + '</span>', hits);
+  }
+  const missedAll = kc.perTerm.filter(t => t.ai && t.pickedGate === 0).map(t => t.label);
+  const missedSome = kc.perTerm.filter(t => t.ai && t.pickedGate > 0 && t.pickedGate < n).map(t => t.label + ' (' + t.pickedGate + '/' + n + ')');
+  const tripped = kc.perTerm.filter(t => !t.ai && t.pickedGate > 0).map(t => t.label);
+  document.getElementById('terms-verdict').innerHTML =
+    '<span class="lead">No finisher tripped a decoy. Every finisher missed the same real term.</span>' +
+    'Across ' + n + ' finishers and ' + kc.decoys + ' decoys that is ' + (n * kc.decoys) + ' chances to tick on word-shape, and none was taken' + (tripped.length ? ' except ' + tripped.join(', ') : '') + '. ' +
+    'The points they lost all came from the real list: <b>' + missedAll.join(', ') + '</b> was left unticked by all ' + n + (missedSome.length ? ', and ' + missedSome.join(', ') + ' by the rest' : '') + '. ' +
+    'So for the people who finish it, the check measures decoy-avoidance perfectly and then subtracts a point for a term whose AI-relatedness is a judgement call. ' +
+    'The contrast with the one earlier taker on the retired standalone path, who tripped 6 decoys and was routed to beginner, shows the instrument can discriminate. It just has not yet met anyone on the expert path who needed it to.';
+}
+
+// ---- chart H2: expert quiz questions ----
+{
+  const qs = DATA.expertQ, nExp = DATA.experts.length;
+  const blocks = [{ kind: 'concept', title: 'Answerable by reasoning' }, { kind: 'names', title: 'Requires following the field' }];
+  const ROW = 26, HEAD = 24, ML = 168, MR = 56, MT = 4, MB = 26, W = 470, H = MT + blocks.length * HEAD + qs.length * ROW + MB;
+  const X = v => ML + v * (W - ML - MR);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-expertq'));
+  xGrid(svg, X, MT, H, MB, H - 9);
+  el('text', { x: (ML + W - MR) / 2, y: H, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'median share of options ticked');
+  const hits = []; let y = MT;
+  for (const b of blocks) {
+    el('text', { x: 0, y: y + 15, class: 'blockhead' }, svg, b.title.toUpperCase()); y += HEAD;
+    for (const q of qs.filter(q => q.kind === b.kind)) {
+      const share = q.opts ? q.median / q.opts : 0, w = Math.max(share * (W - ML - MR), share > 0 ? 2 : 0);
+      el('text', { x: ML - 10, y: y + ROW / 2 + 4, 'text-anchor': 'end', class: 'rowsub', 'font-size': '11.5' }, svg, q.label);
+      if (w) el('rect', { x: ML, y: y + 4, width: w, height: ROW - 11, rx: 4, fill: 'var(--accent)', opacity: b.kind === 'names' ? 1 : 0.45 }, svg);
+      el('text', { x: ML + w + 7, y: y + ROW / 2 + 4, class: 'rowsub', 'font-size': '11' }, svg, q.median + '/' + q.opts);
+      hits.push({ y0: y, y1: y + ROW, q, share }); y += ROW;
+    }
+  }
+  attachTooltip(svg, 'tt-i', inRow(hits), h => '<span class="t">' + h.q.label + '</span><br>median <b>' + h.q.median + ' of ' + h.q.opts + '</b> ticked (' + pct(h.share) + ')' + (h.q.none ? '<br><b>' + h.q.none + ' of ' + nExp + '</b> ticked none' : ''), hits);
+}
+
+// ---- chart H3: names recognised vs p(doom), verified vs self-declared ----
+{
+  const people = DATA.experts, of = people[0].of || 12;
+  const W = 330, H = 250, ML = 44, MR = 12, MT = 24, MB = 42;
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-expertnames'));
+  const X = k => ML + k / of * (W - ML - MR), Y = v => MT + (1 - v) * (H - MT - MB);
+  el('text', { x: ML, y: 13, class: 'rowsub', 'font-size': '11.5' }, svg, '● cleared the check, n=' + people.filter(p => p.v === true).length + '    ○ self-declared, n=' + people.filter(p => p.v == null).length);
+  for (let v = 0; v <= 1.0001; v += 0.25) {
+    el('line', { x1: ML, x2: W - MR, y1: Y(v), y2: Y(v), stroke: v === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+    el('text', { x: ML - 6, y: Y(v) + 3.5, 'text-anchor': 'end', class: 'tick', 'font-size': '10' }, svg, (v * 100).toFixed(0) + '%');
+  }
+  for (let k = 0; k <= of; k += 3) el('text', { x: X(k), y: H - 24, 'text-anchor': 'middle', class: 'tick', 'font-size': '10' }, svg, k);
+  el('text', { x: (ML + W - MR) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'names recognised (of ' + of + ')');
+  const hits = [], seen = new Map();
+  for (const p of [...people].sort((a, b) => (a.v === true) - (b.v === true))) {
+    const key = p.names + ':' + p.m.toFixed(2), dup = seen.get(key) || 0; seen.set(key, dup + 1);
+    const x = X(p.names) + (dup ? (dup % 2 ? 5 : -5) * Math.ceil(dup / 2) : 0), y = Y(p.m), ver = p.v === true;
+    el('circle', { cx: x, cy: y, r: ver ? 5.5 : 4.5, fill: ver ? 'var(--level-3)' : 'var(--surface)', stroke: ver ? 'var(--surface)' : 'var(--level-3)', 'stroke-width': 2, opacity: 0.9 }, svg);
+    hits.push({ x, y, p });
+  }
+  attachTooltip(svg, 'tt-i2', nearest(hits, 14), h => '<span class="t">' + (h.p.v === true ? 'cleared the check · ' : 'self-declared · ') + h.p.t + '</span><br>recognised <b>' + h.p.names + ' of ' + of + '</b> names<br>p(doom) <b>' + pct(h.p.m) + '</b>', hits);
+}
+
+// ---- identity tables ----
+{
+  const id = DATA.identity, vis = DATA.visitors;
+  document.getElementById('identity-count').textContent = id.signed + ' signed rows · ' + id.visitors + ' browsers';
+  const tb = document.querySelector('#tbl-identity tbody');
+  const row = (k, v, dim) => { const tr = document.createElement('tr'); tr.innerHTML = '<td' + (dim ? ' class="dim"' : '') + '>' + k + '</td><td class="num strong">' + v + '</td>'; tb.appendChild(tr); };
+  row('Rows since signing began (19 Aug)', rows.filter(r => r.t >= GATE).length);
+  row('Signed', id.signed);
+  row('Signatures that verify', id.valid);
+  row('Signatures that fail', id.invalid);
+  row('Signed strings disagreeing with the row', id.mismatched);
+  row('Replayed (key, counter) pairs', id.replays);
+  row('Unsigned since 19 Aug', rows.filter(r => r.t >= GATE).length - id.signed, true);
+  row('Distinct browsers', id.visitors);
+  row('Browsers with more than one row', id.repeat);
+  const rb = document.querySelector('#tbl-repeat tbody');
+  for (const r of vis.repeat) {
+    const tr = document.createElement('tr');
+    const span = r.span < 60 ? r.span + ' s' : Math.round(r.span / 60) + ' min';
+    tr.innerHTML = '<td class="num strong">' + r.n + '</td><td>' + span + '</td><td>' + r.levels.join(', ') + '</td><td>' + r.m.map(pct).join(', ') + '</td><td class="dim">' +
+      (r.identical ? 'identical payloads: one browser, submit pressed ' + r.n + ' times' : 'different answers: one person taking two quizzes') + '</td>';
+    rb.appendChild(tr);
+  }
+}
+
+// ---- beginner: shared strip chart for A/B/C groups ----
+function groupStrips(containerId, ttId, begs, field, defs, unit, tip) {
+  const W = 484, ROWH = 90, ML = 118, MR = 20, MT = 14, MB = 34, H = MT + defs.length * ROWH + MB;
+  const X = v => ML + v * (W - ML - MR);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById(containerId));
+  xGrid(svg, X, MT, H, MB, H - 16);
+  el('text', { x: (ML + W - MR) / 2, y: H - 3, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'submitted p(doom)');
+  const hits = [];
+  defs.forEach((d, gi) => {
+    const vals = begs.filter(b => b[field] === d.g); if (!vals.length) return;
+    const cy = MT + gi * ROWH + ROWH / 2 - 6, ks = vals.map(b => b[unit]);
+    el('text', { x: 8, y: cy - 4, class: 'rowlab' }, svg, 'Group ' + d.g);
+    el('text', { x: 8, y: cy + 11, class: 'rowsub' }, svg, Math.min(...ks) + '–' + Math.max(...ks) + ' ' + unit + ', n=' + vals.length);
+    el('text', { x: 8, y: cy + 25, class: 'rowsub' }, svg, d.desc);
+    vals.forEach((b, i) => { const y = cy + ((i * 37) % 13 - 6) * 2.1; el('circle', { cx: X(b.m), cy: y, r: 5, fill: d.color, stroke: 'var(--surface)', 'stroke-width': 2, opacity: 0.9 }, svg); hits.push({ x: X(b.m), y, b, d }); });
+    const m = med(vals.map(b => b.m));
+    el('line', { x1: X(m), x2: X(m), y1: cy - 26, y2: cy + 26, stroke: 'var(--ink)', 'stroke-width': 2.5 }, svg);
+    el('text', { x: X(m), y: cy - 31, 'text-anchor': 'middle', class: 'direct' }, svg, pct(m));
+  });
+  attachTooltip(svg, ttId, nearest(hits, 16), tip, hits);
+}
+function shareBars(containerId, ttId, items, key, ofKey, opts) {
+  const ROW = opts.row || 20, ML = opts.ml || 200, MR = 46, MT = 8, MB = 24, W = opts.w || 470, H = MT + items.length * ROW + MB;
+  const X = v => ML + v * (W - ML - MR);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById(containerId));
+  xGrid(svg, X, MT, H, MB, H - 10);
+  const hits = [], maxOf = items.reduce((m, x) => Math.max(m, x[ofKey]), 0);
+  items.forEach((t, i) => {
+    const y = MT + i * ROW, share = t[ofKey] ? t[key] / t[ofKey] : 0, w = Math.max(share * (W - ML - MR), share > 0 ? 2 : 0);
+    el('text', { x: ML - 8, y: y + ROW / 2 + 4, 'text-anchor': 'end', class: 'rowsub', 'font-size': '11.5' }, svg, t.label.replace(/\s*\(.*\)$/, ''));
+    if (w) el('rect', { x: ML, y: y + 4, width: w, height: ROW - 9, rx: 4, fill: 'var(--accent)', opacity: opts.opacity ? opts.opacity(t) : 0.9 }, svg);
+    el('text', { x: ML + w + 6, y: y + ROW / 2 + 4, class: 'rowsub', 'font-size': '11' }, svg, t[key] + '/' + t[ofKey] + (t[ofKey] < maxOf ? ' *' : ''));
+    hits.push({ y0: y, y1: y + ROW, t, share });
+  });
+  attachTooltip(svg, ttId, inRow(hits), opts.tip, hits);
+}
+{
+  const begs = DATA.beginners;
+  shareBars('chart-titles', 'tt-f', DATA.titles, 'seen', 'of', { tip: h => '<span class="t">' + h.t.label + '</span><br>ticked by <b>' + h.t.seen + ' of ' + h.t.of + '</b> (' + pct(h.share) + ')' });
+  groupStrips('chart-filmgroups', 'tt-f2', begs, 'g',
+    [{ g: 'A', color: 'var(--level-3)', desc: 'seen most films' }, { g: 'B', color: 'var(--level-2)', desc: 'middling' }, { g: 'C', color: 'var(--level-1)', desc: 'seen almost none' }],
+    'films', p => '<span class="t">Group ' + p.d.g + ' · ' + p.b.films + ' films ticked</span><br>p(doom) <b>' + pct(p.b.m) + '</b><br>p10–p90: <b>' + pct(p.b.p10) + ' – ' + pct(p.b.p90) + '</b>');
+  shareBars('chart-risks', 'tt-g', DATA.risks, 'seen', 'of', { row: 22, ml: 196, w: 452, tip: h => '<span class="t">' + h.t.label + '</span><br>recognised by <b>' + h.t.seen + ' of ' + h.t.of + '</b> (' + pct(h.share) + ')' });
+  groupStrips('chart-riskgroups', 'tt-g2', begs, 'rg',
+    [{ g: 'A', color: 'var(--level-3)', desc: 'knows nearly all' }, { g: 'B', color: 'var(--level-2)', desc: 'middling' }, { g: 'C', color: 'var(--level-1)', desc: 'knows fewest' }],
+    'risks', p => '<span class="t">Group ' + p.d.g + ' · ' + p.b.risks + ' of 12 risks recognised</span><br>p(doom) <b>' + pct(p.b.m) + '</b><br>mean ± setting: <b>' + p.b.spread.toFixed(2) + '</b>');
+}
+// ---- risks vs width ----
+{
+  const begs = DATA.beginners, W = 330, H = 250, ML = 44, MR = 12, MT = 24, MB = 42;
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-riskwidth'));
+  const ks = begs.map(b => b.risks), kMin = Math.min(...ks) - 0.5, kMax = Math.max(...ks) + 0.5;
+  const X = k => ML + (k - kMin) / (kMax - kMin) * (W - ML - MR), Y = v => MT + (1 - v) * (H - MT - MB);
+  const ws = begs.map(b => b.spread), mk = ks.reduce((a, b) => a + b, 0) / ks.length, mw = ws.reduce((a, b) => a + b, 0) / ws.length;
+  const sxy = ks.reduce((acc, k, i) => acc + (k - mk) * (ws[i] - mw), 0), sxx = ks.reduce((acc, k) => acc + (k - mk) ** 2, 0), syy = ws.reduce((acc, w) => acc + (w - mw) ** 2, 0);
+  const slope = sxy / sxx, r = sxy / Math.sqrt(sxx * syy);
+  el('text', { x: ML, y: 13, class: 'rowlab', 'font-size': '12' }, svg, 'Mean ± setting');
+  el('text', { x: W - MR, y: 13, 'text-anchor': 'end', class: 'rowsub' }, svg, 'r = ' + (r < 0 ? '−' : '') + Math.abs(r).toFixed(2));
+  for (let v = 0; v <= 1.0001; v += 0.25) {
+    el('line', { x1: ML, x2: W - MR, y1: Y(v), y2: Y(v), stroke: v === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+    el('text', { x: ML - 6, y: Y(v) + 3.5, 'text-anchor': 'end', class: 'tick', 'font-size': '10' }, svg, v.toFixed(2));
+  }
+  for (let k = Math.ceil(kMin); k <= Math.floor(kMax); k += 2) el('text', { x: X(k), y: H - 24, 'text-anchor': 'middle', class: 'tick', 'font-size': '10' }, svg, k);
+  el('text', { x: (ML + W - MR) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'risk types recognised (of 12)');
+  const at = k => mw + slope * (k - mk);
+  el('line', { x1: X(kMin), y1: Y(at(kMin)), x2: X(kMax), y2: Y(at(kMax)), stroke: 'var(--ink-2)', 'stroke-width': 2, 'stroke-dasharray': '5 4', opacity: 0.8 }, svg);
+  const hits = [], seen = new Map();
+  for (const b of begs) {
+    const key = b.risks + ':' + b.spread.toFixed(2), dup = seen.get(key) || 0; seen.set(key, dup + 1);
+    const x = X(b.risks) + (dup ? (dup % 2 ? 5 : -5) * Math.ceil(dup / 2) : 0), y = Y(b.spread);
+    el('circle', { cx: x, cy: y, r: 4.5, fill: 'var(--accent)', stroke: 'var(--surface)', 'stroke-width': 2, opacity: 0.85 }, svg);
+    hits.push({ x, y, b });
+  }
+  attachTooltip(svg, 'tt-g3', nearest(hits, 14), p => '<span class="t">' + p.b.risks + ' of 12 risks recognised</span><br>mean ± setting <b>' + p.b.spread.toFixed(2) + '</b><br>p(doom): <b>' + pct(p.b.m) + '</b>', hits);
+}
+
+// ---- medium J1: correlations, all vs de-duplicated ----
+{
+  const qs = DATA.mediumQ;
+  const blocks = [{ kind: 'knowledge', title: 'What they know or have experienced' }, { kind: 'opinion', title: 'What they believe (not a finding)' }];
+  const ROW = 30, HEAD = 24, ML = 176, MR = 24, MT = 6, MB = 30, W = 520, H = MT + blocks.length * HEAD + qs.length * ROW + MB;
+  const LO = -0.7, HI = 0.7, X = v => ML + (v - LO) / (HI - LO) * (W - ML - MR);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-mediumq'));
+  for (let v = -0.5; v <= 0.51; v += 0.25) {
+    const zero = Math.abs(v) < 1e-9;
+    el('line', { x1: X(v), x2: X(v), y1: MT, y2: H - MB, stroke: zero ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+    el('text', { x: X(v), y: H - 13, 'text-anchor': 'middle', class: 'tick' }, svg, v.toFixed(2).replace('-', '−'));
+  }
+  el('text', { x: (ML + W - MR) / 2, y: H - 1, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'rank correlation with submitted p(doom) · ● all rows  ○ without repeats');
+  const hits = []; let y = MT;
+  const sgn = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2);
+  for (const b of blocks) {
+    el('text', { x: 0, y: y + 15, class: 'blockhead' }, svg, b.title.toUpperCase()); y += HEAD;
+    for (const q of qs.filter(q => q.kind === b.kind)) {
+      const cy = y + ROW / 2, op = b.kind === 'opinion' ? 0.5 : 1;
+      el('text', { x: ML - 10, y: cy + 4, 'text-anchor': 'end', class: 'rowsub', 'font-size': '11.5' }, svg, q.label);
+      el('line', { x1: X(q.rho), x2: X(q.rhoDedup), y1: cy, y2: cy, stroke: 'var(--accent)', 'stroke-width': 2, opacity: op * 0.6 }, svg);
+      el('circle', { cx: X(q.rho), cy, r: 5, fill: 'var(--accent)', stroke: 'var(--surface)', 'stroke-width': 2, opacity: op }, svg);
+      el('circle', { cx: X(q.rhoDedup), cy, r: 5, fill: 'var(--surface)', stroke: 'var(--accent)', 'stroke-width': 2, opacity: op }, svg);
+      const right = Math.max(q.rho, q.rhoDedup) >= 0 && q.rhoDedup >= q.rho ? q.rhoDedup : Math.max(q.rho, q.rhoDedup);
+      const left = Math.min(q.rho, q.rhoDedup);
+      if (right >= 0) el('text', { x: X(right) + 9, y: cy + 4, class: 'direct' }, svg, sgn(q.rhoDedup));
+      else el('text', { x: X(left) - 9, y: cy + 4, 'text-anchor': 'end', class: 'direct' }, svg, sgn(q.rhoDedup));
+      hits.push({ y0: y, y1: y + ROW, q }); y += ROW;
+    }
+  }
+  attachTooltip(svg, 'tt-j', inRow(hits), h => '<span class="t">' + h.q.label + ' · ' + h.q.kind + '</span><br>all rows: Spearman <b>' + sgn(h.q.rho) + '</b> (n = ' + h.q.n + ')<br>without repeats: <b>' + sgn(h.q.rhoDedup) + '</b> (n = ' + h.q.nDedup + ')', hits);
+}
+
+// ---- medium J2: system prompts ----
+{
+  const levels = DATA.prompts, W = 440, ROWH = 72, ML = 150, MR = 22, MT = 14, MB = 34, H = MT + levels.length * ROWH + MB;
+  const X = v => ML + v * (W - ML - MR);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-prompts'));
+  xGrid(svg, X, MT, H, MB, H - 16);
+  el('text', { x: (ML + W - MR) / 2, y: H - 3, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'submitted p(doom)');
+  const short = ['Don’t know what one is', 'Basic understanding', 'Regularly use them', 'Expert user'];
+  const hits = [];
+  levels.forEach((lv, i) => {
+    const cy = MT + i * ROWH + ROWH / 2 - 4;
+    el('text', { x: 6, y: cy - 1, class: 'rowlab', 'font-size': '12' }, svg, short[i] || lv.label);
+    el('text', { x: 6, y: cy + 14, class: 'rowsub' }, svg, 'n=' + lv.n + (lv.nDedup !== lv.n ? ' · ' + lv.nDedup + ' without repeats' : ''));
+    lv.values.forEach((v, k) => {
+      const yy = cy + ((k * 37) % 11 - 5) * 2.2, dup = lv.dups[k];
+      el('circle', { cx: X(v), cy: yy, r: 5, fill: dup ? 'var(--surface)' : 'var(--accent)', stroke: dup ? 'var(--accent)' : 'var(--surface)', 'stroke-width': 2, opacity: 0.9 }, svg);
+      hits.push({ x: X(v), y: yy, v, lv, dup, label: short[i] || lv.label });
+    });
+    if (lv.median != null) {
+      el('line', { x1: X(lv.median), x2: X(lv.median), y1: cy - 21, y2: cy + 21, stroke: 'var(--ink)', 'stroke-width': 2.5 }, svg);
+      el('text', { x: X(lv.median), y: cy - 26, 'text-anchor': 'middle', class: 'direct' }, svg, pct(lv.median) + (lv.medianDedup != null && pct(lv.medianDedup) !== pct(lv.median) ? ' → ' + pct(lv.medianDedup) : ''));
+    }
+  });
+  attachTooltip(svg, 'tt-j2', nearest(hits, 15), h => '<span class="t">' + h.label + ' · n=' + h.lv.n + (h.dup ? ' · repeat row' : '') + '</span><br>p(doom) <b>' + pct(h.v) + '</b>', hits);
+}
+
+// ---- medium J3/J4: vulnerabilities ----
+{
+  shareBars('chart-vulnlist', 'tt-l', DATA.vulnList, 'known', 'of', { row: 21, ml: 196, w: 500,
+    tip: h => '<span class="t">' + h.t.label + '</span><br>recognised by <b>' + h.t.known + ' of ' + h.t.of + '</b> (' + pct(h.share) + ')' });
+  const pts = DATA.mediumVuln, of = pts[0].of || 16, W = 330, H = 250, ML = 44, MR = 12, MT = 24, MB = 42;
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-vulns'));
+  const X = k => ML + k / of * (W - ML - MR), Y = v => MT + (1 - v) * (H - MT - MB);
+  const q = DATA.mediumQ.find(q => q.id === 'medium-vulnerabilities');
+  el('text', { x: ML, y: 13, class: 'rowlab', 'font-size': '12' }, svg, 'The strongest signal');
+  el('text', { x: W - MR, y: 13, 'text-anchor': 'end', class: 'rowsub' }, svg, 'ρ = +' + q.rhoDedup.toFixed(2) + ' without repeats');
+  for (let v = 0; v <= 1.0001; v += 0.25) {
+    el('line', { x1: ML, x2: W - MR, y1: Y(v), y2: Y(v), stroke: v === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+    el('text', { x: ML - 6, y: Y(v) + 3.5, 'text-anchor': 'end', class: 'tick', 'font-size': '10' }, svg, (v * 100).toFixed(0) + '%');
+  }
+  for (let k = 0; k <= of; k += 4) el('text', { x: X(k), y: H - 24, 'text-anchor': 'middle', class: 'tick', 'font-size': '10' }, svg, k);
+  el('text', { x: (ML + W - MR) / 2, y: H - 8, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'vulnerabilities recognised (of ' + of + ')');
+  const fresh = pts.filter(p => !p.dup), xs = fresh.map(r => r.known), ys = fresh.map(r => r.m);
+  const mk = xs.reduce((a, b) => a + b, 0) / xs.length, my = ys.reduce((a, b) => a + b, 0) / ys.length;
+  const slope = xs.reduce((acc, x, i) => acc + (x - mk) * (ys[i] - my), 0) / xs.reduce((acc, x) => acc + (x - mk) ** 2, 0), at = k => my + slope * (k - mk);
+  el('line', { x1: X(0), y1: Y(at(0)), x2: X(of), y2: Y(at(of)), stroke: 'var(--ink-2)', 'stroke-width': 2, 'stroke-dasharray': '5 4', opacity: 0.8 }, svg);
+  const hits = [], seen = new Map();
+  for (const r of pts) {
+    const key = r.known + ':' + r.m.toFixed(2), dup = seen.get(key) || 0; seen.set(key, dup + 1);
+    const x = X(r.known) + (dup ? (dup % 2 ? 5 : -5) * Math.ceil(dup / 2) : 0), y = Y(r.m);
+    el('circle', { cx: x, cy: y, r: 4.5, fill: r.dup ? 'var(--surface)' : 'var(--accent)', stroke: r.dup ? 'var(--accent)' : 'var(--surface)', 'stroke-width': 2, opacity: 0.85 }, svg);
+    hits.push({ x, y, r });
+  }
+  attachTooltip(svg, 'tt-l2', nearest(hits, 14), h => '<span class="t">recognised ' + h.r.known + ' of ' + of + (h.r.dup ? ' · repeat row' : '') + '</span><br>p(doom) <b>' + pct(h.r.m) + '</b>', hits);
+}
+
+// ---- sliders / no quiz ----
+{
+  const srows = DATA.sliders;
+  const NAMES = ['P(powerful AI)', 'P(dangerous | powerful)', 'P(catastrophe | dangerous)'];
+  const ROWH = 26, HEAD = 38, ML = 178, MR = 58, MT = 8, MB = 26, W = 640, H = MT + srows.length * (HEAD + 3 * ROWH + 10) + MB;
+  const X = v => ML + v * (W - ML - MR);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-sliders'));
+  xGrid(svg, X, MT, H, MB, H - 9);
+  el('text', { x: (ML + W - MR) / 2, y: H, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'probability set on each slider');
+  let y = MT;
+  srows.forEach(r => {
+    const pinned = r.factors.every(f => f.upper - f.lower === 0), full = r.factors.every(f => f.upper - f.lower === 1);
+    const stale = r.date >= GATE;
+    el('text', { x: 0, y: y + 16, class: 'rowlab', 'font-size': '12' }, svg, r.date);
+    el('text', { x: 0, y: y + 30, class: 'rowsub' }, svg, stale ? 'after the shortcut was removed' : pinned ? 'no uncertainty at all' : full ? 'maximum uncertainty' : 'near the defaults');
+    y += HEAD;
+    r.factors.forEach((f, k) => {
+      el('text', { x: ML - 10, y: y + ROWH / 2 + 4, 'text-anchor': 'end', class: 'rowsub', 'font-size': '11' }, svg, NAMES[k]);
+      el('rect', { x: X(f.lower), y: y + ROWH / 2 - 6, width: Math.max((f.upper - f.lower) * (W - ML - MR), 3), height: 12, rx: 4, fill: 'var(--accent)', opacity: 0.2 }, svg);
+      el('circle', { cx: X(f.mid), cy: y + ROWH / 2, r: 5, fill: stale ? 'var(--surface)' : 'var(--accent)', stroke: 'var(--accent)', 'stroke-width': 2 }, svg);
+      y += ROWH;
+    });
+    el('text', { x: W - MR + 8, y: y - 3 * ROWH / 2 - 2, class: 'direct' }, svg, (r.m * 100).toFixed(1) + '%');
+    y += 10;
+  });
+  document.getElementById('sliders-verdict').innerHTML =
+    '<span class="lead">Five submissions, four statements of confidence, one identical answer.</span>' +
+    'Two dragged every band to its full width, one pinned all three to a point, and the two August rows sit near the page defaults with the first slider nudged. All five left every midpoint at 50%, so all five produced <b>0.5 × 0.5 × 0.5 = 12.5%</b>. ' +
+    '"I have no idea" on each of three sequential conditionals does not come out near 50%; it comes out at 12.5%, which is the multiplicative chain doing to these five what the belief-chain figure shows it doing to everyone else. ' +
+    'The two August rows are unsigned and carry no level, on a page where every path now sets both, two days after the shortcut was removed.';
+}
+</script>
