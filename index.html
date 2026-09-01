@@ -154,6 +154,11 @@ Gaps / potential future questions:
     let supabaseClient = null;
     let latestSnapshot = null;
     let latestQuizData = null;
+    // What the last successful submission said, minus its timestamp. Pressing the
+    // button again with nothing changed would insert a byte-identical row, so the
+    // button stays disabled until a slider or an answer moves. Changing your mind
+    // re-enables it; changing nothing does not.
+    let lastSubmittedKey = null;
 
     const config = [
       {
@@ -1326,6 +1331,7 @@ Gaps / potential future questions:
     function resetPathState() {
       gateState = null;
       latestQuizData = null;
+      refreshSubmitAvailability();
     }
 
     let storedWizardAnswers = {};
@@ -2230,6 +2236,7 @@ Gaps / potential future questions:
       resultEl.classList.remove('quiz-result--warning');
       resultEl.classList.add('quiz-result--success');
       latestQuizData = buildQuizAnswersPayload(wizardState.flowId, flow);
+      refreshSubmitAvailability();
 
       const calibrationByFlow = {
         beginner: () => ({
@@ -2451,6 +2458,30 @@ Gaps / potential future questions:
       }
     }
 
+    // What the visitor chose: slider settings, quiz answers and the gate verdict.
+    // The timestamp is left out, and so is the summary, because p10 and p90 are
+    // sampled and differ slightly on every recalc even when nothing was touched.
+    function submissionKey(payload) {
+      return JSON.stringify({
+        factors: payload.factors.map(({ key, midpoint, spread }) => ({ key, midpoint, spread })),
+        quiz_flow_id: payload.quiz_flow_id,
+        quiz_answers: payload.quiz_answers,
+        gate_score: payload.gate_score,
+        gate_recommended_level: payload.gate_recommended_level,
+        expert_verified: payload.expert_verified,
+        gate_answers: payload.gate_answers
+      });
+    }
+
+    // Disable the submit button while the current parameters are exactly what
+    // was last registered. Runs on every slider move and quiz completion.
+    function refreshSubmitAvailability() {
+      const button = document.getElementById('submitParametersButton');
+      if (!button || lastSubmittedKey === null) return;
+      const draft = buildSubmissionPayload();
+      button.disabled = !!draft && submissionKey(draft) === lastSubmittedKey;
+    }
+
     function buildSubmissionPayload() {
       if (!latestSnapshot) return null;
       const { factors, lowerProduct, upperProduct, midpointProduct, p10, p90 } = latestSnapshot;
@@ -2550,11 +2581,20 @@ Gaps / potential future questions:
           setSubmissionStatus('Nothing to submit yet. Adjust the sliders first.', 'error');
           return;
         }
+        // Taken before signing, which attaches the identity columns to the draft.
+        const draftKey = submissionKey(draft);
+        if (draftKey === lastSubmittedKey) {
+          setSubmissionStatus('Already registered. Change a slider or your answers to register again.', 'error');
+          return;
+        }
         // Sign it anyway so the whole path is exercised, then stop. The submit
         // counter is deliberately not advanced: no row landed, so advancing it
         // would leave a gap in this browser's sequence.
         await signSubmission(draft);
         console.info('[developer] submission withheld, nothing sent:', draft);
+        // Remembered anyway, so the duplicate guard can be exercised without a row.
+        lastSubmittedKey = draftKey;
+        refreshSubmitAvailability();
         setSubmissionStatus('Developer mode — nothing was sent. Payload logged to the console.', 'error');
         renderExhibits();
         return;
@@ -2573,6 +2613,11 @@ Gaps / potential future questions:
         setSubmissionStatus('Nothing to submit yet. Adjust the sliders first.', 'error');
         return;
       }
+      const key = submissionKey(payload);
+      if (key === lastSubmittedKey) {
+        setSubmissionStatus('Already registered. Change a slider or your answers to register again.', 'error');
+        return;
+      }
 
       setSubmissionStatus('Submitting...');
       if (button) button.disabled = true;
@@ -2586,13 +2631,17 @@ Gaps / potential future questions:
         // Deliberately not surfaced anywhere: the visitor must see no difference
         // between their first submission and their fortieth.
         if (identity) persistSubmitCount(nextCount);
+        lastSubmittedKey = key;
         setSubmissionStatus('Submitted! Thanks for contributing.', 'success');
         renderExhibits();
       } catch (error) {
         console.error('Supabase submission failed', error);
         setSubmissionStatus('Submission failed. Please try again later.', 'error');
       } finally {
+        // A failed submit re-enables the button; a successful one leaves it
+        // disabled until the parameters change.
         if (button) button.disabled = false;
+        refreshSubmitAvailability();
       }
     }
 
@@ -2792,6 +2841,7 @@ Gaps / potential future questions:
         p10,
         p90
       };
+      refreshSubmitAvailability();
     }
 
     function updateUncertaintyDriver(factors) {
