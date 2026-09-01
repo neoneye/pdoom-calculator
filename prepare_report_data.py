@@ -93,6 +93,19 @@ OPTION_ADDED = {
     "entertainment-eagle-eye": "2026-08-18",
 }
 
+# Knowledge-check terms change too. A term added later was never shown to earlier
+# takers, and a retired term was shown to them but is no longer on the page, so each
+# taker is scored against the list as it stood on their day. Same-day submissions
+# are ambiguous and count as having seen the old list. Refresh with:
+#   git log --format=%ad --date=short -S'<term-id>' -- index.html | tail -1
+TERM_ADDED = {
+    "embedding": "2026-09-02",
+}
+# (id, label, aiRelated, retired on)
+RETIRED_TERMS = [
+    ("mary-shelley", "Mary Shelley", True, "2026-09-02"),
+]
+
 # Film-exposure groups: how many entertainment titles a respondent ticked.
 GROUP_A_MIN = 12  # A: seen the most
 GROUP_B_MIN = 7   # B: middle; C: everything below
@@ -622,21 +635,31 @@ def knowledge_check(submissions, index_html):
     pairs = [{"decoy": t["label"], "collides": DECOY_COLLISIONS.get(t["id"])} for t in decoys]
     pairs.sort(key=lambda p: (p["collides"] is None, p["collides"] or "", p["decoy"]))
 
+    def shown_on(date):
+        """The term list as this taker saw it."""
+        current = [t for t in terms if TERM_ADDED.get(t["id"]) is None or date > TERM_ADDED[t["id"]]]
+        retired = [{"id": tid, "label": label, "ai": ai}
+                   for tid, label, ai, gone in RETIRED_TERMS if date <= gone]
+        return current + retired
+
     takers = []
     for s in submissions:
         picked = gate_picks(s)
         if picked is None:
             continue
-        hits = len(picked & real_ids)
-        tripped = len(picked - real_ids)
-        avoided = len(decoys) - tripped
+        shown = shown_on(s["submitted_at"][:10])
+        real_then = {t["id"] for t in shown if t["ai"]}
+        decoys_then = sum(1 for t in shown if not t["ai"])
+        hits = len(picked & real_then)
+        tripped = len(picked - real_then)
+        avoided = decoys_then - tripped
         correct = hits + avoided
         takers.append({
             # "gate": reached through the expert path since 19 Aug 2026;
             # "decide": the retired standalone knowledge-check path.
             "era": "gate" if s.get("gate_answers") is not None else "decide",
             "hits": hits, "tripped": tripped, "avoided": avoided,
-            "correct": correct, "of": len(terms),
+            "correct": correct, "of": len(shown),
             "routed": ("beginner" if correct <= 20 else "medium" if correct <= 25 else "expert"),
             "calibrated": max(0, hits - tripped),
             "m": round(s["summary"]["midpoint"], 4),
@@ -655,16 +678,21 @@ def knowledge_check(submissions, index_html):
             seen[tid] += 1
             if s.get("gate_answers") is not None:
                 seen_gate[tid] += 1
-    gate_takers = sum(1 for t in takers if t["era"] == "gate")
+    # A term's denominator is the takers who were actually shown it.
+    def shown_count(tid, gate_only):
+        return sum(1 for s in submissions
+                   if gate_picks(s) is not None
+                   and (not gate_only or s.get("gate_answers") is not None)
+                   and any(t["id"] == tid for t in shown_on(s["submitted_at"][:10])))
     per_term = [{
         "id": t["id"],
         "label": t["label"],
         "ai": t["ai"],
         # For a real term this is how many spotted it; for a decoy, how many fell for it.
         "picked": seen.get(t["id"], 0),
-        "of": len(takers),
+        "of": shown_count(t["id"], False),
         "pickedGate": seen_gate.get(t["id"], 0),
-        "ofGate": gate_takers,
+        "ofGate": shown_count(t["id"], True),
     } for t in terms]
     per_term.sort(key=lambda t: (t["ai"], -t["pickedGate"], -t["picked"], t["label"]))
 

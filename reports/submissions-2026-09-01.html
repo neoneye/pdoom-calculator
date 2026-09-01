@@ -844,21 +844,24 @@ function eventLine(svg, x, MT, H, MB, label) {
     for (let k = 0; k <= n; k++) el('line', { x1: X(k), x2: X(k), y1: MT - 4, y2: H - MB, stroke: k === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
     const hits = [];
     b.items.forEach((t, i) => {
-      const y = MT + i * ROW, w = Math.max(X(t.pickedGate) - ML, t.pickedGate ? 2 : 0);
+      // Each term's own denominator: a term added later was shown to fewer finishers.
+      const of = t.ofGate != null ? t.ofGate : n;
+      const y = MT + i * ROW, w = Math.max(of ? X(t.pickedGate * n / of) - ML : 0, t.pickedGate ? 2 : 0);
       const short = t.label.length > 30 ? t.label.slice(0, 29) + '…' : t.label;
       el('text', { x: ML - 9, y: y + ROW / 2 + 4, 'text-anchor': 'end', class: 'rowsub', 'font-size': '11.5' }, svg, short);
       if (w) el('rect', { x: ML, y: y + 4, width: w, height: ROW - 9, rx: 4, fill: 'var(--accent)', opacity: t.ai ? 0.9 : 1 }, svg);
       const decideHit = t.picked - t.pickedGate; // the retired path's one taker
       if (decideHit) el('circle', { cx: W - 8, cy: y + ROW / 2, r: 3.5, fill: 'none', stroke: 'var(--ink-3)', 'stroke-width': 1.5 }, svg);
-      el('text', { x: ML + w + 7, y: y + ROW / 2 + 4, class: 'rowsub', 'font-size': '11' }, svg, t.pickedGate + '/' + n);
-      hits.push({ y0: y, y1: y + ROW, t, decideHit });
+      el('text', { x: ML + w + 7, y: y + ROW / 2 + 4, class: 'rowsub', 'font-size': '11' }, svg, of ? t.pickedGate + '/' + of + (of < n ? ' *' : '') : 'not yet shown');
+      hits.push({ y0: y, y1: y + ROW, t, of, decideHit });
     });
     attachTooltip(svg, 'tt-k', inRow(hits), h => '<span class="t">' + h.t.label + (h.t.ai ? ' · real term' : ' · decoy' + (pairs.get(h.t.label) ? ', collides with ' + pairs.get(h.t.label) : ', free-standing')) + '</span><br>' +
-      (h.t.ai ? 'spotted by <b>' + h.t.pickedGate + ' of ' + n + '</b> finishers' : 'tripped <b>' + h.t.pickedGate + ' of ' + n + '</b> finishers') +
+      (h.t.ai ? 'spotted by <b>' + h.t.pickedGate + ' of ' + h.of + '</b> finishers' : 'tripped <b>' + h.t.pickedGate + ' of ' + h.of + '</b> finishers') +
       '<br><span class="t">April’s standalone-path taker: ' + (h.decideHit ? (h.t.ai ? 'spotted it' : 'fell for it') : (h.t.ai ? 'missed it' : 'avoided it')) + '</span>', hits);
   }
-  const missedAll = kc.perTerm.filter(t => t.ai && t.pickedGate === 0).map(t => t.label);
-  const missedSome = kc.perTerm.filter(t => t.ai && t.pickedGate > 0 && t.pickedGate < n).map(t => t.label + ' (' + t.pickedGate + '/' + n + ')');
+  const of = t => (t.ofGate != null ? t.ofGate : n);
+  const missedAll = kc.perTerm.filter(t => t.ai && of(t) > 0 && t.pickedGate === 0).map(t => t.label);
+  const missedSome = kc.perTerm.filter(t => t.ai && t.pickedGate > 0 && t.pickedGate < of(t)).map(t => t.label + ' (' + t.pickedGate + '/' + of(t) + ')');
   const tripped = kc.perTerm.filter(t => !t.ai && t.pickedGate > 0).map(t => t.label);
   document.getElementById('terms-verdict').innerHTML =
     '<span class="lead">No finisher tripped a decoy. Every finisher missed the same real term.</span>' +
