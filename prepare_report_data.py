@@ -14,7 +14,7 @@ the report pages under ``reports/`` render from:
       "experts":   [{"names", "of", "m", "v", "t", "q": {qid: ticked}}, ...],
       "visitors":  {"dupRows", "repeat": [{"n", "levels", "m", "identical", "span"}, ...]},
       "knowledge": {"terms", "real", "decoys", "takers", "pairs": [...], "taker": {...}},
-      "sliders":   [{"m", "p10", "p90", "factors"}, ...],
+      "sliders":   [{"date", "m", "p10", "p90", "factors", "version"}, ...],
       "dupes":     {"records", "unique", "byLevel": {level: {records, unique, median, medianDedup}}},
       "identity":  {"signed", "valid", "invalid", "unchecked", "unsigned", "visitors",
                     "repeat", "maxPerVisitor", "replays", "mismatched"},
@@ -719,6 +719,10 @@ def slider_submissions(submissions):
             "p90": round(s["summary"]["p90"], 4),
             "factors": [{"lower": f["lower"], "mid": f["midpoint"], "upper": f["upper"]}
                         for f in s["factors"]],
+            # The commit the page was built from, once rows started carrying it.
+            # A level-less row with a current version is a page bug; one with an
+            # old version, or none, is a stale tab or something outside the page.
+            "version": s.get("page_version"),
         })
     return out
 
@@ -924,6 +928,10 @@ def print_identity_summary(identity, visitors, out=sys.stderr):
     if identity["mismatched"]:
         print(f"signed rows whose numbers disagree with the signed string: "
               f"{identity['mismatched']}", file=out)
+    versions = Counter((s.get("page_version") or "none")[:7] for s in identity["_submissions"]
+                       if s["submitted_at"][:10] >= "2026-09-02")
+    if versions:
+        print(f"page versions since 2 Sep 2026: {dict(versions)}", file=out)
     print(f"identical repeats from one signed browser: {visitors['dupRows']} rows", file=out)
     for r in visitors["repeat"]:
         print(f"  {r['n']}x {'identical' if r['identical'] else 'different'} "
@@ -972,6 +980,7 @@ def main():
     expert_q, experts = expert_breakdown(submissions, args.quiz_source)
     medium_q, prompts, vulns, vuln_list = medium_breakdown(submissions, args.quiz_source)
     identity = verify_submissions(submissions)
+    identity_summary = dict(identity, _submissions=submissions)
     gate = gate_journeys(submissions)
     data = {
         "rows": rows,
@@ -1002,7 +1011,7 @@ def main():
         print_flow_summary(data["flows"], expert_q, experts)
         print_medium_summary(medium_q, prompts)
         print_gate_summary(gate)
-        print_identity_summary(identity, visitors)
+        print_identity_summary(identity_summary, visitors)
     if args.inject:
         inject(args.inject, blob)
         print(f"injected {len(blob) // 1024} KB into {args.inject}", file=sys.stderr)

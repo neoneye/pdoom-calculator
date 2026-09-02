@@ -151,6 +151,11 @@ Gaps / potential future questions:
       const value = new URLSearchParams(window.location.search).get('developer');
       return value !== null && value !== '0' && value !== 'false';
     })();
+    // The commit this page was built from, filled in by Jekyll. GitHub Pages sets
+    // it from the deploy; a local build reads the checked-out HEAD. Stored with
+    // every submission so a row can be traced to the exact option list, term list
+    // and quiz it was answered on, and a stale tab can be told from a bug.
+    const PAGE_VERSION = '{{ site.github.build_revision | default: "unknown" }}';
     let supabaseClient = null;
     let latestSnapshot = null;
     let latestQuizData = null;
@@ -2512,7 +2517,9 @@ Gaps / potential future questions:
         // Which terms were ticked, so per-decoy performance is recoverable. Not
         // covered by the signature, for the same reason quiz_answers is not: the
         // signed string stays a short fixed-format line.
-        gate_answers: gateState ? gateState.answers : null
+        gate_answers: gateState ? gateState.answers : null,
+        // Diagnostic, not identity, so it stays outside the signed string too.
+        page_version: PAGE_VERSION
       };
     }
 
@@ -2636,7 +2643,13 @@ Gaps / potential future questions:
         renderExhibits();
       } catch (error) {
         console.error('Supabase submission failed', error);
-        setSubmissionStatus('Submission failed. Please try again later.', 'error');
+        // The insert policy refuses rows without a level. The current page always
+        // sets one, so a refusal means this tab predates the change.
+        if (error && error.code === '42501') {
+          setSubmissionStatus('This page is out of date. Reload and try again.', 'error');
+        } else {
+          setSubmissionStatus('Submission failed. Please try again later.', 'error');
+        }
       } finally {
         // A failed submit re-enables the button; a successful one leaves it
         // disabled until the parameters change.

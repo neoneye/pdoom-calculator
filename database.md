@@ -32,7 +32,8 @@ CREATE TABLE submissions (
   visitor_key text,
   submit_count int,
   signed_payload text,
-  signature text
+  signature text,
+  page_version text
 );
 ```
 
@@ -51,6 +52,26 @@ ALTER TABLE submissions
   ADD COLUMN IF NOT EXISTS signed_payload text,
   ADD COLUMN IF NOT EXISTS signature text;
 ```
+
+`page_version` was added on 2 Sep 2026. **Run this before deploying a page that
+sends it**, or PostgREST will reject every submission for naming an unknown column:
+
+```sql
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS page_version text;
+```
+
+Every path on the page now sets a level, so a row without one cannot come from the
+current page. Tighten the insert policy so such rows are refused rather than stored.
+Policies only judge new inserts, so the historical `NULL` and `decide` rows stay:
+
+```sql
+ALTER POLICY "Allow anonymous inserts" ON submissions
+  WITH CHECK (quiz_flow_id IN ('beginner', 'medium', 'expert'));
+```
+
+A refused insert comes back as `42501`, which the page reports as "This page is out
+of date. Reload and try again." A script posting directly can of course set any
+level it likes; the policy catches stale tabs and page bugs, not forgery.
 
 Rows submitted before this date keep `NULL` in all eight. The four gate columns
 are also `NULL` for any beginner or medium submission that never met the gate,
@@ -122,3 +143,4 @@ CREATE POLICY "Allow anonymous reads"
 | `submit_count` | int | 1-based submission number for that `visitor_key`. |
 | `signed_payload` | text | The exact string the signature covers. Stored verbatim so verification never has to reconstruct it. |
 | `signature` | text | base64url of the raw 64-byte r‖s ECDSA signature over `signed_payload`. |
+| `page_version` | text | The commit the page was built from (`site.github.build_revision`). Pins the option list, term list and quiz the row was answered on. Not covered by the signature. `null` before 2 Sep 2026. |
