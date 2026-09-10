@@ -1129,7 +1129,6 @@ input[type="range"]:active::-moz-range-thumb {
 }
 
 .reports-list li {
-  padding: 0.7rem 0;
   border-top: 1px solid var(--line);
 }
 
@@ -1138,14 +1137,26 @@ input[type="range"]:active::-moz-range-thumb {
 }
 
 .reports-list a {
+  display: block;
+  padding: 0.7rem 0.5rem;
+  margin: 0 -0.5rem;
   color: var(--accent);
   text-decoration: none;
-  font-weight: 600;
+  border-radius: var(--radius);
 }
 
 .reports-list a:hover,
-.reports-list a:focus {
+.reports-list a:focus-visible {
+  background: var(--accent-soft);
+}
+
+.reports-list a:hover .reports-list__date,
+.reports-list a:focus-visible .reports-list__date {
   text-decoration: underline;
+}
+
+.reports-list__date {
+  font-weight: 600;
 }
 
 .reports-list__note {
