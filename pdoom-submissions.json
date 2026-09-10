@@ -1,27 +1,27 @@
 {
   "source": "https://github.com/neoneye/pdoom-calculator",
-  "exported_at": "2026-09-01T22:41:07.000Z",
+  "exported_at": "2026-09-10T20:00:47.126Z",
   "summary": {
-    "total_submissions": 202,
-    "average_pdoom": 0.417745988787013,
+    "total_submissions": 253,
+    "average_pdoom": 0.43357278149504647,
     "factors": [
       {
         "label": "P(powerful AI)",
-        "average_lower": 0.42294338882831034,
-        "average_midpoint": 0.7604281918904606,
-        "average_upper": 0.9234421443090817
+        "average_lower": 0.44733366226929044,
+        "average_midpoint": 0.7770223860266235,
+        "average_upper": 0.9297911099437942
       },
       {
         "label": "P(dangerous behavior | powerful AI)",
-        "average_lower": 0.36583128334362747,
-        "average_midpoint": 0.6991842104379952,
-        "average_upper": 0.896229894500682
+        "average_lower": 0.3687457095173907,
+        "average_midpoint": 0.7192535225087209,
+        "average_upper": 0.9152599163458005
       },
       {
         "label": "P(global catastrophe | dangerous behavior)",
-        "average_lower": 0.34552968948567586,
-        "average_midpoint": 0.6653758903552267,
-        "average_upper": 0.8548277129800829
+        "average_lower": 0.3301800024821892,
+        "average_midpoint": 0.6753826231435871,
+        "average_upper": 0.8758582127923179
       }
     ]
   },
@@ -1181,11 +1181,11 @@
     {
       "submitted_at": "2025-10-10T07:41:02.402+00:00",
       "summary": {
-        "p10": 6.336329343828231e-05,
+        "p10": 0.00006336329343828231,
         "p90": 0.004292428295709909,
         "lower": 0,
         "upper": 0.013196249999999998,
-        "midpoint": 7.500000000000001e-05
+        "midpoint": 0.00007500000000000001
       },
       "factors": [
         {
@@ -1433,7 +1433,7 @@
     {
       "submitted_at": "2025-10-18T17:03:27.588+00:00",
       "summary": {
-        "p10": 9.603227195344485e-06,
+        "p10": 0.000009603227195344485,
         "p90": 0.000650552739711647,
         "lower": 0,
         "upper": 0.002,
@@ -10731,7 +10731,7 @@
       "summary": {
         "p10": 0.051396028857536365,
         "p90": 0.5518739404570588,
-        "lower": 6.916336271188377e-06,
+        "lower": 0.000006916336271188377,
         "upper": 1,
         "midpoint": 0.8652084949132707
       },
@@ -12769,6 +12769,5138 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:VMFr8ihRphy_oF8w1nsz2mOeB7VesICVVBcpah37hpW8Gxr_lS_219FrOVK01FcKELhcqHiCwjP5gzn90PYS8w|n=1|t=2026-09-01T21:27:46.587Z|m=0.17987050182054587|lo=0|hi=1|p10=0.030924396205198778|p90=0.4432355741776248|f=0.2997698363595866:1,0.7497123173982588:0.365,0.80034524546062:0.625|q=medium|g=",
       "signature": "wu8x8h5yLFrFAib4DhbeKznN66xc62yz6FVsIBkqBTuQ5NB9YdASkYmYm1v2GrMJ5eHUw1itKvQcjyCSVc0THg"
+    },
+    {
+      "submitted_at": "2026-09-02T01:59:48.495+00:00",
+      "summary": {
+        "p10": 0.33367967398342313,
+        "p90": 0.8309263342594522,
+        "lower": 0.1830789590000001,
+        "upper": 1,
+        "midpoint": 0.9673616690000003
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.929,
+          "upper": 1,
+          "spread": 0.06,
+          "midpoint": 0.9890000000000001
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.5990000000000001,
+          "upper": 1,
+          "spread": 0.39,
+          "midpoint": 0.9890000000000001
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.32900000000000007,
+          "upper": 1,
+          "spread": 0.66,
+          "midpoint": 0.9890000000000001
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-bypass",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:VdIoBvesBKOYRFhYy5lkNMLu37nsH7kIkjVGHBmkMK2l_3qPVoOYbZzd2V7Zs5Rr2SGL_fkI6J8EidrupLChpw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:VdIoBvesBKOYRFhYy5lkNMLu37nsH7kIkjVGHBmkMK2l_3qPVoOYbZzd2V7Zs5Rr2SGL_fkI6J8EidrupLChpw|n=1|t=2026-09-02T01:59:48.495Z|m=0.9673616690000003|lo=0.1830789590000001|hi=1|p10=0.33367967398342313|p90=0.8309263342594522|f=0.9890000000000001:0.06,0.9890000000000001:0.39,0.9890000000000001:0.66|q=medium|g=",
+      "signature": "KGNYUNDRkJbK5M5UTCkKAWeQ9-nzke5sZuCs9htHyu8ONWoMaxacI0IqdiTson5xV-BzAGr1gwe47z6x0C1cUg",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-02T10:02:16.391+00:00",
+      "summary": {
+        "p10": 0.05422585031942702,
+        "p90": 0.5421683900312033,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.31592539811239795
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7197616263380407,
+          "upper": 1,
+          "spread": 0.23,
+          "midpoint": 0.9497616263380408
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.49928038139785913
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.16623189709453995,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.66623189709454
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-synthetic-data"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-software"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai",
+            "expert-campaign-organisations-microcommit"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-axiomatic-extinction"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 26,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "attention-is-all-you-need",
+        "alan-turing",
+        "embedding",
+        "agent",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:hZ3g5zT2JEl7fYyZqfL-BpmC3UXAmQK8Krsj41DE4ZI5FEc3nxUVN-zTrDCyHfX01RNU8IXfxAhWhUNjO2MkBQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:hZ3g5zT2JEl7fYyZqfL-BpmC3UXAmQK8Krsj41DE4ZI5FEc3nxUVN-zTrDCyHfX01RNU8IXfxAhWhUNjO2MkBQ|n=1|t=2026-09-02T10:02:16.391Z|m=0.31592539811239795|lo=0|hi=1|p10=0.05422585031942702|p90=0.5421683900312033|f=0.9497616263380408:0.23,0.49928038139785913:1,0.66623189709454:0.5|q=expert|g=26",
+      "signature": "FBqk7wTp8qetRZ-ypCrXWLPnBivESU8nlAP49XTFlUoZCZPOiZLWXndg_3z76i-IvBatuFzO1CGQAH2N1KJNaA",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-03T07:44:12.129+00:00",
+      "summary": {
+        "p10": 0.05213237062052933,
+        "p90": 0.6036586987826946,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.04551081364079199
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.995,
+          "midpoint": 0.053886946757891956
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.7090000000000001,
+          "upper": 1,
+          "spread": 0.21,
+          "midpoint": 0.919
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.8340000000000001,
+          "upper": 1,
+          "spread": 0.085,
+          "midpoint": 0.919
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-data-poisoning"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:WGMhTGEfuF_3PkZucywnFJRZ2ZlF_cK9bdsnWfMCrPzxBuf2Y9Ro-zQNQWBARXjkg_ONTPoiZYrVkszNKKwAbw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:WGMhTGEfuF_3PkZucywnFJRZ2ZlF_cK9bdsnWfMCrPzxBuf2Y9Ro-zQNQWBARXjkg_ONTPoiZYrVkszNKKwAbw|n=1|t=2026-09-03T07:44:12.129Z|m=0.04551081364079199|lo=0|hi=1|p10=0.05213237062052933|p90=0.6036586987826946|f=0.053886946757891956:0.995,0.919:0.21,0.919:0.085|q=medium|g=",
+      "signature": "n5zbXafqwOnFAIW6xgO-3WBttay4_4BYc97eK_5CgmZaaFjuUqdjHb48Zz1K32B2WlDm3FmdwrtAz8Fu7rhGbg",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-03T07:46:29.527+00:00",
+      "summary": {
+        "p10": 0.005070040293026757,
+        "p90": 0.03915246466582098,
+        "lower": 0,
+        "upper": 0.053886946757891956,
+        "midpoint": 0.04551081364079199
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.053886946757891956,
+          "upper": 0.053886946757891956,
+          "spread": 0,
+          "midpoint": 0.053886946757891956
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.04900000000000006,
+          "upper": 1,
+          "spread": 0.87,
+          "midpoint": 0.919
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.919
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-data-poisoning"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:WGMhTGEfuF_3PkZucywnFJRZ2ZlF_cK9bdsnWfMCrPzxBuf2Y9Ro-zQNQWBARXjkg_ONTPoiZYrVkszNKKwAbw",
+      "submit_count": 2,
+      "signed_payload": "pdoom/1|k=p256:WGMhTGEfuF_3PkZucywnFJRZ2ZlF_cK9bdsnWfMCrPzxBuf2Y9Ro-zQNQWBARXjkg_ONTPoiZYrVkszNKKwAbw|n=2|t=2026-09-03T07:46:29.527Z|m=0.04551081364079199|lo=0|hi=0.053886946757891956|p10=0.005070040293026757|p90=0.03915246466582098|f=0.053886946757891956:0,0.919:0.87,0.919:1|q=medium|g=",
+      "signature": "xNXUt-wFVVSgO0X7irdaiMTNMCaTBejObbmfpH7LP7K3_4O18xYJw-5VQA5y8lUdecZLupjRkjunDHbwuCTDSA",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-03T17:42:07.466+00:00",
+      "summary": {
+        "p10": 0.5799648367826364,
+        "p90": 0.8823365471037709,
+        "lower": 0.4302708480000001,
+        "upper": 1,
+        "midpoint": 0.932574833
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.672,
+          "upper": 1,
+          "spread": 0.305,
+          "midpoint": 0.977
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.932,
+          "upper": 1,
+          "spread": 0.045,
+          "midpoint": 0.977
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.687,
+          "upper": 1,
+          "spread": 0.29,
+          "midpoint": 0.977
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:Xbygt90-idCrh1MnIbWBrYrz9H9NWDLqypcJpjt8Uz3OHYzUNTMSHIExlCUPEQZGerpV1Ie_yU1u2zRjMvXcRg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:Xbygt90-idCrh1MnIbWBrYrz9H9NWDLqypcJpjt8Uz3OHYzUNTMSHIExlCUPEQZGerpV1Ie_yU1u2zRjMvXcRg|n=1|t=2026-09-03T17:42:07.466Z|m=0.932574833|lo=0.4302708480000001|hi=1|p10=0.5799648367826364|p90=0.8823365471037709|f=0.977:0.305,0.977:0.045,0.977:0.29|q=medium|g=",
+      "signature": "vSj8Z3YAVgFtlhFGoyFzQ4tSG7gk2FdGQ3hgi5pyNC0YYxY_DFX5nFuutweZQVvavz50BsGSCtpwBLp66hEHdg",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-04T02:17:49.619+00:00",
+      "summary": {
+        "p10": 0.038815051283068884,
+        "p90": 0.39708037244355593,
+        "lower": 0,
+        "upper": 0.6831514030615827,
+        "midpoint": 0.17231502336610108
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.27341608777173576,
+          "upper": 1,
+          "spread": 0.535,
+          "midpoint": 0.8084160877717358
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.6831514030615827,
+          "spread": 0.47,
+          "midpoint": 0.2131514030615827
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-medium",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-no-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:SEq-bzbGwTi0T2GMD0lXo6_P6-FJ7rmuUcfdeFY9MKF3jG-VsrRFt3TkCbHqZmMNpTPKtUMdzzHoQH0azmLOnw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:SEq-bzbGwTi0T2GMD0lXo6_P6-FJ7rmuUcfdeFY9MKF3jG-VsrRFt3TkCbHqZmMNpTPKtUMdzzHoQH0azmLOnw|n=1|t=2026-09-04T02:17:49.619Z|m=0.17231502336610108|lo=0|hi=0.6831514030615827|p10=0.038815051283068884|p90=0.39708037244355593|f=1:0,0.8084160877717358:0.535,0.2131514030615827:0.47|q=medium|g=",
+      "signature": "7BS-kwNViueQh-t7L9UM5_BOT1VWEUATlgSGellnJF9oiJlWAqB0VWPLwxQKSRdr-7mHEvy6e0GGZ9Yj2w7kJw",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-04T13:35:17.59+00:00",
+      "summary": {
+        "p10": 0.03976611369645028,
+        "p90": 0.5262510585482546,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.918330048
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.972
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.03200000000000003,
+          "upper": 1,
+          "spread": 0.94,
+          "midpoint": 0.972
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.972
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-none",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-high",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "gate_score": 25,
+      "gate_recommended_level": "medium",
+      "expert_verified": false,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "isaac-asimov",
+        "agent",
+        "reward-hacking",
+        "training-data",
+        "backpropagation",
+        "unsupervised-learning"
+      ],
+      "visitor_key": "p256:pdnimG4ezwNQJ5aBTv_BsWpDrAKxCwvLs1F9vhzxEUHL7mA9ccVf1UUKu-YAgz69ZXS_fWC1gvq-uGaSXEAX0A",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:pdnimG4ezwNQJ5aBTv_BsWpDrAKxCwvLs1F9vhzxEUHL7mA9ccVf1UUKu-YAgz69ZXS_fWC1gvq-uGaSXEAX0A|n=1|t=2026-09-04T13:35:17.590Z|m=0.918330048|lo=0|hi=1|p10=0.03976611369645028|p90=0.5262510585482546|f=0.972:1,0.972:0.94,0.972:1|q=medium|g=25",
+      "signature": "SW_YfjZUgMbVgwmFuGSjLZetTpp3sAMKZgl2QUE-OTldnE049rWktVVodpPhmNLkeNZo5gcsGqPFktrrAsO5wg",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-04T16:42:44.522+00:00",
+      "summary": {
+        "p10": 0.20114348303366256,
+        "p90": 0.6822707348782256,
+        "lower": 0.043315436898673475,
+        "upper": 1,
+        "midpoint": 0.522408061462254
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.797003506271257,
+          "upper": 1,
+          "spread": 0.165,
+          "midpoint": 0.962003506271257
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.5295164571357592,
+          "upper": 1,
+          "spread": 0.29,
+          "midpoint": 0.8195164571357593
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.10263677677445358,
+          "upper": 1,
+          "spread": 0.56,
+          "midpoint": 0.6626367767744535
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-wall-e",
+            "entertainment-portal",
+            "entertainment-hitchhikersguide"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-medium",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:wa5Ehu2wViv4A7oEBLRWmaQUNp3XwUCAuO8wqyH1WstBqn1iWmJ0M3GMOxmqTezXfmLdFzTbWFlrT_wXt0Vi0Q",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:wa5Ehu2wViv4A7oEBLRWmaQUNp3XwUCAuO8wqyH1WstBqn1iWmJ0M3GMOxmqTezXfmLdFzTbWFlrT_wXt0Vi0Q|n=1|t=2026-09-04T16:42:44.522Z|m=0.522408061462254|lo=0.043315436898673475|hi=1|p10=0.20114348303366256|p90=0.6822707348782256|f=0.962003506271257:0.165,0.8195164571357593:0.29,0.6626367767744535:0.56|q=beginner|g=",
+      "signature": "mLvZBcBVBWXKh47DAGwUevmL98KXPv6MTJ5y6fYrMQqzT-uCgFZOjDs_8b-4KL8TQq3sJAQ0x4bUwULQ-wlMdQ",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-04T16:46:15.352+00:00",
+      "summary": {
+        "p10": 0.26788588222862736,
+        "p90": 0.6709970139668239,
+        "lower": 0.11328354946420803,
+        "upper": 1,
+        "midpoint": 0.5351300869001875
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7444329813680255,
+          "upper": 1,
+          "spread": 0.16,
+          "midpoint": 0.9044329813680255
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.49163793089059765,
+          "upper": 1,
+          "spread": 0.325,
+          "midpoint": 0.8166379308905977
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.3095250910454274,
+          "upper": 1,
+          "spread": 0.415,
+          "midpoint": 0.7245250910454274
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-accelerating-defensive-technologies",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 29,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:wa5Ehu2wViv4A7oEBLRWmaQUNp3XwUCAuO8wqyH1WstBqn1iWmJ0M3GMOxmqTezXfmLdFzTbWFlrT_wXt0Vi0Q",
+      "submit_count": 2,
+      "signed_payload": "pdoom/1|k=p256:wa5Ehu2wViv4A7oEBLRWmaQUNp3XwUCAuO8wqyH1WstBqn1iWmJ0M3GMOxmqTezXfmLdFzTbWFlrT_wXt0Vi0Q|n=2|t=2026-09-04T16:46:15.352Z|m=0.5351300869001875|lo=0.11328354946420803|hi=1|p10=0.26788588222862736|p90=0.6709970139668239|f=0.9044329813680255:0.16,0.8166379308905977:0.325,0.7245250910454274:0.415|q=expert|g=29",
+      "signature": "rDLsXoCjicDZ1pE16zlrtCtG3TvkAdOJvrt-0NE-S1_1eLafvwP9VTmvLNyeZcDijXyhPfE4Mza4Z89M4A02Nw",
+      "page_version": "d1ef5e303f87184eaa35369d276b6e0a0907020a"
+    },
+    {
+      "submitted_at": "2026-09-05T04:42:17.956+00:00",
+      "summary": {
+        "p10": 0.08749435521480252,
+        "p90": 0.5793713596939972,
+        "lower": 0.004946844000000006,
+        "upper": 1,
+        "midpoint": 0.5800937040000002
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.17900000000000005,
+          "upper": 1,
+          "spread": 0.655,
+          "midpoint": 0.8340000000000001
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.32900000000000007,
+          "upper": 1,
+          "spread": 0.505,
+          "midpoint": 0.8340000000000001
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.08400000000000006,
+          "upper": 1,
+          "spread": 0.75,
+          "midpoint": 0.8340000000000001
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-irobot",
+            "entertainment-her",
+            "entertainment-startrek",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-judgedredd",
+            "entertainment-robocop",
+            "entertainment-ghostintheshell",
+            "entertainment-trumanshow",
+            "entertainment-wargames",
+            "entertainment-wall-e",
+            "entertainment-portal",
+            "entertainment-hitchhikersguide",
+            "entertainment-ironman",
+            "entertainment-eagle-eye"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-sriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-medium",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:X63REdbTY4O-KhYS6nd_oT40tjEJbPPq0UpIbw_t1lEFiZX9s57BYHo0MQalJQokIe3g8sjGhPu0QfgVib9-OA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:X63REdbTY4O-KhYS6nd_oT40tjEJbPPq0UpIbw_t1lEFiZX9s57BYHo0MQalJQokIe3g8sjGhPu0QfgVib9-OA|n=1|t=2026-09-05T04:42:17.956Z|m=0.5800937040000002|lo=0.004946844000000006|hi=1|p10=0.08749435521480252|p90=0.5793713596939972|f=0.8340000000000001:0.655,0.8340000000000001:0.505,0.8340000000000001:0.75|q=beginner|g=",
+      "signature": "fEVqFylDjiKiS-2J_M3AvFqFqQ-3--pYICzJlKtP6KO1o1ElPIOW7jrUn2V4n7-HHDQVyuNCCzw1X_34L6Fgvw",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-05T04:48:24.932+00:00",
+      "summary": {
+        "p10": 0.10706699181678256,
+        "p90": 0.6119498237760157,
+        "lower": 0.014886936000000016,
+        "upper": 1,
+        "midpoint": 0.7510894290000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.24600000000000008,
+          "upper": 1,
+          "spread": 0.6629999999999999,
+          "midpoint": 0.909
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.24600000000000008,
+          "upper": 1,
+          "spread": 0.6629999999999999,
+          "midpoint": 0.909
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.24600000000000008,
+          "upper": 1,
+          "spread": 0.6629999999999999,
+          "midpoint": 0.909
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-none",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-never",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:RsOoH5I1cJcN4I4K27iYMthiFPLc69FqkUvkhdX8arsAQ4Oq-1HVQhiF9xldmrf9VLLz2H3IDTkRgOUhEqG_ig",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:RsOoH5I1cJcN4I4K27iYMthiFPLc69FqkUvkhdX8arsAQ4Oq-1HVQhiF9xldmrf9VLLz2H3IDTkRgOUhEqG_ig|n=1|t=2026-09-05T04:48:24.932Z|m=0.7510894290000001|lo=0.014886936000000016|hi=1|p10=0.10706699181678256|p90=0.6119498237760157|f=0.909:0.6629999999999999,0.909:0.6629999999999999,0.909:0.6629999999999999|q=medium|g=",
+      "signature": "RjsnzBe80R81DiNOxQzCzUTZfRmcdwvjSDTb7wRrppmtza-_GW0T2Gyg4xX_6-h1T8YoPqPLE2enslWgxQTKSg",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-05T08:07:09.914+00:00",
+      "summary": {
+        "p10": 0.3470597212289783,
+        "p90": 0.7432612641325747,
+        "lower": 0.16357637318661258,
+        "upper": 1,
+        "midpoint": 0.7467921375892248
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.45589720537738915,
+          "upper": 1,
+          "spread": 0.44,
+          "midpoint": 0.8958972053773891
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.599,
+          "upper": 1,
+          "spread": 0.314,
+          "midpoint": 0.9129999999999999
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.599,
+          "upper": 1,
+          "spread": 0.314,
+          "midpoint": 0.9129999999999999
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-ex-machina",
+            "entertainment-irobot",
+            "entertainment-her",
+            "entertainment-startrek",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-robocop",
+            "entertainment-ghostintheshell",
+            "entertainment-westworld",
+            "entertainment-trumanshow",
+            "entertainment-wall-e",
+            "entertainment-silo",
+            "entertainment-neuromancer",
+            "entertainment-murderbot"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:GWOKXAgE7PcKLXgRZfPZrqPRAR4wLcJbib1rVHSyGQqcmOz34VKnlq6a9jXN9kZWMnlggNsfKxgm3cDA3dqeTw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:GWOKXAgE7PcKLXgRZfPZrqPRAR4wLcJbib1rVHSyGQqcmOz34VKnlq6a9jXN9kZWMnlggNsfKxgm3cDA3dqeTw|n=1|t=2026-09-05T08:07:09.914Z|m=0.7467921375892248|lo=0.16357637318661258|hi=1|p10=0.3470597212289783|p90=0.7432612641325747|f=0.8958972053773891:0.44,0.9129999999999999:0.314,0.9129999999999999:0.314|q=beginner|g=",
+      "signature": "ViOW7w6Rs94k61svrwNH6aWeyQOQ6lyfOK1HaH4yeHa0aRhNO1zCAsA4YrK5jrsSzUiULqfg22wwoinRf6ulHA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-05T09:13:37.855+00:00",
+      "summary": {
+        "p10": 0.8983131207981183,
+        "p90": 0.9615084446734733,
+        "lower": 0.8801447040000002,
+        "upper": 0.9682560000000002,
+        "midpoint": 0.9527639040000003
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9840000000000001,
+          "upper": 0.9840000000000001,
+          "spread": 0,
+          "midpoint": 0.9840000000000001
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.9840000000000001,
+          "upper": 0.9840000000000001,
+          "spread": 0,
+          "midpoint": 0.9840000000000001
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.909,
+          "upper": 1,
+          "spread": 0.075,
+          "midpoint": 0.9840000000000001
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-medium",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:j1d0eZYuOQj8VEHPBy-Lk0Z6d44VZ6X9IxoCqTcypwj38NI5K3YLtMQj2WUKSS_P2IXuPOWqE6CJjP_p0yv2ug",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:j1d0eZYuOQj8VEHPBy-Lk0Z6d44VZ6X9IxoCqTcypwj38NI5K3YLtMQj2WUKSS_P2IXuPOWqE6CJjP_p0yv2ug|n=1|t=2026-09-05T09:13:37.855Z|m=0.9527639040000003|lo=0.8801447040000002|hi=0.9682560000000002|p10=0.8983131207981183|p90=0.9615084446734733|f=0.9840000000000001:0,0.9840000000000001:0,0.9840000000000001:0.075|q=medium|g=",
+      "signature": "jHouLMz7xElZvs11ZhhvKQxMa0ngST0jKGTQ7QpC2QWbXhVIAZeKijfQcoH9le-rO-Z1ikuNAGtwPM8Hw0UsMA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-05T16:02:23.31+00:00",
+      "summary": {
+        "p10": 0.019066945889181387,
+        "p90": 0.3918232384098307,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.2501261289424891
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.10164030008970074,
+          "upper": 1,
+          "spread": 0.795,
+          "midpoint": 0.8966403000897007
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.775,
+          "midpoint": 0.39997009975807984
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.805,
+          "midpoint": 0.6974503248253554
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-medium",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-yes",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:NsEeNfzx8OHBCLzBRHp4nj6IzN1D84nlpROPgDWsw4RY7zEXFPCPSschvN-uMS6DdGkD7zJ7_SKqgbIbTdihFA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:NsEeNfzx8OHBCLzBRHp4nj6IzN1D84nlpROPgDWsw4RY7zEXFPCPSschvN-uMS6DdGkD7zJ7_SKqgbIbTdihFA|n=1|t=2026-09-05T16:02:23.310Z|m=0.2501261289424891|lo=0|hi=1|p10=0.019066945889181387|p90=0.3918232384098307|f=0.8966403000897007:0.795,0.39997009975807984:0.775,0.6974503248253554:0.805|q=medium|g=",
+      "signature": "nfUS5D2A0AjdYCjy22AZtl6xcfB1wCkiAzRoEm1EyvdIU7yiHY9BvPkzbn0XfjqShkxtfONDgOsr_sYT128k4w",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-05T16:07:22.8+00:00",
+      "summary": {
+        "p10": 0.07869624150131994,
+        "p90": 0.5432175018306378,
+        "lower": 0,
+        "upper": 0.7999424698840956,
+        "midpoint": 0.26998277386876185
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.8001151920002831,
+          "upper": 1,
+          "spread": 0.1,
+          "midpoint": 0.9001151920002832
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.7999424698840956,
+          "spread": 0.5,
+          "midpoint": 0.29994246988409556
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.9,
+          "upper": 1,
+          "spread": 0.1,
+          "midpoint": 1
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-medium",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-never",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-yes",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:b_1m2MMLElUlWGdIKdsFyORluUOyXRsnvDLgoIGvUpQzaCF16BECmsdWb7BuUuy0tUM_hbcyk_BqjwG1xixJ_Q",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:b_1m2MMLElUlWGdIKdsFyORluUOyXRsnvDLgoIGvUpQzaCF16BECmsdWb7BuUuy0tUM_hbcyk_BqjwG1xixJ_Q|n=1|t=2026-09-05T16:07:22.800Z|m=0.26998277386876185|lo=0|hi=0.7999424698840956|p10=0.07869624150131994|p90=0.5432175018306378|f=0.9001151920002832:0.1,0.29994246988409556:0.5,1:0.1|q=medium|g=",
+      "signature": "3zZX0vWVOwT3f5D2aIJtO0onOIGH135xcWxhLwGMjEcq_xHQP3eFfztJYSizQlilHMtc32tRzumtmhNcccsBXA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-05T19:55:57.968+00:00",
+      "summary": {
+        "p10": 0.061655765375384336,
+        "p90": 0.4626907785496974,
+        "lower": 0.00013640145119629872,
+        "upper": 0.9693407205161274,
+        "midpoint": 0.24958308516208472
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9897115985756613,
+          "upper": 0.9897115985756613,
+          "spread": 0,
+          "midpoint": 0.9897115985756613
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.005869825219494871,
+          "upper": 0.995869825219495,
+          "spread": 0.495,
+          "midpoint": 0.5008698252194949
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.023479300877979767,
+          "upper": 0.9834793008779797,
+          "spread": 0.48,
+          "midpoint": 0.5034793008779798
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-dont-worry-about-the-vase"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-lethal-intelligence"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 26,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "embedding",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "hallucination"
+      ],
+      "visitor_key": "p256:xVpwgpvc99uLbE4yYmSq88cGXJokbDFfnya07MTik7MBa9mVf4uix_VTD09Uox04IgOTWEnGu0HWVfKcH86jdQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:xVpwgpvc99uLbE4yYmSq88cGXJokbDFfnya07MTik7MBa9mVf4uix_VTD09Uox04IgOTWEnGu0HWVfKcH86jdQ|n=1|t=2026-09-05T19:55:57.968Z|m=0.24958308516208472|lo=0.00013640145119629872|hi=0.9693407205161274|p10=0.061655765375384336|p90=0.4626907785496974|f=0.9897115985756613:0,0.5008698252194949:0.495,0.5034793008779798:0.48|q=expert|g=26",
+      "signature": "OTMkQ8RPZrylTdFxFDMh3BMT-zMySoPqYFxbDDG2QeNkeTJHl1jv4kn0IUi4GDwC_duQFUOU7MrLIFxtppsYmA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-05T22:01:31.615+00:00",
+      "summary": {
+        "p10": 0.12125717854666049,
+        "p90": 0.31159464987922614,
+        "lower": 0.04984706323857015,
+        "upper": 0.49673618722169005,
+        "midpoint": 0.2268357913764351
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.6894629846181524,
+          "upper": 1,
+          "spread": 0.22,
+          "midpoint": 0.9094629846181523
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.6208005756948818,
+          "upper": 0.9808005756948818,
+          "spread": 0.18,
+          "midpoint": 0.8008005756948817
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.11645992623909329,
+          "upper": 0.5064599262390933,
+          "spread": 0.195,
+          "midpoint": 0.3114599262390933
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 28,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "hallucination"
+      ],
+      "visitor_key": "p256:gExCZDMsGSCZQl5V3goiEGiKT4OCbBQ4yq3x_nOfW0aCRxjjCN1a7QGHt3FKqguvU-tUYyhESh4De9NuKGF6lQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:gExCZDMsGSCZQl5V3goiEGiKT4OCbBQ4yq3x_nOfW0aCRxjjCN1a7QGHt3FKqguvU-tUYyhESh4De9NuKGF6lQ|n=1|t=2026-09-05T22:01:31.615Z|m=0.2268357913764351|lo=0.04984706323857015|hi=0.49673618722169005|p10=0.12125717854666049|p90=0.31159464987922614|f=0.9094629846181523:0.22,0.8008005756948817:0.18,0.3114599262390933:0.195|q=expert|g=28",
+      "signature": "2-MKww7vYDynkTvNFB1GPFoRSmT5s6za5y2l7FXYCHTk1kFUeVX0SJ7A7XThJUCU2uwaHPjAFUEVVqKyISp31A",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-06T02:45:52.262+00:00",
+      "summary": {
+        "p10": 0.16678908851479693,
+        "p90": 0.6890289981180147,
+        "lower": 0.038275721378309174,
+        "upper": 1,
+        "midpoint": 0.6002544439759591
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9,
+          "upper": 1,
+          "spread": 0.1,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.25689012323468563,
+          "upper": 1,
+          "spread": 0.645,
+          "midpoint": 0.9018901232346856
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.16555163263470363,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.6655516326347036
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 29,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:phakxPts7tzcVdigLKjMwNaQ6V3JqRa_PhbVz84vsxUJfP1phFzM3FaZ_TXVtBEhlU-x67Zaojk1_7Hmx6LYxQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:phakxPts7tzcVdigLKjMwNaQ6V3JqRa_PhbVz84vsxUJfP1phFzM3FaZ_TXVtBEhlU-x67Zaojk1_7Hmx6LYxQ|n=1|t=2026-09-06T02:45:52.262Z|m=0.6002544439759591|lo=0.038275721378309174|hi=1|p10=0.16678908851479693|p90=0.6890289981180147|f=1:0.1,0.9018901232346856:0.645,0.6655516326347036:0.5|q=expert|g=29",
+      "signature": "TA1VZhcUscQL9nRrzz4HeF-5ucbh4Va-udfLvGS_Z9R2aJC9VQ_M7arYF92h6SBKrMERvKJA_T_l2fij0LcV8A",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-06T05:42:24.082+00:00",
+      "summary": {
+        "p10": 0.04574595632975351,
+        "p90": 0.5221333705590422,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.5970237825427372
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.89,
+          "midpoint": 0.7403532008059698
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.11,
+          "upper": 1,
+          "spread": 0.7879999999999999,
+          "midpoint": 0.898
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.11,
+          "upper": 1,
+          "spread": 0.7879999999999999,
+          "midpoint": 0.898
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-malware"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-none",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-never",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:V2tyvI_GCcHKb1Hsh79LKcMd62DZEBB04LwfCOxZjkpFQwgwcGNOOCU02LW-yPTVicfs9iJ2dcx_kTnZTl7Wlw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:V2tyvI_GCcHKb1Hsh79LKcMd62DZEBB04LwfCOxZjkpFQwgwcGNOOCU02LW-yPTVicfs9iJ2dcx_kTnZTl7Wlw|n=1|t=2026-09-06T05:42:24.082Z|m=0.5970237825427372|lo=0|hi=1|p10=0.04574595632975351|p90=0.5221333705590422|f=0.7403532008059698:0.89,0.898:0.7879999999999999,0.898:0.7879999999999999|q=medium|g=",
+      "signature": "wvZv_JRUr1CDG_I03WQF04YOLAzvZlZPAJvLmS3pQy9YhMv-DPkS95TazVfIpV3Hf6Uz-ED23pJyv6w3aVNtjQ",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-06T10:01:52.966+00:00",
+      "summary": {
+        "p10": 0.0565152892780475,
+        "p90": 0.6080033034790241,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.1831492040951807
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9416337010157201,
+          "upper": 1,
+          "spread": 0.05,
+          "midpoint": 0.9916337010157201
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.5089910538262374,
+          "upper": 1,
+          "spread": 0.395,
+          "midpoint": 0.9039910538262375
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.835,
+          "midpoint": 0.20431000062603324
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 27,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "alan-turing",
+        "isaac-asimov",
+        "agent",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:4XmaVzD0_9dYNI6gYPqol_et5KiAHCm60llGk35o9ZNnyaobXnwfqGioIETLPh6ShaLAGDxLlnlRNwmjCpBrRA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:4XmaVzD0_9dYNI6gYPqol_et5KiAHCm60llGk35o9ZNnyaobXnwfqGioIETLPh6ShaLAGDxLlnlRNwmjCpBrRA|n=1|t=2026-09-06T10:01:52.966Z|m=0.1831492040951807|lo=0|hi=1|p10=0.0565152892780475|p90=0.6080033034790241|f=0.9916337010157201:0.05,0.9039910538262375:0.395,0.20431000062603324:0.835|q=expert|g=27",
+      "signature": "80ZQ4zOuz_qzQlh7le85SvFrjtiy4x7o4rmv4DQ-c3oHcQDjjh7gOHJB4ibfgPzhBN3-fo6CjKv-qU6k9el3zQ",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-06T14:20:37.148+00:00",
+      "summary": {
+        "p10": 0.6036913951203253,
+        "p90": 0.8567990695977913,
+        "lower": 0.44260044899039364,
+        "upper": 1,
+        "midpoint": 0.8528856002315527
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7051151920002832,
+          "upper": 1,
+          "spread": 0.195,
+          "midpoint": 0.9001151920002832
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.7491249800260955,
+          "upper": 1,
+          "spread": 0.21,
+          "midpoint": 0.9591249800260955
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.8379102424777112,
+          "upper": 1,
+          "spread": 0.15,
+          "midpoint": 0.9879102424777112
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates",
+            "expert-commentators-dont-worry-about-the-vase"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-stop-funding-all-ai-research",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 28,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "alan-turing",
+        "embedding",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:-FFPYrio0qcDhvI1SvhbD65WqrsQvOFC8eZcRZDgHZeDObPKyhHuTX-3PELsYubuhcnMgg-6auQV9R6Xe0tWcg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:-FFPYrio0qcDhvI1SvhbD65WqrsQvOFC8eZcRZDgHZeDObPKyhHuTX-3PELsYubuhcnMgg-6auQV9R6Xe0tWcg|n=1|t=2026-09-06T14:20:37.148Z|m=0.8528856002315527|lo=0.44260044899039364|hi=1|p10=0.6036913951203253|p90=0.8567990695977913|f=0.9001151920002832:0.195,0.9591249800260955:0.21,0.9879102424777112:0.15|q=expert|g=28",
+      "signature": "FAyKb11hP6x_hhbS3opl4Zsh_CnsSIsJ53VjE3jBD_2iAPf-lf6qN-zkYIC_DJvQhcxM2qXmM_afitHkfkti2w",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-06T14:28:03.481+00:00",
+      "summary": {
+        "p10": 0.44847650686712254,
+        "p90": 0.8814638540780193,
+        "lower": 0.3017454239200336,
+        "upper": 1,
+        "midpoint": 0.9380369139782808
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.8782778351744418,
+          "upper": 1,
+          "spread": 0.11,
+          "midpoint": 0.9882778351744418
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.903191607724708,
+          "upper": 1,
+          "spread": 0.08,
+          "midpoint": 0.9831916077247079
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.38038981165063973,
+          "upper": 1,
+          "spread": 0.585,
+          "midpoint": 0.9653898116506398
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-robert-miles",
+            "expert-content-creators-siliconversations",
+            "expert-content-creators-lethal-intelligence",
+            "expert-content-creators-rational-animations"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 30,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:0_6GnrZ_Jnou40WZtuKmzPc9fGWNkGLEym0j6XMsR_JxHVfj-nFJhNB9L3Db4WqRVseqjXdMoZ6GWI6SdYaNSA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:0_6GnrZ_Jnou40WZtuKmzPc9fGWNkGLEym0j6XMsR_JxHVfj-nFJhNB9L3Db4WqRVseqjXdMoZ6GWI6SdYaNSA|n=1|t=2026-09-06T14:28:03.481Z|m=0.9380369139782808|lo=0.3017454239200336|hi=1|p10=0.44847650686712254|p90=0.8814638540780193|f=0.9882778351744418:0.11,0.9831916077247079:0.08,0.9653898116506398:0.585|q=expert|g=30",
+      "signature": "UnNaIwmW5rpg69cg5aGTs1z65auzYnUc8Mm4EX9FLmtzQl5YTVZsUXroSOuvI3UkHPmtmSlFsLtd4CTaTnz9hg",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-06T19:00:31.918+00:00",
+      "summary": {
+        "p10": 0.326815950203276,
+        "p90": 0.6779071069731893,
+        "lower": 0.153130375,
+        "upper": 1,
+        "midpoint": 0.5697227890000002
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.535,
+          "upper": 1,
+          "spread": 0.294,
+          "midpoint": 0.8290000000000001
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.535,
+          "upper": 1,
+          "spread": 0.294,
+          "midpoint": 0.8290000000000001
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.535,
+          "upper": 1,
+          "spread": 0.294,
+          "midpoint": 0.8290000000000001
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-ex-machina",
+            "entertainment-irobot",
+            "entertainment-her",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-judgedredd",
+            "entertainment-robocop",
+            "entertainment-ghostintheshell",
+            "entertainment-westworld",
+            "entertainment-trumanshow",
+            "entertainment-wargames",
+            "entertainment-transcendence",
+            "entertainment-wall-e",
+            "entertainment-neuromancer",
+            "entertainment-foundation",
+            "entertainment-murderbot",
+            "entertainment-hitchhikersguide",
+            "entertainment-ironman"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-medium",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:gBchG2R3LLxAb48YFeQs2XNQBMVKFILJw91qEeRlKZfkcAaUwIBAi8w_uhQoWK3gFmnRsevUn18X8KEmEXrJ9g",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:gBchG2R3LLxAb48YFeQs2XNQBMVKFILJw91qEeRlKZfkcAaUwIBAi8w_uhQoWK3gFmnRsevUn18X8KEmEXrJ9g|n=1|t=2026-09-06T19:00:31.918Z|m=0.5697227890000002|lo=0.153130375|hi=1|p10=0.326815950203276|p90=0.6779071069731893|f=0.8290000000000001:0.294,0.8290000000000001:0.294,0.8290000000000001:0.294|q=beginner|g=",
+      "signature": "wR0cEpq3RwZZakVnjW2w86JMEIjxOXgU2E4Cm94vL-PNoUyaNSQu6dgu9RsaHSjtknXRnpYCXdPyzNW-pRaOng",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-06T21:15:52.49+00:00",
+      "summary": {
+        "p10": 0.2276719892131486,
+        "p90": 0.5667160845853616,
+        "lower": 0.08659041264642753,
+        "upper": 0.9176208908829654,
+        "midpoint": 0.4635242184851268
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5287726166388081,
+          "upper": 1,
+          "spread": 0.325,
+          "midpoint": 0.8537726166388082
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.4850332834814228,
+          "upper": 1,
+          "spread": 0.38,
+          "midpoint": 0.8650332834814227
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.33762089088296526,
+          "upper": 0.9176208908829654,
+          "spread": 0.29,
+          "midpoint": 0.6276208908829652
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-none",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:rZCQIJQxIpYlcdG92ZbQK9or73rvmBoS5dNaZtTfdE0mKut1EsNyiY62Q_UHWzuRqXZae5ywVhAgCfKXAFbwOA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:rZCQIJQxIpYlcdG92ZbQK9or73rvmBoS5dNaZtTfdE0mKut1EsNyiY62Q_UHWzuRqXZae5ywVhAgCfKXAFbwOA|n=1|t=2026-09-06T21:15:52.490Z|m=0.4635242184851268|lo=0.08659041264642753|hi=0.9176208908829654|p10=0.2276719892131486|p90=0.5667160845853616|f=0.8537726166388082:0.325,0.8650332834814227:0.38,0.6276208908829652:0.29|q=medium|g=",
+      "signature": "e-IzcHL7P9gUBE6-jo08IwxD-xtcUnaljFRRSVXPKJiGduj8m83n3SsPP4S7-h0DXoNhoJSj5SnzzXdChKP9yQ",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-06T21:58:39.336+00:00",
+      "summary": {
+        "p10": 0.36039086564482276,
+        "p90": 0.8295887485462183,
+        "lower": 0.20132138807272115,
+        "upper": 0.9910126848997778,
+        "midpoint": 0.7507255581866222
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.9710126848997779,
+          "upper": 0.9910126848997778,
+          "spread": 0.01,
+          "midpoint": 0.9810126848997779
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.29189301034217535,
+          "upper": 1,
+          "spread": 0.505,
+          "midpoint": 0.7968930103421754
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.7102991863940066,
+          "upper": 1,
+          "spread": 0.25,
+          "midpoint": 0.9602991863940066
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-rational-animations"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-accelerating-defensive-technologies",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 30,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:-sa0jfllonPqgaaJtBpQIcNsQkeViKxjOxhyu6qWNURROd2G5fdEhehdEYYTIqNhGaBhjye9Ip6MZgdS_iJY6A",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:-sa0jfllonPqgaaJtBpQIcNsQkeViKxjOxhyu6qWNURROd2G5fdEhehdEYYTIqNhGaBhjye9Ip6MZgdS_iJY6A|n=1|t=2026-09-06T21:58:39.336Z|m=0.7507255581866222|lo=0.20132138807272115|hi=0.9910126848997778|p10=0.36039086564482276|p90=0.8295887485462183|f=0.9810126848997779:0.01,0.7968930103421754:0.505,0.9602991863940066:0.25|q=expert|g=30",
+      "signature": "hUlQOCd3XZWpc378S2qLRmr_XzfvYEf6OYtm46pz7KOB7hl9Nc7c5j7c6oi6H6V51s8Rj5Pe0gsX1U28TJ-AQw",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-07T08:44:48.602+00:00",
+      "summary": {
+        "p10": 0.5094660109362099,
+        "p90": 0.7229843378419595,
+        "lower": 0.3655346629474386,
+        "upper": 0.9850918934714014,
+        "midpoint": 0.6250389412885154
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7150057299473572,
+          "upper": 0.9950057299473571,
+          "spread": 0.14,
+          "midpoint": 0.8550057299473572
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.7150057299473572,
+          "upper": 0.9950057299473571,
+          "spread": 0.14,
+          "midpoint": 0.8550057299473572
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.7150057299473572,
+          "upper": 0.9950057299473571,
+          "spread": 0.14,
+          "midpoint": 0.8550057299473572
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-2001",
+            "entertainment-ghostintheshell",
+            "entertainment-trumanshow"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-sriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:UivcG795t-i0NrUTYUS6aFshm247vAhThqE582QPsexuwq1MH97V7IkqhbMtQlTuHGOfhIA-D_QCsvq3cPVc9w",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:UivcG795t-i0NrUTYUS6aFshm247vAhThqE582QPsexuwq1MH97V7IkqhbMtQlTuHGOfhIA-D_QCsvq3cPVc9w|n=1|t=2026-09-07T08:44:48.602Z|m=0.6250389412885154|lo=0.3655346629474386|hi=0.9850918934714014|p10=0.5094660109362099|p90=0.7229843378419595|f=0.8550057299473572:0.14,0.8550057299473572:0.14,0.8550057299473572:0.14|q=beginner|g=",
+      "signature": "-FDPbdIIlilVmo1XqCozTC5m8PiTABYBhcsLvBRBJwIlOfNMeOLqfhC69UdNMiMmjj-pkLVt8RRohy_vxq5J4g",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-08T04:01:10.226+00:00",
+      "summary": {
+        "p10": 0.2847622181936875,
+        "p90": 0.9255972276242821,
+        "lower": 0.03867034274734621,
+        "upper": 1,
+        "midpoint": 0.8186703427473462
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.03867034274734621,
+          "upper": 1,
+          "spread": 0.78,
+          "midpoint": 0.8186703427473462
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-medium",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-never",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:S57VMU2renyb4VCOacdID-7bsFeCYhGPmbccrXS6LLX2A8Ni_aU_bkLp7c9Fsy7bvXVSV5sBQhb1MmeieP-NkQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:S57VMU2renyb4VCOacdID-7bsFeCYhGPmbccrXS6LLX2A8Ni_aU_bkLp7c9Fsy7bvXVSV5sBQhb1MmeieP-NkQ|n=1|t=2026-09-08T04:01:10.226Z|m=0.8186703427473462|lo=0.03867034274734621|hi=1|p10=0.2847622181936875|p90=0.9255972276242821|f=1:0,1:0,0.8186703427473462:0.78|q=medium|g=",
+      "signature": "hu0TlYDZ3EBcJMqdVczgmylu4_ScidZzuAcv-FnQvaSmOYvLH1H8COWN5YL_nluBkFlNdrMH1wl28SyNfPXlTw",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-08T04:10:37.831+00:00",
+      "summary": {
+        "p10": 0.032521616701082244,
+        "p90": 0.5186260931814106,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.7610484969999999
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.92,
+          "midpoint": 0.9129999999999999
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.9129999999999999
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.9129999999999999
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-irobot",
+            "entertainment-her",
+            "entertainment-startrek",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-trumanshow",
+            "entertainment-wall-e",
+            "entertainment-hitchhikersguide",
+            "entertainment-ironman"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-sriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:RTBP48-Ph4iBgj6VSFMOc2OxKEud7Q5lW6lUH1VXsFJjWYYqNu7XzXsEF09L7WGh8DteneMQc0FGBPCaYRw0zA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:RTBP48-Ph4iBgj6VSFMOc2OxKEud7Q5lW6lUH1VXsFJjWYYqNu7XzXsEF09L7WGh8DteneMQc0FGBPCaYRw0zA|n=1|t=2026-09-08T04:10:37.831Z|m=0.7610484969999999|lo=0|hi=1|p10=0.032521616701082244|p90=0.5186260931814106|f=0.9129999999999999:0.92,0.9129999999999999:1,0.9129999999999999:1|q=beginner|g=",
+      "signature": "V9bk4D78a4QXIqFDRpiqDuTIQ-0CLlcY2zk8JyXVzgiRWzFWPckJEiOp0rfUp_mH7yXYacho6_avrYAK0sMPlw",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-08T10:49:42.819+00:00",
+      "summary": {
+        "p10": 0.08053454866533295,
+        "p90": 0.5587494315503595,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.30569676848316263
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7347362649793481,
+          "upper": 1,
+          "spread": 0.175,
+          "midpoint": 0.909736264979348
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.5166632726840013,
+          "upper": 1,
+          "spread": 0.245,
+          "midpoint": 0.7616632726840012
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.7,
+          "midpoint": 0.4411764542664771
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-alignment-capabilities",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 28,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "standard-model",
+        "wireframe-model",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:Io85Ja79aKu3HK-9JJ-yp5YpSTSuxA89UgkYygphzaHN8E71CElR68TNPyZJr_oXz8OdNW7YM32ibLF3owK-Yw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:Io85Ja79aKu3HK-9JJ-yp5YpSTSuxA89UgkYygphzaHN8E71CElR68TNPyZJr_oXz8OdNW7YM32ibLF3owK-Yw|n=1|t=2026-09-08T10:49:42.819Z|m=0.30569676848316263|lo=0|hi=1|p10=0.08053454866533295|p90=0.5587494315503595|f=0.909736264979348:0.175,0.7616632726840012:0.245,0.4411764542664771:0.7|q=expert|g=28",
+      "signature": "iX7GnrdpmkBDGwbIr8y-PbKtx8FAK5lzNzK8vpn1zFlCoUwJ-mVum-wt0yqZJu0xsd0NugvDAOUOyZzlGET2Hg",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-08T20:19:53.927+00:00",
+      "summary": {
+        "p10": 0.08272272105562889,
+        "p90": 0.5883680869546195,
+        "lower": 0.0009307869999999977,
+        "upper": 1,
+        "midpoint": 0.700227072
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.25299999999999995,
+          "upper": 1,
+          "spread": 0.635,
+          "midpoint": 0.888
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.283,
+          "upper": 1,
+          "spread": 0.605,
+          "midpoint": 0.888
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.012999999999999972,
+          "upper": 1,
+          "spread": 0.875,
+          "midpoint": 0.888
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-expert",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-high",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-neutral",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:IJcGzftaVaT2SrR12ZJ4HIa8TkLtOxNixrmjvtTGEnfMXCm_JL03wyqfjoay7OuJiYNrZeUCzS2yWEqknULViQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:IJcGzftaVaT2SrR12ZJ4HIa8TkLtOxNixrmjvtTGEnfMXCm_JL03wyqfjoay7OuJiYNrZeUCzS2yWEqknULViQ|n=1|t=2026-09-08T20:19:53.927Z|m=0.700227072|lo=0.0009307869999999977|hi=1|p10=0.08272272105562889|p90=0.5883680869546195|f=0.888:0.635,0.888:0.605,0.888:0.875|q=medium|g=",
+      "signature": "wD2Vn1LGyQkBlHHjA_QnlWgQWMjnDx5IuN3zbtIkonjti2ZYJM6HRNnc9qKjvHeNGzyE64EZpdI2jmEDTArf9A",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-08T20:36:55.73+00:00",
+      "summary": {
+        "p10": 0.08973878685963269,
+        "p90": 0.6030265147672424,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.40176188652781447
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7487993613384906,
+          "upper": 1,
+          "spread": 0.23,
+          "midpoint": 0.9787993613384905
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.397224521003868,
+          "upper": 1,
+          "spread": 0.415,
+          "midpoint": 0.812224521003868
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.695,
+          "midpoint": 0.5053577853737519
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-medium",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-never",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "gate_score": 22,
+      "gate_recommended_level": "medium",
+      "expert_verified": false,
+      "gate_answers": [
+        "alan-turing",
+        "embedding",
+        "schrodingers-cat",
+        "agent",
+        "red-team",
+        "standard-model",
+        "wireframe-model",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:Zc9dbrj78TK8TCHRlxY-A2anFAe5fjFYfw7E1zWRnb5gqIlI5PTq8lPeduCBkiVwKg_5dJ-sWgLuTgDJymxSDw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:Zc9dbrj78TK8TCHRlxY-A2anFAe5fjFYfw7E1zWRnb5gqIlI5PTq8lPeduCBkiVwKg_5dJ-sWgLuTgDJymxSDw|n=1|t=2026-09-08T20:36:55.730Z|m=0.40176188652781447|lo=0|hi=1|p10=0.08973878685963269|p90=0.6030265147672424|f=0.9787993613384905:0.23,0.812224521003868:0.415,0.5053577853737519:0.695|q=medium|g=22",
+      "signature": "vCgX5-J40IE-S50n7xFSloYasxGXjfnjM1FFEdfBpT2NJ0mMIW1iUEYwilOXpbJnSwvspBOLF2Mw0LJ1jqcZrg",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-08T20:51:04.935+00:00",
+      "summary": {
+        "p10": 0.019407768791838604,
+        "p90": 0.30832103447582676,
+        "lower": 0,
+        "upper": 0.9818960872354073,
+        "midpoint": 0.15059593144322928
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.15885347750389436,
+          "upper": 1,
+          "spread": 0.564,
+          "midpoint": 0.7228534775038944
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.564,
+          "midpoint": 0.49853385870063227
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.9818960872354073,
+          "spread": 0.564,
+          "midpoint": 0.41789608723540733
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-supply-chain"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-high",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-neutral",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-neutral",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-no-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:RscgEQ25FYkHkhyGuBsu0mcWMA0yceFapu1QWysDHhNl1_YbuYyZcD_mwOmbguSxRKZGZYwOFlqS9Hu_HWiEBw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:RscgEQ25FYkHkhyGuBsu0mcWMA0yceFapu1QWysDHhNl1_YbuYyZcD_mwOmbguSxRKZGZYwOFlqS9Hu_HWiEBw|n=1|t=2026-09-08T20:51:04.935Z|m=0.15059593144322928|lo=0|hi=0.9818960872354073|p10=0.019407768791838604|p90=0.30832103447582676|f=0.7228534775038944:0.564,0.49853385870063227:0.564,0.41789608723540733:0.564|q=medium|g=",
+      "signature": "6s-XV1s6z-18nvb0Z8fCsoa5yM-tv64vHWmEPKpOWICqvyfhyLvXYIYxeTj3Rugq7YT7eHtV0yhnJ5NhOWbuNg",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T06:00:45.875+00:00",
+      "summary": {
+        "p10": 0.058879418485166944,
+        "p90": 0.5742025890354279,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.7761515590000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.995,
+          "midpoint": 0.919
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.41400000000000003,
+          "upper": 1,
+          "spread": 0.505,
+          "midpoint": 0.919
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.995,
+          "midpoint": 0.919
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-ex-machina",
+            "entertainment-irobot",
+            "entertainment-her",
+            "entertainment-startrek",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-judgedredd",
+            "entertainment-robocop",
+            "entertainment-ghostintheshell",
+            "entertainment-westworld",
+            "entertainment-trumanshow",
+            "entertainment-wargames",
+            "entertainment-wall-e",
+            "entertainment-silo",
+            "entertainment-foundation",
+            "entertainment-portal",
+            "entertainment-hitchhikersguide",
+            "entertainment-ironman"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:75rhEAFh55wktxtLIc6QHZ1vN_QJ1JdJrmmsInvyntP0eUD8Op63S6lLPcULuEu4hLRuegQ9sWkNlwvYuWFubg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:75rhEAFh55wktxtLIc6QHZ1vN_QJ1JdJrmmsInvyntP0eUD8Op63S6lLPcULuEu4hLRuegQ9sWkNlwvYuWFubg|n=1|t=2026-09-09T06:00:45.875Z|m=0.7761515590000001|lo=0|hi=1|p10=0.058879418485166944|p90=0.5742025890354279|f=0.919:0.995,0.919:0.505,0.919:0.995|q=beginner|g=",
+      "signature": "JaVCLBBMmCLNbNK4TSPTcDVdAHAtJzzaeS5cgNe70my8K7psr3800IHfSF8ZCSiOZyqX4aefwaMcLsCxqJxi7A",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T06:04:36.283+00:00",
+      "summary": {
+        "p10": 0.0026563051846056193,
+        "p90": 0.12998837006212233,
+        "lower": 0,
+        "upper": 0.6538172524734799,
+        "midpoint": 0.020233382671137928
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0,
+          "upper": 0.7120767444867492,
+          "spread": 0.49,
+          "midpoint": 0.22207674448674924
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 0.9181836895189415,
+          "spread": 0.73,
+          "midpoint": 0.18818368951894152
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.715,
+          "midpoint": 0.48415389936377806
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-dont-worry-about-the-vase"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-robert-miles"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 30,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:2z_Wcv0AIsC75Uy8tbVCvFq2XuY0m81ySnbaCVeGibShdYDwcfWamCLaqRxvxw016cYy26L7LIDO4sUKDChLCQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:2z_Wcv0AIsC75Uy8tbVCvFq2XuY0m81ySnbaCVeGibShdYDwcfWamCLaqRxvxw016cYy26L7LIDO4sUKDChLCQ|n=1|t=2026-09-09T06:04:36.283Z|m=0.020233382671137928|lo=0|hi=0.6538172524734799|p10=0.0026563051846056193|p90=0.12998837006212233|f=0.22207674448674924:0.49,0.18818368951894152:0.73,0.48415389936377806:0.715|q=expert|g=30",
+      "signature": "ljB6uZOuX9moaTEFmjGFF_cEmAwBd_SGUFC1PfHMoeQzORi4N95YUEZsb4CwH16YKcKkcDb2UI1ITqsDIWdweg",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T15:37:28.792+00:00",
+      "summary": {
+        "p10": 0.28297362909296997,
+        "p90": 0.8260264012279509,
+        "lower": 0.12881339873120304,
+        "upper": 1,
+        "midpoint": 0.9670866619674185
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.27,
+          "upper": 1,
+          "spread": 0.73,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.4770866619674186,
+          "upper": 1,
+          "spread": 0.49,
+          "midpoint": 0.9670866619674185
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-obfuscation"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:Ir4yYKkptvOsltAy6u7ycxchyWHszx06wYm1Bq0o3hLwYl-v6NQTbo0aHK7Q6BPbPk7RWTzVNgNudvVXU2S5Eg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:Ir4yYKkptvOsltAy6u7ycxchyWHszx06wYm1Bq0o3hLwYl-v6NQTbo0aHK7Q6BPbPk7RWTzVNgNudvVXU2S5Eg|n=1|t=2026-09-09T15:37:28.792Z|m=0.9670866619674185|lo=0.12881339873120304|hi=1|p10=0.28297362909296997|p90=0.8260264012279509|f=1:0.73,1:0,0.9670866619674185:0.49|q=medium|g=",
+      "signature": "CVAgKb8h8857976uOMsAoelF7d9iHUeU5TXB0UUvnRyNBZvpuuaiXRrCF1Y2gkFel64tYfsaZ7I4QewV0odAHA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T16:49:42.912+00:00",
+      "summary": {
+        "p10": 0.03708103990974733,
+        "p90": 0.2848518069928904,
+        "lower": 0,
+        "upper": 0.6057496335081103,
+        "midpoint": 0.1609090430722448
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.602106280709005,
+          "upper": 1,
+          "spread": 0.2,
+          "midpoint": 0.802106280709005
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.3000336021797908,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.8000336021797908
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.6057496335081103,
+          "spread": 0.355,
+          "midpoint": 0.2507496335081103
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-dont-worry-about-the-vase"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 30,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:NaK_8tb44WuMVAsUgImYdh4Td4WrPGYoh3GleKY7P0s7z6mfr9UpgKN2q-qpqkpiV2N2T3KXzgrdMr9tvw46eg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:NaK_8tb44WuMVAsUgImYdh4Td4WrPGYoh3GleKY7P0s7z6mfr9UpgKN2q-qpqkpiV2N2T3KXzgrdMr9tvw46eg|n=1|t=2026-09-09T16:49:42.912Z|m=0.1609090430722448|lo=0|hi=0.6057496335081103|p10=0.03708103990974733|p90=0.2848518069928904|f=0.802106280709005:0.2,0.8000336021797908:0.5,0.2507496335081103:0.355|q=expert|g=30",
+      "signature": "JQCwaux6YARKBS4R7Bo4yix9gni8IT6aAReEDT7FHaVLcx1_A1cT2CEkl0-PvG_y3i6715Zvy-moSYZ0H4I7Ug",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T19:18:50.959+00:00",
+      "summary": {
+        "p10": 0.1218879591179646,
+        "p90": 0.3602065450619048,
+        "lower": 0.038788724952768236,
+        "upper": 0.6044786317347028,
+        "midpoint": 0.29359881044236313
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.3775599849131052,
+          "upper": 1,
+          "spread": 0.42,
+          "midpoint": 0.7975599849131052
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.47900000000000004,
+          "upper": 1,
+          "spread": 0.42,
+          "midpoint": 0.899
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.21447863173470283,
+          "upper": 0.6044786317347028,
+          "spread": 0.195,
+          "midpoint": 0.40947863173470284
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-trumanshow",
+            "entertainment-wall-e",
+            "entertainment-ironman"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:Ctu2IUM8SNT4XaZyKD1WXy6rsPNm5Lyt8wJJBR_4CTNVEnX1gW7zyWYS23r1U-1kJNmyG84ITgQcC7zdUnN9vA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:Ctu2IUM8SNT4XaZyKD1WXy6rsPNm5Lyt8wJJBR_4CTNVEnX1gW7zyWYS23r1U-1kJNmyG84ITgQcC7zdUnN9vA|n=1|t=2026-09-09T19:18:50.959Z|m=0.29359881044236313|lo=0.038788724952768236|hi=0.6044786317347028|p10=0.1218879591179646|p90=0.3602065450619048|f=0.7975599849131052:0.42,0.899:0.42,0.40947863173470284:0.195|q=beginner|g=",
+      "signature": "Z3ivpc6YSLDwsLbKDcW_qIPaxGpbDWEIAi2zjgsCGR_oi8Kv1_pSU0BitKTSC3e_KvkqWKwoC0rviH11af_w3w",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T19:54:45.067+00:00",
+      "summary": {
+        "p10": 0.11684208085691017,
+        "p90": 0.5033193626001572,
+        "lower": 0.01838455199999999,
+        "upper": 0.973,
+        "midpoint": 0.36246709699999996
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.17799999999999996,
+          "upper": 1,
+          "spread": 0.535,
+          "midpoint": 0.713
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.45299999999999996,
+          "upper": 0.973,
+          "spread": 0.26,
+          "midpoint": 0.713
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.22799999999999998,
+          "upper": 1,
+          "spread": 0.485,
+          "midpoint": 0.713
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-trumanshow",
+            "entertainment-wargames",
+            "entertainment-wall-e",
+            "entertainment-neuromancer",
+            "entertainment-hitchhikersguide"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-sriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-easy",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:2cFnn_Mj2RCXEoq8DuQpFR5O1B_FpJA61gWkqtqILKuTkTLCGW_MhdwuZWLHjM0cn2hWrTO2KYEI4IQLFxfI6g",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:2cFnn_Mj2RCXEoq8DuQpFR5O1B_FpJA61gWkqtqILKuTkTLCGW_MhdwuZWLHjM0cn2hWrTO2KYEI4IQLFxfI6g|n=1|t=2026-09-09T19:54:45.067Z|m=0.36246709699999996|lo=0.01838455199999999|hi=0.973|p10=0.11684208085691017|p90=0.5033193626001572|f=0.713:0.535,0.713:0.26,0.713:0.485|q=beginner|g=",
+      "signature": "4mR-eI3I80632rlMToEtBf1WbrStq_unzzNe-BKsQk1JuVjZcJUh21rqVeoo6m32BtCHyHYVXfhFkFgNtBnh6g",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T21:35:53.466+00:00",
+      "summary": {
+        "p10": 0.16892752069233583,
+        "p90": 0.5774432312263229,
+        "lower": 0.049358305258679555,
+        "upper": 0.9404106323648466,
+        "midpoint": 0.4037388423445578
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.8421071332193937,
+          "upper": 1,
+          "spread": 0.135,
+          "midpoint": 0.9771071332193937
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.1704106323648467,
+          "upper": 0.9404106323648466,
+          "spread": 0.385,
+          "midpoint": 0.5554106323648467
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.34395070612575324,
+          "upper": 1,
+          "spread": 0.4,
+          "midpoint": 0.7439507061257532
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-ex-machina",
+            "entertainment-irobot",
+            "entertainment-her",
+            "entertainment-startrek",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-robocop",
+            "entertainment-westworld",
+            "entertainment-trumanshow",
+            "entertainment-wargames",
+            "entertainment-transcendence",
+            "entertainment-wall-e",
+            "entertainment-ironman"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:mFjfX1F1dO-ZiVNA-pbAygb1K2o-uQZQq8QQrMn6l93YK7ZzYZH5fkTfDTrm8PG_Hr9vfce1zsaI3V2_xMBVCw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:mFjfX1F1dO-ZiVNA-pbAygb1K2o-uQZQq8QQrMn6l93YK7ZzYZH5fkTfDTrm8PG_Hr9vfce1zsaI3V2_xMBVCw|n=1|t=2026-09-09T21:35:53.466Z|m=0.4037388423445578|lo=0.049358305258679555|hi=0.9404106323648466|p10=0.16892752069233583|p90=0.5774432312263229|f=0.9771071332193937:0.135,0.5554106323648467:0.385,0.7439507061257532:0.4|q=beginner|g=",
+      "signature": "6Wi7WBrGStkvSIgPpJFRbP1hXuOqFL-okYb43MAqIYiC4RyJrUUMCm8udIf0oXWUtOlXZsXS2QU1ntyIf8htFQ",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T21:38:23.621+00:00",
+      "summary": {
+        "p10": 0.08763671007830988,
+        "p90": 0.4697490019575759,
+        "lower": 0.008373356123803737,
+        "upper": 0.9404106323648466,
+        "midpoint": 0.3567835349259586
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5110000000000001,
+          "upper": 1,
+          "spread": 0.46799999999999997,
+          "midpoint": 0.9790000000000001
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.1704106323648467,
+          "upper": 0.9404106323648466,
+          "spread": 0.385,
+          "midpoint": 0.5554106323648467
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.09615723666456788,
+          "upper": 1,
+          "spread": 0.56,
+          "midpoint": 0.6561572366645678
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:mFjfX1F1dO-ZiVNA-pbAygb1K2o-uQZQq8QQrMn6l93YK7ZzYZH5fkTfDTrm8PG_Hr9vfce1zsaI3V2_xMBVCw",
+      "submit_count": 2,
+      "signed_payload": "pdoom/1|k=p256:mFjfX1F1dO-ZiVNA-pbAygb1K2o-uQZQq8QQrMn6l93YK7ZzYZH5fkTfDTrm8PG_Hr9vfce1zsaI3V2_xMBVCw|n=2|t=2026-09-09T21:38:23.621Z|m=0.3567835349259586|lo=0.008373356123803737|hi=0.9404106323648466|p10=0.08763671007830988|p90=0.4697490019575759|f=0.9790000000000001:0.46799999999999997,0.5554106323648467:0.385,0.6561572366645678:0.56|q=medium|g=",
+      "signature": "PQzwtxlnj13LT-cj5d-X3pk7VfVdYpuuMcnOiK0MwggCPOGpNeBQoOCLTYHqM1EDW-49WFe2RuTGV2jwglSZSQ",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T23:20:20.823+00:00",
+      "summary": {
+        "p10": 0.0407383738131426,
+        "p90": 0.43362497010186496,
+        "lower": 0,
+        "upper": 0.9479919402812216,
+        "midpoint": 0.19685833234354727
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5679919402812216,
+          "upper": 0.9479919402812216,
+          "spread": 0.19,
+          "midpoint": 0.7579919402812216
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.21668936478606568,
+          "upper": 1,
+          "spread": 0.44,
+          "midpoint": 0.6566893647860657
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.39548428503994765
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-blackmirror",
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-ex-machina",
+            "entertainment-irobot",
+            "entertainment-her",
+            "entertainment-startrek",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-judgedredd",
+            "entertainment-robocop",
+            "entertainment-ghostintheshell",
+            "entertainment-transcendence",
+            "entertainment-wall-e"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-sriskai",
+            "catastrophe-unknownunknowns"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:w9MpC_vzAcvn-5WERdVrISYsXCv51wCJzoDyhBFEmQe8x17tfTfCNvrDUpQ_V2RkyTY52dVSNm7pn_W3vjiBWg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:w9MpC_vzAcvn-5WERdVrISYsXCv51wCJzoDyhBFEmQe8x17tfTfCNvrDUpQ_V2RkyTY52dVSNm7pn_W3vjiBWg|n=1|t=2026-09-09T23:20:20.823Z|m=0.19685833234354727|lo=0|hi=0.9479919402812216|p10=0.0407383738131426|p90=0.43362497010186496|f=0.7579919402812216:0.19,0.6566893647860657:0.44,0.39548428503994765:1|q=beginner|g=",
+      "signature": "EDzslYBzG5yZmwYNVmf_JbjqCGldwC4AkS5FO2bGWKtD_nmSDmmDKwRX5sRa8X8LUefcEDz18Ayb8x-Jl-etgg",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-09T23:50:09.438+00:00",
+      "summary": {
+        "p10": 0.025737404078574253,
+        "p90": 0.5107755418572016,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.25000004392282676
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.85,
+          "upper": 1,
+          "spread": 0.15,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.5000000439228248
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.5000000439228248
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 30,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:eLJVe97wa6ydmuC5jgYlCK8wxceygx5chnC5mvc2L0GjRHBn25BqKkD5IpuX0E-8QWRpPlncMQ4vHYmSzLbs_w",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:eLJVe97wa6ydmuC5jgYlCK8wxceygx5chnC5mvc2L0GjRHBn25BqKkD5IpuX0E-8QWRpPlncMQ4vHYmSzLbs_w|n=1|t=2026-09-09T23:50:09.438Z|m=0.25000004392282676|lo=0|hi=1|p10=0.025737404078574253|p90=0.5107755418572016|f=1:0.15,0.5000000439228248:1,0.5000000439228248:1|q=expert|g=30",
+      "signature": "3cuTYWmONFJAe_WyR0Ut0G4NvjFAeBcpVQpdgkaOthHZru7b5hnoGQtnjkyQidOzMMkLeHlYJk32km3RO24dwA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T03:21:40.523+00:00",
+      "summary": {
+        "p10": 0.14252056838119273,
+        "p90": 0.5906227267988048,
+        "lower": 0.02778033891810028,
+        "upper": 1,
+        "midpoint": 0.5319496419014909
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.24671904217307286,
+          "upper": 1,
+          "spread": 0.51,
+          "midpoint": 0.7567190421730728
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.505,
+          "upper": 1,
+          "spread": 0.495,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.22296848930071747,
+          "upper": 1,
+          "spread": 0.48,
+          "midpoint": 0.7029684893007174
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:fbyVPnArVJW9Cb52GKFg_daIwRegAJY45xcMfnGukhv-wOSJ-h7msjNsPVJXjtX14igXCOt-bZko6E3daN8LJg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:fbyVPnArVJW9Cb52GKFg_daIwRegAJY45xcMfnGukhv-wOSJ-h7msjNsPVJXjtX14igXCOt-bZko6E3daN8LJg|n=1|t=2026-09-10T03:21:40.523Z|m=0.5319496419014909|lo=0.02778033891810028|hi=1|p10=0.14252056838119273|p90=0.5906227267988048|f=0.7567190421730728:0.51,1:0.495,0.7029684893007174:0.48|q=medium|g=",
+      "signature": "Y39VrTYalzquSU2kQTZApOmoP30SN0bomET4ofsLs-HxN1WHNCHZ_Q5XFuaaTzBXNXx6ZncM9n6n8WGwrG8TBw",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T05:52:06.619+00:00",
+      "summary": {
+        "p10": 0.2096071713570283,
+        "p90": 0.5817671780839472,
+        "lower": 0.07352239106352594,
+        "upper": 0.9988890698741011,
+        "midpoint": 0.4676689509297474
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.5388890698741011,
+          "upper": 0.9988890698741011,
+          "spread": 0.23,
+          "midpoint": 0.7688890698741011
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.5141696277744083,
+          "upper": 1,
+          "spread": 0.4,
+          "midpoint": 0.9141696277744082
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.2653467840449514,
+          "upper": 1,
+          "spread": 0.4,
+          "midpoint": 0.6653467840449514
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-rag",
+            "expert-continuous-learning-tool-based",
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-biology",
+            "expert-self-replication-cellular-automata",
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing",
+            "expert-self-replication-von-neumann-probe"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-alignment-capabilities",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 30,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "john-von-neumann",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:jh0eVsH1tGjDttCoAAb4ugmQyJtMkrsIYFm7d9qIM2_lJwn13PUK59ywAhoBdTjQRwnFaRM6XfXfbRqyfBeFrg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:jh0eVsH1tGjDttCoAAb4ugmQyJtMkrsIYFm7d9qIM2_lJwn13PUK59ywAhoBdTjQRwnFaRM6XfXfbRqyfBeFrg|n=1|t=2026-09-10T05:52:06.619Z|m=0.4676689509297474|lo=0.07352239106352594|hi=0.9988890698741011|p10=0.2096071713570283|p90=0.5817671780839472|f=0.7688890698741011:0.23,0.9141696277744082:0.4,0.6653467840449514:0.4|q=expert|g=30",
+      "signature": "BvkUV8kYjifhCjraKMTntqWi_4HvzOqKy1LIJmLM8NtE4YUZzFhjAHMEFB_sOfSF1_RB7iGMdg8iygjX9R0v6A",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T06:36:38.141+00:00",
+      "summary": {
+        "p10": 0.038033232974117266,
+        "p90": 0.5873625476744585,
+        "lower": 0,
+        "upper": 1,
+        "midpoint": 0.25151232346856167
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.05,
+          "upper": 1,
+          "spread": 0.95,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 1,
+          "midpoint": 0.25151232346856167
+        }
+      ],
+      "quiz_flow_id": "expert",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-continuous-learning-finetuning"
+          ],
+          "question_id": "expert-continuous-learning"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-improvement-prompting",
+            "expert-self-improvement-coding",
+            "expert-self-improvement-synthetic-data",
+            "expert-self-improvement-rewrite-itself"
+          ],
+          "question_id": "expert-self-improvement"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-self-replication-software",
+            "expert-self-replication-3d-printing"
+          ],
+          "question_id": "expert-self-replication"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-campaign-organisations-pauseai",
+            "expert-campaign-organisations-controlai"
+          ],
+          "question_id": "expert-campaign-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-research-organisations-aisi",
+            "expert-research-organisations-redwood-research"
+          ],
+          "question_id": "expert-research-organisations"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-commentators-doom-debates"
+          ],
+          "question_id": "expert-commentators"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "expert-content-creators-robert-miles"
+          ],
+          "question_id": "expert-content-creators"
+        },
+        {
+          "type": "single",
+          "value": "expert-money-not-spending-enough",
+          "question_id": "expert-money-alignment"
+        }
+      ],
+      "gate_score": 29,
+      "gate_recommended_level": "expert",
+      "expert_verified": true,
+      "gate_answers": [
+        "paperclip-maximizer",
+        "attention-is-all-you-need",
+        "alan-turing",
+        "embedding",
+        "isaac-asimov",
+        "agent",
+        "red-team",
+        "latent-space",
+        "reward-hacking",
+        "training-data",
+        "overfitting",
+        "backpropagation",
+        "unsupervised-learning",
+        "hallucination"
+      ],
+      "visitor_key": "p256:uo5WGf6kysZT_tcplI9vTVqhqRk2YF2PfcHymUoE12STlhsGng9SPjL0KEoC440A2v8rVyXw10KPcImwxwjFeQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:uo5WGf6kysZT_tcplI9vTVqhqRk2YF2PfcHymUoE12STlhsGng9SPjL0KEoC440A2v8rVyXw10KPcImwxwjFeQ|n=1|t=2026-09-10T06:36:38.141Z|m=0.25151232346856167|lo=0|hi=1|p10=0.038033232974117266|p90=0.5873625476744585|f=1:0,1:0.95,0.25151232346856167:1|q=expert|g=29",
+      "signature": "8vOhRDBfclh2mWPIRfrVXIeGkvjr5WEmopygEqniLCDTuoKVIlQy_WGLMsCNnAegJ1f_wO2lOYN7urMid1oqeA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T13:41:04.299+00:00",
+      "summary": {
+        "p10": 0.0175710766240172,
+        "p90": 0.24285616246438413,
+        "lower": 0,
+        "upper": 0.525896351745589,
+        "midpoint": 0.09700546485566204
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.7528853899978992,
+          "upper": 0.8228853899978992,
+          "spread": 0.035,
+          "midpoint": 0.7878853899978993
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0,
+          "upper": 1,
+          "spread": 0.62,
+          "midpoint": 0.6032748705615826
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0,
+          "upper": 0.6390882109924587,
+          "spread": 0.435,
+          "midpoint": 0.20408821099245875
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-medium",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:J7fHRE2twdAvJIps2vF2hgljMYtymNz7xzqXGVfqaw-H9UrQzpbfsMaiELt0Xxz0cPUSIwqJOcvQ7WjOicXxoQ",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:J7fHRE2twdAvJIps2vF2hgljMYtymNz7xzqXGVfqaw-H9UrQzpbfsMaiELt0Xxz0cPUSIwqJOcvQ7WjOicXxoQ|n=1|t=2026-09-10T13:41:04.299Z|m=0.09700546485566204|lo=0|hi=0.525896351745589|p10=0.0175710766240172|p90=0.24285616246438413|f=0.7878853899978993:0.035,0.6032748705615826:0.62,0.20408821099245875:0.435|q=medium|g=",
+      "signature": "emIh1q-fxY87_sIGNfpyADO10U6I36m4oZWP_vqjgvEqt49K-88tJ21QkZCkPRYWWhIGTYy_tpcvqt30c-TxoA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T13:51:56.814+00:00",
+      "summary": {
+        "p10": 0.5262052919075474,
+        "p90": 0.9069578832369659,
+        "lower": 0.3975,
+        "upper": 1,
+        "midpoint": 1
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 1,
+          "upper": 1,
+          "spread": 0,
+          "midpoint": 1
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.5,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 1
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.795,
+          "upper": 1,
+          "spread": 0.205,
+          "midpoint": 1
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-expert",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-bypass",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-no",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:HyDoqdDN0oDbSta7fEbdyExzlAdGCqj20zh5ZMG_4ExGH8zmgKLwqL-52acLobfgYSdGJMWjYejBoy27Yml7dg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:HyDoqdDN0oDbSta7fEbdyExzlAdGCqj20zh5ZMG_4ExGH8zmgKLwqL-52acLobfgYSdGJMWjYejBoy27Yml7dg|n=1|t=2026-09-10T13:51:56.814Z|m=1|lo=0.3975|hi=1|p10=0.5262052919075474|p90=0.9069578832369659|f=1:0,1:0.5,1:0.205|q=medium|g=",
+      "signature": "BfoGRIT-1aVcPlr-t0ofkyAJ1lL4nskK2Nij3KLj3AxYWI9Y9AtNsIEUUBXEW4y8LauM5yNH8Up9_gc1avzZcg",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T16:50:14.782+00:00",
+      "summary": {
+        "p10": 0.045113839862060134,
+        "p90": 0.14005461505569844,
+        "lower": 0.015841956672909087,
+        "upper": 0.20528305598622337,
+        "midpoint": 0.11825927421915798
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.2063775605247789,
+          "upper": 0.2063775605247789,
+          "spread": 0,
+          "midpoint": 0.2063775605247789
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.26469659135531787,
+          "upper": 0.9946965913553178,
+          "spread": 0.365,
+          "midpoint": 0.6296965913553179
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.29,
+          "upper": 1,
+          "spread": 0.62,
+          "midpoint": 0.91
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-matrix",
+            "entertainment-terminator",
+            "entertainment-blade-runner",
+            "entertainment-alien",
+            "entertainment-irobot",
+            "entertainment-starwars",
+            "entertainment-judgedredd",
+            "entertainment-robocop",
+            "entertainment-trumanshow",
+            "entertainment-wargames",
+            "entertainment-hitchhikersguide"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction",
+            "catastrophe-xriskai",
+            "catastrophe-sriskai"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-protein-folding",
+            "capability-companion",
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-research",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-impossible",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:ff5OloHCrTgZX4s25XEStCnw8QO8pspHUieJ5_tAwYexqWTtwEBCHUD5zL_0dP3Oe0Un1TXCj_iNRUUFdqvRsg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:ff5OloHCrTgZX4s25XEStCnw8QO8pspHUieJ5_tAwYexqWTtwEBCHUD5zL_0dP3Oe0Un1TXCj_iNRUUFdqvRsg|n=1|t=2026-09-10T16:50:14.782Z|m=0.11825927421915798|lo=0.015841956672909087|hi=0.20528305598622337|p10=0.045113839862060134|p90=0.14005461505569844|f=0.2063775605247789:0,0.6296965913553179:0.365,0.91:0.62|q=beginner|g=",
+      "signature": "Ch9LfGqiT4bENFmkY5amTtzX6--UpJNB0ibkPVN0oJVp81c30je2l3L6veQJH_hpqGhAzNcXyT8DpcL69255wA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T18:36:30.231+00:00",
+      "summary": {
+        "p10": 0.18690495661648496,
+        "p90": 0.6610563395229745,
+        "lower": 0.04891855199999999,
+        "upper": 1,
+        "midpoint": 0.6316287119999999
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.19299999999999998,
+          "upper": 1,
+          "spread": 0.665,
+          "midpoint": 0.858
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.358,
+          "upper": 1,
+          "spread": 0.5,
+          "midpoint": 0.858
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.708,
+          "upper": 1,
+          "spread": 0.15,
+          "midpoint": 0.858
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-sleeper-agent"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-basic",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-yes",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:L632B5qV-YioxsG5I6VeFQicsNXI_hPXVeSxMSX5QxMG3YFFjiMeJkNgxMYlRdRKXCCjePJPnsqPPMvfWoGJpw",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:L632B5qV-YioxsG5I6VeFQicsNXI_hPXVeSxMSX5QxMG3YFFjiMeJkNgxMYlRdRKXCCjePJPnsqPPMvfWoGJpw|n=1|t=2026-09-10T18:36:30.231Z|m=0.6316287119999999|lo=0.04891855199999999|hi=1|p10=0.18690495661648496|p90=0.6610563395229745|f=0.858:0.665,0.858:0.5,0.858:0.15|q=medium|g=",
+      "signature": "MqyMNnOvhUDVEi9HNTGI3mnqQEWAarKwxvMENsxGiDvXBYQV-UmUET0967srlvuvojBwfkcVnpu0sbsMDUU6fA",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T19:41:22.487+00:00",
+      "summary": {
+        "p10": 0.1836584350650716,
+        "p90": 0.6072896980313445,
+        "lower": 0.04652020800000001,
+        "upper": 1,
+        "midpoint": 0.5255579430000001
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.532,
+          "upper": 1,
+          "spread": 0.275,
+          "midpoint": 0.807
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.252,
+          "upper": 1,
+          "spread": 0.555,
+          "midpoint": 0.807
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.34700000000000003,
+          "upper": 1,
+          "spread": 0.46,
+          "midpoint": 0.807
+        }
+      ],
+      "quiz_flow_id": "medium",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "medium-vulnerabilities-phishing",
+            "medium-vulnerabilities-social-engineering",
+            "medium-vulnerabilities-malware",
+            "medium-vulnerabilities-ransomware",
+            "medium-vulnerabilities-supply-chain",
+            "medium-vulnerabilities-mitm",
+            "medium-vulnerabilities-insider-threat",
+            "medium-vulnerabilities-zero-day",
+            "medium-vulnerabilities-injection",
+            "medium-vulnerabilities-prompt-injection",
+            "medium-vulnerabilities-sleeper-agent",
+            "medium-vulnerabilities-data-poisoning",
+            "medium-vulnerabilities-adversarial",
+            "medium-vulnerabilities-model-stealing",
+            "medium-vulnerabilities-obfuscation",
+            "medium-vulnerabilities-side-channel"
+          ],
+          "question_id": "medium-vulnerabilities"
+        },
+        {
+          "type": "single",
+          "value": "medium-system-prompts-medium",
+          "question_id": "medium-system-prompts"
+        },
+        {
+          "type": "single",
+          "value": "medium-off-the-rails-low",
+          "question_id": "medium-off-the-rails"
+        },
+        {
+          "type": "single",
+          "value": "medium-competition-negative",
+          "question_id": "medium-competition"
+        },
+        {
+          "type": "single",
+          "value": "medium-governance-neutral",
+          "question_id": "medium-governance"
+        },
+        {
+          "type": "single",
+          "value": "medium-speed-no-risk",
+          "question_id": "medium-speed"
+        }
+      ],
+      "visitor_key": "p256:rwRa7iZgejL6PAWhVwcRGYwZ75NdfrfCltV9vXjsqducGiIbn8jbDz7oKKlFYxPLyvAtNIwosoK1ITjIY1zBrA",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:rwRa7iZgejL6PAWhVwcRGYwZ75NdfrfCltV9vXjsqducGiIbn8jbDz7oKKlFYxPLyvAtNIwosoK1ITjIY1zBrA|n=1|t=2026-09-10T19:41:22.487Z|m=0.5255579430000001|lo=0.04652020800000001|hi=1|p10=0.1836584350650716|p90=0.6072896980313445|f=0.807:0.275,0.807:0.555,0.807:0.46|q=medium|g=",
+      "signature": "iRKC9ibeLi__ZDOBM4atZTc0IJIpe6De6_fEdBMLG7UcDmd7oEo8OIyPkmL2kvOARvKHL04e3KEpGe7-kzOzXQ",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
+    },
+    {
+      "submitted_at": "2026-09-10T19:46:19.759+00:00",
+      "summary": {
+        "p10": 0.4116648188703099,
+        "p90": 0.7540986745130163,
+        "lower": 0.2288385704832776,
+        "upper": 1,
+        "midpoint": 0.6971187141584614
+      },
+      "factors": [
+        {
+          "key": "powerfulAi",
+          "label": "P(powerful AI)",
+          "lower": 0.6400964042248163,
+          "upper": 1,
+          "spread": 0.255,
+          "midpoint": 0.8950964042248163
+        },
+        {
+          "key": "dangerousBehavior",
+          "label": "P(dangerous behavior | powerful AI)",
+          "lower": 0.5950763626788378,
+          "upper": 1,
+          "spread": 0.315,
+          "midpoint": 0.9100763626788378
+        },
+        {
+          "key": "globalCatastrophe",
+          "label": "P(global catastrophe | dangerous behavior)",
+          "lower": 0.6007740132830099,
+          "upper": 1,
+          "spread": 0.255,
+          "midpoint": 0.85577401328301
+        }
+      ],
+      "quiz_flow_id": "beginner",
+      "quiz_answers": [
+        {
+          "type": "multi-select",
+          "values": [
+            "entertainment-matrix",
+            "entertainment-irobot",
+            "entertainment-starwars",
+            "entertainment-2001",
+            "entertainment-trumanshow",
+            "entertainment-wargames",
+            "entertainment-silo",
+            "entertainment-hitchhikersguide"
+          ],
+          "question_id": "beginner-entertainment"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "catastrophe-supervulcano",
+            "catastrophe-supernova",
+            "catastrophe-gamma-ray-burst",
+            "catastrophe-impactevent",
+            "catastrophe-geomagneticstorm",
+            "catastrophe-pandemic",
+            "catastrophe-climatechange",
+            "catastrophe-nuclearwar",
+            "catastrophe-weaponofmassdestruction"
+          ],
+          "question_id": "beginner-catastrophes"
+        },
+        {
+          "type": "multi-select",
+          "values": [
+            "capability-warfare",
+            "capability-programming",
+            "capability-mass-surveillance",
+            "capability-trading",
+            "capability-propaganda"
+          ],
+          "question_id": "beginner-capability"
+        },
+        {
+          "type": "single",
+          "value": "control-medium",
+          "question_id": "beginner-control"
+        }
+      ],
+      "visitor_key": "p256:6a1_kkzaC97Lbpc7aGtoF8u6-6AtZuiLwqSD92JZq9kd7oma-L626A2SsNfjOkYRxakZVTeVE1VI6CAMaEPyMg",
+      "submit_count": 1,
+      "signed_payload": "pdoom/1|k=p256:6a1_kkzaC97Lbpc7aGtoF8u6-6AtZuiLwqSD92JZq9kd7oma-L626A2SsNfjOkYRxakZVTeVE1VI6CAMaEPyMg|n=1|t=2026-09-10T19:46:19.759Z|m=0.6971187141584614|lo=0.2288385704832776|hi=1|p10=0.4116648188703099|p90=0.7540986745130163|f=0.8950964042248163:0.255,0.9100763626788378:0.315,0.85577401328301:0.255|q=beginner|g=",
+      "signature": "wC2bDaDfBp9mdY8K0jfV3ZHLyciUmDYe0FysxAYHmgnIive72Fo5fbzHdWcW5L_kjl-vf_7vYbYUfiQYclFHLQ",
+      "page_version": "779da8b0f14cfd56a8f7dfad9359a6aa857178cf"
     }
   ]
 }
