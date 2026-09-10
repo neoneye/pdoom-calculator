@@ -24,7 +24,10 @@ the report pages under ``reports/`` render from:
       "prompts":   [{"label", "n", "median", "values", "dups"}, ...],
       "mediumVuln":[{"known", "of", "m", "dup"}, ...],
       "vulnList":  [{"label", "known", "of"}, ...],
-      "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...]
+      "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...],
+      "questions": [{"flow", "id", "prompt", "multi", "n", "options": [{"id", "label", "n", "of"}],
+                     "people": [{"k", "m", "p10", "p90", "dup", "v", "t"}], "clusters": [...]}, ...],
+      "quizScore": {flow: {"people", "clusters", "of", "questions"}}
     }
 
 ``rows`` is one entry per submission, sorted by timestamp; ``fx`` holds the
@@ -797,6 +800,183 @@ def medium_breakdown(submissions, index_html):
     return questions, prompts, vulns, vuln_list
 
 
+def parse_flow_questions(index_html):
+    """Every question of every self-selected quiz, as the page defines it.
+
+    Returns [{"flow", "id", "prompt", "multi", "options": [(id, label), ...]}, ...] in
+    display order. A question without ``type: 'multi-select'`` is single-choice; the
+    page stores those answers under ``value`` rather than ``values``."""
+    with open(index_html) as f:
+        html = f.read()
+    start = html.index("const quizFlows = [")
+    questions = []
+    for flow in QUIZ_LEVELS:
+        flow_at = html.index(f"id: '{flow}',", start)
+        open_at = html.index("questions: [", flow_at)
+        depth, i = 0, open_at + len("questions: [") - 1
+        while True:
+            if html[i] == "[":
+                depth += 1
+            elif html[i] == "]":
+                depth -= 1
+                if depth == 0:
+                    break
+            i += 1
+        body = html[open_at:i]
+        # A question object opens at 8 or 10 spaces of indent with its id on the next
+        # line at 12; option objects sit deeper, so the split lands on questions only.
+        for chunk in re.split(r"\n {8,10}\{\n {12}id: '", body)[1:]:
+            qid = chunk[:chunk.index("'")]
+            prompt = re.search(r"prompt: '((?:[^'\\]|\\.)*)'", chunk)
+            questions.append({
+                "flow": flow,
+                "id": qid,
+                "prompt": prompt.group(1).replace("\\'", "'") if prompt else qid,
+                "multi": "type: 'multi-select'" in chunk,
+                "options": parse_question_options(index_html, qid),
+            })
+    return questions
+
+
+def tertile_clusters(people):
+    """Split respondents into three contiguous bands of ``k``: most, middle, least.
+
+    Cut points are the 33rd and 67th percentiles of ``k``. Ties are kept together,
+    so a band can be empty (every expert ticking all four answers leaves nobody
+    above or below the middle). Empty bands are dropped rather than faked."""
+    ks = sorted(p["k"] for p in people)
+    n = len(ks)
+    if not n:
+        return []
+    lo, hi = ks[n // 3], ks[(2 * n) // 3]
+    if lo == hi:
+        band = lambda k: "most" if k > hi else "least" if k < lo else "mid"
+    else:
+        band = lambda k: "most" if k >= hi else "least" if k < lo else "mid"
+    bands = _cluster_stats(people, [("most", "Most informed"), ("mid", "Middle"), ("least", "Least informed")],
+                           lambda p: band(p["k"]))
+    # When ties empty an outer band, the middle one is the top or bottom and says so.
+    present = {b["g"] for b in bands}
+    for b in bands:
+        if b["g"] == "mid" and len(present) == 1:
+            b["label"] = "Everyone"
+        elif b["g"] == "mid" and "most" not in present:
+            b["g"], b["label"] = "most", "Most informed"
+        elif b["g"] == "mid" and "least" not in present:
+            b["g"], b["label"] = "least", "Least informed"
+    return bands
+
+
+def _cluster_stats(people, groups, which):
+    out = []
+    for gid, label in groups:
+        members = [p for p in people if which(p) == gid]
+        if not members:
+            continue
+        fresh = [p for p in members if not p["dup"]]
+        vals = [p["m"] for p in members]
+        out.append({
+            "g": gid, "label": label,
+            "lo": min(p["k"] for p in members), "hi": max(p["k"] for p in members),
+            "n": len(members), "median": round(statistics.median(vals), 4),
+            "nDedup": len(fresh),
+            "medianDedup": round(statistics.median(p["m"] for p in fresh), 4) if fresh else None,
+        })
+    return out
+
+
+def question_breakdown(submissions, index_html):
+    """Tick counts per option for every quiz question, and who ticked how many.
+
+    For a multi-select question each respondent's ``k`` is how many options they
+    ticked, and ``clusters`` splits them into thirds by that count. For a
+    single-choice question ``k`` is the option's index in display order and the
+    clusters are simply the options. ``quizScore`` does the same per quiz on the
+    sum of every multi-select answer, so "most informed" can be read across a whole
+    quiz rather than one question at a time."""
+    questions = parse_flow_questions(index_html)
+    by_flow = {flow: [s for s in submissions if s.get("quiz_flow_id") == flow] for flow in QUIZ_LEVELS}
+
+    def person(s, k):
+        return {"k": k, "m": round(s["summary"]["midpoint"], 4),
+                "p10": round(s["summary"]["p10"], 4), "p90": round(s["summary"]["p90"], 4),
+                "dup": bool(s.get("_dup")), "v": s.get("expert_verified"), "t": s["submitted_at"][:10]}
+
+    out = []
+    totals = {flow: {} for flow in QUIZ_LEVELS}  # id(s) -> [ticked, of]
+    for q in questions:
+        rows = by_flow[q["flow"]]
+        answers = []
+        for s in rows:
+            for a in s.get("quiz_answers") or []:
+                if a["question_id"] == q["id"]:
+                    answers.append((s, a))
+        people = []
+        option_ids = [oid for oid, _ in q["options"]]
+        if q["multi"]:
+            for s, a in answers:
+                ticked = set(a.get("values") or [])
+                people.append(person(s, len(ticked)))
+                tot = totals[q["flow"]].setdefault(id(s), [0, 0])
+                tot[0] += len(ticked)
+                tot[1] += sum(1 for oid in option_ids
+                              if OPTION_ADDED.get(oid) is None or s["submitted_at"][:10] > OPTION_ADDED[oid])
+            options = []
+            for oid, label in q["options"]:
+                added = OPTION_ADDED.get(oid)
+                eligible = [(s, a) for s, a in answers if added is None or s["submitted_at"][:10] > added]
+                options.append({"id": oid, "label": label,
+                                "n": sum(1 for _, a in eligible if oid in (a.get("values") or [])),
+                                "of": len(eligible)})
+            clusters = tertile_clusters(people)
+        else:
+            for s, a in answers:
+                if a.get("value") in option_ids:
+                    people.append(person(s, option_ids.index(a["value"])))
+            options = [{"id": oid, "label": label,
+                        "n": sum(1 for p in people if p["k"] == i), "of": len(people)}
+                       for i, (oid, label) in enumerate(q["options"])]
+            clusters = _cluster_stats(people, [(i, label) for i, (_, label) in enumerate(q["options"])],
+                                      lambda p: p["k"])
+        out.append({
+            "flow": q["flow"], "id": q["id"], "prompt": q["prompt"], "multi": q["multi"],
+            "n": len(people), "options": options, "people": people, "clusters": clusters,
+        })
+
+    scores = {}
+    for flow in QUIZ_LEVELS:
+        people = []
+        for s in by_flow[flow]:
+            tot = totals[flow].get(id(s))
+            if tot and tot[1]:
+                p = person(s, tot[0])
+                p["of"] = tot[1]
+                people.append(p)
+        if people:
+            scores[flow] = {"people": people, "clusters": tertile_clusters(people),
+                            "of": max(p["of"] for p in people),
+                            "questions": sum(1 for q in questions if q["flow"] == flow and q["multi"])}
+    return {"questions": out, "quizScore": scores}
+
+
+def print_question_summary(qb, out=sys.stderr):
+    print("\n-- every question --", file=out)
+    for flow, sc in qb["quizScore"].items():
+        print(f"{flow}: ticks across {sc['questions']} multi-select questions, of {sc['of']} options", file=out)
+        for c in sc["clusters"]:
+            print(f"    {c['label']:15s} {c['lo']:>2}-{c['hi']:<2} ticked  n={c['n']:>2}  median p(doom)={c['median']:.2f}"
+                  f"  (n={c['nDedup']} median={c['medianDedup']:.2f} dedup)" if c['medianDedup'] is not None else
+                  f"    {c['label']:15s} {c['lo']:>2}-{c['hi']:<2} ticked  n={c['n']:>2}  median p(doom)={c['median']:.2f}", file=out)
+    for q in qb["questions"]:
+        kind = "multi" if q["multi"] else "single"
+        print(f"  [{q['flow']}] {q['id']} ({kind}, n={q['n']}): {q['prompt'][:70]}", file=out)
+        for o in sorted(q["options"], key=lambda o: -o["n"])[:4]:
+            print(f"      {o['n']:>3}/{o['of']:<3} {o['label'][:50]}", file=out)
+        for c in q["clusters"]:
+            rng = f"{c['lo']}-{c['hi']}" if q["multi"] else ""
+            print(f"      {str(c['label'])[:32]:34s} {rng:6s} n={c['n']:>2}  median={c['median']:.2f}", file=out)
+
+
 def pearson(xs, ys):
     mx, my = statistics.mean(xs), statistics.mean(ys)
     cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
@@ -982,6 +1162,7 @@ def main():
     identity = verify_submissions(submissions)
     identity_summary = dict(identity, _submissions=submissions)
     gate = gate_journeys(submissions)
+    question_data = question_breakdown(submissions, args.quiz_source)
     data = {
         "rows": rows,
         "months": monthly_aggregates(rows),
@@ -1001,6 +1182,8 @@ def main():
         "expertQ": expert_q,
         "experts": experts,
         "visitors": visitors,
+        "questions": question_data["questions"],
+        "quizScore": question_data["quizScore"],
     }
     blob = json.dumps(data, separators=(",", ":"))
 
@@ -1012,6 +1195,7 @@ def main():
         print_medium_summary(medium_q, prompts)
         print_gate_summary(gate)
         print_identity_summary(identity_summary, visitors)
+        print_question_summary(question_data)
     if args.inject:
         inject(args.inject, blob)
         print(f"injected {len(blob) // 1024} KB into {args.inject}", file=sys.stderr)
