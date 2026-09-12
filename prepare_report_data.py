@@ -94,6 +94,8 @@ QUIZ_LEVELS = ("beginner", "medium", "expert")
 OPTION_ADDED = {
     "entertainment-ironman": "2026-06-17",
     "entertainment-eagle-eye": "2026-08-18",
+    "entertainment-dont-look-up": "2026-09-12",
+    "entertainment-idiocracy": "2026-09-12",
 }
 
 # Knowledge-check terms change too. A term added later was never shown to earlier
