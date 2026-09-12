@@ -101,8 +101,9 @@ calibration: latestCalibration
 
 `latestCalibration` is set where the calibration is applied today, in the quiz
 completion handler that calls `applyConfidenceCalibration` and
-`applyMidpointCalibration`, and cleared by the "Reset saved answers" button. It
-should persist with the slider state across a reload, since the sliders do.
+`applyMidpointCalibration`, and cleared with the path state. It is not restored
+across a reload: neither is `latestQuizData`, and a submission from a reloaded tab
+already carries no quiz, so a proposal without its quiz would be a lie.
 
 Keep it out of `buildSignedPayloadString`. The signed line is deliberately a short
 fixed-format string, and the identity design is that a row's numbers are what is
@@ -113,11 +114,12 @@ in a `pdoom/2` string rather than changing `pdoom/1`.
 
 `prepare_report_data.py` gains three things:
 
-- `load_rows` emits `cal` (the proposed midpoint, 0–1) and `gap` (registered minus
-  proposed) when the column is present, and `moved` as a boolean: true when any
-  factor midpoint differs from `per_factor` by more than rounding. For rows without
-  the column, `moved` falls back to the equality proxy described in the companion
-  note, and the row is flagged `proxy: true` so the page can say which rule applied.
+- `load_rows` emits `cal` (the proposed midpoint, 0–1), `gap` (registered minus
+  proposed) and `mv`: true when any factor midpoint differs from `per_factor` by
+  more than rounding. Rows carrying the column use it; older rows get the proposal
+  recomputed from `quiz_answers` with a port of the page's tables
+  (`calibration_for`), and the build prints how many kept rows fail to reproduce,
+  which is the check that the port still matches the page.
 - Every per-question figure reports the gap as well as the registered value. A
   question whose thirds differ in registered p(doom) but not in gap is a question
   the calibration answered.
@@ -127,8 +129,9 @@ in a `pdoom/2` string rather than changing `pdoom/1`.
 
 ## 6. What this does not fix
 
-- Rows before the column exists stay on the proxy, which is an upper bound on
-  "untouched" and says nothing about rows where only the spread was moved.
+- Rows before the column exists rely on the recomputation, which is exact for
+  the midpoint but says nothing about rows where only the spread was moved. Those
+  count as kept.
 - A visitor who moves a slider and puts it back is indistinguishable from one who
   never moved it. That is fine; the registered number is theirs either way.
 - Storing the proposal does not stop the proposal from anchoring the visitor. A

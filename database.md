@@ -33,7 +33,8 @@ CREATE TABLE submissions (
   submit_count int,
   signed_payload text,
   signature text,
-  page_version text
+  page_version text,
+  calibration jsonb
 );
 ```
 
@@ -72,6 +73,29 @@ ALTER POLICY "Allow anonymous inserts" ON submissions
 A refused insert comes back as `42501`, which the page reports as "This page is out
 of date. Reload and try again." A script posting directly can of course set any
 level it likes; the policy catches stale tabs and page bugs, not forgery.
+
+`calibration` was added on 12 Sep 2026. **Run this before deploying a page that
+sends it**, for the same reason as `page_version`:
+
+```sql
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS calibration jsonb;
+```
+
+After a quiz the page proposes a p(doom) and a spread from the answers and sets
+every factor to the cube root of the proposal. This column records that proposal,
+so a row says both what the page set and what the visitor registered:
+
+```json
+{"flow": "beginner", "midpoint": 72.4, "spread": 38.0, "per_factor": 89.7,
+ "applied_at": "2026-09-12T20:14:03.118Z"}
+```
+
+Units are the page's, percent. `per_factor` is the value written to each slider,
+so a row whose three factor midpoints all equal `per_factor / 100` is one where
+the visitor never moved a midpoint. The report flags those rows and gives every
+figure with and without them. `NULL` when no quiz ran, and on every row before
+this date, for which the report recomputes the proposal from `quiz_answers`.
+Diagnostic, not identity: it stays outside the signed string like `page_version`.
 
 Rows submitted before this date keep `NULL` in all eight. The four gate columns
 are also `NULL` for any beginner or medium submission that never met the gate,

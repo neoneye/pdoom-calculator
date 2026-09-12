@@ -22,9 +22,12 @@ level:
 
 > all three `factors[i].midpoint` equal → the midpoints were not moved.
 
-The test is exact in one direction and an upper bound in the other. A visitor who
-deliberately set all three sliders to the same value by hand would be counted as
-untouched; that is rare enough to ignore. The test says nothing about spread: a
+The build script does better than equality: it recomputes the proposal from the
+stored answers with the page's own tables and calls a row untouched only when all
+three midpoints sit at the per-factor value the page set. Equality alone is an
+upper bound: a visitor can drag all three sliders to the same spot by hand, and one
+row in the export did, at a value the proposal does not produce. The exact rule
+counts it as moved, and the build prints how many such rows it saw. The test says nothing about spread: a
 visitor can widen or narrow the bands without moving a midpoint, and the row still
 counts as untouched. Of the 50 untouched rows on the 10 September export, 15 also
 have all three spreads equal; the rest moved a band and left the midpoints alone.
@@ -38,11 +41,11 @@ level-less rows are in that state and the reports already discuss them under the
 
 | Quiz | Rows | Untouched | Median p(doom), untouched | Median, moved |
 |---|---|---|---|---|
-| Beginner | 46 | 22 (48%) | 72% | 44% |
-| Medium | 62 | 23 (37%) | 92% | 36% |
+| Beginner | 46 | 21 (46%) | 72% | 48% |
+| Medium | 62 | 24 (39%) | 92% | 34% |
 | Expert | 41 | 5 (12%) | 77% | 42% |
 
-The untouched medians are the calibration's output. The moved medians are the
+(Exact rule, as implemented. The equality proxy alone gave 22, 23 and 5.) The untouched medians are the calibration's output. The moved medians are the
 closest thing the table has to what visitors think. The two differ by 28 to 56
 points, and the levels' overall medians (61%, 64%, 45%) are blends of the two in
 proportions that have nothing to do with belief.
@@ -52,8 +55,10 @@ proportions that have nothing to do with belief.
 In `prepare_report_data.py`:
 
 - `load_rows` adds `mv` (moved) per row: false when the level is a quiz and all
-  three midpoints are equal, true otherwise, null for level-less rows. Once the
-  `calibration` column exists, use it instead and keep the proxy as the fallback.
+  three midpoints sit at the recomputed per-factor value, true otherwise, null for
+  level-less rows. Rows carrying the `calibration` column use it instead of the
+  recomputation. Also `cal` (the proposal, 0–1) and `gap` (registered minus
+  proposed).
 - `question_breakdown` carries `mv` on each person, and each cluster reports
   `nMoved` and `medianMoved` beside `n` and `median`, as it already does for
   `nDedup` and `medianDedup`.
@@ -87,17 +92,17 @@ is at least partly the calibration reading itself back.
 - **The vulnerability checklist correlation** (+0.66, +0.51, +0.41 across the three
   reports). On the medium quiz, the vulnerability share moves the proposed number
   upward within its band. For the 23 untouched rows the correlation is built in.
-  It has to be recomputed on the 39 moved rows before it is called a finding.
+  Recomputed on the 33 moved, non-repeat rows it is +0.19.
 - **"The least informed give the higher numbers."** The least informed are also the
-  least likely to move a slider. Whether the pattern survives among movers is
-  unknown.
+  least likely to move a slider. Among movers the pattern reverses on every quiz:
+  most to least informed, beginner 31%, 44%, 52%; medium 28%, 25%, 49%; expert
+  43%, 44%, 31%.
 - **The opinion questions "sorting" people by 36 points.** They set the band. The
   band table is what the figure shows.
 - **The step at 15 of 16 vulnerabilities recognised.** Possibly a real threshold,
   possibly the point where the calibration reaches the top of the 86–100 band.
-- **September's drop from 69% to 47%.** May be a change in belief, a change in
-  audience, or a change in the share of visitors who moved a slider. The split
-  answers which.
+- **September's drop from 69% to 47%.** Holds among movers, 41% to 30%, so it is
+  not the preset. The kept share also fell, from 37% to 26%.
 - **Verified experts at 31% against self-declared at 68%.** All 19 verified
   experts moved their sliders; 17 of 22 self-declared ones did, and the five who
   did not registered a median 77%. Among movers only, the gap is 31% against 44%:

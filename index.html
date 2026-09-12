@@ -159,6 +159,9 @@ Gaps / potential future questions:
     let supabaseClient = null;
     let latestSnapshot = null;
     let latestQuizData = null;
+    // What the quiz proposed before the visitor touched a slider. Lives and dies
+    // with latestQuizData: cleared on reset, never restored across a reload.
+    let latestCalibration = null;
     // What the last successful submission said, minus its timestamp. Pressing the
     // button again with nothing changed would insert a byte-identical row, so the
     // button stays disabled until a slider or an answer moves. Changing your mind
@@ -1338,6 +1341,7 @@ Gaps / potential future questions:
     function resetPathState() {
       gateState = null;
       latestQuizData = null;
+      latestCalibration = null;
       refreshSubmitAvailability();
     }
 
@@ -2268,6 +2272,18 @@ Gaps / potential future questions:
       if (typeof midpointToApply === 'number') {
         applyMidpointCalibration(midpointToApply);
       }
+      // Record the proposal so the submission can say what the page set and the
+      // report can measure how far the visitor moved from it. per_factor is the
+      // value actually written to each slider, in the same percent units.
+      latestCalibration = (typeof midpointToApply === 'number' || typeof spreadToApply === 'number') ? {
+        flow: flow.id,
+        midpoint: typeof midpointToApply === 'number' ? midpointToApply : null,
+        spread: typeof spreadToApply === 'number' ? spreadToApply : null,
+        per_factor: typeof midpointToApply === 'number'
+          ? clamp(Number((Math.pow(clamp(midpointToApply, 0, 100) / 100, 1 / config.length) * 100).toFixed(1)), 0, 100)
+          : null,
+        applied_at: new Date().toISOString()
+      } : null;
       const spreadText = typeof spreadToApply === 'number'
         ? ` Sliders set to ±${spreadToApply.toFixed(1)} pts.`
         : '';
@@ -2521,7 +2537,11 @@ Gaps / potential future questions:
         // signed string stays a short fixed-format line.
         gate_answers: gateState ? gateState.answers : null,
         // Diagnostic, not identity, so it stays outside the signed string too.
-        page_version: PAGE_VERSION
+        page_version: PAGE_VERSION,
+        // What the quiz proposed before the visitor touched a slider, so a row
+        // says both what the page set and what the visitor registered. Null when
+        // no quiz ran. Outside the signed string for the same reason as above.
+        calibration: latestCalibration
       };
     }
 

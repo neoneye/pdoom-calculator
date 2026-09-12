@@ -27,7 +27,9 @@ the report pages under ``reports/`` render from:
       "beginners": [{"films", "risks", "m", "p10", "p90", "spread", "g", "rg"}, ...],
       "questions": [{"flow", "id", "prompt", "multi", "n", "options": [{"id", "label", "n", "of"}],
                      "people": [{"k", "m", "p10", "p90", "dup", "v", "t"}], "clusters": [...]}, ...],
-      "quizScore": {flow: {"people", "clusters", "of", "questions"}}
+      "quizScore": {flow: {"people", "clusters", "of", "questions"}},
+      "calibration": {"byLevel": {level: {"n", "untouched", "moved", "medianUntouched",
+                      "medianMoved", "medianGapMoved"}}, "counts": {...}}
     }
 
 ``rows`` is one entry per submission, sorted by timestamp; ``fx`` holds the
@@ -185,6 +187,139 @@ EXPERT_QUESTIONS = [
 ]
 
 
+# The page does not hand a quiz-taker neutral sliders. It proposes a p(doom) and a
+# spread from the answers and sets every factor to the cube root of the proposal
+# (computeBeginnerMidpoint, computeMediumMidpoint, computeExpertMidpoint and
+# applyMidpointCalibration in index.html). These tables mirror the page's, so the
+# proposal can be recomputed for rows that predate the `calibration` column. Every
+# constant here must track index.html; the build prints how many untouched rows
+# fail to reproduce, which is the check that they do.
+CONTROL_BANDS = {"control-easy": (20, 40), "control-medium": (40, 60), "control-impossible": (60, 80)}
+MEDIUM_BANDS = {3: (0, 14), 2: (14, 28), 1: (28, 42), 0: (42, 58), -1: (58, 72), -2: (72, 86), -3: (86, 100)}
+EXPERT_BANDS = {2: (0, 20), 1: (20, 40), 0: (40, 60), -1: (60, 80), -2: (80, 100)}
+SYSTEM_PROMPT_SCORES = {"medium-system-prompts-none": 0, "medium-system-prompts-basic": 0.33,
+                        "medium-system-prompts-medium": 0.66, "medium-system-prompts-expert": 1}
+OFF_THE_RAILS_SCORES = {"medium-off-the-rails-never": 0, "medium-off-the-rails-low": 0.33,
+                        "medium-off-the-rails-high": 0.66, "medium-off-the-rails-bypass": 1}
+COMPETITION_SCORES = {"medium-competition-positive": 1, "medium-competition-neutral": 0, "medium-competition-negative": -1}
+SPEED_SCORES = {"medium-speed-no-risk": 1, "medium-speed-risk": -1}
+GOVERNANCE_SCORES = {"medium-governance-yes": 1, "medium-governance-neutral": 0, "medium-governance-no": -1}
+MONEY_SCORES = {"expert-money-alignment-capabilities": 2, "expert-money-accelerating-defensive-technologies": 1,
+                "expert-money-spending-about-right": 0, "expert-money-not-spending-enough": -1,
+                "expert-money-stop-funding-all-ai-research": -2}
+EXPERT_MULTI = ("expert-continuous-learning", "expert-self-improvement", "expert-self-replication",
+                "expert-campaign-organisations", "expert-research-organisations", "expert-commentators",
+                "expert-content-creators")
+FACTOR_COUNT = 3
+
+
+def _js_fixed1(x):
+    """Number(x.toFixed(1)): one decimal, ties away from zero like V8 for these magnitudes."""
+    return float(f"{x + 1e-9:.1f}")
+
+
+def calibration_for(s, options_by_question):
+    """What the page proposed for this row, recomputed from its quiz answers.
+
+    ``options_by_question`` maps question id to the option ids on the page today;
+    the option count is adjusted for options that did not yet exist on the row's
+    day, since the page divided by the list it showed. Returns None for rows
+    without a quiz level. The result is in the page's units: percent."""
+    flow = s.get("quiz_flow_id")
+    if flow not in QUIZ_LEVELS:
+        return None
+    date = s["submitted_at"][:10]
+    answers = {a["question_id"]: a for a in s.get("quiz_answers") or []}
+
+    def ratio(qid):
+        opts = options_by_question.get(qid, [])
+        shown = [o for o in opts if OPTION_ADDED.get(o) is None or date > OPTION_ADDED[o]]
+        a = answers.get(qid)
+        picked = len(a.get("values") or []) if a else 0
+        return picked / len(shown) if shown else 0.0
+
+    def choice(qid, table):
+        a = answers.get(qid)
+        return table.get(a.get("value"), 0) if a else 0
+
+    if flow == "beginner":
+        knowledge = (ratio("beginner-entertainment") + ratio("beginner-catastrophes") + ratio("beginner-capability")) / 3
+        a = answers.get("beginner-control")
+        low, high = CONTROL_BANDS.get(a.get("value") if a else None, (20, 80))
+    elif flow == "medium":
+        knowledge = (ratio("medium-vulnerabilities") + choice("medium-system-prompts", SYSTEM_PROMPT_SCORES)
+                     + choice("medium-off-the-rails", OFF_THE_RAILS_SCORES)) / 3
+        total = choice("medium-competition", COMPETITION_SCORES) + choice("medium-speed", SPEED_SCORES) \
+            + choice("medium-governance", GOVERNANCE_SCORES)
+        low, high = MEDIUM_BANDS[max(-3, min(3, total))]
+    else:
+        knowledge = sum(ratio(q) for q in EXPERT_MULTI) / len(EXPERT_MULTI)
+        low, high = EXPERT_BANDS[max(-2, min(2, choice("expert-money-alignment", MONEY_SCORES)))]
+    knowledge = max(0.0, min(1.0, knowledge))
+    midpoint = _js_fixed1(low + knowledge * (high - low))
+    midpoint = max(low, min(high, midpoint))
+    spread = max(20.0, min(80.0, _js_fixed1(80 - knowledge * 60)))
+    per_factor = _js_fixed1((midpoint / 100) ** (1 / FACTOR_COUNT) * 100)
+    return {"midpoint": midpoint, "spread": spread, "per_factor": per_factor}
+
+
+def annotate_calibration(submissions, index_html):
+    """Attach ``_cal`` (the proposal), ``_moved`` and ``_gap`` to every quiz row.
+
+    Rows carrying the ``calibration`` column use it. Older rows get the recomputed
+    proposal. A row is untouched when every stored factor midpoint equals the
+    per-factor value the page set; that is exact, since nothing else produces three
+    equal midpoints at precisely that value. Rows with three equal midpoints that
+    do not match the recomputed proposal are counted as ``mismatched`` and treated
+    as moved. One or two is a visitor who set all three sliders alike by hand (the
+    export has one); many means the port has drifted from the page."""
+    options_by_question = {q["id"]: [oid for oid, _ in q["options"]] for q in parse_flow_questions(index_html)}
+    counts = Counter()
+    for s in submissions:
+        stored = s.get("calibration")
+        cal = None
+        if isinstance(stored, dict) and isinstance(stored.get("per_factor"), (int, float)):
+            cal = {"midpoint": float(stored.get("midpoint", 0)), "spread": float(stored.get("spread", 0)),
+                   "per_factor": float(stored["per_factor"]), "stored": True}
+            counts["stored"] += 1
+        else:
+            computed = calibration_for(s, options_by_question)
+            if computed:
+                cal = dict(computed, stored=False)
+                counts["recomputed"] += 1
+        s["_cal"] = cal
+        if cal is None:
+            s["_moved"] = None
+            s["_gap"] = None
+            continue
+        mids = [f["midpoint"] for f in s["factors"]]
+        untouched = all(abs(m - cal["per_factor"] / 100) < 5e-4 for m in mids)
+        equal = max(mids) - min(mids) < 1e-9
+        if equal and not untouched:
+            counts["mismatched"] += 1
+        s["_moved"] = not untouched
+        s["_gap"] = round(s["summary"]["midpoint"] - cal["midpoint"] / 100, 4)
+        counts["untouched" if untouched else "moved"] += 1
+    return dict(counts)
+
+
+def calibration_summary(submissions):
+    """Per level: how many kept the proposal, and what the two groups registered."""
+    out = {}
+    for lvl in QUIZ_LEVELS:
+        rows = [s for s in submissions if s.get("quiz_flow_id") == lvl and s.get("_moved") is not None]
+        kept = [s["summary"]["midpoint"] for s in rows if not s["_moved"]]
+        moved = [s["summary"]["midpoint"] for s in rows if s["_moved"]]
+        gaps = [s["_gap"] for s in rows if s["_moved"]]
+        out[lvl] = {
+            "n": len(rows), "untouched": len(kept), "moved": len(moved),
+            "medianUntouched": round(statistics.median(kept), 4) if kept else None,
+            "medianMoved": round(statistics.median(moved), 4) if moved else None,
+            "medianGapMoved": round(statistics.median(gaps), 4) if gaps else None,
+        }
+    return out
+
+
 def load_rows(submissions):
     rows = []
     for s in submissions:
@@ -199,6 +334,11 @@ def load_rows(submissions):
             "fx": [factors[k] for k in FACTOR_KEYS],
             "v": s.get("expert_verified"),
             "rep": bool(s.get("_dup")),
+            # What the quiz proposed (0-1), whether the visitor moved a midpoint, and
+            # registered minus proposed. All None for rows without a quiz.
+            "cal": round(s["_cal"]["midpoint"] / 100, 4) if s.get("_cal") else None,
+            "mv": s.get("_moved"),
+            "gap": s.get("_gap"),
         })
     rows.sort(key=lambda r: r["t"])
     return rows
@@ -757,7 +897,7 @@ def medium_breakdown(submissions, index_html):
     questions, prompts, vulns, vuln_list = [], [], [], []
     for qid, label, kind in MEDIUM_QUESTIONS:
         options = [oid for oid, _ in parse_question_options(index_html, qid)]
-        xs, ys, dups = [], [], []
+        xs, ys, dups, mvs = [], [], [], []
         for s in meds:
             for a in s.get("quiz_answers") or []:
                 if a["question_id"] != qid:
@@ -770,15 +910,21 @@ def medium_breakdown(submissions, index_html):
                     continue
                 ys.append(s["summary"]["midpoint"])
                 dups.append(bool(s.get("_dup")))
+                mvs.append(bool(s.get("_moved")))
         if len(xs) < 3:
             continue
         # One browser submitting the same answers five times is five identical points,
         # which a rank correlation happily counts five times over. Both are published.
         keep = [i for i, d in enumerate(dups) if not d]
+        # The quiz sets the starting number from these same answers, so on rows where
+        # the visitor never moved a slider the correlation is the page's own formula.
+        mvd = [i for i, m in enumerate(mvs) if m and not dups[i]]
         questions.append({"id": qid, "label": label, "kind": kind,
                           "rho": round(spearman(xs, ys), 3), "n": len(xs),
                           "rhoDedup": round(spearman([xs[i] for i in keep], [ys[i] for i in keep]), 3),
-                          "nDedup": len(keep)})
+                          "nDedup": len(keep),
+                          "rhoMoved": round(spearman([xs[i] for i in mvd], [ys[i] for i in mvd]), 3) if len(mvd) >= 3 else None,
+                          "nMoved": len(mvd)})
         if qid == "medium-system-prompts":
             labels = [lab for _, lab in parse_question_options(index_html, qid)]
             for level, lab in enumerate(labels):
@@ -876,6 +1022,7 @@ def _cluster_stats(people, groups, which):
         if not members:
             continue
         fresh = [p for p in members if not p["dup"]]
+        moved = [p for p in members if p.get("mv")]
         vals = [p["m"] for p in members]
         out.append({
             "g": gid, "label": label,
@@ -883,6 +1030,9 @@ def _cluster_stats(people, groups, which):
             "n": len(members), "median": round(statistics.median(vals), 4),
             "nDedup": len(fresh),
             "medianDedup": round(statistics.median(p["m"] for p in fresh), 4) if fresh else None,
+            # Rows where the visitor moved a slider, so the number is their own.
+            "nMoved": len(moved),
+            "medianMoved": round(statistics.median(p["m"] for p in moved), 4) if moved else None,
         })
     return out
 
@@ -902,7 +1052,8 @@ def question_breakdown(submissions, index_html):
     def person(s, k):
         return {"k": k, "m": round(s["summary"]["midpoint"], 4),
                 "p10": round(s["summary"]["p10"], 4), "p90": round(s["summary"]["p90"], 4),
-                "dup": bool(s.get("_dup")), "v": s.get("expert_verified"), "t": s["submitted_at"][:10]}
+                "dup": bool(s.get("_dup")), "v": s.get("expert_verified"), "t": s["submitted_at"][:10],
+                "mv": s.get("_moved")}
 
     out = []
     totals = {flow: {} for flow in QUIZ_LEVELS}  # id(s) -> [ticked, of]
@@ -959,6 +1110,25 @@ def question_breakdown(submissions, index_html):
                             "of": max(p["of"] for p in people),
                             "questions": sum(1 for q in questions if q["flow"] == flow and q["multi"])}
     return {"questions": out, "quizScore": scores}
+
+
+def print_calibration_summary(cal, out=sys.stderr):
+    print("\n-- the quiz's proposed starting point --", file=out)
+    c = cal["counts"]
+    print(f"proposals: {c.get('stored', 0)} stored, {c.get('recomputed', 0)} recomputed from answers; "
+          f"{c.get('untouched', 0)} untouched, {c.get('moved', 0)} moved", file=out)
+    if c.get("mismatched"):
+        # One or two of these is a visitor who dragged all three sliders to the same
+        # spot. More than a handful means the tables above no longer match index.html.
+        print(f"note: {c['mismatched']} row(s) have three equal midpoints at a value the recomputed "
+              f"proposal does not explain; counted as moved", file=out)
+    for lvl, b in cal["byLevel"].items():
+        ku = f"{b['medianUntouched']:.2f}" if b["medianUntouched"] is not None else "--"
+        km = f"{b['medianMoved']:.2f}" if b["medianMoved"] is not None else "--"
+        kg = f"{b['medianGapMoved']:+.2f}" if b["medianGapMoved"] is not None else "--"
+        share = 100 * b["untouched"] / b["n"] if b["n"] else 0
+        print(f"  {lvl:9s} n={b['n']:3d}  untouched={b['untouched']:3d} ({share:.0f}%)  "
+              f"median untouched={ku}  moved={km}  median gap when moved={kg}", file=out)
 
 
 def print_question_summary(qb, out=sys.stderr):
@@ -1149,6 +1319,7 @@ def main():
     with open(args.input) as f:
         submissions = json.load(f)["submissions"]
     visitors = visitor_duplicates(submissions)  # flags _dup, which load_rows reads
+    calibration_counts = annotate_calibration(submissions, args.quiz_source)  # flags _moved, _gap
     rows = load_rows(submissions)
     titles = option_counts(
         submissions,
@@ -1186,6 +1357,7 @@ def main():
         "visitors": visitors,
         "questions": question_data["questions"],
         "quizScore": question_data["quizScore"],
+        "calibration": {"byLevel": calibration_summary(submissions), "counts": calibration_counts},
     }
     blob = json.dumps(data, separators=(",", ":"))
 
@@ -1197,6 +1369,7 @@ def main():
         print_medium_summary(medium_q, prompts)
         print_gate_summary(gate)
         print_identity_summary(identity_summary, visitors)
+        print_calibration_summary(data["calibration"])
         print_question_summary(question_data)
     if args.inject:
         inject(args.inject, blob)
