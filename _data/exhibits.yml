@@ -52,16 +52,17 @@
   date: 2026-09
   what: >
     OpenAI published a proof that a smooth, finite-energy fluid governed by the
-    Navier–Stokes equations "can develop a singularity in a finite time", resolving
-    statements C and D of the Clay Institute's Millennium Prize formulation. It was
-    "produced by an internal OpenAI system": "a system of coordinating agents powered
-    by our internal model", a model "significantly more capable than GPT-6 Astra" and
-    still in training. The group that found it "involved on the order of 10,000
-    concurrent agents", which "arrived at their resolution on Saturday, September 5,
-    about 88 hours after the first agents were launched", exchanging 2.7 million
-    messages and about 130 billion output tokens. Lean formalization and verification
-    "took an additional 17 hours via GPT-6 Astra". The same run disproved the unforced
-    Euler regularity problem first, with about 100 agents in 50 hours.
+    Navier–Stokes equations can develop a singularity in finite time, resolving
+    statements C and D of the Clay Institute's Millennium Prize formulation. The model
+    that did it is unreleased and unnamed: an internal model in training since
+    28 August that OpenAI describe as "significantly more capable than GPT-6 Astra",
+    run as a system of coordinating agents. The group that found the proof was on the
+    order of 10,000 concurrent agents, which reached the result on 5 September, about
+    88 hours after launch, after exchanging 2.7 million messages and roughly 130
+    billion output tokens. Only the last step used the released model: GPT-6 Astra
+    formalised and verified the proof in Lean over a further 17 hours. The same run
+    had first disproved the unforced Euler regularity problem, with about 100 agents
+    in 50 hours.
   source:
     label: OpenAI, On the Navier–Stokes Millennium Prize Problem
     url: https://openai.com/index/navier-stokes-solution/
@@ -72,17 +73,18 @@
     label: Clay Mathematics Institute, statement of 11 September 2026
     url: https://www.claymath.org/news/navier-stokes-announcement/
   limits: >
-    Machine-verified, not yet adjudicated: the Clay Institute says only that the problem "has apparently
-    been settled" and that its evaluation "is deliberately unhurried". The result is
-    machine-checked in Lean, but the mathematical route was not the machine's alone: OpenAI began "after hearing a rumor" that Levent Alpöge and
-    Tristan Buckmaster had a result, recognises "the priority of their work on forced
-    Euler", and the blow-up strategy follows earlier human work by Diego Córdoba and
-    Luis Martínez-Zoroa. Buckmaster has publicly disputed OpenAI's conduct; OpenAI
-    says no user data was accessed and, after investigation, that his Codex prompts
-    "could not have influenced the system". Humans chose the problem, split it into
-    variants, and used Codex to consolidate the agents' results, and OpenAI "do not
-    intend to claim the Millennium Prize". As with the zeta result, a proof is the
-    kind of output that can be verified; most valuable work is not.
+    Machine-verified, not yet adjudicated: the Clay Institute says only that the
+    problem "has apparently been settled" and that its evaluation is deliberately
+    unhurried. The mathematical route was not the machine's alone. OpenAI began after
+    hearing a rumour that Levent Alpöge and Tristan Buckmaster had a result,
+    recognises their priority on the forced Euler problem, and the blow-up strategy
+    follows earlier human work by Diego Córdoba and Luis Martínez-Zoroa. Buckmaster
+    has publicly disputed OpenAI's conduct; OpenAI says no user data was accessed and,
+    after an investigation, that his Codex prompts could not have influenced the
+    system. Humans chose the problem, split it into variants and used Codex to
+    consolidate the agents' results, and OpenAI do not intend to claim the prize. As
+    with the zeta result, a proof is the kind of output that can be checked; most
+    valuable work is not.
 
 # --------------------------------------------------------- dangerous behavior
 
