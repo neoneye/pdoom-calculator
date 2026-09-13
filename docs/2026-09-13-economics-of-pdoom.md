@@ -80,13 +80,15 @@ low p(doom), and AI as an uncontrollable agent, with a high one. It cites Field
 (2025) for the claim that experts' disagreement follows partly from varying
 exposure to the key safety considerations.
 
-The verified experts are the cleanest available test of the exposure claim. They
-passed a thirty-term vocabulary check with decoys, so exposure is not what
+The experts who cleared the site's check are the closest thing available to a
+test of the exposure claim. The check is a vocabulary sanity check with decoys,
+not an examination, but it does establish that these nineteen know the terms the
+safety arguments are made of, so lack of exposure to the vocabulary is not what
 separates them from beginners. They still sit lower, and they sit lower on one
 specific link. A chain of 0.95, 0.80, 0.50 is not the controllable-tool camp: it
 accepts arrival with near certainty and accepts takeover-grade behaviour at 80%.
 It is a position the paper's taxonomy does not have, *uncontrollable but
-survivable*, and it is held by the most informed cohort the site has.
+survivable*, and it is held by the cohort that cleared the check.
 
 Whether that position is a judgement or an artefact of the expert quiz never
 mentioning an outcome is the open question in the previous note. The paper could

@@ -17,6 +17,13 @@ strength of nineteen rows.
 
 ## 1. The observation
 
+"Verified" is the site's label for an expert-quiz taker who cleared the thirty-term
+check. The check is a sanity check on vocabulary with decoys, not an examination of
+expertise: it separates people who know what the words mean from people who do not,
+and nothing more. The cohort should be read as "informed enough to pass a
+vocabulary check", which is a low bar cleared by nineteen people, not as a panel of
+experts.
+
 Median chain among rows where the visitor moved at least one slider, so the
 numbers are theirs and not the quiz's proposal:
 
@@ -69,9 +76,10 @@ quiz to correct it. That should be resisted, for three reasons.
   nineteen rows can move to 0.65 or 0.35 on the next nineteen without anything
   having changed.
 - **These are not uninformed visitors.** They passed a thirty-term check with
-  decoys that turned two people away. Not everyone knows what a Von Neumann probe
-  is, and the people who do may well have hands-on experience of the systems the
-  first two links describe. Their number on the third link deserves to be treated
+  decoys that turned two people away. That proves only that they know the
+  vocabulary, but not everyone knows what a Von Neumann probe is, and the people
+  who do may well have hands-on experience of the systems the first two links
+  describe. Their number on the third link deserves to be treated
   as a view until shown otherwise, not as an artefact to be corrected.
 - **A quiz tuned to move one number is a quiz that measures itself.** The site
   has just spent a fortnight learning that lesson from the preset. The chain, the

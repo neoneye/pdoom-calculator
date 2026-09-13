@@ -55,8 +55,8 @@ an empty one.
 So on this site, the people who think humanity is safe think it is safe because
 catastrophe can be contained, or because the system will not misbehave. Almost
 nobody thinks it is safe because powerful AI will not come. That is consistent
-with the previous note: the informed cohort's attention has moved off the first
-link entirely.
+with the previous note: the attention of the cohort that cleared the check has
+moved off the first link entirely.
 
 ## 3. The first link is close to one
 
@@ -93,7 +93,7 @@ somewhere a proof assistant cannot reach.
 - The chain's structure is doing real work. Three sliders that multiply force a
   visitor to say which link they believe is small, and the table shows that the
   answer has shifted: from "it won't come" in no one, to "it can be contained" in
-  the informed cohort.
+  the cohort that cleared the check.
 - The About page should say this. It currently explains nothing about why there
   are three sliders. One paragraph stating that the product is zero only if a
   factor is, and that each factor is a strategy, would do more for a new visitor
