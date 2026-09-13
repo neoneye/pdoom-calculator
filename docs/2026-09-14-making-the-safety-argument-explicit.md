@@ -1,6 +1,15 @@
 # Making the safety argument explicit
 
 **Date:** 2026-09-14
+**Status:** Codex Astra crappy draft — requires substantial rethinking.
+
+I have done several iterations on this document with Codex Astra. 
+However I wasn't able to reach a point where I was sufficiently satisfied about it. 
+My focus is that the website is educational for visitors. 
+I don't want to overburden the user in math, citations and disclaimers.
+Codex Astra seems to propose replacing the entire website with something
+entirely different.
+
 **Scope:** A proposal for using the accessible quiz to educate visitors, help
 them recognise gaps in their knowledge, and introduce the calculator's three
 factors through concrete examples. Follows
@@ -8,7 +17,7 @@ factors through concrete examples. Follows
 [what the calculator is](2026-09-13-what-the-calculator-is.md), incorporating the
 clarification that safety requires a sufficiently small probability, rather than
 an exactly zero probability.
-**Outcome:** Make learning the purpose of the experience. The author's family
+**Draft position (unaccepted):** Make learning the purpose of the experience. The author's family
 and friends can select quiz items but do not understand the numerical parameters.
 Start with those recognisable items, introduce unfamiliar ideas, and help visitors
 see what they do not yet understand. Use examples to connect that learning to
@@ -357,9 +366,5 @@ It should not attribute a detailed view about capability, containment, or recove
 to a respondent who never expressed that view. Parameter changes can still be
 analysed, with the same caution about what the visitor understood and intended.
 
-This proposal concerns the explanation of the existing three-link instrument.
-Its next concrete deliverables are a learning-focused quiz invitation, brief
-explanations for unfamiliar concepts, a concrete example connecting the three
-factors, and a result presentation that invites reflection. About and the
-methodology supply deeper detail. The exhibits retain their concrete evidence
-and stated limits.
+The suggestions above remain part of an unsatisfactory draft. No next
+deliverables or implementation direction have been agreed from this proposal.
