@@ -7,19 +7,22 @@ three links and the question of what keeps their product small. Follows
 [what the calculator is](2026-09-13-what-the-calculator-is.md), incorporating the
 clarification that safety requires a sufficiently small probability, rather than
 an exactly zero probability.
-**Outcome:** Make the argument visible: the exhibits contain observed evidence
-relevant to the first two links; the third has material about possible pathways,
-but no observed transition to an unrecoverable global catastrophe. A claim that
-humanity is safe should explain where the substantial reduction in risk comes
-from. If the first two probabilities are high, that explanation must do most of
-its work at the third link.
+**Outcome:** Ground the safety argument in what the exhibits already document:
+advanced capabilities, dangerous actions, and AI assistance that improved human
+performance on a bioweapons planning task. These give the concern about
+catastrophe concrete foundations. The open question is how far the danger can
+escalate through AI and human actions, and whether protections can hold. A claim
+that humanity is safe should explain where the substantial reduction in risk
+comes from. If the first two probabilities are high, that explanation must do
+most of its work at the third link.
 
 ---
 
 ## 1. The proposition
 
-The calculator can help a visitor articulate both a catastrophe scenario and a
-reason for expecting humanity to remain safe. The same chain serves both purposes:
+The calculator should connect the capabilities and dangerous behaviour documented
+in the exhibits to the question of humanity's safety. Its three links locate both
+the danger and the opportunities to prevent it from escalating:
 
 1. A deployable AI system or toolchain reaches strategic capability.
 2. Given that capability, dangerous behaviour occurs.
@@ -76,41 +79,47 @@ strength is credible.
 
 The current [exhibit collection](../_data/exhibits.yml) has an important asymmetry:
 
-| Link | What the collection contains | What remains to be established |
+| Link | What the collection contains | What the evidence leaves open |
 |---|---|---|
 | Powerful AI | Reports of advanced capability demonstrated on specific tasks | How those capabilities meet the calculator's threshold of strategic capability and transfer beyond the demonstrated conditions |
 | Dangerous behaviour | Reports of systems taking dangerous or out-of-scope actions | How often such behaviour occurs in the relevant powerful systems and deployment conditions |
-| Global catastrophe | A planning-task result and an assessment of a possible biological catastrophe pathway | Whether and how AI's contribution could lead to an unrecoverable global catastrophe through autonomous actions, human actions, or both, given the protections along that pathway |
+| Global catastrophe | Measured improvement in human bioweapons planning with AI assistance; an expert assessment of the biological mechanisms that could make mirror bacteria catastrophic | The practical barriers between planning and execution, how much AI and human actions can overcome them, and whether protections prevent irreversible global harm |
 
-The first two links therefore have observed evidence of the relevant kinds of
-capability and behaviour. The third lacks an observed catastrophic outcome in
-the collection. Its existing entries concern parts of possible pathways: the
-biorisk exhibit concerns a planning task, and the mirror-bacteria exhibit says
-explicitly that no AI is implicated.
+The first two links have observed evidence of the relevant kinds of capability
+and behaviour. For the third, the biorisk exhibit reports that participants with
+model access produced better bioweapons acquisition plans, with fewer critical
+failures, than participants using the internet alone. That is an observed
+contribution to a dangerous activity. People provide the route from the AI's
+outputs to physical action.
 
-Human execution is part of the possible pathway in the planning-task example.
-The remaining question concerns whether the AI assistance enables people to
-carry the pathway through, including overcoming practical barriers and any
-attempted intervention. Autonomous physical execution by the AI is not a
-requirement for that outcome.
+The trial assessed plans; it did not test weapon construction or deployment. The
+mirror-bacteria assessment identifies biological reasons for concern, while its
+exhibit explicitly states that no AI is implicated. Neither entry documents an
+unrecoverable global catastrophe. Each entry's limits should remain attached to
+the specific result, so the reader can see both what happened and what still
+separates it from the catastrophic outcome.
 
-This distinction should be visible in the exhibit introductions. An incident can
-establish that a behaviour is possible under particular conditions without
-establishing that a corresponding slider should be near 100%. Equally, the absence
-of an observed catastrophe does not establish that the third slider should be
-near zero. Evidence about mechanisms and barriers can inform that estimate before
-the outcome occurs.
+The practical question is whether the remaining barriers can withstand the
+capabilities available to people and AI systems acting together. A low estimate
+for the third link needs an account of why they can. A high estimate needs an
+account of how they could fail. The absence of a catastrophe so far cannot, by
+itself, establish the reliability of those barriers. Prevention has to be assessed
+before the outcome it is meant to prevent.
+
+Observed incidents also do not assign numerical probabilities to the first two
+links. Their frequency, conditions, and relevance to strategic capability remain
+part of the assessment. The exhibits make the danger concrete while leaving its
+ultimate probability open.
 
 ## 4. Give the third link a concrete safety question
 
 For someone who assigns high probabilities to the first two links, the relevant
 question becomes:
 
-> If powerful AI behaves dangerously, what prevents that behaviour from becoming
-> an unrecoverable global catastrophe, including through actions people take
-> using its outputs?
+> Given the capabilities and dangerous behaviour already documented, what keeps
+> AI and the people acting on its outputs from causing irreversible global harm?
 
-Possible answers to examine include early detection, isolation, limits on access
+Protections to examine include early detection, isolation, limits on access
 to resources, intervention by people or other systems, and recovery before damage
 becomes irreversible. These are candidate protections, each requiring support.
 
@@ -121,15 +130,17 @@ withdraw instructions already delivered or stop people acting on them. A case fo
 containment should explain what interrupts the resulting actions as well as what
 restricts the AI's own access.
 
-A useful third-link exhibit would describe a particular pathway, identify the
-barrier that interrupted it or could interrupt it, and explain the conditions
-under which that barrier might fail. A contained incident provides evidence that
+A useful third-link exhibit would start with a documented action or result,
+identify the further steps that could lead to wider harm, and describe the
+barriers at those steps. It should explain what supports confidence in those
+barriers and what could defeat them. A contained incident provides evidence that
 containment worked in that case. Extending that result to more capable systems,
 repeated attempts, or wider deployment requires a further argument.
 
 The existing requirement that every exhibit state its limits already supports
-this approach. The collection can develop evidence about escalation and its
-prevention without waiting for a global catastrophe to occur.
+this approach. The collection should help readers assess whether protections
+work at the points where dangerous capabilities reach people, resources, and
+infrastructure.
 
 ## 5. Proposed changes to the public explanation
 
@@ -137,14 +148,13 @@ prevention without waiting for a global catastrophe to occur.
 can establish what they will estimate and why the three factors matter. Suggested
 copy:
 
-> Estimate three links: powerful AI arrives, it behaves dangerously, and that
-> behaviour causes an unrecoverable global catastrophe. People can carry out
-> actions using the AI's plans or instructions. The three probabilities
-> multiply to give your estimate for this chain. A very small overall risk needs
-> a substantial reduction somewhere along the chain. The exhibits show evidence
-> of advanced capabilities and dangerous behaviour; the transition to global
-> catastrophe remains unobserved in the collection. What would keep that final
-> transition unlikely?
+> AI systems have demonstrated advanced capabilities and dangerous behaviour.
+> People can carry their plans and instructions into the physical world. This
+> calculator asks how likely that danger is to reach an unrecoverable global
+> catastrophe. Estimate three links: powerful AI arrives, dangerous behaviour
+> occurs, and the consequences become catastrophic. Their probabilities multiply.
+> For humanity to be safe, that product must be very small. Which link keeps it
+> small, and what gives you confidence that the protection will hold?
 
 **Use the About page to explain the safety argument.** Show how each link can
 reduce the product, include one numerical example, and explain that the choice of
