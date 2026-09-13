@@ -14,7 +14,9 @@ catastrophe concrete foundations. The open question is how far the danger can
 escalate through AI and human actions, and whether protections can hold. A claim
 that humanity is safe should explain where the substantial reduction in risk
 comes from. If the first two probabilities are high, that explanation must do
-most of its work at the third link.
+most of its work at the third link. These are not mandatory stages of AI
+development: a weak LLM can already behave dangerously. The scope of the product
+must be explicit before it can support a claim about overall safety.
 
 ---
 
@@ -24,10 +26,18 @@ The calculator should connect the capabilities and dangerous behaviour documente
 in the exhibits to the question of humanity's safety. Its three links locate both
 the danger and the opportunities to prevent it from escalating:
 
-1. A deployable AI system or toolchain reaches strategic capability.
-2. Given that capability, dangerous behaviour occurs.
-3. Given the first two conditions, that behaviour leads to an unrecoverable global
+1. Capability: whether a deployable AI system or toolchain reaches strategic
+   capability.
+2. Behaviour: whether AI does dangerous things, including things it is not
+   supposed to do.
+3. Consequences: whether AI's contribution leads to an unrecoverable global
    catastrophe.
+
+These are distinct questions. A weak LLM can behave dangerously without first
+reaching strategic capability. The scale of the consequences also depends on
+what people do with its outputs and what systems it can affect. Calling these
+questions “links” should not imply that a model must progress through three
+capability stages or that dangerous behaviour awaits the arrival of powerful AI.
 
 Humans can be the body of the AI: a system can supply plans, instructions,
 persuasion, or coordination, while people provide physical access, resources,
@@ -35,9 +45,11 @@ and execution. The chain includes autonomous actions, human actions enabled or
 directed by AI, and combinations of the two. It does not require the AI to
 complete every step itself or to originate the harmful objective.
 
-For the modeled chain, the probability is the product of the three conditional
-factors. A visitor setting a low overall probability should be able to explain
-which factors make it low, and what supports those estimates.
+The calculator currently multiplies three factors, with conditional wording on
+the second and third. Conditioning a probability on powerful AI does not mean
+dangerous behaviour is impossible without powerful AI. It specifies which cases
+the probability refers to. The scope of that multiplication matters for any
+conclusion drawn from a low result.
 
 The central question to put beside the sliders is:
 
@@ -54,9 +66,10 @@ An exactly zero product requires an exactly zero factor. A sufficiently small
 product does not. The earlier note's statement that “only a zero” reaches safety
 should be revised accordingly.
 
-“For humanity to be safe, one of the three needs to be near zero” is useful as a
-qualitative statement about where protection comes from. Its numerical meaning
-depends on how small the overall risk must be and on the other two factors.
+“For humanity to be safe, one of the three needs to be near zero” expresses the
+intended safety argument. Applying it to the whole risk requires the product to
+cover the relevant routes to catastrophe. Within the product, its numerical
+meaning depends on how small the risk must be and on the other two factors.
 Reductions across several links also compound: three factors of 10% produce an
 overall probability of 0.1%.
 
@@ -75,6 +88,28 @@ to make the overall probability very small. The arithmetic identifies how strong
 the protection needs to be. Evidence and argument must establish whether that
 strength is credible.
 
+### The product's scope
+
+Let A mean powerful AI exists, B mean dangerous AI behaviour occurs, and C mean
+AI causes an unrecoverable global catastrophe. A complete conditional chain is:
+
+    P(A) × P(B | A) × P(C | A and B) = P(A and B and C)
+
+This identity allows B to occur without A. It describes the probability of all
+three events occurring; it is not a claim that A is a causal prerequisite for B.
+For the result to equal the full P(C), catastrophe outside A and B must be
+excluded by the definitions or accounted for separately. The current third
+slider says P(C | B), so any omission of A from its conditioning also needs an
+explicit justification.
+
+A weak LLM behaving dangerously does not by itself invalidate conditional
+multiplication. If a weak LLM and people can cause catastrophe without the first
+condition ever being met, however, that route falls outside this product. A low
+first factor would then reduce the displayed number without establishing safety
+from that route. The public explanation needs to acknowledge this open modeling
+question. Removing the conditional wording and multiplying three unrestricted
+probabilities would not resolve it.
+
 ## 3. The evidence is different at each link
 
 The current [exhibit collection](../_data/exhibits.yml) has an important asymmetry:
@@ -82,7 +117,7 @@ The current [exhibit collection](../_data/exhibits.yml) has an important asymmet
 | Link | What the collection contains | What the evidence leaves open |
 |---|---|---|
 | Powerful AI | Reports of advanced capability demonstrated on specific tasks | How those capabilities meet the calculator's threshold of strategic capability and transfer beyond the demonstrated conditions |
-| Dangerous behaviour | Reports of systems taking dangerous or out-of-scope actions | How often such behaviour occurs in the relevant powerful systems and deployment conditions |
+| Dangerous behaviour | Reports of systems taking dangerous or out-of-scope actions | How the probability and effects vary with capability, access, human involvement, and deployment conditions, including for weak LLMs |
 | Global catastrophe | Measured improvement in human bioweapons planning with AI assistance; an expert assessment of the biological mechanisms that could make mirror bacteria catastrophic | The practical barriers between planning and execution, how much AI and human actions can overcome them, and whether protections prevent irreversible global harm |
 
 The first two links have observed evidence of the relevant kinds of capability
@@ -121,8 +156,7 @@ ultimate probability open.
 
 ## 4. Give the third link a concrete safety question
 
-For someone who assigns high probabilities to the first two links, the relevant
-question becomes:
+The safety question applies to dangerous behaviour at any capability level:
 
 > Given the capabilities and dangerous behaviour already documented, what keeps
 > AI and the people acting on its outputs from causing irreversible global harm?
@@ -156,19 +190,19 @@ infrastructure.
 can establish what they will estimate and why the three factors matter. Suggested
 copy:
 
-> AI systems have demonstrated advanced capabilities and dangerous behaviour.
-> People can carry their plans and instructions into the physical world. This
-> calculator asks how likely that danger is to reach an unrecoverable global
-> catastrophe. Estimate three links: powerful AI arrives, dangerous behaviour
-> occurs, and the consequences become catastrophic. Their probabilities multiply.
-> For humanity to be safe, that product must be very small. Which link keeps it
-> small, and what gives you confidence that the protection will hold?
+> Even a weak LLM can do things it is not supposed to do. People can carry AI's
+> plans and instructions into the physical world. The exhibits document advanced
+> capabilities and dangerous behaviour; the safety question is what prevents
+> irreversible global harm. This calculator organises your assessment around
+> capability, behaviour, and consequences. What keeps the risk small, and what
+> gives you confidence that the protection will hold?
 
 **Use the About page to explain the safety argument.** Show how each link can
 reduce the product, include one numerical example, and explain that the choice of
 an acceptable risk threshold is a separate judgement. The estimate concerns the
 routes covered by the chain's definitions; those definitions determine what a low
-product says about overall safety.
+product says about overall safety. Explain the conditional factors and address
+routes involving weak LLMs before presenting the product as the total P(doom).
 
 **Make the definitions consistent.** The current
 [slider configuration](../index.html) labels the second link “dangerous behaviour”
@@ -179,11 +213,11 @@ Prettner's model. It is not a requirement stated by the calculator. Comparisons
 should attribute that premise to the relevant paper and preserve the distinction
 between its takeover event and the calculator's broader dangerous-behaviour event.
 The proposed framing uses dangerous behaviour throughout, with misalignment as a
-possible cause. Dangerous behaviour also includes
-assisting harmful human objectives; it need not involve the system independently
-wanting harm or resisting its operator. The third question should explicitly
-carry forward the powerful-system condition from the first link and include
-consequences mediated by people.
+possible cause. Dangerous behaviour also includes assisting harmful human
+objectives; it need not involve the system independently wanting harm or resisting
+its operator. The consequence question includes harm mediated by people and does
+not presume that the contributing LLM is powerful. The numerical model must make
+clear how those cases enter its estimate.
 
 **Describe the quiz's contribution plainly.** When the sliders appear, say that
 the quiz has proposed a starting point from the answers and invite the visitor to
