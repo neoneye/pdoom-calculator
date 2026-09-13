@@ -14,9 +14,11 @@ catastrophe concrete foundations. The open question is how far the danger can
 escalate through AI and human actions, and whether protections can hold. A claim
 that humanity is safe should explain where the substantial reduction in risk
 comes from. If the first two probabilities are high, that explanation must do
-most of its work at the third link. These are not mandatory stages of AI
-development: a weak LLM can already behave dangerously. The scope of the product
-must be explicit before it can support a claim about overall safety.
+most of its work at the third link. Here, “powerful” should mean sufficiently
+capable to enable the harm under consideration, including through people and
+tools. A generally weak LLM can fully satisfy that condition. The three factors
+separate capability, behaviour, and consequences; they are not mandatory stages
+of AI development.
 
 ---
 
@@ -26,18 +28,29 @@ The calculator should connect the capabilities and dangerous behaviour documente
 in the exhibits to the question of humanity's safety. Its three links locate both
 the danger and the opportunities to prevent it from escalating:
 
-1. Capability: whether a deployable AI system or toolchain reaches strategic
-   capability.
-2. Behaviour: whether AI does dangerous things, including things it is not
-   supposed to do.
-3. Consequences: whether AI's contribution leads to an unrecoverable global
-   catastrophe.
+1. **Capability:** Does AI exist, or become available, that is sufficiently capable
+   to enable the relevant harm, including through people and tools?
+2. **Behaviour:** Given that capability is available, will AI actually provide the
+   harmful assistance or take the dangerous actions?
+3. **Consequences:** Given those actions, will the consequences reach an
+   unrecoverable global catastrophe?
 
-These are distinct questions. A weak LLM can behave dangerously without first
-reaching strategic capability. The scale of the consequences also depends on
-what people do with its outputs and what systems it can affect. Calling these
-questions “links” should not imply that a model must progress through three
-capability stages or that dangerous behaviour awaits the arrival of powerful AI.
+“Powerful” is relative to the relevant task and the setting in which the AI's
+outputs can be used. A model may be weak at general reasoning and still supply a
+crucial capability for a dangerous activity. It does not need broad intelligence,
+autonomy, or takeover capability to satisfy the first condition.
+
+Under this interpretation, a generally weak LLM can max out P(powerful AI). If
+the required capability has been demonstrated and is available in the relevant
+setting, the probability that it exists can reasonably be at or near 100%. The
+remaining uncertainty concerns whether it will be used dangerously and how far
+the consequences will escalate.
+
+The threshold needs to be stated: what capability is sufficient for which harm?
+A prohibited response or minor rule violation does not automatically establish
+capability relevant to global catastrophe. The first factor concerns the ability
+to enable a relevant action; it does not require the catastrophic outcome itself
+to have been demonstrated.
 
 Humans can be the body of the AI: a system can supply plans, instructions,
 persuasion, or coordination, while people provide physical access, resources,
@@ -46,10 +59,11 @@ directed by AI, and combinations of the two. It does not require the AI to
 complete every step itself or to originate the harmful objective.
 
 The calculator currently multiplies three factors, with conditional wording on
-the second and third. Conditioning a probability on powerful AI does not mean
-dangerous behaviour is impossible without powerful AI. It specifies which cases
-the probability refers to. The scope of that multiplication matters for any
-conclusion drawn from a low result.
+the second and third. These distinguish having a capability, acting on it, and
+the resulting consequences. They do not require a model to progress through
+successive levels of intelligence. Dangerous behaviour by a weak LLM can already
+provide evidence about both its capability and its behaviour, while leaving the
+scale of the eventual consequences unresolved.
 
 The central question to put beside the sliders is:
 
@@ -90,25 +104,27 @@ strength is credible.
 
 ### The product's scope
 
-Let A mean powerful AI exists, B mean dangerous AI behaviour occurs, and C mean
-AI causes an unrecoverable global catastrophe. A complete conditional chain is:
+Let A mean the relevant AI capability is available, including through people and
+tools; B mean the dangerous behaviour occurs; and C mean AI causes an
+unrecoverable global catastrophe. A complete conditional chain is:
 
     P(A) × P(B | A) × P(C | A and B) = P(A and B and C)
 
-This identity allows B to occur without A. It describes the probability of all
-three events occurring; it is not a claim that A is a causal prerequisite for B.
-For the result to equal the full P(C), catastrophe outside A and B must be
-excluded by the definitions or accounted for separately. The current third
-slider says P(C | B), so any omission of A from its conditioning also needs an
-explicit justification.
+With the task-relative definition of capability, a weak LLM and people enabling
+the relevant harm can satisfy A. Such a route is not excluded merely because the
+LLM lacks broad strategic capability. If A is already established, its factor is
+one and the numerical uncertainty lies in behaviour and consequences.
 
-A weak LLM behaving dangerously does not by itself invalidate conditional
-multiplication. If a weak LLM and people can cause catastrophe without the first
-condition ever being met, however, that route falls outside this product. A low
-first factor would then reduce the displayed number without establishing safety
-from that route. The public explanation needs to acknowledge this open modeling
-question. Removing the conditional wording and multiplying three unrestricted
-probabilities would not resolve it.
+For this product to equal the full P(C), the definitions of A and B must cover
+the relevant routes to C. The current third slider says P(C | B). That shorthand
+is justified if B explicitly refers to behaviour involving the capability in A,
+so that B already implies A; otherwise the conditioning on A must be retained or
+its omission justified. These are requirements for a consistent probability
+model, not a requirement for an autonomous AI to pass through stages of development.
+
+The proposal therefore resolves the weak-LLM concern by defining capability
+relative to the harm it can enable. The definitions should be made explicit in
+the interface before interpreting older submissions under this meaning.
 
 ## 3. The evidence is different at each link
 
@@ -116,7 +132,7 @@ The current [exhibit collection](../_data/exhibits.yml) has an important asymmet
 
 | Link | What the collection contains | What the evidence leaves open |
 |---|---|---|
-| Powerful AI | Reports of advanced capability demonstrated on specific tasks | How those capabilities meet the calculator's threshold of strategic capability and transfer beyond the demonstrated conditions |
+| Powerful AI | Reports of capability demonstrated on specific tasks | Whether AI, together with people and tools, already supplies the capability needed for the relevant harm, and under which conditions |
 | Dangerous behaviour | Reports of systems taking dangerous or out-of-scope actions | How the probability and effects vary with capability, access, human involvement, and deployment conditions, including for weak LLMs |
 | Global catastrophe | Measured improvement in human bioweapons planning with AI assistance; an expert assessment of the biological mechanisms that could make mirror bacteria catastrophic | The practical barriers between planning and execution, how much AI and human actions can overcome them, and whether protections prevent irreversible global harm |
 
@@ -149,10 +165,11 @@ account of how they could fail. The absence of a catastrophe so far cannot, by
 itself, establish the reliability of those barriers. Prevention has to be assessed
 before the outcome it is meant to prevent.
 
-Observed incidents also do not assign numerical probabilities to the first two
-links. Their frequency, conditions, and relevance to strategic capability remain
-part of the assessment. The exhibits make the danger concrete while leaving its
-ultimate probability open.
+A demonstration that meets a defined capability threshold can settle the first
+question for that setting, even when the model is generally weak. That does not
+by itself establish how often dangerous behaviour occurs or how likely it is to
+cause catastrophe. The exhibits make the danger concrete while leaving those
+probabilities to be assessed.
 
 ## 4. Give the third link a concrete safety question
 
@@ -190,19 +207,34 @@ infrastructure.
 can establish what they will estimate and why the three factors matter. Suggested
 copy:
 
-> Even a weak LLM can do things it is not supposed to do. People can carry AI's
-> plans and instructions into the physical world. The exhibits document advanced
-> capabilities and dangerous behaviour; the safety question is what prevents
-> irreversible global harm. This calculator organises your assessment around
-> capability, behaviour, and consequences. What keeps the risk small, and what
-> gives you confidence that the protection will hold?
+> A weak LLM can be powerful enough for a dangerous task. People and tools can
+> carry its outputs into the physical world. Estimate three things: whether the
+> relevant capability is available, whether AI will act dangerously with it, and
+> whether the consequences will become an unrecoverable global catastrophe. If
+> the capability is already demonstrated, the first factor can be at or near 100%.
+> What keeps the remaining risk small, and what gives you confidence that the
+> protection will hold?
 
 **Use the About page to explain the safety argument.** Show how each link can
 reduce the product, include one numerical example, and explain that the choice of
 an acceptable risk threshold is a separate judgement. The estimate concerns the
 routes covered by the chain's definitions; those definitions determine what a low
-product says about overall safety. Explain the conditional factors and address
-routes involving weak LLMs before presenting the product as the total P(doom).
+product says about overall safety. Explain how a weak LLM can satisfy the first
+factor when its capability, combined with people and tools, is sufficient for the
+relevant harm.
+
+**Define “powerful” by the capability that matters.** The current first-slider
+explanation says “reaches strategic capability.” Replace that with wording that
+includes the task-relative meaning proposed here. Suggested explanation:
+
+> Probability that AI exists or becomes available with sufficient capability to
+> enable the harm being assessed, including through people and tools. A generally
+> weak LLM can meet this threshold. Judge the capability needed for the relevant
+> harm, rather than overall intelligence.
+
+The relevant harm and capability threshold should be described alongside this
+question. That gives visitors a shared basis for deciding whether the first
+condition is already satisfied.
 
 **Make the definitions consistent.** The current
 [slider configuration](../index.html) labels the second link “dangerous behaviour”
@@ -215,9 +247,9 @@ between its takeover event and the calculator's broader dangerous-behaviour even
 The proposed framing uses dangerous behaviour throughout, with misalignment as a
 possible cause. Dangerous behaviour also includes assisting harmful human
 objectives; it need not involve the system independently wanting harm or resisting
-its operator. The consequence question includes harm mediated by people and does
-not presume that the contributing LLM is powerful. The numerical model must make
-clear how those cases enter its estimate.
+its operator. The consequence question includes harm mediated by people. A
+contributing LLM can be weak overall while satisfying the first factor's
+task-relative capability threshold.
 
 **Describe the quiz's contribution plainly.** When the sliders appear, say that
 the quiz has proposed a starting point from the answers and invite the visitor to
