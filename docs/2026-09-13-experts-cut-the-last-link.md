@@ -93,6 +93,9 @@ is the whole experiment. It costs one question and a few months of rows.
 The open item "ask one identical question at every level" does the same job with a
 control group and is the better version if it is ever built.
 
+What the cut means in the chain's own terms, and which link visitors put their
+zero on, is taken up in [where the zero goes](2026-09-13-where-the-zero-goes.md).
+
 ## 5. What not to conclude yet
 
 - Not that experts are right about the third link. Nothing here bears on that.

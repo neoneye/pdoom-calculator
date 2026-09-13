@@ -105,7 +105,10 @@ relative to the risk.
 
 The implication for the calculator's readers is that the exact number on the third
 link barely matters for what should be done: almost any nonzero value justifies far
-more safety investment than exists. The site shows a number and stops. It could
+more safety investment than exists. Put the other way, a product only reaches
+0.001% if some link is close to zero, so the paper's threshold turns the calculator's
+three sliders into the question "which link do you believe can be zeroed", taken up
+in [where the zero goes](2026-09-13-where-the-zero-goes.md). The site shows a number and stops. It could
 link the paper from the About page as the argument for why a small number is not
 a reassuring one, which is a different message from the reading list it has now.
 
