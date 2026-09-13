@@ -343,9 +343,12 @@ same table. An evidence page whose entries must state their limits.
 
 ### What it lacks that most of them have
 
-A definition of the outcome precise enough to compare: extinction, disempowerment
-and "global catastrophe" are three different quantities and the site elicits the
-widest. A time horizon. A sample anyone can describe. Any theory behind the second
+Comparability. The site's definition is deliberate: once the chain is satisfied
+the outcome is bad whatever form it takes, so "global catastrophe" covers
+extinction, disempowerment and collapse together, and asking which would be a
+fourth link nobody can estimate. That is a sound choice for the instrument. It
+means the site's numbers answer a wider question than any survey in the list, and
+cannot be set beside theirs without saying so. A time horizon. A sample anyone can describe. Any theory behind the second
 link; the exhibits document incidents and cite nothing from Turner, Cohen or Ngo.
 
 ## 4. What should feed back into the instrument
@@ -360,7 +363,8 @@ link; the exhibits document incidents and cite nothing from Turner, Cohen or Ngo
   link. The same caution as every other proposed quiz change applies.
 - **The exhibits need one theory entry per link.** Turner or Ngo for the second;
   Kovarik's argument, as a limit, for the third.
-- **State the definition.** "Global catastrophe" is the site's choice and a
-  defensible one; the reports should say once, in the masthead, that it is broader
+- **State the definition.** "Global catastrophe" is the site's choice, and the
+  right one for a chain: the critical path satisfied is the bad outcome, whatever
+  form it takes. The reports should say once, in the masthead, that this is wider
   than the extinction figures the literature reports, so nobody compares 31% to 3%
   without knowing they are different questions.
