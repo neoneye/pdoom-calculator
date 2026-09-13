@@ -348,7 +348,11 @@ the outcome is bad whatever form it takes, so "global catastrophe" covers
 extinction, disempowerment and collapse together, and asking which would be a
 fourth link nobody can estimate. That is a sound choice for the instrument. It
 means the site's numbers answer a wider question than any survey in the list, and
-cannot be set beside theirs without saying so. A time horizon. A sample anyone can describe. Any theory behind the second
+cannot be set beside theirs without saying so. A time horizon, which by 2026 is
+less of a lack than it looks: the exhibits show instances of the first two links
+already, so the literature's "by 2100" is now a horizon on the third link alone,
+and an undated question is the right shape for it (see
+[what the calculator is](2026-09-13-what-the-calculator-is.md)). A sample anyone can describe. Any theory behind the second
 link; the exhibits document incidents and cite nothing from Turner, Cohen or Ngo.
 
 ## 4. What should feed back into the instrument
