@@ -26,6 +26,12 @@ reason for expecting humanity to remain safe. The same chain serves both purpose
 3. Given the first two conditions, that behaviour leads to an unrecoverable global
    catastrophe.
 
+Humans can be the body of the AI: a system can supply plans, instructions,
+persuasion, or coordination, while people provide physical access, resources,
+and execution. The chain includes autonomous actions, human actions enabled or
+directed by AI, and combinations of the two. It does not require the AI to
+complete every step itself or to originate the harmful objective.
+
 For the modeled chain, the probability is the product of the three conditional
 factors. A visitor setting a low overall probability should be able to explain
 which factors make it low, and what supports those estimates.
@@ -74,13 +80,19 @@ The current [exhibit collection](../_data/exhibits.yml) has an important asymmet
 |---|---|---|
 | Powerful AI | Reports of advanced capability demonstrated on specific tasks | How those capabilities meet the calculator's threshold of strategic capability and transfer beyond the demonstrated conditions |
 | Dangerous behaviour | Reports of systems taking dangerous or out-of-scope actions | How often such behaviour occurs in the relevant powerful systems and deployment conditions |
-| Global catastrophe | A planning-task result and an assessment of a possible biological catastrophe pathway | Whether and how dangerous AI behaviour could complete a pathway to an unrecoverable global catastrophe, despite intervention |
+| Global catastrophe | A planning-task result and an assessment of a possible biological catastrophe pathway | Whether and how AI's contribution could lead to an unrecoverable global catastrophe through autonomous actions, human actions, or both, given the protections along that pathway |
 
 The first two links therefore have observed evidence of the relevant kinds of
 capability and behaviour. The third lacks an observed catastrophic outcome in
 the collection. Its existing entries concern parts of possible pathways: the
 biorisk exhibit concerns a planning task, and the mirror-bacteria exhibit says
 explicitly that no AI is implicated.
+
+Human execution is part of the possible pathway in the planning-task example.
+The remaining question concerns whether the AI assistance enables people to
+carry the pathway through, including overcoming practical barriers and any
+attempted intervention. Autonomous physical execution by the AI is not a
+requirement for that outcome.
 
 This distinction should be visible in the exhibit introductions. An incident can
 establish that a behaviour is possible under particular conditions without
@@ -95,11 +107,19 @@ For someone who assigns high probabilities to the first two links, the relevant
 question becomes:
 
 > If powerful AI behaves dangerously, what prevents that behaviour from becoming
-> an unrecoverable global catastrophe?
+> an unrecoverable global catastrophe, including through actions people take
+> using its outputs?
 
 Possible answers to examine include early detection, isolation, limits on access
 to resources, intervention by people or other systems, and recovery before damage
 becomes irreversible. These are candidate protections, each requiring support.
+
+Those protections must address the human part of a pathway too. People may
+knowingly pursue a harmful objective, follow advice without understanding its
+consequences, or act under persuasion. Shutting down a system does not by itself
+withdraw instructions already delivered or stop people acting on them. A case for
+containment should explain what interrupts the resulting actions as well as what
+restricts the AI's own access.
 
 A useful third-link exhibit would describe a particular pathway, identify the
 barrier that interrupted it or could interrupt it, and explain the conditions
@@ -118,7 +138,8 @@ can establish what they will estimate and why the three factors matter. Suggeste
 copy:
 
 > Estimate three links: powerful AI arrives, it behaves dangerously, and that
-> behaviour causes an unrecoverable global catastrophe. Their probabilities
+> behaviour causes an unrecoverable global catastrophe. People can carry out
+> actions using the AI's plans or instructions. The three probabilities
 > multiply to give your estimate for this chain. A very small overall risk needs
 > a substantial reduction somewhere along the chain. The exhibits show evidence
 > of advanced capabilities and dangerous behaviour; the transition to global
@@ -136,8 +157,11 @@ product says about overall safety.
 but explains it as being “misaligned with human values.” The accompanying notes
 sometimes interpret it as takeover. These are different events. The proposed
 framing uses dangerous behaviour throughout, with misalignment as a possible
-cause and takeover as a possible escalation. The third question should explicitly
-carry forward the powerful-system condition from the first link.
+cause and takeover as a possible escalation. Dangerous behaviour also includes
+assisting harmful human objectives; it need not involve the system independently
+wanting harm or resisting its operator. The third question should explicitly
+carry forward the powerful-system condition from the first link and include
+consequences mediated by people.
 
 **Describe the quiz's contribution plainly.** When the sliders appear, say that
 the quiz has proposed a starting point from the answers and invite the visitor to
