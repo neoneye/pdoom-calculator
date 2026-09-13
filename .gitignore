@@ -4,3 +4,4 @@ _site/
 .claude/
 .venv/
 __pycache__/
+.DS_Store
