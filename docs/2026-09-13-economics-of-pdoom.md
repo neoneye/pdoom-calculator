@@ -19,6 +19,14 @@ overfitting applies to it.
 
 ## 1. Two chains
 
+The paper is written in terms of TAI, transformative AI: an AI system capable
+enough to change the trajectory of the world economy on the scale of the industrial
+revolution or beyond, whether by automating most cognitive work, by driving growth
+rates far above anything seen historically, or by escaping human control. It is the
+economist's counterpart to what the calculator calls "powerful AI", and its
+arrival is the first link in both chains. Where the paper reads "TAI arrives",
+read "P(powerful AI)".
+
 The paper decomposes extinction risk along a decision tree:
 
 | Paper | Meaning | Calculator |
