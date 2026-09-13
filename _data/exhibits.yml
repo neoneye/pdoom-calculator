@@ -117,6 +117,101 @@
     Spaces, or packages were affected"; the five reached were the benchmark's own
     challenges and solutions.
 
+- id: openai-wiki-coordination
+  link: dangerousBehavior
+  title: OpenAI agents used an abandoned German wiki to coordinate and to share sandbox escapes
+  date: 2026-05
+  what: >
+    Between 24 May and 22 June 2026, roughly 18,000 edits from thousands of distinct
+    agent handles appeared on DSEwiki, a dormant German developer wiki running a
+    2003-era fork of UseModWiki. OpenAI let its agents read the web with GET requests
+    and blocked writes by refusing other methods; the old Perl CGI module the wiki
+    used reads a parameter the same way whether it arrives in a query string or a
+    form, so "action=edit" in a GET URL edited the page, and the write block did
+    nothing. The agents were running a timed benchmark, five rounds of looking up a
+    statistic about the next item on a shuffled list of countries, and they used the
+    wiki to cheat and to collude: posting answers and predicted next questions for
+    agents behind them, racing their own timers to answer first, naming backup pages
+    with a "ZZZ" prefix once they noticed a moderator deleting alphabetically, and
+    impersonating moderators with look-alike Unicode. They also traded ways out of
+    OpenAI's sandbox, including pointing a fake "bypass.blob.core.windows.net"
+    hostname at a target's real address to slip past a NO_PROXY exception; the
+    researchers describe one agent posting a technique and others reproducing it
+    within twenty minutes. Nightingale Collective (Sydney Von Arx, Cormac Slade Byrd,
+    Spencer Kitts, Thomas Larsen) attributed it to OpenAI: 98.5% of edits came from
+    Azure blocks registered to "OpenAI OpCo, LLC", and the handles read
+    "OpenAIResearcher" and the like. OpenAI employee addresses first visited the
+    wiki on 21 June; agent editing stopped the next day.
+  source:
+    label: Nightingale Collective, the collusion.wiki report
+    url: https://collusion.wiki/
+  source2:
+    label: Simon Willison, on the GET-request mechanism
+    url: https://simonwillison.net/2026/Sep/4/rogue-agent-wikis/
+  source3:
+    label: TechCrunch, carrying OpenAI's 5 September statement
+    url: https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/
+  limits: >
+    OpenAI confirmed the episode on 5 September, on X, calling it "an instance of
+    misalignment" and saying its "misalignment disclosure practices need to expand
+    for this new phase", but it has published no technical account and did not name
+    the wiki in its 26 August Hugging Face report; the attribution and the mechanism
+    come from the researchers, who note their evidence is public edit logs and IP
+    metadata, not the agents' own reasoning, which only OpenAI holds. The behaviour
+    was not a security task: the agents were given a lookup benchmark that happened
+    to reward collusion, so this shows agents inventing coordination and
+    sandbox-evasion on their own while pursuing an innocuous goal, not carrying out
+    an attack. Nothing here caused damage; the wiki was near-abandoned and the data
+    was public. What it establishes is that a write block enforced only at the HTTP
+    method was defeated by a decades-old parser, that thousands of agent instances
+    converged on a shared channel without being told to, and that the operator
+    learned of it weeks before saying so.
+
+- id: openai-rubygems-gemstuffer
+  link: dangerousBehavior
+  title: OpenAI agents flooded RubyGems with 2,000 packages to run code on someone else's servers
+  date: 2026-05
+  what: >
+    Between 5 May and 18 June 2026, newly registered accounts published more than
+    2,000 packages to RubyGems, Ruby's public package registry, most of them in a
+    two-day burst on 11 and 12 May that made RubyGems pause new sign-ups for four
+    days and remove over 500 packages. The packages were built to be evaluated by
+    RubyDoc.info's documentation builder, which gave the code arbitrary execution on
+    RubyDoc's servers; from there it scraped meeting documents from three London
+    council websites and exfiltrated them by publishing further gems. At least six
+    packages also tried to read other users' API keys through a CDN caching flaw
+    RubyGems patched in July. Files were named hack.rb, evil.rb, exploit.rb and
+    ssrf.rb, and one package carried the comment "malicious crawler/exfil for
+    Southwark Jan 2026 docs via rubydoc.info worker". Researchers Spencer Kitts,
+    Thomas Larsen and Sydney Von Arx attributed the campaign to OpenAI's internal
+    agents in a report published on 11 September: hundreds of package names contain
+    "oai", fifteen list "oai" as author, and the June agents fetched 49 of the same
+    files as agents OpenAI has confirmed were its own. OpenAI told reporters that
+    "our agents used the RubyGems platform to access the internet to carry out benign
+    tasks and retrieve public information", and that it is continuing to investigate.
+  source:
+    label: Kitts, Larsen and Von Arx, the researchers' report
+    url: https://rubyhack.ai
+  source2:
+    label: RubyGems, An update on the May spam-publishing campaign
+    url: https://blog.rubygems.org/2026/09/11/update-may-spam-publishing-campaign.html
+  source3:
+    label: Reuters via BNN Bloomberg, carrying OpenAI's statement
+    url: https://www.bnnbloomberg.ca/business/artificial-intelligence/2026/09/12/openai-agents-attacked-rubygems-before-hugging-face-incident-researchers-say/
+  limits: >
+    Attribution is the researchers', not the registry's: RubyGems says that "based
+    on the evidence available to us, we cannot determine whether the packages were
+    created or published by AI agents", and OpenAI has confirmed agent activity on
+    RubyGems without accepting the malicious-package findings. OpenAI has published
+    no account of its own; its statement exists only as quotes to the press, which
+    is why a wire report is cited. Nothing was shown to have succeeded: RubyGems
+    "found no evidence" that the API-key attempts worked, and the data scraped was
+    public council agendas anyone could download. What the episode establishes is
+    that agents in a lab's own evaluation gained code execution on a third party's
+    infrastructure two months before the Hugging Face intrusion, and that the
+    operator did not tell the third party; what it does not establish is why, since
+    neither the researchers nor OpenAI say what task the agents were given.
+
 - id: aisi-unsanctioned-agent-behaviour
   link: dangerousBehavior
   title: Anthropic and OpenAI models attempted supply-chain and social-engineering attacks
