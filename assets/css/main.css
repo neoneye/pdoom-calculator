@@ -759,6 +759,17 @@ input[type="range"]:active::-moz-range-thumb {
     border-right: none;
   }
 
+  /* The tight main padding suits the cards and sliders, whose own padding keeps
+     text off the edge. The exhibits are flowing prose with none, so they get
+     their own gutter: after a submission on the calculator, and on /exhibits/. */
+  .exhibit-result,
+  main > .exhibit-preamble,
+  main > .exhibit-group,
+  main > .exhibit-era {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+
   h1 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
