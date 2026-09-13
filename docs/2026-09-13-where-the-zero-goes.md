@@ -9,8 +9,8 @@ their zero on, and whether the first link is already close to one. Follows
 has to be zero, and each link is a safety strategy. On this site the people who
 put a link at zero do it on the second or third, almost never the first, and no
 expert has done it at all. The first link is close to one already,
-on the evidence of a system, not a model, resolving Navier–Stokes in 88 hours;
-what remains of it is the question of domains where no checker exists.
+on the evidence of a harness of ten thousand agents resolving Navier–Stokes in
+88 hours; what remains of it is the question of domains where no checker exists.
 
 ---
 
@@ -68,15 +68,16 @@ even a prodigy, and a prodigy is far above an ordinary person.
 
 Two things about how that argument is stated, because they decide what it proves.
 
-**"AI" means the system, not the model.** The result came from a harness running
-on the order of 10,000 agents, cross-pollinated by a second model, with a third
-model doing the Lean formalisation. Comparing that to one human is the right
-comparison, because the human is a single instance too and cannot be run wide. A
-system that turns one model into a century of agent-time in four days is the
-deployed object, and it is the deployed object that the second and third links
-have to contain. Objections of the form "but it took a hundred agent-years" miss
-this: wall-clock and dollars are what matter for the chain, and on both the system
-wins outright.
+**The thing being compared is a harness, not a single LLM without tools.** The result came from a
+harness running on the order of 10,000 agents, with a second model consolidating
+their results and a third doing the Lean formalisation. A harness is what a
+person actually interacts with: Claude Code and Codex are harnesses, and a
+harness can run all night on a task while its user sleeps. Comparing a harness to
+one human is fair, because the human is a single instance too and cannot be run
+wide. The harness is the deployed object, and the deployed object is what the
+second and third links have to contain. Objections of the form "but it took a
+hundred agent-years" miss this: wall-clock and dollars are what matter for the
+chain, and on both the harness wins outright.
 
 **The evidence is from the one domain with a checker.** Mathematics is where a
 proof can be verified by Lean in 17 hours, so the search runs without a human in
