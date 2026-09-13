@@ -1,13 +1,21 @@
 # Making the safety argument explicit
 
 **Date:** 2026-09-14
-**Scope:** A proposal for explaining the calculator through the evidence for its
-three links and the question of what keeps their product small. Follows
+**Scope:** A proposal for using the accessible quiz to educate visitors, help
+them recognise gaps in their knowledge, and introduce the calculator's three
+factors through concrete examples. Follows
 [where the zero goes](2026-09-13-where-the-zero-goes.md) and
 [what the calculator is](2026-09-13-what-the-calculator-is.md), incorporating the
 clarification that safety requires a sufficiently small probability, rather than
 an exactly zero probability.
-**Outcome:** Ground the safety argument in what the exhibits already document:
+**Outcome:** Make learning the purpose of the experience. The author's family
+and friends can select quiz items but do not understand the numerical parameters.
+Start with those recognisable items, introduce unfamiliar ideas, and help visitors
+see what they do not yet understand. Use examples to connect that learning to
+capability, behaviour, and consequences. The estimate gives visitors something
+to explore; submitting it is secondary. Visitors should not need to define
+capability thresholds or estimate conditional probabilities before they can learn.
+Ground the teaching in what the exhibits already document:
 advanced capabilities, dangerous actions, and AI assistance that improved human
 performance on a bioweapons planning task. These give the concern about
 catastrophe concrete foundations. The open question is how far the danger can
@@ -21,6 +29,38 @@ separate capability, behaviour, and consequences; they are not mandatory stages
 of AI development.
 
 ---
+
+## 0. The quiz is an entry point for learning
+
+The author's observation from showing the calculator to family and friends is
+the design constraint: they can answer the quiz, but they are unsure what the
+parameters mean. Asking them to justify three probabilities would make the
+calculator harder to use. Explaining the mathematics more fully on the opening
+screen would add another task before they reach the part they can already do.
+
+The author's purpose is to educate quiz takers so they hopefully recognise gaps
+in their knowledge. The recognition lists can make an unfamiliar idea visible:
+a visitor encounters something they had not considered, reads what it means,
+and discovers why it matters. A gap becomes a place to begin learning.
+
+The intended sequence is to recognise familiar ideas, encounter unfamiliar ones,
+read a concrete explanation, and connect it to the risk being discussed. The
+calculator's estimate and parameters can then help the visitor explore the
+consequences of different assumptions. Moving a slider or submitting a result
+does not by itself establish that this learning happened.
+
+The quiz should remain easy to enter. Short explanations and relevant examples
+belong in the normal experience, with deeper reading available by choice. A
+visitor need not master the parameters, change their estimate, or pass an
+additional test to benefit. Recognising “I don't know enough about this yet” is
+itself a useful outcome.
+
+The model still needs precise definitions. Those are the responsibility of the
+site's author and methodology. The explanations below establish what the model
+means and what the reports can claim; they are not an entrance requirement for
+quiz takers. A usable questionnaire does not, by itself, validate its numerical
+mapping, so the result should be described plainly as the quiz's suggested
+starting estimate.
 
 ## 1. The proposition
 
@@ -46,7 +86,8 @@ setting, the probability that it exists can reasonably be at or near 100%. The
 remaining uncertainty concerns whether it will be used dangerously and how far
 the consequences will escalate.
 
-The threshold needs to be stated: what capability is sufficient for which harm?
+The methodology needs to state the threshold: what capability is sufficient for
+which harm? A quiz taker should not have to invent that definition.
 A prohibited response or minor rule violation does not automatically establish
 capability relevant to global catastrophe. The first factor concerns the ability
 to enable a relevant action; it does not require the catastrophic outcome itself
@@ -65,14 +106,14 @@ successive levels of intelligence. Dangerous behaviour by a weak LLM can already
 provide evidence about both its capability and its behaviour, while leaving the
 scale of the eventual consequences unresolved.
 
-The central question to put beside the sliders is:
+The central question for the methodology and optional explanation is:
 
 > What keeps the overall risk small, and which link does that protection act on?
 
-This gives a low estimate something concrete to express: barriers to capability,
-prevention of dangerous behaviour, or prevention of escalation. A high estimate
-should likewise explain why the visitor expects those protections to be
-insufficient.
+This gives the interpretation of a low estimate something concrete to describe:
+barriers to capability, prevention of dangerous behaviour, or prevention of
+escalation. It also gives an interested visitor a way to investigate a high
+estimate. Answering it is optional; the quiz remains usable without that analysis.
 
 ## 2. What “near zero” means
 
@@ -203,40 +244,69 @@ infrastructure.
 
 ## 5. Proposed changes to the public explanation
 
-**Explain the chain before asking visitors to choose a quiz.** A short paragraph
-can establish what they will estimate and why the three factors matter. Suggested
-copy:
+**Invite discovery through the quiz.** The opening should make the learning
+purpose clear in terms the visitor already understands. Suggested copy:
 
-> A weak LLM can be powerful enough for a dangerous task. People and tools can
-> carry its outputs into the physical world. Estimate three things: whether the
-> relevant capability is available, whether AI will act dangerously with it, and
-> whether the consequences will become an unrecoverable global catastrophe. If
-> the capability is already demonstrated, the first factor can be at or near 100%.
-> What keeps the remaining risk small, and what gives you confidence that the
-> protection will hold?
+> Explore what you know about AI and discover ideas you may not have encountered.
+> Along the way, learn how AI could cause harm and what might prevent it.
 
-**Use the About page to explain the safety argument.** Show how each link can
-reduce the product, include one numerical example, and explain that the choice of
-an acceptable risk threshold is a separate judgement. The estimate concerns the
-routes covered by the chain's definitions; those definitions determine what a low
-product says about overall safety. Explain how a weak LLM can satisfy the first
-factor when its capability, combined with people and tools, is sufficient for the
-relevant harm.
+There should be no requirement to understand the three parameters before taking
+the quiz. The current recognition questions already provide an accessible way
+in, according to the author's observations.
 
-**Define “powerful” by the capability that matters.** The current first-slider
-explanation says “reaches strategic capability.” Replace that with wording that
-includes the task-relative meaning proposed here. Suggested explanation:
+**Use unfamiliar items as invitations to learn.** Give each concept a short
+explanation and, where available, a link to a concrete example or exhibit. Keep
+these accessible alongside the questions or in brief feedback after answering.
+The visitor should have opportunities to learn before registration. An unchecked
+item is a reason to offer an explanation, not proof that the visitor knows
+nothing about it. Checking a familiar name also does not demonstrate understanding.
 
-> Probability that AI exists or becomes available with sufficient capability to
-> enable the harm being assessed, including through people and tools. A generally
-> weak LLM can meet this threshold. Judge the capability needed for the relevant
-> harm, rather than overall intelligence.
+Recognition questions should allow visitors to say what is familiar without
+penalty for admitting uncertainty. Opinion questions can offer “I'm not sure”
+where appropriate, with any effect on the proposed estimate documented. Decoys,
+if used, should be explained after the answer so that the feedback teaches the
+distinction. They should not turn the beginner experience into a barrier to entry.
 
-The relevant harm and capability threshold should be described alongside this
-question. That gives visitors a shared basis for deciding whether the first
-condition is already satisfied.
+**Connect one concrete example to the three factors.** Introduce the factors
+through an example the visitor has just encountered, before asking them to
+interpret the numbers. Use ordinary language, with formal probability labels in
+the detailed explanation:
 
-**Make the definitions consistent.** The current
+| Factor | Short explanation |
+|---|---|
+| Capability | Whether AI can help make the harm happen, including through people and tools |
+| Behaviour | Whether AI will actually give dangerous help or take dangerous actions |
+| Consequences | Whether those actions lead to a global catastrophe |
+
+For example, a system giving harmful advice illustrates a capability and an
+action. Whether people act on that advice, and how far the harm spreads, concerns
+the consequences. The explanation can introduce the user's points that humans
+can be the AI's body and a generally weak LLM can be capable enough for a
+dangerous task. It should make the connection in a few sentences, without asking
+the visitor to supply a numerical probability.
+
+**Use the result as a prompt for reflection.** Label it “Starting estimate from
+your quiz answers.” Suggested supporting copy:
+
+> This is the starting estimate the quiz generated from your answers. Which
+> ideas were new to you? You can revisit their explanations and explore how the
+> three factors affect the result.
+
+An explanation of an unfamiliar item should be as easy to reach as a slider.
+The visitor can keep or adjust the result and decide whether to register it.
+There is no required direction for an update: learning may increase concern,
+decrease it, or leave someone recognising more uncertainty. A higher submitted
+P(doom) is not a measure of educational success.
+
+**Put the full safety argument in About and the methodology.** Explain how a
+weak LLM can satisfy the capability factor, how humans can carry out its outputs,
+and what evidence informs each factor. Include the near-zero arithmetic and the
+scope of the product for readers seeking that detail. Define the relevant harm
+and capability threshold there, consistently with the quiz's numerical mapping.
+The short, concrete teaching belongs in the quiz experience. About and the
+methodology provide the fuller argument for people who want to follow it.
+
+**Make the definitions consistent across those explanations.** The current
 [slider configuration](../index.html) labels the second link “dangerous behaviour”
 but explains it as being “misaligned with human values.” Those meanings should
 be reconciled in the public explanation. Takeover enters the accompanying
@@ -251,12 +321,22 @@ its operator. The consequence question includes harm mediated by people. A
 contributing LLM can be weak overall while satisfying the first factor's
 task-relative capability threshold.
 
-**Describe the quiz's contribution plainly.** When the sliders appear, say that
-the quiz has proposed a starting point from the answers and invite the visitor to
-review each factor. The explanation should distinguish that proposal from the
-visitor's own assessment of the evidence.
+**Check the experience with the people it is intended to serve.** When the author
+next shows it to family and friends, ask what was new to them, which explanation
+helped, and what they would like to understand better. See whether they can
+connect one example to capability, behaviour, or consequences in their own words.
+These are useful feedback questions for improving the teaching, not an additional
+test required for submission. Being able to complete the quiz still matters, but
+the purpose is that a visitor leaves with a clearer idea of both the subject and
+the gaps in their own understanding.
 
 ## 6. How to read the submissions under this framing
+
+Educational engagement and probability elicitation are distinct outcomes of the
+same experience. Submission counts, retained proposals, and slider movements
+describe interaction with the calculator. They do not establish that someone
+learned, discovered a gap in their knowledge, or now understands the parameters.
+Feedback about unfamiliar ideas and explanations can help assess those outcomes.
 
 Reports can describe where visitors place the reduction in risk and how they move
 each factor relative to the quiz's proposal. Those are observations about the
@@ -266,11 +346,20 @@ them or collecting other evidence.
 Keep the distinction between rows that retained the proposal and rows that
 changed it. Neither group establishes an independent belief by itself: retaining
 a number can reflect agreement, while moving it can still leave an estimate
-influenced by its starting point. A low third-link estimate is a reason to examine
-the visitor's account of containment or recovery, rather than evidence that those
-protections will succeed.
+influenced by its starting point. The author's observations also give a concrete
+reason someone might keep the proposal: the quiz is understandable but the
+parameters are not. The reports should not assume which explanation applies to
+an individual submission. A retained proposal is a valid completed interaction;
+whether the visitor learned and what they believe remain separate questions.
+
+When a result comes from the quiz mapping, the report should describe it as such.
+It should not attribute a detailed view about capability, containment, or recovery
+to a respondent who never expressed that view. Parameter changes can still be
+analysed, with the same caution about what the visitor understood and intended.
 
 This proposal concerns the explanation of the existing three-link instrument.
-Its next concrete deliverables are the opening paragraph, an About-page account
-of the arithmetic and definitions, and exhibit introductions that distinguish
-observed capability, observed behaviour, and evidence about catastrophe pathways.
+Its next concrete deliverables are a learning-focused quiz invitation, brief
+explanations for unfamiliar concepts, a concrete example connecting the three
+factors, and a result presentation that invites reflection. About and the
+methodology supply deeper detail. The exhibits retain their concrete evidence
+and stated limits.
