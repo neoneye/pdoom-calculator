@@ -6,9 +6,9 @@ their zero on, and whether the first link is already close to one. Follows
 [experts cut the last link](2026-09-13-experts-cut-the-last-link.md) and
 [the calculator against The Economics of p(doom)](2026-09-13-economics-of-pdoom.md).
 **Outcome:** p(doom) is a product, so for humanity to be safe at least one link
-has to be zero, and each link is a safety strategy. On this site nobody who has
-taken a quiz has put any link at zero; the people who register near-zero do it on
-the second or third link, never the first. The first link is close to one already,
+has to be zero, and each link is a safety strategy. On this site the people who
+put a link at zero do it on the second or third, almost never the first, and no
+expert has done it at all. The first link is close to one already,
 on the evidence of a system, not a model, resolving Navier–Stokes in 88 hours;
 what remains of it is the question of domains where no checker exists.
 
@@ -62,9 +62,9 @@ link entirely.
 
 The case that P(powerful AI) is already near its maximum rests on one exhibit: a
 system resolved a Millennium Prize problem in 88 hours, with a machine-checked
-proof. A single human mathematician, however gifted, needs sleep and food and would
-take longer than 88 hours; the system is therefore already more capable than the
-best single human on that task, and the best single human is above the baseline.
+proof. No mathematician could do that in 88 hours; a prodigy needs sleep and food,
+and the problem stood for ninety years. So on this task the system outperforms
+even a prodigy, and a prodigy is far above an ordinary person.
 
 Two things about how that argument is stated, because they decide what it proves.
 
