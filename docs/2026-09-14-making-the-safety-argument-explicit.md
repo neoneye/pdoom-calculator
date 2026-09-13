@@ -172,10 +172,14 @@ product says about overall safety.
 
 **Make the definitions consistent.** The current
 [slider configuration](../index.html) labels the second link “dangerous behaviour”
-but explains it as being “misaligned with human values.” The accompanying notes
-sometimes interpret it as takeover. These are different events. The proposed
-framing uses dangerous behaviour throughout, with misalignment as a possible
-cause and takeover as a possible escalation. Dangerous behaviour also includes
+but explains it as being “misaligned with human values.” Those meanings should
+be reconciled in the public explanation. Takeover enters the accompanying
+literature comparisons through the papers being discussed, including Growiec and
+Prettner's model. It is not a requirement stated by the calculator. Comparisons
+should attribute that premise to the relevant paper and preserve the distinction
+between its takeover event and the calculator's broader dangerous-behaviour event.
+The proposed framing uses dangerous behaviour throughout, with misalignment as a
+possible cause. Dangerous behaviour also includes
 assisting harmful human objectives; it need not involve the system independently
 wanting harm or resisting its operator. The third question should explicitly
 carry forward the powerful-system condition from the first link and include
