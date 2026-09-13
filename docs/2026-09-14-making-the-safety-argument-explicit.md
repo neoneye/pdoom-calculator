@@ -93,11 +93,19 @@ contribution to a dangerous activity. People provide the route from the AI's
 outputs to physical action.
 
 The trial assessed plans; it did not test weapon construction or deployment. The
-mirror-bacteria assessment identifies biological reasons for concern, while its
-exhibit explicitly states that no AI is implicated. Neither entry documents an
-unrecoverable global catastrophe. Each entry's limits should remain attached to
-the specific result, so the reader can see both what happened and what still
-separates it from the catastrophic outcome.
+mirror-bacteria assessment identifies biological reasons why creating such
+organisms could have catastrophic consequences. The calculator author's view is
+that AI can help humans create them, with people and laboratories providing the
+physical execution. That makes mirror bacteria a concrete concern for the third
+link, including if the AI is assisting human research rather than pursuing an
+independent objective.
+
+The assessment addresses the biological hazard; it does not test AI's ability to
+enable or accelerate the work. The inference about AI's contribution should be
+stated explicitly alongside that evidence. The absence of demonstrated AI
+involvement in the assessment establishes no limit on what AI could enable.
+Neither exhibit documents an unrecoverable global catastrophe. Their limits
+identify what remains unresolved about the route to that outcome.
 
 The practical question is whether the remaining barriers can withstand the
 capabilities available to people and AI systems acting together. A low estimate
