@@ -22,7 +22,8 @@ check. The check is a sanity check on vocabulary with decoys, not an examination
 expertise: it separates people who know what the words mean from people who do not,
 and nothing more. The cohort should be read as "informed enough to pass a
 vocabulary check", which is a low bar cleared by nineteen people, not as a panel of
-experts.
+experts. What the site means by an expert, hands-on experience of machine learning,
+is in [definitions](definitions.md#expert).
 
 Median chain among rows where the visitor moved at least one slider, so the
 numbers are theirs and not the quiz's proposal:

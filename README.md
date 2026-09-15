@@ -2,6 +2,9 @@
 
 Interactive P(doom) calculator and stats pages.
 
+Terms used across the site and notes, such as what counts as an expert, are defined
+in [docs/definitions.md](docs/definitions.md).
+
 ## Install the dependencies
 
 **Ruby 3.3 required.** GitHub Pages uses Ruby 3.3.4; Ruby 4.x is not yet supported by the Jekyll/github-pages ecosystem.
