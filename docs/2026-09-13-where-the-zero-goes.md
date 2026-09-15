@@ -66,6 +66,14 @@ proof. No mathematician could do that in 88 hours; a prodigy needs sleep and foo
 and the problem stood for ninety years. So on this task the system outperforms
 even a prodigy, and a prodigy is far above an ordinary person.
 
+The claim is narrower than "a machine solved a Millennium problem". The authors of
+the 2024 Expert Survey on Progress in AI name this result and decline to count it
+as a long-standing problem solved "without more input from humans": humans chose
+the problem, split it into variants and consolidated the agents' results, as the
+exhibit's own `limits` field says ([the calculator against ESPAI 2024](2026-09-15-espai-2024.md)).
+What the exhibit shows is the speed of a deployed system on a problem people
+selected and decomposed, not a system that chose its own problem.
+
 Two things about how that argument is stated, because they decide what it proves.
 
 **The thing being compared is a harness, not a single LLM without tools.** The result came from a

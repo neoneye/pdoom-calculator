@@ -109,6 +109,12 @@ zero on, is taken up in [where the zero goes](2026-09-13-where-the-zero-goes.md)
 - Not that experts are right about the third link. Nothing here bears on that.
 - Not that the beginner quiz is priming its takers upward on the third link. It
   may be; the same test in reverse would say.
+- Not that informed people in general discount the third link. In the 2024 Expert
+  Survey on Progress in AI, researchers who had thought more about the social
+  impacts of AI gave somewhat higher risk, not lower
+  ([the calculator against ESPAI 2024](2026-09-15-espai-2024.md)). That axis is
+  attention to the risk arguments, not vocabulary, so the two do not contradict
+  each other; the finding here is about people who pass this check, and no wider.
 - Not that the check selects for optimists. The self-declared experts of the
   pre-check era are at 0.92 on the third link and 44% overall, so the check did
   change who is in the cohort; whether it changed what they think, or just who

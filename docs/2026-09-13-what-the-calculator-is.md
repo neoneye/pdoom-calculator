@@ -40,9 +40,13 @@ registered the page's proposal unmoved. The surveys can only wonder about theirs
   sit, and the reports say so on every figure.
 - **No time horizon.** The literature asks "by 2100" or "by 2070". The calculator
   asks unconditionally, which is simpler for a visitor and incomparable with
-  everyone else. It is also, by 2026, the better-framed question. The surveys'
-  horizons were set when the first link was the open one. The exhibits now show
-  instances of the first two: a harness resolving Navier–Stokes faster than any
+  everyone else. How incomparable has since been measured: the 2024 Expert Survey
+  on Progress in AI randomly asked researchers with and without "within the next
+  100 years", and dropping the horizon doubled the median, 5% to 10%, while the
+  mean barely moved ([the calculator against ESPAI 2024](2026-09-15-espai-2024.md)).
+  It is also, by 2026, the better-framed question. The surveys' horizons were set
+  when the first link was the open one. The exhibits now show instances of the
+  first two: a harness resolving Navier–Stokes faster than any
   human could, and a lab's agents executing code on a third party's servers. Those
   links have moved from prediction to extrapolation, and the whole of the remaining
   uncertainty sits on the third. What has not been observed is the second link at
@@ -89,8 +93,8 @@ this one say why not to build around it yet.
   Turner or Ngo would give it one; Kovarik, as a stated limit, would serve the
   third. The exhibits file's sourcing rule accommodates papers.
 - **An About page that explains the chain.** It is a reading list. It should be
-  Carlsmith for why there is a chain, Grace for the reference number with the
-  definitional caveat, and the chain's own arithmetic: the product is zero only if
+  Carlsmith for why there is a chain, Grace (the 2024 wave, median 10%) for the
+  reference number with the definitional caveat, and the chain's own arithmetic: the product is zero only if
   a link is, and each link is a strategy.
 
 ## 5. In one paragraph

@@ -33,7 +33,8 @@ with that in mind.
 | Source | Kind | Population | What it measures | Headline |
 |---|---|---|---|---|
 | Carlsmith 2022 | decomposition | one author | existential catastrophe by 2070 via power-seeking AI | ~5%, later >10% |
-| Grace et al. 2024 | survey | 2,778 AI authors | extinction or severe disempowerment | median 5%, mean ~16% |
+| Grace et al. 2024 | survey (2023 wave) | 2,778 AI authors | extinction or severe disempowerment | median 5%, mean ~16% |
+| Grace et al. 2026 | survey (2024 wave) | 1,580 AI authors | extinction or severe disempowerment | median 10%, mean ~18% |
 | Karger et al. 2025 | forecasting tournament | 89 superforecasters, 80 experts | extinction by 2100 | 0.4% vs 3%, no convergence |
 | Field 2025 | survey | 111 AI experts | p(doom) plus familiarity | two camps; exposure explains part |
 | Kestin & Soares 2026 | before/after | 89 event attendees | extinction or severe disempowerment | 50% → 70%; newcomers up, experts not |
@@ -87,7 +88,13 @@ are the finding: median 5%, mean about 16%, with between a third and a half of
 respondents at 10% or more depending on framing. A mean three times the median is
 a long right tail, and the tail is where the disagreement lives.
 
-**To the calculator.** The reference number. The pre-chooser cohort's 15% is in
+**Superseded.** This is the 2023 wave of the Expert Survey on Progress in AI. The
+2024 wave, fielded December 2024 and published September 2026 with 1,580
+respondents, puts the median at 10% and the mean at 18.2%, with 51% at 10% or more.
+It is compared with the calculator in
+[its own note](2026-09-15-espai-2024.md).
+
+**To the calculator.** The reference number, now the 2024 wave's. The pre-chooser cohort's 15% is in
 range once "catastrophe" is allowed to be broader than extinction. Grace's framing
 sensitivity, the same population giving different medians to differently worded
 questions, is a warning the calculator's single wording has not had to face.
@@ -305,7 +312,7 @@ separation of misaligned from non-corrigible, and Dung's many-systems world.
 
 | Source | Population | Elicitation |
 |---|---|---|
-| Grace | 2,778 published researchers | one probability, several framings |
+| Grace (2024 wave) | 1,580 published researchers | one probability, several framings |
 | Karger | 89 superforecasters, 80 experts | probabilities, months of argument |
 | Field | 111 experts | probability plus familiarity questionnaire |
 | Kestin & Soares | 89 attendees, before and after | one probability, twice |
@@ -321,7 +328,8 @@ that can turn people away.
 
 | Source | Result |
 |---|---|
-| Grace | median 5%, mean ~16% |
+| Grace, 2023 wave | median 5%, mean ~16% |
+| Grace, 2024 wave | median 10%, mean ~18% |
 | Karger | superforecasters ~0.4%, experts ~3%, no convergence |
 | Kestin & Soares | 50% before, 70% after; newcomers up, experts flat or down |
 | Calculator, before the quiz | 15% (n = 98) |
@@ -329,7 +337,8 @@ that can turn people away.
 | Calculator, kept the proposal | 72% to 92% by level |
 
 What lines up: the pre-chooser cohort with Grace, once the definition is allowed
-to be broader; and Kestin and Soares with the kept-and-moved split. What does not:
+to be broader (its 15% median sits just above the 2024 wave's 10% and below its 18%
+mean); and Kestin and Soares with the kept-and-moved split. What does not:
 the tournament's experts at 3% against the check-clearers at 31%, where definition
 covers part of the gap and not all of it; and Field's two camps, which do not
 contain the check-clearers' chain.
@@ -358,7 +367,8 @@ link; the exhibits document incidents and cite nothing from Turner, Cohen or Ngo
 ## 4. What should feed back into the instrument
 
 - **Cite Carlsmith on the About page** as the reason there is a chain, and Grace
-  as the reference number, with the definitional caveat beside both.
+  (the 2024 wave, median 10%) as the reference number, with the definitional caveat
+  beside both.
 - **The multipolar objection is real.** Three sliders cannot express a world of
   many systems. Whether that needs a fourth slider or a sentence is a design
   question; that the chain assumes a single system should at least be said.
