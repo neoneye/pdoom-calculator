@@ -1144,19 +1144,23 @@ function mark(svg, x, y, p, attrs) {
 // moved it down / kept it / moved it up, with the average size of each move above.
 const ADJ = { down: 'var(--accent)', kept: 'var(--neutral)', up: 'var(--level-1)' };
 function clusterStrips(containerId, ttId, clusters, people, opts) {
-  const W0 = opts.w || 460, ROWH = opts.rowh || 80, ML = opts.ml || 172, MR = 20, MT = 14, MB = 52, H = MT + clusters.length * ROWH + MB;
+  const W0 = opts.w || 460, ROWH = opts.rowh || 80, ML = opts.ml || 172, MR = 20, MT = 14, MB = 70, H = MT + clusters.length * ROWH + MB;
   const GAP = 36, AW = opts.adjustW || 250, W = W0 + GAP + AW, BH = 18;
   const X = v => ML + v * (W0 - ML - MR);
   const AX0 = W0 + GAP, AX1 = W - 8;
   const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById(containerId));
   xGrid(svg, X, MT, H, MB, H - 34);
   el('text', { x: (ML + W0 - MR) / 2, y: H - 21, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'submitted p(doom)');
-  let lx = AX0;
+  // Legend and caption wrap to the bar column's width rather than run past the chart.
+  let lx = AX0, ly = H - 56;
   for (const [k, lab] of [['down', 'moved it down'], ['kept', 'kept it'], ['up', 'moved it up']]) {
-    el('rect', { x: lx, y: H - 40, width: 10, height: 10, rx: 2, fill: ADJ[k] }, svg);
-    el('text', { x: lx + 14, y: H - 31, class: 'rowsub' }, svg, lab); lx += 14 + lab.length * 6.2 + 14;
+    const w = 14 + lab.length * 6.2;
+    if (lx > AX0 && lx + w > AX1) { lx = AX0; ly += 14; }
+    el('rect', { x: lx, y: ly - 9, width: 10, height: 10, rx: 2, fill: ADJ[k] }, svg);
+    el('text', { x: lx + 14, y: ly, class: 'rowsub' }, svg, lab); lx += w + 14;
   }
-  el('text', { x: AX0, y: H - 6, class: 'axis-name' }, svg, "what each group did with the quiz's proposed number");
+  wrapLabel("what each group did with the quiz's proposed number", Math.floor((AX1 - AX0) / 5.6), 2)
+    .forEach((ln, i) => el('text', { x: AX0, y: H - 18 + i * 13, class: 'axis-name' }, svg, ln));
   const hits = [], bars = [];
   clusters.forEach((c, gi) => {
     const cy = MT + gi * ROWH + ROWH / 2 - 4;
