@@ -108,6 +108,17 @@ OPTION_ADDED = {
 TERM_ADDED = {
     "embedding": "2026-09-02",
 }
+# Which term list each page version showed. "current" is the list in index.html now.
+# When the list next changes, add the new commit here under a new name and describe
+# that name's differences from current in TERM_LIST_DIFFS, so old rows keep being
+# scored against the list they actually saw. A version missing from this table is
+# reported by the build and scored by date as a fallback.
+TERM_LIST_BY_VERSION = {v: "current" for v in (
+    "d1ef5e3", "779da8b", "893e969", "1abbce5", "e3a2aa0", "dc2029b", "b7f88fb",
+    "5f2a9bb", "215181a", "5100d1b", "8e4ed0b",
+)}
+# name -> {"added": [ids not in that list], "retired": [(id, label, aiRelated)] present then}
+TERM_LIST_DIFFS = {"current": {"added": [], "retired": []}}
 # (id, label, aiRelated, retired on)
 RETIRED_TERMS = [
     ("mary-shelley", "Mary Shelley", True, "2026-09-02"),
@@ -278,27 +289,42 @@ def annotate_calibration(submissions, index_html):
     for s in submissions:
         stored = s.get("calibration")
         cal = None
+        computed = calibration_for(s, options_by_question)
         if isinstance(stored, dict) and isinstance(stored.get("per_factor"), (int, float)):
             cal = {"midpoint": float(stored.get("midpoint", 0)), "spread": float(stored.get("spread", 0)),
                    "per_factor": float(stored["per_factor"]), "stored": True}
             counts["stored"] += 1
-        else:
-            computed = calibration_for(s, options_by_question)
-            if computed:
-                cal = dict(computed, stored=False)
-                counts["recomputed"] += 1
+            # The port of the page's formula is checked on every row that has both.
+            # A disagreement here means the tables above have drifted from index.html.
+            if computed and abs(computed["midpoint"] - cal["midpoint"]) > 0.15:
+                counts["storedMismatch"] += 1
+        elif computed:
+            cal = dict(computed, stored=False)
+            counts["recomputed"] += 1
         s["_cal"] = cal
         if cal is None:
             s["_moved"] = None
             s["_gap"] = None
+            s["_spread_changed"] = None
             continue
         mids = [f["midpoint"] for f in s["factors"]]
         untouched = all(abs(m - cal["per_factor"] / 100) < 5e-4 for m in mids)
         equal = max(mids) - min(mids) < 1e-9
         if equal and not untouched:
             counts["mismatched"] += 1
+        # "Moved" is about the three midpoints only. The uncertainty band is a separate
+        # control, and a visitor can change it without touching a midpoint; that is
+        # only knowable on rows that stored the proposed spread.
         s["_moved"] = not untouched
         s["_gap"] = round(s["summary"]["midpoint"] - cal["midpoint"] / 100, 4)
+        if cal["stored"]:
+            s["_spread_changed"] = any(abs(100 * f["spread"] - cal["spread"]) > 0.15 for f in s["factors"])
+            if untouched:
+                counts["storedKept"] += 1
+                if s["_spread_changed"]:
+                    counts["storedKeptSpreadChanged"] += 1
+        else:
+            s["_spread_changed"] = None
         counts["untouched" if untouched else "moved"] += 1
     return dict(counts)
 
@@ -307,7 +333,9 @@ def calibration_summary(submissions):
     """Per level: how many kept the proposal, and what the two groups registered."""
     out = {}
     for lvl in QUIZ_LEVELS:
-        rows = [s for s in submissions if s.get("quiz_flow_id") == lvl and s.get("_moved") is not None]
+        # Identical repeat rows from one browser are left out: one person, one row.
+        rows = [s for s in submissions if s.get("quiz_flow_id") == lvl and s.get("_moved") is not None
+                and not s.get("_dup")]
         kept = [s["summary"]["midpoint"] for s in rows if not s["_moved"]]
         moved = [s["summary"]["midpoint"] for s in rows if s["_moved"]]
         gaps = [s["_gap"] for s in rows if s["_moved"]]
@@ -563,8 +591,19 @@ def _agrees_with_row(fields, s, tol=1e-6):
         mid, _, spread = pair.partition(":")
         if not close(mid, factor.get("midpoint")) or not close(spread, factor.get("spread")):
             return False
+    # The remaining signed fields: identity, counter, timestamp, quiz level, check
+    # score. Blank in the string means null in the row. Timestamps are compared as
+    # instants, since the page writes "Z" and the database returns "+00:00".
+    blank = lambda v: "" if v is None else str(v)
+    try:
+        same_time = _parse_ts(fields.get("t", "")) == _parse_ts(s.get("submitted_at", ""))
+    except (TypeError, ValueError):
+        same_time = False
     return (fields.get("k") == (s.get("visitor_key") or "")
-            and fields.get("n") == str(s.get("submit_count")))
+            and fields.get("n") == str(s.get("submit_count"))
+            and same_time
+            and fields.get("q", "") == blank(s.get("quiz_flow_id"))
+            and fields.get("g", "") == blank(s.get("gate_score")))
 
 
 def verify_submissions(submissions):
@@ -780,8 +819,17 @@ def knowledge_check(submissions, index_html):
     pairs = [{"decoy": t["label"], "collides": DECOY_COLLISIONS.get(t["id"])} for t in decoys]
     pairs.sort(key=lambda p: (p["collides"] is None, p["collides"] or "", p["decoy"]))
 
-    def shown_on(date):
-        """The term list as this taker saw it."""
+    def shown_on(s):
+        """The term list as this taker saw it: by page version when the row carries
+        one the table knows, otherwise by date."""
+        version = (s.get("page_version") or "")[:7]
+        if version:
+            name = TERM_LIST_BY_VERSION.get(version)
+            if name is not None:
+                diff = TERM_LIST_DIFFS[name]
+                return ([t for t in terms if t["id"] not in diff["added"]]
+                        + [{"id": tid, "label": label, "ai": ai} for tid, label, ai in diff["retired"]])
+        date = s["submitted_at"][:10]
         current = [t for t in terms if TERM_ADDED.get(t["id"]) is None or date > TERM_ADDED[t["id"]]]
         retired = [{"id": tid, "label": label, "ai": ai}
                    for tid, label, ai, gone in RETIRED_TERMS if date <= gone]
@@ -792,14 +840,18 @@ def knowledge_check(submissions, index_html):
         picked = gate_picks(s)
         if picked is None:
             continue
-        shown = shown_on(s["submitted_at"][:10])
+        shown = shown_on(s)
         real_then = {t["id"] for t in shown if t["ai"]}
         decoys_then = sum(1 for t in shown if not t["ai"])
         hits = len(picked & real_then)
         tripped = len(picked - real_then)
         avoided = decoys_then - tripped
         correct = hits + avoided
+        # The page stored its own score on gate rows; the recomputation must agree.
+        stored_score = s.get("gate_score")
         takers.append({
+            "storedScore": stored_score,
+            "scoreAgrees": (stored_score == correct) if isinstance(stored_score, int) else None,
             # "gate": reached through the expert path since 19 Aug 2026;
             # "decide": the retired standalone knowledge-check path.
             "era": "gate" if s.get("gate_answers") is not None else "decide",
@@ -828,7 +880,7 @@ def knowledge_check(submissions, index_html):
         return sum(1 for s in submissions
                    if gate_picks(s) is not None
                    and (not gate_only or s.get("gate_answers") is not None)
-                   and any(t["id"] == tid for t in shown_on(s["submitted_at"][:10])))
+                   and any(t["id"] == tid for t in shown_on(s)))
     per_term = [{
         "id": t["id"],
         "label": t["label"],
@@ -845,6 +897,11 @@ def knowledge_check(submissions, index_html):
         "terms": len(terms),
         "real": len(real_ids),
         "decoys": len(decoys),
+        "scoreMismatches": sum(1 for t in takers if t["scoreAgrees"] is False),
+        # Stamped rows whose version the table above does not know, counted once each.
+        "unknownVersions": dict(Counter((s.get("page_version") or "")[:7] for s in submissions
+                                        if gate_picks(s) is not None and s.get("page_version")
+                                        and (s.get("page_version") or "")[:7] not in TERM_LIST_BY_VERSION)),
         "takers": takers,
         "pairs": pairs,
         "perTerm": per_term,
@@ -1001,7 +1058,7 @@ def tertile_clusters(people):
         band = lambda k: "most" if k > hi else "least" if k < lo else "mid"
     else:
         band = lambda k: "most" if k >= hi else "least" if k < lo else "mid"
-    bands = _cluster_stats(people, [("most", "Most informed"), ("mid", "Middle"), ("least", "Least informed")],
+    bands = _cluster_stats(people, [("most", "Ticked most"), ("mid", "Middle"), ("least", "Ticked fewest")],
                            lambda p: band(p["k"]))
     # When ties empty an outer band, the middle one is the top or bottom and says so.
     present = {b["g"] for b in bands}
@@ -1009,9 +1066,9 @@ def tertile_clusters(people):
         if b["g"] == "mid" and len(present) == 1:
             b["label"] = "Everyone"
         elif b["g"] == "mid" and "most" not in present:
-            b["g"], b["label"] = "most", "Most informed"
+            b["g"], b["label"] = "most", "Ticked most"
         elif b["g"] == "mid" and "least" not in present:
-            b["g"], b["label"] = "least", "Least informed"
+            b["g"], b["label"] = "least", "Ticked fewest"
     return bands
 
 
@@ -1022,7 +1079,9 @@ def _cluster_stats(people, groups, which):
         if not members:
             continue
         fresh = [p for p in members if not p["dup"]]
-        moved = [p for p in members if p.get("mv")]
+        # Rows where the visitor moved a slider, with identical repeat rows from one
+        # browser left out: five copies of one answer are one person, not five.
+        moved = [p for p in fresh if p.get("mv")]
         vals = [p["m"] for p in members]
         out.append({
             "g": gid, "label": label,
@@ -1030,7 +1089,6 @@ def _cluster_stats(people, groups, which):
             "n": len(members), "median": round(statistics.median(vals), 4),
             "nDedup": len(fresh),
             "medianDedup": round(statistics.median(p["m"] for p in fresh), 4) if fresh else None,
-            # Rows where the visitor moved a slider, so the number is their own.
             "nMoved": len(moved),
             "medianMoved": round(statistics.median(p["m"] for p in moved), 4) if moved else None,
         })
@@ -1117,6 +1175,11 @@ def print_calibration_summary(cal, out=sys.stderr):
     c = cal["counts"]
     print(f"proposals: {c.get('stored', 0)} stored, {c.get('recomputed', 0)} recomputed from answers; "
           f"{c.get('untouched', 0)} untouched, {c.get('moved', 0)} moved", file=out)
+    if c.get("stored"):
+        print(f"stored proposal vs recomputed: {c.get('storedMismatch', 0)} of {c['stored']} disagree by more than 0.15 pts"
+              + ("" if not c.get("storedMismatch") else "  <-- the port has drifted from index.html"), file=out)
+        print(f"kept rows with a stored spread: {c.get('storedKept', 0)}, of which "
+              f"{c.get('storedKeptSpreadChanged', 0)} changed the uncertainty band without moving a midpoint", file=out)
     if c.get("mismatched"):
         # One or two of these is a visitor who dragged all three sliders to the same
         # spot. More than a handful means the tables above no longer match index.html.
@@ -1314,6 +1377,8 @@ def main():
     ap.add_argument("--quiz-source", default="index.html", metavar="INDEX_HTML",
                     help="page holding the quiz option labels (default: %(default)s)")
     ap.add_argument("-q", "--quiet", action="store_true", help="skip the stderr summary")
+    ap.add_argument("--allow-mismatch", action="store_true",
+                    help="write output even when an integrity check fails (the failures are still printed)")
     args = ap.parse_args()
 
     with open(args.input) as f:
@@ -1361,6 +1426,31 @@ def main():
     }
     blob = json.dumps(data, separators=(",", ":"))
 
+    # Integrity checks. Each one means the data and the code disagree about the same
+    # row, and a report built on that would be wrong somewhere it cannot see. They are
+    # printed whatever the verbosity, and they stop the build unless overridden.
+    problems = []
+    if calibration_counts.get("storedMismatch"):
+        problems.append(f"{calibration_counts['storedMismatch']} row(s) where the stored proposal disagrees with the "
+                        "recomputed one: the calibration tables no longer match index.html")
+    if data["knowledge"]["scoreMismatches"]:
+        problems.append(f"{data['knowledge']['scoreMismatches']} row(s) where the recomputed check score disagrees with "
+                        "the stored score: the term-list history no longer matches the rows")
+    if data["knowledge"]["unknownVersions"]:
+        problems.append("page version(s) not in TERM_LIST_BY_VERSION, scored by date as a fallback: "
+                        + ", ".join(f"{v} ({n} rows)" for v, n in sorted(data["knowledge"]["unknownVersions"].items())))
+    if identity["unchecked"]:
+        problems.append(f"{identity['unchecked']} signature(s) were not checked because the cryptography package is "
+                        "not installed; a report built from this would claim verification it did not do")
+    if identity["invalid"]:
+        problems.append(f"{identity['invalid']} signature(s) do not verify")
+    if identity["mismatched"]:
+        problems.append(f"{identity['mismatched']} signed row(s) whose signed fields disagree with the row")
+    for problem in problems:
+        print("integrity: " + problem, file=sys.stderr)
+    if problems and not args.allow_mismatch:
+        sys.exit("error: integrity check failed; fix the cause or rerun with --allow-mismatch")
+
     if not args.quiet:
         print_summary(rows)
         print_film_summary(titles, beginners)
@@ -1368,6 +1458,7 @@ def main():
         print_flow_summary(data["flows"], expert_q, experts)
         print_medium_summary(medium_q, prompts)
         print_gate_summary(gate)
+        print(f"expert check: recomputed score agrees with the stored score on every row", file=sys.stderr)
         print_identity_summary(identity_summary, visitors)
         print_calibration_summary(data["calibration"])
         print_question_summary(question_data)

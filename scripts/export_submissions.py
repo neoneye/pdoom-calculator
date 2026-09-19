@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-MAX_ROWS = 500  # same cap as the stats page
+PAGE = 500  # rows per request; the export pages through until a short page comes back
 SELECT = ("submitted_at,summary,factors,quiz_flow_id,quiz_answers,"
           "gate_score,gate_recommended_level,expert_verified,gate_answers,"
           "visitor_key,submit_count,signed_payload,signature,page_version,calibration")
@@ -39,11 +39,18 @@ def read_config():
 
 
 def fetch(url, key):
-    req = urllib.request.Request(
-        f"{url}/rest/v1/submissions?select={SELECT}&order=submitted_at.asc&limit={MAX_ROWS}",
-        headers={"apikey": key, "Authorization": f"Bearer {key}"})
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        return json.load(resp)
+    """Every row, in pages, so the export keeps up when the table outgrows one request."""
+    rows, offset = [], 0
+    while True:
+        req = urllib.request.Request(
+            f"{url}/rest/v1/submissions?select={SELECT}&order=submitted_at.asc&limit={PAGE}&offset={offset}",
+            headers={"apikey": key, "Authorization": f"Bearer {key}"})
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            page = json.load(resp)
+        rows.extend(page)
+        if len(page) < PAGE:
+            return rows
+        offset += PAGE
 
 
 def average(values):
@@ -76,8 +83,6 @@ def main():
     url, key = read_config()
     rows = fetch(url, key)
     rows.sort(key=lambda r: r.get("submitted_at") or "~")
-    if len(rows) >= MAX_ROWS:
-        print(f"warning: hit the {MAX_ROWS}-row cap; raise MAX_ROWS here and on the stats page", file=sys.stderr)
     out = {
         "source": "https://github.com/neoneye/pdoom-calculator",
         "exported_at": datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
