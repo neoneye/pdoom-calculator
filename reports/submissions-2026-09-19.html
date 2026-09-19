@@ -265,7 +265,7 @@
 
       <figure>
         <h3>Every submission since 1 August, by quiz level</h3>
-        <p class="how">161 of the 300 submissions fall in these seven weeks, so they get the full width; the chart below covers every month. Hollow dots are readers who simply called themselves experts, before any check existed to ask. Filled dark ones are verified: they passed a 30-term vocabulary check before the expert quiz would open. Dashed line: monthly median. Hover or Tab to a dot for its p10–p90 range. Six submissions that arrived with no quiz behind them are left out of this chart and the strips below.</p>
+        <p class="how">161 of the 300 submissions fall in these seven weeks, so they get the full width; the chart below covers every month. Hollow dots are readers who simply called themselves experts, before any check existed to ask. Filled dark ones are verified: they passed a 30-term vocabulary check before the expert quiz would open. The line is a running median, the median of each submission and the fourteen before it, with identical repeat rows left out, and it is dashed across gaps of more than two days between submissions. Hover or Tab to a dot for its p10–p90 range. Six submissions that arrived with no quiz behind them are left out of this chart and the strips below.</p>
         <div class="legend" id="legend-a"></div>
         <div class="plot"><div id="chart-scatter"></div><div class="tooltip" id="tt-a"></div></div>
       </figure>
@@ -343,7 +343,7 @@
 
       <figure>
         <h3>The level chooser, before and since the check</h3>
-        <p class="how">Completed submissions per path in each window. The standalone "decide for me" path and the sliders shortcut were retired when the check moved onto the expert card, so the two rows without a level since then came from a page loaded before the change, or from outside the page. Both are from 21 August; none has arrived since the page started refusing them.</p>
+        <p class="how">Completed submissions per path in each window. In the first window a visitor could still skip the quizzes and go straight to the sliders, or take a standalone knowledge check; both were retired on 19 August, when the check moved onto the expert card, and since then every path on the page runs through a quiz. Two rows from 21 August arrived with no level anyway. They are unsigned and carry no page version, which means the tab that sent them was loaded before the 19 August deploy. They are left out of the right-hand panel, and since 2 September the database refuses any row without a level.</p>
         <div class="plot"><div class="split" id="chart-flows"></div><div class="tooltip" id="tt-h"></div></div>
       </figure>
 
@@ -683,12 +683,20 @@ function eventLine(svg, x, MT, H, MB, label) {
   }
   eventLine(svg, X(Date.UTC(2026, 7, 19)), MT, H, MB, 'expert check');
   const win = rows.filter(r => r.ms >= A0 && r.g !== 'otherpath' && r.g !== 'prelaunch');
-  let path = '';
-  months.filter(mo => mo.month >= '2026-08').forEach((mo, i) => {
-    const [y, m] = mo.month.split('-').map(Number);
-    path += (i ? 'L' : 'M') + X(Date.UTC(y, m - 1, 15)).toFixed(1) + ' ' + Y(mo.median).toFixed(1);
-  });
-  el('path', { d: path, fill: 'none', stroke: 'var(--ink-2)', 'stroke-width': 2, 'stroke-dasharray': '5 4', opacity: 0.8 }, svg);
+  // Running median: at each submission, the median of it and the 14 before it. The
+  // window is warmed up on the quiz rows from before 1 August so the first points in
+  // view are not noise. A segment is dashed where the two submissions it joins are
+  // more than two days apart, so a quiet stretch reads as one rather than as a trend.
+  const RUN = 15, GAP_MS = 2 * 864e5;
+  // Identical repeat rows from one browser are left out of the median: five of them
+  // landing in six seconds would otherwise swing it for the next fifteen submissions.
+  const quizRows = rows.filter(r => r.g !== 'otherpath' && r.g !== 'prelaunch' && !r.rep).sort((a, b) => a.ms - b.ms);
+  const run = quizRows.map((r, i) => ({ ms: r.ms, m: med(quizRows.slice(Math.max(0, i - RUN + 1), i + 1).map(q => q.m)) })).filter(q => q.ms >= A0);
+  for (let i = 1; i < run.length; i++) {
+    const a = run[i - 1], b = run[i], gap = b.ms - a.ms > GAP_MS;
+    el('line', { x1: X(a.ms), y1: Y(a.m), x2: X(b.ms), y2: Y(b.m), stroke: 'var(--ink-2)', 'stroke-width': 2,
+      'stroke-linecap': 'round', opacity: gap ? 0.55 : 0.8, ...(gap ? { 'stroke-dasharray': '4 5' } : {}) }, svg);
+  }
   const pts = [];
   // one radius for every dot; the groups are told apart by colour and by fill, not by size
   const LAYER = { beginner: 0, medium: 1, expert: 2 };
@@ -880,11 +888,16 @@ function eventLine(svg, x, MT, H, MB, label) {
 // ---- chart H1: chooser split, before and since ----
 {
   const fl = DATA.flows;
-  const panels = [{ era: 'before', title: 'Before the check', sub: '9 Mar – 18 Aug 2026' }, { era: 'since', title: 'Since the check', sub: '19 Aug – 10 Sep 2026' }];
+  // Since the check, every path on the page sets a level, and since 2 September the
+  // database refuses a row without one. The two level-less rows of 21 August, unsigned
+  // and without a page version, came from a tab loaded before the 19 August deploy;
+  // they are not a path and are not drawn.
+  const panels = [{ era: 'before', title: 'Before the check', sub: '9 Mar – 18 Aug 2026', flows: fl.before },
+                  { era: 'since', title: 'Since the check', sub: '19 Aug – 19 Sep 2026', flows: fl.since.filter(f => f.id !== 'none') }];
   const box = document.getElementById('chart-flows');
-  const maxN = Math.max(...panels.flatMap(p => fl[p.era].map(f => f.n)), 1);
+  const maxN = Math.max(...panels.flatMap(p => p.flows.map(f => f.n)), 1);
   for (const p of panels) {
-    const flows = fl[p.era], total = flows.reduce((a, f) => a + f.n, 0) || 1;
+    const flows = p.flows, total = flows.reduce((a, f) => a + f.n, 0) || 1;
     const ROW = 30, ML = 176, MR = 66, MT = 40, MB = 8, W = 440, H = MT + flows.length * ROW + MB;
     const wrap = document.createElement('div'); wrap.style.flex = '1 1 320px'; wrap.style.maxWidth = '460px'; box.appendChild(wrap);
     const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, wrap);
