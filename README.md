@@ -51,6 +51,16 @@ http://127.0.0.1:4000/pdoom-calculator/?developer=1
 The status line under the button says so explicitly rather than reporting success. The
 per-browser submit counter is not advanced either, since no row lands.
 
+## Export the submissions
+
+`scripts/export_submissions.py` writes `pdoom-submissions.json` from the live
+table, the same file the stats page's Export button downloads, using the URL and
+anon key in `_data/supabase.yml`:
+
+```bash
+python3 scripts/export_submissions.py
+```
+
 ## Build the submissions report
 
 `prepare_report_data.py` reads `pdoom-submissions.json` and emits the data blob

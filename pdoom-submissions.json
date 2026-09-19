@@ -1,27 +1,27 @@
 {
   "source": "https://github.com/neoneye/pdoom-calculator",
-  "exported_at": "2026-09-19T13:55:37.317Z",
+  "exported_at": "2026-09-19T17:09:12.635Z",
   "summary": {
     "total_submissions": 300,
-    "average_pdoom": 0.45213423272649833,
+    "average_pdoom": 0.4521342327264987,
     "factors": [
       {
         "label": "P(powerful AI)",
-        "average_lower": 0.45487028811514096,
-        "average_midpoint": 0.7887477208845882,
+        "average_lower": 0.4548702881151412,
+        "average_midpoint": 0.7887477208845876,
         "average_upper": 0.9326479623690905
       },
       {
         "label": "P(dangerous behavior | powerful AI)",
-        "average_lower": 0.3670974524081965,
-        "average_midpoint": 0.730441641092276,
+        "average_lower": 0.36709745240819663,
+        "average_midpoint": 0.7304416410922755,
         "average_upper": 0.9217002676033859
       },
       {
         "label": "P(global catastrophe | dangerous behavior)",
         "average_lower": 0.33976453977335674,
-        "average_midpoint": 0.6864451633968379,
-        "average_upper": 0.8820760968774213
+        "average_midpoint": 0.6864451633968377,
+        "average_upper": 0.8820760968774212
       }
     ]
   },
@@ -1181,11 +1181,11 @@
     {
       "submitted_at": "2025-10-10T07:41:02.402+00:00",
       "summary": {
-        "p10": 0.00006336329343828231,
+        "p10": 6.336329343828231e-05,
         "p90": 0.004292428295709909,
         "lower": 0,
         "upper": 0.013196249999999998,
-        "midpoint": 0.00007500000000000001
+        "midpoint": 7.500000000000001e-05
       },
       "factors": [
         {
@@ -1433,7 +1433,7 @@
     {
       "submitted_at": "2025-10-18T17:03:27.588+00:00",
       "summary": {
-        "p10": 0.000009603227195344485,
+        "p10": 9.603227195344485e-06,
         "p90": 0.000650552739711647,
         "lower": 0,
         "upper": 0.002,
@@ -10731,7 +10731,7 @@
       "summary": {
         "p10": 0.051396028857536365,
         "p90": 0.5518739404570588,
-        "lower": 0.000006916336271188377,
+        "lower": 6.916336271188377e-06,
         "upper": 1,
         "midpoint": 0.8652084949132707
       },
@@ -18688,7 +18688,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:EwZJtTCltyhd7oGau8qy1yVjy7kc9PksIYNiVED6saJ2XsoOgRFXuabWnFSd-vB4bHHaRkbnCbYHefSwFCRrfA|n=1|t=2026-09-12T22:44:10.267Z|m=0.19196803007596144|lo=0|hi=0.5351085846195153|p10=0.06766057107268544|p90=0.3141864556425686|f=0.9209844633548798:0.205,0.5021588946838712:0.12,0.4150834757677336:0.445|q=beginner|g=",
       "signature": "yKF04Kv-i04jgxtv_Zs2mBuxtBm4hgOyQjPaup79bOBBMbpTCECMQte7oFKI9i_ZJp-mZvbgfAVBNwIq2tHkdQ",
-      "page_version": "dc2029b59390277b0444857869f75f2655540ebe"
+      "page_version": "dc2029b59390277b0444857869f75f2655540ebe",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 47,
+        "midpoint": 71,
+        "applied_at": "2026-09-12T22:38:49.242Z",
+        "per_factor": 89.2
+      }
     },
     {
       "submitted_at": "2026-09-12T23:04:48.152+00:00",
@@ -18807,7 +18814,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:bD7NZD3R8Avnvr_ATYi9JQAEWZc12Zkp68_X0jdZyEFajgy-KTpYnvaFHBxJ3JVLhDu9htIH0QNFWoVm1EQMXg|n=1|t=2026-09-12T23:04:48.152Z|m=0.48558765599999987|lo=0.4581405359999998|hi=0.5137421759999998|p10=0.47179360858955527|p90=0.49858553689014123|f=0.7859999999999999:0,0.7859999999999999:0.015,0.7859999999999999:0.03|q=expert|g=30",
       "signature": "DTlZVUqS_LZutJ1TGQ2oTCp-JzBaMwEiCywpQk1yX59HOZSWVGvk-CIMQlq4sGujAHiCHme1iEPNl3ds8irL6Q",
-      "page_version": "b7f88fb0995f4337744559617863de363ef48280"
+      "page_version": "b7f88fb0995f4337744559617863de363ef48280",
+      "calibration": {
+        "flow": "expert",
+        "spread": 54.3,
+        "midpoint": 48.6,
+        "applied_at": "2026-09-12T23:01:03.352Z",
+        "per_factor": 78.6
+      }
     },
     {
       "submitted_at": "2026-09-13T10:06:59.968+00:00",
@@ -18896,7 +18910,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:1NTp2rdZWVmBU8GtF8IJCiyuCCTLVYDJTJVGmbuqpiYBnncrUQJ_NVW5CB2NXqpJTke82xgSdtqCNiHyYUCAoA|n=1|t=2026-09-13T10:06:59.968Z|m=0.2634315653088461|lo=0|hi=0.8337216758058432|p10=0.04827007594977405|p90=0.40469815441746615|f=0.6787216758058432:0.155,0.623:0.4,0.623:1|q=medium|g=",
       "signature": "qynbA7Udjv-un4TRD4l1TdJxMzKzbCgvrk-7BC1Jvp8J-3zF8bSvNuP2jDz32qaZrY7E_Kt_wakKiSAIXmnKKQ",
-      "page_version": "5f2a9bb8d7ee3899cf954526e9b9973c7df2f095"
+      "page_version": "5f2a9bb8d7ee3899cf954526e9b9973c7df2f095",
+      "calibration": {
+        "flow": "medium",
+        "spread": 36.1,
+        "midpoint": 24.2,
+        "applied_at": "2026-09-13T10:05:09.642Z",
+        "per_factor": 62.3
+      }
     },
     {
       "submitted_at": "2026-09-13T14:12:45.736+00:00",
@@ -18983,7 +19004,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:XjSTko5pI0YW8I56iV3yXp0POhkJEzfl5CkbUMJKAjR-83dho3YsAO15fLPShVNx4Stskpy9MuXuXDhAiM1BkA|n=1|t=2026-09-13T14:12:45.736Z|m=0.6884653869999999|lo=0.04324355099999997|hi=1|p10=0.17625443417564426|p90=0.6442645428770907|f=0.883:0.532,0.883:0.532,0.883:0.532|q=beginner|g=",
       "signature": "1ex-lZnxiAhOMocry2TfIpHBAj-t3Gi2ioZSoycq_OE2Iir69hWIdaWE3yHbB3ZC9tKlE44zUIqgtyq3esMuKg",
-      "page_version": "5f2a9bb8d7ee3899cf954526e9b9973c7df2f095"
+      "page_version": "5f2a9bb8d7ee3899cf954526e9b9973c7df2f095",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 53.2,
+        "midpoint": 68.9,
+        "applied_at": "2026-09-13T14:11:23.236Z",
+        "per_factor": 88.3
+      }
     },
     {
       "submitted_at": "2026-09-14T04:42:34.27+00:00",
@@ -19107,7 +19135,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:Iq51xssXxj_eGqYX6JIi6vE1lSIPkNWahIkeG-HRQmfLjcB_TM-mBJKJTzR9f5kNSCLqVpiX8EOPYGWEXZnAWw|n=1|t=2026-09-14T04:42:34.270Z|m=0.3196084921421251|lo=0|hi=0.9992804123615343|p10=0.07351039903847194|p90=0.45971929895697816|f=0.8000864049809187:0.5,0.8000864049809187:0.5,0.4992804123615344:0.5|q=expert|g=30",
       "signature": "Df-XooO4K01WUkModCLEPxG81FYno6CE8zx9HsSsNOJMuQ7Sb8xkihP_QTWXXjChOsh6AH4liD2fgYuT0fptQQ",
-      "page_version": "215181a5e485ce35d0162cc7203d9d9c59196efb"
+      "page_version": "215181a5e485ce35d0162cc7203d9d9c59196efb",
+      "calibration": {
+        "flow": "expert",
+        "spread": 48,
+        "midpoint": 90.7,
+        "applied_at": "2026-09-14T04:40:34.755Z",
+        "per_factor": 96.8
+      }
     },
     {
       "submitted_at": "2026-09-14T10:54:09.878+00:00",
@@ -19212,7 +19247,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:NZFq6Y7qG3OGHjkzHFocgjgbH0jxB1QtMfQVq6QhhpEXhHW8lXIr-Aqs1Q-OrooxHcW1JT7HIkQ1Faj_OUAuHw|n=1|t=2026-09-14T10:54:09.878Z|m=0.7660608750000001|lo=0.7289100000000001|hi=0.804264|p10=0.749601468694758|p90=0.7815629578982793|f=0.915:0.005,0.915:0.015,0.915:0.025|q=beginner|g=",
       "signature": "dc5rqEpPQl97Ua8zA6QNA4xsKityBJmn4K-oZRidSmRlq8ZZ9M6srqRTZ3WcKQoe3UcgmB_MMS-5qRm7A6ujVw",
-      "page_version": "215181a5e485ce35d0162cc7203d9d9c59196efb"
+      "page_version": "215181a5e485ce35d0162cc7203d9d9c59196efb",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 30,
+        "midpoint": 76.7,
+        "applied_at": "2026-09-14T10:48:59.930Z",
+        "per_factor": 91.5
+      }
     },
     {
       "submitted_at": "2026-09-14T18:45:10.119+00:00",
@@ -19317,7 +19359,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:jke4-TSWKCKmunhR-pQ-XjS6O_NdADTA9UVsFtMRqf8mD4HwKVc4TMV4lMNs9HcoJ-VCt0uDrnF8s0psVUDmeQ|n=1|t=2026-09-14T18:45:10.119Z|m=0.32232952658284564|lo=0.09245824414533788|hi=0.37350516470867917|p10=0.14980781506454788|p90=0.335891882035035|f=0.9129999999999999:0.635,0.6820258779181602:0,0.5176407520617539:0.03|q=beginner|g=",
       "signature": "JmlIweTegTXMyCkvd8OxW1rd5CismogkeordKLxOuoOQkAHiDZTVTK-z3jgLei3AmlV9Vckp2-Co3Z4mibjuMQ",
-      "page_version": "215181a5e485ce35d0162cc7203d9d9c59196efb"
+      "page_version": "215181a5e485ce35d0162cc7203d9d9c59196efb",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 31.7,
+        "midpoint": 76.1,
+        "applied_at": "2026-09-14T18:43:36.021Z",
+        "per_factor": 91.3
+      }
     },
     {
       "submitted_at": "2026-09-14T18:45:56.906+00:00",
@@ -19422,7 +19471,14 @@
       "submit_count": 2,
       "signed_payload": "pdoom/1|k=p256:jke4-TSWKCKmunhR-pQ-XjS6O_NdADTA9UVsFtMRqf8mD4HwKVc4TMV4lMNs9HcoJ-VCt0uDrnF8s0psVUDmeQ|n=2|t=2026-09-14T18:45:56.906Z|m=0.32232952658284564|lo=0|hi=1|p10=0.014829618252187244|p90=0.41175227184732016|f=0.9129999999999999:1,0.6820258779181602:1,0.5176407520617539:1|q=beginner|g=",
       "signature": "a_iN4JShYBVX1myjFcjVIqeb_Lmg-LJz1hu3ygNFPDTj1ALsbBVknTiYGeSqBFxJhSUYVwdlCkhLvUygMbcUtw",
-      "page_version": "215181a5e485ce35d0162cc7203d9d9c59196efb"
+      "page_version": "215181a5e485ce35d0162cc7203d9d9c59196efb",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 31.7,
+        "midpoint": 76.1,
+        "applied_at": "2026-09-14T18:43:36.021Z",
+        "per_factor": 91.3
+      }
     },
     {
       "submitted_at": "2026-09-15T02:36:38.321+00:00",
@@ -19504,7 +19560,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:eaeAdbj2YrUKZf6zh5f7sISMXGY_WSyNqB1Xq1t8CdNzd-sIpR2P6X9AJgsqQab_b3VXBeDiLU39MXoM3WKXqA|n=1|t=2026-09-15T02:36:38.321Z|m=0.1464200242418435|lo=0|hi=1|p10=0.015336374989153322|p90=0.37195107489995305|f=0.25898272022892255:0.865,0.8244865043867045:0.58,0.6857189239483289:0.885|q=beginner|g=",
       "signature": "TIfVKb3cCHHqLe9lvbyOfqp-9ePaQUwg7ySeJNLxxlbEfNBtvQqjO4dlm7gyA0nLvm1aZEEha02enI6cr0hCQA",
-      "page_version": "5100d1b58d2d6b46cc2636d3d8651689983eefb1"
+      "page_version": "5100d1b58d2d6b46cc2636d3d8651689983eefb1",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 49.2,
+        "midpoint": 70.3,
+        "applied_at": "2026-09-15T02:35:21.755Z",
+        "per_factor": 88.9
+      }
     },
     {
       "submitted_at": "2026-09-15T03:52:40.548+00:00",
@@ -19626,7 +19689,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:qUiridRhO8MCB_QGhOGyXXTDYnvfQJNm9mrFi9wmbbHji4aaICCVBxuHPumEnnt1mD42JY31ZLQGmih1kix33Q|n=1|t=2026-09-15T03:52:40.548Z|m=0.716917375|lo=0|hi=1|p10=0.10308052700678069|p90=0.6261472281079219|f=0.895:1,0.895:0.595,0.895:0.4|q=expert|g=26",
       "signature": "KWF5ACQ7cwnjYJ-WeUFIS3ga7IeFzzMBE5jJFALox-KM_KVtfS9NIGh7T5fx7MlwfHgTHlbuA1tKXQhscs0qhQ",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 45.1,
+        "midpoint": 71.6,
+        "applied_at": "2026-09-15T03:51:10.797Z",
+        "per_factor": 89.5
+      }
     },
     {
       "submitted_at": "2026-09-15T17:37:07.057+00:00",
@@ -19710,7 +19780,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:3oVTkhWTS8h457OtTYgYp4SBq6sT7SjmY5iBJXcToMVQjCD_Fgsi-qGMv44gsYkGxBNXSn8-pecYP2mvrLMaKA|n=1|t=2026-09-15T17:37:07.057Z|m=0.767641134600713|lo=0.020490085788301256|hi=1|p10=0.12611646950036243|p90=0.6380697048700078|f=0.9080385339637064:0.69,0.9080385339637064:0.69,0.9309999999999999:0.5|q=medium|g=",
       "signature": "f6KS5eBdS6GhxHnfvAfaj67346WubF0ULPnXUZr3CvVCvWEMlZY3LY-66u42RUyQXLptN7b1AVRIAv4ZVOJnGg",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 42.3,
+        "midpoint": 80.8,
+        "applied_at": "2026-09-15T17:34:22.618Z",
+        "per_factor": 93.1
+      }
     },
     {
       "submitted_at": "2026-09-15T19:19:24.246+00:00",
@@ -19797,7 +19874,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:sOviFe-fxMoNfo1olETFPDCk_Evw6z8Mic7-K6wZG-1nRNtopYksLqtzvFN1LmTiFaf_oBwjjr7O3p16a_1JxQ|n=1|t=2026-09-15T19:19:24.246Z|m=0.6449725440000003|lo=0.08206598400000004|hi=0.8740000000000001|p10=0.21377323546027013|p90=0.6779877104555025|f=0.8640000000000001:0.01,0.8640000000000001:0.5,0.8640000000000001:0.6|q=medium|g=",
       "signature": "xX4SdRYDHreAKBYkM64RXJa6pe8dtuZb9gCAiR4pNw6vqZi0ywTj4ICfXlBDty4w6QJuGLENlWAbKeo3Zhc_6Q",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 51.8,
+        "midpoint": 64.6,
+        "applied_at": "2026-09-15T19:16:47.977Z",
+        "per_factor": 86.4
+      }
     },
     {
       "submitted_at": "2026-09-15T19:39:22.003+00:00",
@@ -19915,7 +19999,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:8bZY79zTsoEh8mkKF6-J9ciUgbpR77VDqMnHlZqWH7z1y6uW578HfyiPPTuyNg0w2a5yYYCvQBrvOIxLyp-eLw|n=1|t=2026-09-15T19:39:22.003Z|m=0.05614505901525942|lo=0|hi=0.3321354088576234|p10=0.01156787591906319|p90=0.1291094289635817|f=0.4172965277005035:0.26,0.8135292453125434:0.375,0.16538404195760426:0.325|q=expert|g=28",
       "signature": "P5GDS53XB_x14ZWaTrggHngU_zV-iGP7tL1ow3Bmn3te8VwZPSUE21fCLOM4vE-Bp5hjZrzZMc-AO2DBb9WSjA",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 54.7,
+        "midpoint": 8.4,
+        "applied_at": "2026-09-15T19:37:07.715Z",
+        "per_factor": 43.8
+      }
     },
     {
       "submitted_at": "2026-09-15T21:24:55.993+00:00",
@@ -20040,7 +20131,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:46yF0-VsoVSVhZjrx2P68CmzfiP5P9-Em8bFD3BXGobLkEV0rTtwmi6QeE_0I-Qcu7DRheRH8uiWMHxo_eicdw|n=1|t=2026-09-15T21:24:55.993Z|m=0.733870808|lo=0|hi=0.974144|p10=0.19033023970378604|p90=0.7564738048333348|f=0.902:0.08,0.902:0.09,0.902:1|q=expert|g=30",
       "signature": "0tQn9BBLQBnOOYsjRPbk6lY0c6VKSLH8EEN1TXiFGKOwI7vjShn5SAo91UD3dKcT6FlBkuqEqYjw0NjHD7vmmg",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 40,
+        "midpoint": 73.3,
+        "applied_at": "2026-09-15T21:24:14.387Z",
+        "per_factor": 90.2
+      }
     },
     {
       "submitted_at": "2026-09-15T23:24:52+00:00",
@@ -20129,7 +20227,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:SC9GiI7CzBSaXSidOhraX6KlPzojfUS1WgJQ_Lt-7XfRKO63Yt6r1UJ1ySJsItVa_Ifu_b0XzUs4KP2_b68eYA|n=1|t=2026-09-15T23:24:52.000Z|m=0.994011992|lo=0.7997912119999999|hi=0.996004|p10=0.8342191215407311|p90=0.9834810159369088|f=0.998:0,0.998:0.195,0.998:0|q=medium|g=",
       "signature": "KLI8-IM8oRZnaYtZhhoNzksj0C2cO6raJbeEAmMkxGWR8yZfCgx3tj18-onsCQU67NZ3Nr_m3SJ5krjVDkWd-w",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 22.5,
+        "midpoint": 99.4,
+        "applied_at": "2026-09-15T23:24:11.903Z",
+        "per_factor": 99.8
+      }
     },
     {
       "submitted_at": "2026-09-15T23:25:48.028+00:00",
@@ -20218,7 +20323,14 @@
       "submit_count": 2,
       "signed_payload": "pdoom/1|k=p256:SC9GiI7CzBSaXSidOhraX6KlPzojfUS1WgJQ_Lt-7XfRKO63Yt6r1UJ1ySJsItVa_Ifu_b0XzUs4KP2_b68eYA|n=2|t=2026-09-15T23:25:48.028Z|m=0.994011992|lo=0.500990012|hi=0.996004|p10=0.5868709354842595|p90=0.9652524337267644|f=0.998:0,0.998:0.495,0.998:0|q=medium|g=",
       "signature": "EMm3m6nxRqt2AqvG2h0fOmEq2faHoj_7cb_Kr5ecjR4MoVtOrQJN06EZAm0cb1KGfFVfYoJ03clz6V8ew4HXrg",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 22.5,
+        "midpoint": 99.4,
+        "applied_at": "2026-09-15T23:24:11.903Z",
+        "per_factor": 99.8
+      }
     },
     {
       "submitted_at": "2026-09-15T23:30:30.981+00:00",
@@ -20345,7 +20457,14 @@
       "submit_count": 3,
       "signed_payload": "pdoom/1|k=p256:SC9GiI7CzBSaXSidOhraX6KlPzojfUS1WgJQ_Lt-7XfRKO63Yt6r1UJ1ySJsItVa_Ifu_b0XzUs4KP2_b68eYA|n=3|t=2026-09-15T23:30:30.981Z|m=0.9411919999999999|lo=0.44687999999999994|hi=0.98|p10=0.5538932100017854|p90=0.9246985865171249|f=0.98:0.03,0.98:0.5,0.98:0|q=expert|g=28",
       "signature": "WhmwxNYmYtAxdbGGHneLN8qa__TsETRx7m5assRoy9q4_lnbJ1krNT7PkC7mFw6c1BqTOqQpXyVDc0L5p5OiDw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 37.4,
+        "midpoint": 94.2,
+        "applied_at": "2026-09-15T23:29:40.345Z",
+        "per_factor": 98
+      }
     },
     {
       "submitted_at": "2026-09-16T01:26:51.781+00:00",
@@ -20419,7 +20538,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:holYeF2YpgaY0KyZrkSDRljhBITxQC8_PqeOgm6_4pEE0206FwtPSQpYbjIFvQ_8WN9yknOjLvrei5D80FsJ-g|n=1|t=2026-09-16T01:26:51.781Z|m=0.15188467834061528|lo=0|hi=0.597504047854637|p10=0.021234881661910864|p90=0.22926507515539546|f=1:0.71,0.5020913915624718:0.505,0.302504047854637:0.295|q=beginner|g=",
       "signature": "LzV3j6UdxpPnnEjjox7gj5uCdntOZZauP_QboH9BaKyNPPUMREc5xIwW5I-ys-qODxyUHshGRTMlxCmEeWzSDQ",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 69.7,
+        "midpoint": 43.4,
+        "applied_at": "2026-09-16T01:25:42.268Z",
+        "per_factor": 75.7
+      }
     },
     {
       "submitted_at": "2026-09-16T03:39:45.727+00:00",
@@ -20510,7 +20636,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:qF63U97pUzr1D0TdS0DcMcIz2DTCD0QTOqnCZ23IPV1wvTS-hi_wg26W8wE2rLDZwNnOJkhdL-9fi5B0vU-rlA|n=1|t=2026-09-16T03:39:45.727Z|m=1|lo=1|hi=1|p10=1|p90=1|f=1:0,1:0,1:0|q=medium|g=",
       "signature": "_qP9-8ABdObP3LVI-Ictbd5Mu1_TA6R8a1ZS8Hu5-w8P4vttfEltyHUiGgCgUN3mVeJVamZKZcuv_IiJeHG17A",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 46.8,
+        "midpoint": 79.7,
+        "applied_at": "2026-09-16T03:38:38.329Z",
+        "per_factor": 92.7
+      }
     },
     {
       "submitted_at": "2026-09-16T04:01:17.359+00:00",
@@ -20595,7 +20728,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:hQARoXhZqHPxRjDv_hIy2wysp16ouy-pgOkT_n79-vsykJuXzOdc6liyqJntRs-rCiYdA0ojOOFfBancIQ13LQ|n=1|t=2026-09-16T04:01:17.359Z|m=0.34006839199999994|lo=0|hi=0.998|p10=0.0825458223763664|p90=0.4753764337780425|f=0.698:0.855,0.698:0.305,0.698:0.3|q=medium|g=",
       "signature": "UDSD_MUyiDiH1-eQtEb22hmxnf1IrMYByldGwpEVyzUNWl-OGjoSxrYz7UpxX29w5aNJSkoEA_xXiCa6oMbyXw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 54.3,
+        "midpoint": 34,
+        "applied_at": "2026-09-16T03:58:46.903Z",
+        "per_factor": 69.8
+      }
     },
     {
       "submitted_at": "2026-09-16T04:17:28.1+00:00",
@@ -20717,7 +20857,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:qoSHLY31i8yCeefAhpuNf6teMHi3hXYj8knhWJwcHk0PHc4Mn05zRnIhoA_ErH6P7dcHPqEfW0VgBa75mMtrdQ|n=1|t=2026-09-16T04:17:28.100Z|m=0.7025953690000001|lo=0|hi=1|p10=0.029926850180165075|p90=0.508828945342156|f=0.889:0.9,0.889:1,0.889:1|q=expert|g=29",
       "signature": "KSeWvlsdB9a24wLti0EA6ovxdeURNSlutFRlSIii7EIoPP6NCvcfIedEgu9ctRsjcaK26DUd-mAQEK8biC67Pw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 49.3,
+        "midpoint": 70.2,
+        "applied_at": "2026-09-16T04:16:21.158Z",
+        "per_factor": 88.9
+      }
     },
     {
       "submitted_at": "2026-09-16T10:28:26.966+00:00",
@@ -20808,14 +20955,21 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:4wTW8cI1UtQqRKwj2Q89tIVdaGkvXa2kqZTP202Q0OSfWiKQmklx5e_Hdrezdnm6nso_fFOemY8jug5mI-CQrw|n=1|t=2026-09-16T10:28:26.966Z|m=0.9527639040000003|lo=0.09295367400000003|hi=1|p10=0.2594429740580931|p90=0.7534964926798766|f=0.9840000000000001:0.335,0.9840000000000001:0.765,0.9840000000000001:0.33|q=medium|g=",
       "signature": "Dv0mcvTcz_z8BdQS16Hq2wBOu4CLasjgROUVsyQe5ofAq3n0VSuRFr-TUQyPqe_vZi3k2ojg4M4W_f757WC0uw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 40.2,
+        "midpoint": 95.3,
+        "applied_at": "2026-09-16T10:26:40.597Z",
+        "per_factor": 98.4
+      }
     },
     {
       "submitted_at": "2026-09-16T13:11:09.602+00:00",
       "summary": {
         "p10": 0.02043530023927357,
         "p90": 0.18021632115944333,
-        "lower": 0.000018753073643116912,
+        "lower": 1.8753073643116912e-05,
         "upper": 0.4902923450571197,
         "midpoint": 0.09476827883554971
       },
@@ -20904,7 +21058,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:mz0u-7NpmQ6pxwR9A1W7nBTEcjSnN2f4dS5wQpaJMpJFN4xo3adj2WbgWPjC1tm9_GLDTkkbs6lPXA6PG1YP4Q|n=1|t=2026-09-16T13:11:09.602Z|m=0.09476827883554971|lo=0.000018753073643116912|hi=0.4902923450571197|p10=0.02043530023927357|p90=0.18021632115944333|f=0.2502923450571197:0.24,0.7497076549428803:0.38799999999999996,0.5050373302149861:0.5|q=beginner|g=",
       "signature": "tvVcypm83WVMrPYVFQ7av1PnCeBHojhaAa4aYTeIHZAvIbofzRAJTshYnoNoCl0drNwEgx_QjccGVVCSvhNRBQ",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 38.8,
+        "midpoint": 73.7,
+        "applied_at": "2026-09-16T13:09:39.376Z",
+        "per_factor": 90.3
+      }
     },
     {
       "submitted_at": "2026-09-16T19:04:49.762+00:00",
@@ -21010,7 +21171,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:1C3gcnJvMJvHs-l_SIgOSosCByT4ylcfq3R4Dr5Y9mhMRHVUuhDy5J0Kai3H3COesn_5__ghU8H8qw1Dariaig|n=1|t=2026-09-16T19:04:49.762Z|m=0.5759303680000002|lo=0.20757900800000004|hi=0.8320000000000001|p10=0.35017477427918114|p90=0.6659032169014987|f=0.8320000000000001:0.33,0.8320000000000001:0.335,0.8320000000000001:0|q=beginner|g=",
       "signature": "WEVwOOaNjjoHJqx0mbdNWWWXiTXq--vKd3UBAIlYBBhrvWeIeUT4Jklr3kCNV5f6dQMYxDGlEI_Oh_RBB-bMfg",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 27.3,
+        "midpoint": 57.6,
+        "applied_at": "2026-09-16T19:02:27.597Z",
+        "per_factor": 83.2
+      }
     },
     {
       "submitted_at": "2026-09-16T20:05:26.889+00:00",
@@ -21137,7 +21305,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:cC5ulsHTo0AiDc78tHUtjDYaOl99wKzlz8-AwEY4gUbarCeEaXPc7jWs6JAGSxhdIbHhI8AP48aCSCt7kGmCOA|n=1|t=2026-09-16T20:05:26.889Z|m=0|lo=0|hi=0.08975204852451321|p10=0.000978098198039002|p90=0.032924928702197785|f=0.9951907232405687:0.2,0.2180163881961057:0.5,0:0.125|q=expert|g=30",
       "signature": "EwuGhuGF0JJJnX-j3Kf0YqrAm5yXY2_wsrDMlL3UcIV5vaHv0nx9kt_eiUxWLNz0d2fcLY7N_G9CYKC-HECWWQ",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 41,
+        "midpoint": 53,
+        "applied_at": "2026-09-16T20:04:23.500Z",
+        "per_factor": 80.9
+      }
     },
     {
       "submitted_at": "2026-09-16T20:45:27.556+00:00",
@@ -21259,7 +21434,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:IsY0LUzzqDq0uVU45Yd_eT5yBmSqIz306vaqe7h39WZp7fMFQQ6lL7H_bZttnz0VcJZ11AmJjhZpDjh36NRVpg|n=1|t=2026-09-16T20:45:27.556Z|m=0.37697695664459824|lo=0|hi=1|p10=0.11160905510331053|p90=0.5923400711968162|f=1:0,0.7473349151214809:0.505,0.5044284015330929:0.505|q=expert|g=30",
       "signature": "Ce9a-mBTclcRGW3RmMMW-yuM5djOSMeqbdZHcu6DT67RXWk7LEOHeUvG0qsjVNu5u1Ut2G7kCgUgPYsrPgS_RA",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 48.6,
+        "midpoint": 70.5,
+        "applied_at": "2026-09-16T20:41:25.526Z",
+        "per_factor": 89
+      }
     },
     {
       "submitted_at": "2026-09-16T21:06:24.16+00:00",
@@ -21369,7 +21551,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:SG-1Vf820fHfFGB48OiwAeiaxRt0WOlknJZUM06n1ihmLu7XKUrZX-ciJ2O5jF4gtRDOsD-50OKrxOu90W12vw|n=1|t=2026-09-16T21:06:24.160Z|m=0.381078125|lo=0|hi=1|p10=0.0622335739095142|p90=0.49900877303221264|f=0.725:0.45,0.725:0.4,0.725:1|q=beginner|g=",
       "signature": "lp6p7nW6KUvPOZSYIoNtIwkWh9O3Ex9vI87RneNs4VCZj0sLFqc-lQnwrIAyn712F-xHd0teBghF4GkwOquWxQ",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 25.7,
+        "midpoint": 38.1,
+        "applied_at": "2026-09-16T21:05:30.234Z",
+        "per_factor": 72.5
+      }
     },
     {
       "submitted_at": "2026-09-16T22:07:16.282+00:00",
@@ -21460,7 +21649,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:6KJE939WMuyO1Y18qSzdJ5g1UbZk-ASd_Pwg67DCNhkRP5pTN5vYMe930ZK2FUxan8t44EY7HXSj1X8nj-ksHg|n=1|t=2026-09-16T22:07:16.282Z|m=0.30969793728003747|lo=0|hi=0.4900089985048652|p10=0.08544499761315277|p90=0.36187831497520745|f=0.4900089985048652:0,0.795:0.88,0.795:0.215|q=beginner|g=",
       "signature": "euTCSuWSxdXqoJfNJMEOSaMJshh_NaLmsOqv-yqXMYO0bdTJdDZZUjpkKJs_U5xHhVay0tfEbbE7YYQLasY-EQ",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 49.5,
+        "midpoint": 50.2,
+        "applied_at": "2026-09-16T22:06:22.683Z",
+        "per_factor": 79.5
+      }
     },
     {
       "submitted_at": "2026-09-16T22:12:54.149+00:00",
@@ -21551,7 +21747,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:72NICFleildgOLJFdxPOE6IJ-KtjpdgENGQMJGVnHhhSB-iXO6eq0zHrOCa4hhVYZ8-JlZHtLqjtQBOJHrkSNw|n=1|t=2026-09-16T22:12:54.149Z|m=0.0316060582913374|lo=0|hi=0.16666118022224916|p10=0.006622597170701889|p90=0.06732630533202351|f=0.7804867670836525:0.135,0.24946813037188323:0.26,0.16232661050123393:0.195|q=medium|g=",
       "signature": "kwoF4SXqZZrzD6bZVue9XFjf7AjYkS5hG3Vl6cnTMQZR_hlwMaECb8uEbJZoKmyx5A6LxsqovuFDwvDTJijPTw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 33.4,
+        "midpoint": 82.9,
+        "applied_at": "2026-09-16T22:11:44.276Z",
+        "per_factor": 93.9
+      }
     },
     {
       "submitted_at": "2026-09-16T23:23:34.528+00:00",
@@ -21654,7 +21857,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:m3s93CjqJtU0Ol6_6fVPaHZakLM4Rezfq9RKJ73fCDWogJTOvQCdwl27ECgrMudT-8islvr8VChTXwdaME3LJg|n=1|t=2026-09-16T23:23:34.528Z|m=0.994011992|lo=0.47624959199999994|hi=0.998|p10=0.6036330135674347|p90=0.9159414319815952|f=0.998:0.4,0.998:0.2,0.998:0|q=medium|g=22",
       "signature": "Bkf9VWrpRTDr1qE_h3IGuGTcfmlNMfMyeo-FXbqIFXjujikfMuYgWM02-AIsp77UwiOK6b2WT-UqHDLxFCaRlA",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 22.5,
+        "midpoint": 99.4,
+        "applied_at": "2026-09-16T23:23:02.556Z",
+        "per_factor": 99.8
+      }
     },
     {
       "submitted_at": "2026-09-16T23:38:28.193+00:00",
@@ -21776,7 +21986,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:K8ef80UeEEPyqlJ4xJe7tzM3bd9AraKuGquw9izk2zI5rEi0HVvY36_2Yr54GcAXPtKX5kJFuoMheLvPSvKEYA|n=1|t=2026-09-16T23:38:28.193Z|m=0.8216172954018942|lo=0.03995533081141313|hi=1|p10=0.16306348708008284|p90=0.657199404605946|f=0.8678484501920763:0.5,0.973:0.56,0.973:0.71|q=expert|g=29",
       "signature": "KW1vOxVnrfXmRUOGY2oaYoWUVjmXZ7RdpKMDckhq2H3F9D03hF9mbwrGivaiZH6lZza-7eZ97An0OiDGtAhQAw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 43.4,
+        "midpoint": 92.2,
+        "applied_at": "2026-09-16T23:37:48.567Z",
+        "per_factor": 97.3
+      }
     },
     {
       "submitted_at": "2026-09-17T03:36:00.623+00:00",
@@ -21894,7 +22111,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:QgSoGjn2ktUkvJuLco1mZFRqAL4L2fNGOCFAvdau9agHxwgf6Ic4wwHTfHVN_ciOtopGEgJrVFLP-kxp6CpQVQ|n=1|t=2026-09-17T03:36:00.623Z|m=0.1386521161547723|lo=0|hi=1|p10=0.014895667331468573|p90=0.34011414205349105|f=1:0.6729999999999999,0.4986384137520211:0.6729999999999999,0.27806144157944007:0.75|q=expert|g=26",
       "signature": "lng3ufOZJN_MdrVYeXPTTnWDTEsDsGnIN5SmKpmSchu7ZeYc143lGPTWGfRaWtjXNeVfHmzs84NrPVMppg7dGw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 67.3,
+        "midpoint": 64.2,
+        "applied_at": "2026-09-17T03:34:18.957Z",
+        "per_factor": 86.3
+      }
     },
     {
       "submitted_at": "2026-09-17T06:45:55.678+00:00",
@@ -21977,7 +22201,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:Gh6imZxeA66pi5uQbG9Zoz8kJu3tB0f9DTmL2TLijzC3a39uANDwanNiyrU8a6ObfQwJVu3uT9M1oo3KQaU3zA|n=1|t=2026-09-17T06:45:55.678Z|m=0.8043570000000001|lo=0.02734875|hi=1|p10=0.15879406456737266|p90=0.6688220687147869|f=0.93:0.435,0.93:0.505,0.93:0.8|q=medium|g=",
       "signature": "OwAiMK96SJf4TdjiiBTWevS4wHa5lU70pLoXNzn46d9NSqP1YJXe84GZvAk3FvfrkonbsQbWmZcO7rZj6juP9Q",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 43.4,
+        "midpoint": 80.5,
+        "applied_at": "2026-09-17T06:44:00.276Z",
+        "per_factor": 93
+      }
     },
     {
       "submitted_at": "2026-09-17T10:25:32.394+00:00",
@@ -22063,7 +22294,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:7IGkltFBDuCGXJuPUHKr-nIlqVTxj-ebM_H39sJW12lsBd8HlK8d7iht0f3n9nXgx8mfainIgsOeXVeOpSyKcQ|n=1|t=2026-09-17T10:25:32.394Z|m=0.6272220159999999|lo=0.09107049599999996|hi=1|p10=0.2512234820167642|p90=0.6816634033181131|f=0.856:0.5,0.856:0.4,0.856:0.295|q=medium|g=",
       "signature": "x5CCzb0_Dqdjzq8WUpfCtBq3BT-TSqnmQblhRXnzGTgH1aBNuu8zK7Tc08TRO7PZBvfq175tcczN7FkYAp9kvw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 59.6,
+        "midpoint": 62.7,
+        "applied_at": "2026-09-17T10:24:36.771Z",
+        "per_factor": 85.6
+      }
     },
     {
       "submitted_at": "2026-09-17T19:08:08.942+00:00",
@@ -22186,7 +22424,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:Ynrammh7CyZUR5eued489Feg_CdnLtMlAM4UY4D5dHGHYoAFXKzPhXQCp7aLwOFbDLcK2ZI0C97TxfmiOXMJ0A|n=1|t=2026-09-17T19:08:08.942Z|m=0.6487660969236575|lo=0.004403710701777338|hi=1|p10=0.12902278815874826|p90=0.6948873998015634|f=0.7823152326616342:0.755,0.8292898691444257:0.655,1:0.075|q=expert|g=27",
       "signature": "FNYhmNC3WOfL-Cv0g3mmScb_2eLZX_G50ew5zTlRzjDFzzArzK8XlS8fipHGTZ7X6ustAche4jetXy_Mu_6sqw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 48.3,
+        "midpoint": 30.6,
+        "applied_at": "2026-09-17T19:07:02.486Z",
+        "per_factor": 67.4
+      }
     },
     {
       "submitted_at": "2026-09-17T19:11:29.092+00:00",
@@ -22272,7 +22517,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:DVQaXW1wHJUVB64ERxfrmZDcISKBba7v7zeqpVTtTjgvOW8oerpP9Pm8vsizSva9oO4Enoc8x3okbxEVv4Xiog|n=1|t=2026-09-17T19:11:29.092Z|m=0.9070392319999999|lo=0.04162828799999998|hi=1|p10=0.17560250548523443|p90=0.6772058805738935|f=0.968:0.43,0.968:0.76,0.968:0.596|q=medium|g=",
       "signature": "rOag_d_-wTq11dSWfpKOFtmpNhw38bcstdd99pJCto8_l88w34Ywz-LBo9sUEzlytpWYUILZNSvyI_3LmD40yw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 59.6,
+        "midpoint": 90.7,
+        "applied_at": "2026-09-17T19:10:20.661Z",
+        "per_factor": 96.8
+      }
     },
     {
       "submitted_at": "2026-09-18T03:25:25.855+00:00",
@@ -22363,7 +22615,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:9XdzmCGqZHVfUfpy4pyjznf4Tw39vSU3PebImE_THMyfANzU-jgg8E_BlqzlHPik7Q13GKLSYbjZaVezmRrVMQ|n=1|t=2026-09-18T03:25:25.855Z|m=0.738763264|lo=0|hi=1|p10=0.034738869698585036|p90=0.5133132434910531|f=0.904:1,0.904:0.9,0.904:0.985|q=beginner|g=",
       "signature": "g5P1XrUw37ha18hrmfnckyc3v_iTDlPoyuEuVgn-CQVft8ghKSUqqWai8zoqkVJuvHLMrv4Od364vhBvc_830w",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "beginner",
+        "spread": 38.3,
+        "midpoint": 73.9,
+        "applied_at": "2026-09-18T03:24:22.954Z",
+        "per_factor": 90.4
+      }
     },
     {
       "submitted_at": "2026-09-18T05:05:40.184+00:00",
@@ -22450,7 +22709,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:NSjkV9xpt6s0-ZR6v37eEyGAs3E3B6iWZXVnyT_Tw6jUOQ288-vcxJmDNqG1ZPlqnCL6mZNezNQHMvreqShmDg|n=1|t=2026-09-18T05:05:40.184Z|m=0.9968132324888525|lo=0.12420415531306306|hi=1|p10=0.28521755822437406|p90=0.7360282195009555|f=0.9989366137735064:0.5,0.9989366137735064:0.5,0.9989366137735064:0.5|q=medium|g=",
       "signature": "Zmyq9JmA8wxFPMcKlvwC3uDZI_RLTP7rSi7x68AebPVCstONAPSFFLdZFGBmnyRQ6vrBZqToznyKmNzPwpaHhw",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 51.8,
+        "midpoint": 92.6,
+        "applied_at": "2026-09-18T04:57:45.005Z",
+        "per_factor": 97.5
+      }
     },
     {
       "submitted_at": "2026-09-18T15:16:45.377+00:00",
@@ -22538,7 +22804,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:tA9keguhKQx8Hq0L1JU7BRWjrjzaLDl5UXrwS9PepZzF-0n5dnAhJv9RDSifGpZCVLH6C4V2J6AsKTxnjCg6Qw|n=1|t=2026-09-18T15:16:45.377Z|m=0.9761914879999999|lo=0.0034903680000000032|hi=1|p10=0.08868179251229583|p90=0.6241731457770949|f=0.992:0.95,0.992:0.78,0.992:0.6|q=medium|g=",
       "signature": "DPxLhq4kD-VzMQaTnX24wTwBeRrhFkjVgjNGefy1iaF7Y7Pijc3lYvR0BOnoR7sFgWF6LBQnqvm9crgSRGoTpQ",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "medium",
+        "spread": 30.5,
+        "midpoint": 97.5,
+        "applied_at": "2026-09-18T15:14:51.931Z",
+        "per_factor": 99.2
+      }
     },
     {
       "submitted_at": "2026-09-19T13:25:06.131+00:00",
@@ -22654,7 +22927,14 @@
       "submit_count": 1,
       "signed_payload": "pdoom/1|k=p256:CM2Zzuq2fZjxQD4yzEU7kURKGyTSqeY0vt1-QwTuk50FaqiNc91926jHjxEBYgL6kerFJXBz7xAGRSw9xMmqlQ|n=1|t=2026-09-19T13:25:06.131Z|m=0.31411878001670046|lo=0|hi=1|p10=0.054298163232459534|p90=0.4698708645129832|f=0.950517758447052:0.4,0.5995397166167244:0.75,0.5512082493682923:0.49|q=expert|g=26",
       "signature": "mQtHI-CPbzQg1MCNE629NfpHP5F3o4IG61JxbKxksZIvwCKytcmKC_8ChNf2PhWGTgAKl2-O7L3zCsAE8fNKmA",
-      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699"
+      "page_version": "8e4ed0bad1cdba6294facbc40d2bffac47c46699",
+      "calibration": {
+        "flow": "expert",
+        "spread": 52.7,
+        "midpoint": 69.1,
+        "applied_at": "2026-09-19T13:23:54.411Z",
+        "per_factor": 88.4
+      }
     }
   ]
 }
