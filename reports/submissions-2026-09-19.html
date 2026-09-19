@@ -830,7 +830,8 @@ function eventLine(svg, x, MT, H, MB, label) {
 {
   const order = ['beginner', 'medium', 'expert', 'prelaunch'];
   const stages = ['powerful AI', 'dangerous | powerful', 'catastrophe | dangerous', 'p(doom)'];
-  const W = 560, H = 300, ML = 40, MR = 112, MT = 16, MB = 34;
+  // the right margin holds the series labels, which carry a name, a median and an n
+  const W = 620, H = 300, ML = 40, MR = 172, MT = 16, MB = 34;
   const X = i => ML + i / 3 * (W - ML - MR), Y = v => MT + (1 - v) * (H - MT - MB);
   const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-chain'));
   yGrid(svg, Y, ML, W, MR);
