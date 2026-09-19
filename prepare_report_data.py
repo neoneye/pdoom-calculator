@@ -1053,7 +1053,7 @@ def question_breakdown(submissions, index_html):
         return {"k": k, "m": round(s["summary"]["midpoint"], 4),
                 "p10": round(s["summary"]["p10"], 4), "p90": round(s["summary"]["p90"], 4),
                 "dup": bool(s.get("_dup")), "v": s.get("expert_verified"), "t": s["submitted_at"][:10],
-                "mv": s.get("_moved")}
+                "mv": s.get("_moved"), "gap": s.get("_gap")}
 
     out = []
     totals = {flow: {} for flow in QUIZ_LEVELS}  # id(s) -> [ticked, of]
