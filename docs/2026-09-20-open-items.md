@@ -31,6 +31,15 @@ were built to expose.
 - **Specified in:** [stats page: kept and moved](2026-09-13-stats-page-kept-and-moved.md).
 - **Cost:** JavaScript in `stats/index.html` only; the columns are already
   fetched. The classification rule is the one in `prepare_report_data.py`.
+- **Mocked, 20 September:** [mockups/stats-kept-moved.html](mockups/stats-kept-moved.html)
+  shows the three cards, a stacked histogram with a toggle between "whose
+  number it is" (set their own / kept / pre-quiz) and "which quiz"
+  (beginner / medium / expert / none), and the median table. The author's
+  verdict: the cards and the table are right; the stacked histogram is not.
+  Stacked bars do not read well as a histogram, and the stats page should not
+  overwhelm a visitor into leaving. Keep the histogram a single series, and
+  let the curious find the split in the reports. The mock is kept for the
+  cards, the sentence under them, and the table.
 
 ### 1.2 Record where each visitor came from
 
