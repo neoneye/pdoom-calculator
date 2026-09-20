@@ -3,7 +3,9 @@
 Interactive P(doom) calculator and stats pages.
 
 Terms used across the site and notes, such as what counts as an expert, are defined
-in [docs/definitions.md](docs/definitions.md).
+in [docs/definitions.md](docs/definitions.md). What the notes have recommended and
+nothing has acted on yet is kept, in order, in
+[docs/2026-09-20-open-items.md](docs/2026-09-20-open-items.md).
 
 ## Install the dependencies
 
