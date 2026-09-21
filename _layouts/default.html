@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  {% assign document_title = site.title %}
-  {% if page.title %}
-    {% assign document_title = page.title %}
-    {% if site.title and page.title != site.title %}
-      {% assign document_title = page.title | append: ' | ' | append: site.title %}
-    {% endif %}
-  {% endif %}
-  <title>{{ document_title | escape }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  {% assign meta_description = page.description | default: site.description %}
-  {% if meta_description %}
-    <meta name="description" content="{{ meta_description | escape }}" />
-  {% endif %}
+  {%- comment -%}
+    Title, description, canonical URL, Open Graph, Twitter card and JSON-LD, all
+    from the page's front matter and _config.yml. The home page keeps the bare
+    site title; every other page is "Page | P(doom) Calculator".
+  {%- endcomment -%}
+  {% seo %}
+  {% if page.sitemap == false %}<meta name="robots" content="noindex" />{% endif %}
+  <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml" />
+  <link rel="icon" href="{{ '/assets/img/favicon-32.png' | relative_url }}" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="{{ '/assets/img/apple-touch-icon.png' | relative_url }}" />
+  <meta name="theme-color" content="#faf9f6" />
   <link rel="stylesheet" href="{{ '/assets/css/tokens.css' | relative_url }}" />
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
   {% if page.extra_styles %}

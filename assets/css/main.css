@@ -1104,6 +1104,13 @@ input[type="range"]:active::-moz-range-thumb {
   text-decoration: underline;
 }
 
+.page-header__intro {
+  margin: 0.6rem auto 0;
+  max-width: 62ch;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
 .stats-page p.description {
   margin: 0 auto;
   max-width: 60ch;

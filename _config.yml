@@ -2,9 +2,51 @@ title: "P(doom) Calculator"
 description: "Estimate the probability that AI causes a global catastrophe, one link of the chain at a time."
 url: "https://neoneye.github.io"
 baseurl: "/pdoom-calculator"
+# jekyll-seo-tag appends this to the site title on the home page, so it is kept
+# short enough for a search result: "P(doom) Calculator | How likely is an AI catastrophe?"
+tagline: "How likely is an AI catastrophe?"
+lang: en
+author: Simon Strandgaard
+# Read by jekyll-seo-tag for the JSON-LD publisher logo and by the layout for the favicon.
+logo: /assets/img/apple-touch-icon.png
+github_username: neoneye
+
+# Both ship with the github-pages gem. seo-tag writes title, description, canonical,
+# Open Graph, Twitter card and JSON-LD from the front matter; sitemap writes
+# /sitemap.xml, which robots.txt points at.
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Source files that are not pages. The notes under docs/ stay published because
+# the reports link to them.
+exclude:
+  - README.md
+  - database.md
+  - prepare_report_data.py
+  - requirements.txt
+  - scripts/
+  - __pycache__/
+  - .venv/
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - vendor/
 
 defaults:
   - scope:
       path: ""
     values:
       layout: default
+      # The share image every page falls back to; a page can set its own.
+      image: /assets/img/og.png
+  # Working files that stay reachable by link but are neither listed in the
+  # sitemap nor indexed: the design plans and specs, and the mockups.
+  - scope:
+      path: "docs/superpowers"
+    values:
+      sitemap: false
+  - scope:
+      path: "docs/mockups"
+    values:
+      sitemap: false
