@@ -19,7 +19,7 @@ the report pages under ``reports/`` render from:
       "identity":  {"signed", "valid", "invalid", "unchecked", "unsigned", "visitors",
                     "repeat", "maxPerVisitor", "replays", "mismatched"},
       "gate":      {"attempted", "verified", "overrode", "accepted", "acceptedTo",
-                    "medianScore", "scores"},
+                    "medianScore", "scores", "scoresAccepted", "scoresOverrode"},
       "mediumQ":   [{"id", "label", "kind", "rho", "n", "rhoDedup", "nDedup"}, ...],
       "prompts":   [{"label", "n", "median", "values", "dups"}, ...],
       "mediumVuln":[{"known", "of", "m", "dup"}, ...],
@@ -115,7 +115,7 @@ TERM_ADDED = {
 # reported by the build and scored by date as a fallback.
 TERM_LIST_BY_VERSION = {v: "current" for v in (
     "d1ef5e3", "779da8b", "893e969", "1abbce5", "e3a2aa0", "dc2029b", "b7f88fb",
-    "5f2a9bb", "215181a", "5100d1b", "8e4ed0b",
+    "5f2a9bb", "215181a", "5100d1b", "8e4ed0b", "0653992", "3325850", "266e8c0",
 )}
 # name -> {"added": [ids not in that list], "retired": [(id, label, aiRelated)] present then}
 TERM_LIST_DIFFS = {"current": {"added": [], "retired": []}}
@@ -763,6 +763,9 @@ def gate_journeys(submissions):
     counts = Counter()
     rerouted_to = Counter()
     scores = []
+    # The scores of those who fell short, by what they did next, so the report can
+    # list each outcome's scores on its own row.
+    short_scores = {"overrode": [], "accepted": []}
     for s in submissions:
         if s.get("gate_score") is None:
             continue
@@ -772,8 +775,10 @@ def gate_journeys(submissions):
             counts["verified"] += 1
         elif taken == "expert":
             counts["overrode"] += 1
+            short_scores["overrode"].append(s["gate_score"])
         else:
             counts["accepted"] += 1
+            short_scores["accepted"].append(s["gate_score"])
             rerouted_to[taken or "none"] += 1
     attempted = sum(counts.values())
     return {
@@ -784,6 +789,8 @@ def gate_journeys(submissions):
         "acceptedTo": dict(rerouted_to),
         "medianScore": round(statistics.median(scores), 1) if scores else None,
         "scores": sorted(scores),
+        "scoresAccepted": sorted(short_scores["accepted"]),
+        "scoresOverrode": sorted(short_scores["overrode"]),
     }
 
 
