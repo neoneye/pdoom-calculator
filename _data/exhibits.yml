@@ -86,6 +86,37 @@
     with the zeta result, a proof is the kind of output that can be checked; most
     valuable work is not.
 
+- id: openai-math-catalogue
+  link: powerfulAi
+  title: Seven hundred manuscripts from three hours of compute apiece
+  date: 2026-10
+  what: >
+    OpenAI released 719 mathematical manuscripts in 372 families, produced by an
+    unreleased internal model that was set about 4,000 open problems after it
+    saturated their existing mathematics evaluations. Most results came from one
+    fixed procedure averaging three hours of ChatGPT Pro thinking compute each.
+    Families include the isomorphism of free group factors, Kaplansky's
+    direct-finiteness conjecture in characteristic two and the Mahler conjectures;
+    about 42% of top-line results are formalized in Lean.
+  source:
+    label: OpenAI, openai/math repository (README)
+    url: https://github.com/openai/math
+  source2:
+    label: OpenAI, Sharing AI progress in mathematics
+    url: https://openai.com/index/sharing-ai-progress-in-mathematics/
+  source3:
+    label: OpenAI, openai/math release history
+    url: https://github.com/openai/math/blob/main/history.md
+  limits: >
+    Self-selected and largely unrefereed: OpenAI decided which outputs were
+    significant and do not itemise failures among the 4,000 problems, and most
+    results are not formalized. A day after release they withdrew three
+    manuscripts, including one claiming the rational Hodge conjecture for products
+    of K3 surfaces, after a sign error broke a shared argument, and repaired
+    fourteen others. The most striking remaining claims, a zeta zero-free region
+    and the Hodge conjecture for CM abelian varieties, fall outside the fixed
+    procedure, and the zeta writeup was human-edited.
+
 # --------------------------------------------------------- dangerous behavior
 
 - id: openai-hugging-face-intrusion
