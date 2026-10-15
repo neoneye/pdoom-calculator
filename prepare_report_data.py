@@ -5,8 +5,9 @@ Reads the exported ``pdoom-submissions.json`` and emits the compact JSON blob
 the report pages under ``reports/`` render from:
 
     {
-      "rows":      [{"t", "m", "p10", "p90", "f", "fx": [pAI, pDB, pGC]}, ...],
+      "rows":      [{"t", "m", "p10", "p90", "f", "fx": [pAI, pDB, pGC], "dw"}, ...],
       "months":    [{"month", "n", "median", "p25", "p75"}, ...],
+      "monthsByLevel": [{"month", "all"|level: {"n", "median", "mean", "nMoved", "medianMoved"}}, ...],
       "titles":    [{"id", "label", "seen", "of"}, ...],
       "risks":     [{"id", "label", "seen", "of"}, ...],
       "flows":     {"before": [{"id", "label", "n"}, ...], "since": [...]},
@@ -116,6 +117,7 @@ TERM_ADDED = {
 TERM_LIST_BY_VERSION = {v: "current" for v in (
     "d1ef5e3", "779da8b", "893e969", "1abbce5", "e3a2aa0", "dc2029b", "b7f88fb",
     "5f2a9bb", "215181a", "5100d1b", "8e4ed0b", "0653992", "3325850", "266e8c0",
+    "784ada9", "e93a5e3",
 )}
 # name -> {"added": [ids not in that list], "retired": [(id, label, aiRelated)] present then}
 TERM_LIST_DIFFS = {"current": {"added": [], "retired": []}}
@@ -367,9 +369,20 @@ def load_rows(submissions):
             "cal": round(s["_cal"]["midpoint"] / 100, 4) if s.get("_cal") else None,
             "mv": s.get("_moved"),
             "gap": s.get("_gap"),
+            # Seconds between the quiz applying its proposal and the submit press, on
+            # rows that stored the proposal (since 12 Sep 2026); None otherwise.
+            "dw": dwell_seconds(s),
         })
     rows.sort(key=lambda r: r["t"])
     return rows
+
+
+def dwell_seconds(s):
+    """Time on the sliders: from the proposal being applied to the submission."""
+    cal = s.get("calibration")
+    if not isinstance(cal, dict) or not cal.get("applied_at"):
+        return None
+    return round((_parse_ts(s["submitted_at"]) - _parse_ts(cal["applied_at"])).total_seconds(), 1)
 
 
 def monthly_aggregates(rows):
@@ -393,6 +406,31 @@ def monthly_aggregates(rows):
             "p75": round(p75, 4),
         })
     return months
+
+
+def monthly_by_level(rows):
+    """Per month, the median p(doom) for every row and for each quiz level, pooled and
+    for movers alone. Movers are quiz rows whose midpoints left the proposal, with
+    identical repeat rows left out; pooled counts every row, as ``months`` does."""
+    by_month = {}
+    for r in rows:
+        by_month.setdefault(r["t"][:7], []).append(r)
+    out = []
+    for month in sorted(by_month):
+        entry = {"month": month}
+        for key in ("all",) + QUIZ_LEVELS:
+            rs = by_month[month] if key == "all" else [r for r in by_month[month] if r["f"] == key]
+            vals = [r["m"] for r in rs]
+            moved = [r["m"] for r in rs if r["mv"] is True and not r["rep"]]
+            entry[key] = {
+                "n": len(vals),
+                "median": round(statistics.median(vals), 4) if vals else None,
+                "mean": round(statistics.fmean(vals), 4) if vals else None,
+                "nMoved": len(moved),
+                "medianMoved": round(statistics.median(moved), 4) if moved else None,
+            }
+        out.append(entry)
+    return out
 
 
 def parse_options(index_html, question_id, next_question_id):
@@ -1244,6 +1282,32 @@ def print_summary(rows, out=sys.stderr):
         print(f"  r({key} vs final) = {r:.2f}", file=out)
 
 
+def print_level_month_summary(mbl, out=sys.stderr):
+    print("monthly median by level, pooled (movers, repeats excluded):", file=out)
+    fmt = lambda v: f"{v * 100:5.1f}" if v is not None else "    -"
+    for e in mbl:
+        cells = "  ".join(f"{k[:3]} {e[k]['n']:3d} {fmt(e[k]['median'])} ({e[k]['nMoved']:2d} {fmt(e[k]['medianMoved'])})"
+                          for k in ("all",) + QUIZ_LEVELS)
+        print(f"  {e['month']}  {cells}", file=out)
+
+
+def print_dwell_summary(rows, out=sys.stderr):
+    """Time on the sliders against keeping the proposal, in thirds by time."""
+    rs = sorted((r for r in rows if r["dw"] is not None and not r["rep"]), key=lambda r: r["dw"])
+    if not rs:
+        return
+    kept = [r["dw"] for r in rs if r["mv"] is False]
+    moved = [r["dw"] for r in rs if r["mv"] is True]
+    print(f"time on the sliders: {len(rs)} rows; median {statistics.median(kept):.0f}s kept (n={len(kept)}), "
+          f"{statistics.median(moved):.0f}s moved (n={len(moved)})", file=out)
+    n = len(rs)
+    for name, part in (("fastest third", rs[:n // 3]), ("middle third", rs[n // 3:2 * n // 3]), ("slowest third", rs[2 * n // 3:])):
+        k = sum(r["mv"] is False for r in part)
+        mv = [r["m"] for r in part if r["mv"] is True]
+        print(f"  {name:14s} {part[0]['dw']:4.0f}-{part[-1]['dw']:4.0f}s  n={len(part)}  kept {k} ({k / len(part):.0%})  "
+              f"median movers {statistics.median(mv) * 100:.0f}%", file=out)
+
+
 def print_film_summary(titles, beginners, out=sys.stderr):
     med = statistics.median
     if not beginners:
@@ -1411,6 +1475,7 @@ def main():
     data = {
         "rows": rows,
         "months": monthly_aggregates(rows),
+        "monthsByLevel": monthly_by_level(rows),
         "titles": titles,
         "risks": risks,
         "beginners": beginners,
@@ -1460,6 +1525,8 @@ def main():
 
     if not args.quiet:
         print_summary(rows)
+        print_level_month_summary(data["monthsByLevel"])
+        print_dwell_summary(rows)
         print_film_summary(titles, beginners)
         print_risk_summary(beginners)
         print_flow_summary(data["flows"], expert_q, experts)
