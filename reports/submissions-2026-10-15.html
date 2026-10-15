@@ -320,6 +320,14 @@
       </figure>
 
       <figure>
+        <h3>Every submission's p(doom), by quiz level</h3>
+        <p class="how">The stats page's histogram, the same twenty bands of five points over all 424 submissions, with each bar split by the quiz the visitor took. From the baseline up: beginner, medium, expert, and in grey the rows with no quiz, the 98 from before the level chooser existed and the six later ones without a level. Hover or tap a bar for its breakdown and for how many of its rows kept the quiz's proposal; with the chart focused, the arrow keys step through the bars.</p>
+        <div class="legend" id="legend-hist"></div>
+        <div class="plot"><div id="chart-hist"></div><div class="tooltip" id="tt-hist"></div></div>
+        <p class="finding"><span class="lead">The two spikes in the upper half are the page's proposal. The tallest bar, 0 to 5%, is not.</span>The 70–75% band holds 36 rows, 17 of them beginners, and 20 of the 36 kept the proposal: it is where the beginner quiz puts a visitor who ticks most of its boxes. The 95–100% band holds 28, 17 of them medium-quiz takers, and 15 of the 28 kept it. The 0–5% band is the tallest at 54 rows, and none of them kept a proposal: 22 are from before any quiz existed and the other 32 are quiz-takers who took the page's number down to near zero, 15 of them on the medium quiz. The 10–15% band is mostly the site's first months, 25 of its 36 rows. A single-colour histogram, as on the stats page, shows three peaks; split by level, each peak is a different population for a different reason.</p>
+      </figure>
+
+      <figure>
         <h3>Who says what: distribution by quiz level</h3>
         <p class="how">One mark per submission; the tall tick is the group median. An arrow pointing left is a visitor who moved the page's proposed number down, an arrow pointing right one who moved it up, and a round dot either kept the proposal or, in the bottom row, never had one. The expert rows are split three ways: the 22 who declared themselves experts before the check existed, the 74 who have passed it since, and the three who fell short of it and continued to the expert quiz anyway. Three marks do not make a median, so that row has no tick.</p>
         <div class="plot"><div id="chart-groups"></div><div class="tooltip" id="tt-c"></div></div>
@@ -928,6 +936,66 @@ function eventLine(svg, x, MT, H, MB, label) {
     draw(b.dataset.mode);
   });
   draw('all');
+}
+
+// ---- chart B3: histogram of every submission, stacked by quiz level ----
+// The stats page's bins (twenty bands of five points, every row), split by level.
+{
+  const LEVELS = [
+    { key: 'beginner', label: 'Beginner quiz', color: 'var(--level-1)' },
+    { key: 'medium', label: 'Medium quiz', color: 'var(--level-2)' },
+    { key: 'expert', label: 'Expert quiz', color: 'var(--level-3)' },
+    { key: 'none', label: 'No quiz', color: 'var(--neutral)' },
+  ];
+  const lvl = r => QUIZ.has(r.g) ? r.g : 'none';
+  const BINS = 20;
+  const bins = Array.from({ length: BINS }, (_, i) => ({ i, lo: i * 5, hi: i * 5 + 5, c: { beginner: 0, medium: 0, expert: 0, none: 0 }, kept: 0, n: 0 }));
+  for (const r of rows) {
+    const b = bins[Math.min(BINS - 1, Math.floor(r.m * 100 / 5 + 1e-9))];
+    b.c[lvl(r)]++; b.n++; if (kept(r)) b.kept++;
+  }
+  const legend = document.getElementById('legend-hist');
+  for (const L of LEVELS) {
+    const sp = document.createElement('span');
+    sp.innerHTML = '<span class="sw" style="background:' + L.color + ';border-radius:2px"></span>' + L.label + ' (n=' + rows.filter(r => lvl(r) === L.key).length + ')';
+    legend.appendChild(sp);
+  }
+  const maxN = Math.max(...bins.map(b => b.n));
+  const top = Math.ceil(maxN / 10) * 10;
+  const W = 920, H = 320, ML = 46, MR = 12, MT = 14, MB = 44;
+  const step = (W - ML - MR) / BINS, bw = step - 3;
+  const X = i => ML + i * step + 1.5, Y = c => MT + (1 - c / top) * (H - MT - MB);
+  const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H }, document.getElementById('chart-hist'));
+  for (let c = 0; c <= top; c += 10) {
+    el('line', { x1: ML, x2: W - MR, y1: Y(c), y2: Y(c), stroke: c === 0 ? 'var(--line-strong)' : 'var(--line)', 'stroke-width': 1 }, svg);
+    el('text', { x: ML - 8, y: Y(c) + 4, 'text-anchor': 'end', class: 'tick' }, svg, c);
+  }
+  for (let i = 0; i <= BINS; i += 2) el('text', { x: ML + i * step, y: H - 24, 'text-anchor': i === 0 ? 'start' : i === BINS ? 'end' : 'middle', class: 'tick' }, svg, (i * 5) + '%');
+  el('text', { x: (ML + W - MR) / 2, y: H - 6, 'text-anchor': 'middle', class: 'axis-name' }, svg, 'p(doom) midpoint, five-point bands');
+  el('text', { x: 12, y: MT + (H - MT - MB) / 2, class: 'axis-name', transform: 'rotate(-90 12 ' + (MT + (H - MT - MB) / 2) + ')', 'text-anchor': 'middle' }, svg, 'submissions');
+  const hits = [];
+  for (const b of bins) {
+    const x = X(b.i);
+    let acc = 0;
+    const segs = LEVELS.filter(L => b.c[L.key]);
+    segs.forEach((L, k) => {
+      const y0 = Y(acc), y1 = Y(acc + b.c[L.key]); acc += b.c[L.key];
+      // a 2px gap of paper between segments; only the top segment gets rounded corners
+      const yTop = y1, yBot = k === 0 ? y0 : y0 - 2, last = k === segs.length - 1;
+      if (yBot - yTop < 0.5) return;
+      const r = last ? Math.min(3, (yBot - yTop) / 2) : 0;
+      el('path', { d: 'M' + x + ' ' + yBot + 'V' + (yTop + r) + (r ? 'Q' + x + ' ' + yTop + ' ' + (x + r) + ' ' + yTop : '') + 'H' + (x + bw - r) + (r ? 'Q' + (x + bw) + ' ' + yTop + ' ' + (x + bw) + ' ' + (yTop + r) : '') + 'V' + yBot + 'Z', fill: L.color }, svg);
+    });
+    hits.push({ x0: x, x1: x + bw, x: x + bw / 2, y: Y(b.n / 2), b });
+  }
+  // the tallest bar carries its total; the rest are in the tooltip
+  const tall = bins.reduce((a, b) => (b.n > a.n ? b : a));
+  el('text', { x: X(tall.i) + bw / 2, y: Y(tall.n) - 6, 'text-anchor': 'middle', class: 'direct' }, svg, tall.n);
+  attachTooltip(svg, 'tt-hist',
+    x => hits.find(h => x >= h.x0 - 1.5 && x <= h.x1 + 1.5) || null,
+    h => '<span class="t">' + h.b.lo + '–' + h.b.hi + '% · ' + h.b.n + ' submissions</span>' +
+      [...LEVELS].reverse().map(L => '<br>' + L.label + ': <b>' + h.b.c[L.key] + '</b>').join('') +
+      '<br><span class="t">' + h.b.kept + ' kept the quiz’s proposal</span>', hits);
 }
 
 // ---- chart C: dot strips per group ----
