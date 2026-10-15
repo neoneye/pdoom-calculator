@@ -29,6 +29,7 @@ the report pages under ``reports/`` render from:
       "questions": [{"flow", "id", "prompt", "multi", "n", "options": [{"id", "label", "n", "of"}],
                      "people": [{"k", "m", "p10", "p90", "dup", "v", "t"}], "clusters": [...]}, ...],
       "quizScore": {flow: {"people", "clusters", "of", "questions"}},
+      "selfRating": [{"rate", "ai", "general", "pi", "m", "mv", "rep", "spread", "dSpread"}, ...],
       "calibration": {"byLevel": {level: {"n", "untouched", "moved", "medianUntouched",
                       "medianMoved", "medianGapMoved"}}, "counts": {...}}
     }
@@ -907,6 +908,13 @@ def knowledge_check(submissions, index_html):
             "m": round(s["summary"]["midpoint"], 4),
             "p10": round(s["summary"]["p10"], 4),
             "p90": round(s["summary"]["p90"], 4),
+            # For the Dunning-Kruger section: when, which quiz followed, the band the
+            # visitor registered and how it differs from the band the quiz proposed.
+            "t": s["submitted_at"][:10],
+            "lvl": s.get("quiz_flow_id"),
+            "mv": s.get("_moved"),
+            "rep": bool(s.get("_dup")),
+            **band_fields(s),
         })
     # How each individual term fared, which the score alone cannot show. Counted
     # separately for the expert-path takers and the retired standalone path.
@@ -951,6 +959,54 @@ def knowledge_check(submissions, index_html):
         "pairs": pairs,
         "perTerm": per_term,
     }
+
+
+def band_fields(s):
+    """The uncertainty band a visitor registered, as the mean of the three factors'
+    +/- spread in points, and its change from the spread the quiz proposed (None on
+    rows from before the proposal was stored). Negative change means narrowed: the
+    visitor claimed more certainty than the page had set."""
+    spread = statistics.fmean(f["spread"] for f in s["factors"]) * 100
+    cal = s.get("calibration")
+    proposed = cal.get("spread") if isinstance(cal, dict) else None
+    return {"spread": round(spread, 1),
+            "dSpread": round(spread - proposed, 1) if isinstance(proposed, (int, float)) else None}
+
+
+# Which entries on the medium quiz's vulnerability list are specific to AI systems,
+# as opposed to general computer security. Editorial, like DECOY_COLLISIONS.
+AI_VULNERABILITIES = (
+    "medium-vulnerabilities-prompt-injection", "medium-vulnerabilities-sleeper-agent",
+    "medium-vulnerabilities-data-poisoning", "medium-vulnerabilities-adversarial",
+    "medium-vulnerabilities-model-stealing",
+)
+SYSTEM_PROMPT_RATINGS = ("medium-system-prompts-none", "medium-system-prompts-basic",
+                         "medium-system-prompts-medium", "medium-system-prompts-expert")
+
+
+def medium_self_rating(submissions):
+    """The medium quiz asks visitors to rate their own skill with system prompts, and
+    separately which vulnerabilities they know. One row per medium submission, repeats
+    flagged: the self-rating (0-3), how many of the five AI-specific vulnerabilities
+    were ticked, whether prompt injection was, and the band registered."""
+    out = []
+    for s in submissions:
+        if s.get("quiz_flow_id") != "medium":
+            continue
+        answers = {a["question_id"]: a for a in s.get("quiz_answers") or []}
+        rating = (answers.get("medium-system-prompts") or {}).get("value")
+        vulns = set((answers.get("medium-vulnerabilities") or {}).get("values") or [])
+        out.append({
+            "rate": SYSTEM_PROMPT_RATINGS.index(rating) if rating in SYSTEM_PROMPT_RATINGS else None,
+            "ai": len(vulns & set(AI_VULNERABILITIES)),
+            "general": len(vulns - set(AI_VULNERABILITIES)),
+            "pi": "medium-vulnerabilities-prompt-injection" in vulns,
+            "m": round(s["summary"]["midpoint"], 4),
+            "mv": s.get("_moved"),
+            "rep": bool(s.get("_dup")),
+            **band_fields(s),
+        })
+    return out
 
 
 def slider_submissions(submissions):
@@ -1495,6 +1551,7 @@ def main():
         "questions": question_data["questions"],
         "quizScore": question_data["quizScore"],
         "calibration": {"byLevel": calibration_summary(submissions), "counts": calibration_counts},
+        "selfRating": medium_self_rating(submissions),
     }
     blob = json.dumps(data, separators=(",", ":"))
 
