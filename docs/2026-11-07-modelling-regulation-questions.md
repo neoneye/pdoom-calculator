@@ -223,6 +223,10 @@ to the servers."* A solar-powered satellite removes two of the three. The descri
 stop stating this as unconditional. This is the only change to the live quiz that came out of
 this work.
 
+**Done, 2026-11-07.** The description now ends *"…as long as the servers are on the ground."*
+The option id `control-easy`, its label and its calibration range are unchanged, so old and new
+rows are still pooled. A row's `page_version` tells which wording the visitor saw.
+
 ## 7. Facts to verify before the site cites them
 
 Check each like the exhibits ([exhibit verification](2026-08-31-exhibit-verification.md)):
