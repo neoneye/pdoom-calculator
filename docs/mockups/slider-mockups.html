@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slider Mockups</title>
+<style>
+@font-face { font-family: 'Newsreader'; font-weight: 400 600; src: url('../../assets/fonts/newsreader-latin.woff2') format('woff2'); }
+:root {
+  --paper:#faf9f6; --surface:#fff; --sunken:#f3f1ea; --line:#e2ded4; --line-strong:#c9c3b5;
+  --ink:#1c1a17; --ink-2:#55504a; --ink-3:#6f6a61;
+  --accent:#9a3412; --accent-soft:#fbf1ef;
+  --serif:'Newsreader', Georgia, serif;
+  --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.5; }
+main { max-width: 760px; margin: 0 auto; padding: 32px 16px 80px; }
+h1 { font-family:var(--serif); font-weight:500; font-size:2.2rem; margin:0 0 4px; text-align:center; }
+.lede { text-align:center; color:var(--ink-2); margin:0 0 40px; }
+section.option { margin: 0 0 56px; }
+.opt-head { display:flex; gap:12px; align-items:baseline; margin-bottom:4px; }
+.opt-letter { font-family:var(--serif); font-size:1.6rem; color:var(--accent); font-weight:600; }
+.opt-head h2 { font-family:var(--serif); font-weight:500; font-size:1.5rem; margin:0; }
+.why { color:var(--ink-2); margin:0 0 6px; }
+.tradeoff { color:var(--ink-3); font-size:.9rem; margin:0 0 16px; }
+
+.card { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:24px 24px 20px; }
+.card h3 { font-size:1.15rem; margin:0 0 4px; }
+.card .desc { color:var(--ink-3); margin:0 0 20px; font-size:.95rem; }
+.row-labels { display:flex; justify-content:space-between; align-items:baseline; font-size:.8rem; letter-spacing:.08em; color:var(--ink-2); text-transform:uppercase; margin-bottom:8px; }
+.row-labels b { font-size:1.05rem; letter-spacing:0; color:var(--ink); text-transform:none; }
+.row-labels .name { font-weight:600; color:var(--ink); }
+
+.plot { position:relative; height:140px; background:var(--sunken); border:1px solid var(--line); border-radius:8px; touch-action:none; user-select:none; }
+.plot svg { position:absolute; inset:0; width:100%; height:100%; display:block; }
+.plot.grab { cursor:grab; } .plot.grab:active { cursor:grabbing; }
+.plot.tap { cursor:crosshair; }
+.ticks { display:flex; justify-content:space-between; font-size:.75rem; color:var(--ink-3); margin-top:6px; }
+.ticks.below-knob { margin-top:24px; }
+
+/* The ring knob, shared by the native range thumb and the HTML knobs. */
+.knob { position:absolute; bottom:-19px; width:38px; height:38px; margin-left:-19px; border-radius:50%;
+  background:#fff; border:4px solid var(--accent); box-shadow:0 0 0 7px rgba(154,52,18,.10);
+  display:flex; align-items:center; justify-content:center; color:var(--accent); font-weight:700; font-size:14px;
+  cursor:grab; touch-action:none; z-index:2; }
+.knob:active { cursor:grabbing; }
+.plot .knob svg { position:static; width:22px; height:16px; flex:none; }
+.grip { position:absolute; top:50%; width:16px; height:44px; margin:-22px 0 0 -8px; border-radius:8px;
+  background:#fff; border:2px solid var(--accent); cursor:ew-resize; touch-action:none; z-index:2;
+  display:flex; align-items:center; justify-content:center; }
+.grip::before { content:''; width:2px; height:18px; border-left:2px solid var(--accent); border-right:2px solid var(--accent); width:2px; }
+
+input[type=range] { -webkit-appearance:none; appearance:none; width:100%; height:44px; background:transparent; margin:0; cursor:pointer; }
+input[type=range]::-webkit-slider-runnable-track { height:8px; border-radius:4px; background:linear-gradient(to right, var(--accent) var(--fill,50%), #e2ded4 var(--fill,50%)); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:38px; height:38px; margin-top:-15px; border-radius:50%; background:#fff; border:4px solid var(--accent); box-shadow:0 0 0 7px rgba(154,52,18,.10); }
+input[type=range]::-moz-range-track { height:8px; border-radius:4px; background:#e2ded4; }
+input[type=range]::-moz-range-progress { height:8px; border-radius:4px; background:var(--accent); }
+input[type=range]::-moz-range-thumb { width:30px; height:30px; border-radius:50%; background:#fff; border:4px solid var(--accent); }
+.spacer { height:22px; }
+.bounds { display:flex; gap:32px; border-top:1px solid var(--line); margin-top:16px; padding-top:12px; font-size:.75rem; letter-spacing:.08em; color:var(--ink-3); text-transform:uppercase; }
+.bounds b { display:block; font-size:1.05rem; letter-spacing:0; color:var(--ink); }
+
+.prompt { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:#fff; border:1px solid var(--line-strong);
+  border-radius:999px; padding:6px 14px; font-size:.9rem; color:var(--ink-2); pointer-events:none; white-space:nowrap; }
+.ghost-label { position:absolute; top:6px; transform:translateX(-50%); font-size:.75rem; color:var(--ink-3); pointer-events:none; white-space:nowrap; }
+.btn { font:inherit; font-size:.9rem; border:1px solid var(--line-strong); background:#fff; color:var(--ink); border-radius:999px; padding:6px 14px; cursor:pointer; }
+.btn:hover { border-color:var(--accent); color:var(--accent); }
+.actions { display:flex; gap:12px; align-items:center; margin-top:14px; }
+.reset { font-size:.85rem; color:var(--ink-3); background:none; border:none; text-decoration:underline; cursor:pointer; margin-left:auto; }
+.hidden { display:none !important; }
+@media (max-width:520px){ .card{padding:18px 16px 16px;} h1{font-size:1.8rem;} }
+</style>
+</head>
+<body>
+<main>
+  <h1>Slider mockups</h1>
+  <p class="lede">These are working mockups, so drag them. Each one is the P(powerful AI) card redesigned.</p>
+
+  <section class="option">
+    <div class="opt-head"><span class="opt-letter">A</span><h2>Give the curve the same knob</h2></div>
+    <p class="why">The curve gets the same ring knob as the ± slider, sitting under its peak. Both controls now look movable, and you can still drag the curve itself.</p>
+    <p class="tradeoff">Smallest change. The card still has two separate controls.</p>
+    <div class="card" data-variant="A"></div>
+  </section>
+
+  <section class="option">
+    <div class="opt-head"><span class="opt-letter">B</span><h2>Two ordinary sliders</h2></div>
+    <p class="why">The curve is only a picture. Underneath are two identical sliders, labelled "Your best guess" and "How sure are you". Everybody knows how to use a slider.</p>
+    <p class="tradeoff">Most familiar. The curve stops being something you touch, so the card loses some of its character.</p>
+    <div class="card" data-variant="B"></div>
+  </section>
+
+  <section class="option">
+    <div class="opt-head"><span class="opt-letter">C</span><h2>Place it yourself</h2></div>
+    <p class="why">There's no curve until you choose one. The quiz's suggestion shows as a dashed outline, and you either tap the scale or keep the suggestion. Nobody can submit without deciding.</p>
+    <p class="tradeoff">Fixes the "left it where the quiz put it" problem directly. It adds one click per card, three in total.</p>
+    <div class="card" data-variant="C"></div>
+  </section>
+
+  <section class="option">
+    <div class="opt-head"><span class="opt-letter">D</span><h2>One control: knob plus edge grips</h2></div>
+    <p class="why">The ± slider goes away. A knob moves the curve, and two grips on the dashed lines make the range wider or narrower, so the curve itself is the whole control.</p>
+    <p class="tradeoff">Tidiest. The grips are small targets on phones, and the meaning of the grips is less obvious than a labelled slider.</p>
+    <div class="card" data-variant="D"></div>
+  </section>
+</main>
+
+<script>
+const BASE = 132, TOP = 14;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const fmt = v => v.toFixed(1);
+
+function curveD(mid, spread) {
+  const s = Math.max(spread / 2, 0.6);
+  let d = '';
+  for (let i = 0; i <= 300; i++) {
+    const p = i / 3;
+    const y = BASE - (BASE - TOP) * Math.exp(-0.5 * ((p - mid) / s) ** 2);
+    d += (i ? 'L' : 'M') + (p * 6).toFixed(2) + ',' + y.toFixed(2);
+  }
+  return d;
+}
+// Drawn rather than typed: the ‹› glyphs sit on the text baseline, so they never
+// centre exactly inside the ring and their size depends on the font.
+const CHEVRONS = `<svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true" style="display:block">
+  <path d="M7 2 L2 7 L7 12 M13 2 L18 7 L13 12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+function plotSvg(mid, spread, ghost) {
+  const lo = clamp(mid - spread, 0, 100) * 6, hi = clamp(mid + spread, 0, 100) * 6;
+  if (ghost) {
+    return `<svg viewBox="0 0 600 140" preserveAspectRatio="none">
+      <path d="${curveD(mid, spread)}" fill="none" stroke="#9a3412" stroke-opacity=".45" stroke-width="2" stroke-dasharray="6 5" vector-effect="non-scaling-stroke"/>
+    </svg>`;
+  }
+  return `<svg viewBox="0 0 600 140" preserveAspectRatio="none">
+    <path d="${curveD(mid, spread)}L600,${BASE}L0,${BASE}Z" fill="rgba(154,52,18,.10)"/>
+    <line x1="${lo}" x2="${lo}" y1="8" y2="${BASE}" stroke="#c9c3b5" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>
+    <line x1="${hi}" x2="${hi}" y1="8" y2="${BASE}" stroke="#c9c3b5" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>
+    <path d="${curveD(mid, spread)}" fill="none" stroke="#9a3412" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+    <line x1="${mid * 6}" x2="${mid * 6}" y1="${TOP}" y2="${BASE}" stroke="#1c1a17" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+    <line x1="0" x2="600" y1="${BASE}" y2="${BASE}" stroke="#c9c3b5" vector-effect="non-scaling-stroke"/>
+  </svg>`;
+}
+const TICKS = '<span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>';
+const HEAD = `<h3>P(powerful AI)</h3><p class="desc">Probability that at least one deployable model or toolchain (model, agents, tools, scaling) reaches strategic capability.</p>`;
+
+function pctAt(el, e) { const r = el.getBoundingClientRect(); return clamp((e.clientX - r.left) / r.width * 100, 0, 100); }
+function onDrag(handle, ref, cb) {
+  handle.addEventListener('pointerdown', e => {
+    e.preventDefault(); e.stopPropagation();
+    handle.setPointerCapture(e.pointerId);
+    cb(pctAt(ref, e));
+    const move = ev => cb(pctAt(ref, ev));
+    const up = () => { handle.removeEventListener('pointermove', move); handle.removeEventListener('pointerup', up); };
+    handle.addEventListener('pointermove', move);
+    handle.addEventListener('pointerup', up);
+  });
+}
+function rangeFill(input) { const p = (input.value - input.min) / (input.max - input.min) * 100; input.style.setProperty('--fill', p + '%'); }
+function bounds(s) { return `<div class="bounds"><div>Lower bound<b>${fmt(clamp(s.mid - s.spread, 0, 100))}%</b></div><div>Upper bound<b>${fmt(clamp(s.mid + s.spread, 0, 100))}%</b></div></div>`; }
+
+/* ---------- A: knob on the curve ---------- */
+function buildA(card) {
+  const s = { mid: 50, spread: 30 };
+  card.innerHTML = HEAD + `
+    <div class="row-labels"><span>Unlikely</span><b data-v></b><span>Likely</span></div>
+    <div class="plot grab" data-plot><div data-svg></div><div class="knob" data-knob aria-label="Best guess">${CHEVRONS}</div></div>
+    <div class="ticks below-knob">${TICKS}</div>
+    <div class="spacer"></div>
+    <div class="row-labels"><span>Certain</span><b data-u></b><span>Uncertain</span></div>
+    <input type="range" min="1" max="50" step="0.5" value="30" data-range>
+    <div data-bounds></div>`;
+  const plot = card.querySelector('[data-plot]'), knob = card.querySelector('[data-knob]'), range = card.querySelector('[data-range]');
+  const draw = () => {
+    card.querySelector('[data-svg]').innerHTML = plotSvg(s.mid, s.spread);
+    knob.style.left = s.mid + '%';
+    card.querySelector('[data-v]').textContent = fmt(s.mid) + ' %';
+    card.querySelector('[data-u]').textContent = '± ' + fmt(s.spread);
+    card.querySelector('[data-bounds]').innerHTML = bounds(s);
+    rangeFill(range);
+  };
+  onDrag(plot, plot, p => { s.mid = p; draw(); });
+  onDrag(knob, plot, p => { s.mid = p; draw(); });
+  range.addEventListener('input', () => { s.spread = +range.value; draw(); });
+  draw();
+}
+
+/* ---------- B: two ordinary sliders ---------- */
+function buildB(card) {
+  const s = { mid: 50, spread: 30 };
+  card.innerHTML = HEAD + `
+    <div class="plot" style="height:110px"><div data-svg></div></div>
+    <div class="ticks">${TICKS}</div>
+    <div class="spacer"></div>
+    <div class="row-labels"><span class="name">Your best guess</span><b data-v></b></div>
+    <input type="range" min="0" max="100" step="0.5" value="50" data-mid>
+    <div class="spacer" style="height:10px"></div>
+    <div class="row-labels"><span class="name">How sure are you</span><b data-u></b></div>
+    <input type="range" min="1" max="50" step="0.5" value="30" data-spread>
+    <div class="row-labels" style="margin-top:-4px"><span>Very sure</span><span>Not sure at all</span></div>
+    <div data-bounds></div>`;
+  const mid = card.querySelector('[data-mid]'), spread = card.querySelector('[data-spread]');
+  const draw = () => {
+    card.querySelector('[data-svg]').innerHTML = plotSvg(s.mid, s.spread);
+    card.querySelector('[data-v]').textContent = fmt(s.mid) + ' %';
+    card.querySelector('[data-u]').textContent = '± ' + fmt(s.spread);
+    card.querySelector('[data-bounds]').innerHTML = bounds(s);
+    rangeFill(mid); rangeFill(spread);
+  };
+  mid.addEventListener('input', () => { s.mid = +mid.value; draw(); });
+  spread.addEventListener('input', () => { s.spread = +spread.value; draw(); });
+  draw();
+}
+
+/* ---------- C: place it yourself ---------- */
+function buildC(card) {
+  const SUGGEST = 50;
+  const s = { mid: SUGGEST, spread: 30, set: false };
+  card.innerHTML = HEAD + `
+    <div class="row-labels"><span>Unlikely</span><b data-v></b><span>Likely</span></div>
+    <div class="plot" data-plot><div data-svg></div>
+      <div class="ghost-label" data-ghost>Quiz suggests ${SUGGEST}%</div>
+      <div class="prompt" data-prompt>Tap where you think it lands</div>
+      <div class="knob hidden" data-knob aria-label="Best guess">${CHEVRONS}</div></div>
+    <div class="ticks" data-ticks>${TICKS}</div>
+    <div class="actions" data-actions><button class="btn" data-keep>Keep the quiz's ${SUGGEST}%</button></div>
+    <div data-after class="hidden">
+      <div class="spacer"></div>
+      <div class="row-labels"><span>Certain</span><b data-u></b><span>Uncertain</span></div>
+      <input type="range" min="1" max="50" step="0.5" value="30" data-range>
+      <div data-bounds></div>
+    </div>
+    <div class="actions"><button class="reset" data-reset>Reset this mockup</button></div>`;
+  const q = sel => card.querySelector(sel);
+  const plot = q('[data-plot]'), knob = q('[data-knob]'), range = q('[data-range]');
+  const draw = () => {
+    q('[data-svg]').innerHTML = plotSvg(s.mid, s.spread, !s.set);
+    plot.className = 'plot ' + (s.set ? 'grab' : 'tap');
+    q('[data-ghost]').classList.toggle('hidden', s.set);
+    q('[data-ghost]').style.left = SUGGEST + '%';
+    q('[data-prompt]').classList.toggle('hidden', s.set);
+    q('[data-actions]').classList.toggle('hidden', s.set);
+    q('[data-after]').classList.toggle('hidden', !s.set);
+    knob.classList.toggle('hidden', !s.set);
+    q('[data-ticks]').classList.toggle('below-knob', s.set);
+    knob.style.left = s.mid + '%';
+    q('[data-v]').textContent = s.set ? fmt(s.mid) + ' %' : '—';
+    q('[data-u]').textContent = '± ' + fmt(s.spread);
+    q('[data-bounds]').innerHTML = bounds(s);
+    rangeFill(range);
+  };
+  onDrag(plot, plot, p => { s.mid = p; s.set = true; draw(); });
+  onDrag(knob, plot, p => { s.mid = p; draw(); });
+  q('[data-keep]').addEventListener('click', () => { s.mid = SUGGEST; s.set = true; draw(); });
+  range.addEventListener('input', () => { s.spread = +range.value; draw(); });
+  q('[data-reset]').addEventListener('click', () => { s.mid = SUGGEST; s.spread = 30; s.set = false; range.value = 30; draw(); });
+  draw();
+}
+
+/* ---------- D: knob plus edge grips ---------- */
+function buildD(card) {
+  const s = { mid: 50, spread: 30 };
+  card.innerHTML = HEAD + `
+    <div class="row-labels"><span>Unlikely</span><b data-v></b><span>Likely</span></div>
+    <div class="plot grab" data-plot><div data-svg></div>
+      <div class="grip" data-lo aria-label="Lower bound"></div>
+      <div class="grip" data-hi aria-label="Upper bound"></div>
+      <div class="knob" data-knob aria-label="Best guess">${CHEVRONS}</div></div>
+    <div class="ticks below-knob">${TICKS}</div>
+    <div data-bounds></div>`;
+  const q = sel => card.querySelector(sel);
+  const plot = q('[data-plot]');
+  const draw = () => {
+    q('[data-svg]').innerHTML = plotSvg(s.mid, s.spread);
+    q('[data-knob]').style.left = s.mid + '%';
+    q('[data-lo]').style.left = clamp(s.mid - s.spread, 0, 100) + '%';
+    q('[data-hi]').style.left = clamp(s.mid + s.spread, 0, 100) + '%';
+    q('[data-v]').textContent = fmt(s.mid) + ' %  ± ' + fmt(s.spread);
+    q('[data-bounds]').innerHTML = bounds(s);
+  };
+  onDrag(plot, plot, p => { s.mid = p; draw(); });
+  onDrag(q('[data-knob]'), plot, p => { s.mid = p; draw(); });
+  onDrag(q('[data-lo]'), plot, p => { s.spread = clamp(s.mid - p, 1, 50); draw(); });
+  onDrag(q('[data-hi]'), plot, p => { s.spread = clamp(p - s.mid, 1, 50); draw(); });
+  draw();
+}
+
+const builders = { A: buildA, B: buildB, C: buildC, D: buildD };
+document.querySelectorAll('.card[data-variant]').forEach(c => builders[c.dataset.variant](c));
+</script>
+</body>
+</html>
