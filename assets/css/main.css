@@ -480,6 +480,69 @@ p.description {
   touch-action: none;
 }
 
+/* The midpoint knob. Same ring as the ± slider's thumb, and the same size at every
+   breakpoint (--knob-size mirrors the thumb rules below), so both controls read
+   as things you can move. It straddles the canvas's bottom edge; the padding
+   below the plot keeps it clear of the ± caption. */
+.bellcurve-plot {
+  --knob-size: 28px;
+  position: relative;
+  margin-bottom: calc(var(--knob-size) / 2 + 6px);
+}
+
+.bellcurve-knob {
+  position: absolute;
+  bottom: calc(var(--knob-size) / -2);
+  width: var(--knob-size);
+  height: var(--knob-size);
+  margin-left: calc(var(--knob-size) / -2);
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 6px var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bellcurve-knob:active {
+  cursor: grabbing;
+  transform: scale(1.05);
+  box-shadow: 0 0 0 8px var(--accent-soft);
+}
+
+.bellcurve-plot:has(.slider-bellcurve:focus-visible) .bellcurve-knob {
+  box-shadow: 0 0 0 8px var(--accent-soft);
+}
+
+.bellcurve-knob svg {
+  display: block;
+  width: 72%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* Thumb sizes: 28px, 32px at <=720px, 36px at <=400px. (The 36px rule in the
+   640px block is overridden by the later 720px block.) */
+@media (max-width: 720px) {
+  .bellcurve-plot { --knob-size: 32px; }
+}
+
+/* At 0% or 100% the knob hangs half outside the curve. On the narrowest phones the
+   card padding is thinner than that, so pull the curve in a little; the midpoint is
+   measured against the canvas, so the 0-100 range is unchanged. */
+@media (max-width: 400px) {
+  .bellcurve-plot {
+    --knob-size: 36px;
+    margin-inline: 10px;
+  }
+}
+
 .slider-row {
   font-size: 0.95rem;
 }

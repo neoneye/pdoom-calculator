@@ -1130,8 +1130,7 @@ Gaps / potential future questions:
         fill: pick('--curve-fill', 'rgba(154, 52, 18, 0.10)'),
         stroke: pick('--curve-stroke', '#9a3412'),
         grid: pick('--curve-grid', '#d8d3c8'),
-        midline: pick('--curve-handle', '#1c1a17'),
-        handle: pick('--curve-handle', '#1c1a17')
+        midline: pick('--curve-handle', '#1c1a17')
       };
       return curveColors;
     }
@@ -2175,11 +2174,12 @@ Gaps / potential future questions:
         if (hint) {
           hint.classList.remove('slider-hint--hidden');
         }
-        const canvases = container.querySelectorAll('.slider-bellcurve');
-        canvases.forEach(canvas => {
-          canvas.classList.remove('slider-bellcurve--bounce');
-          void canvas.offsetWidth; // force reflow to restart animation
-          canvas.classList.add('slider-bellcurve--bounce');
+        // The wrapper bounces, not the canvas, so the knob wobbles with its curve.
+        const plots = container.querySelectorAll('.bellcurve-plot');
+        plots.forEach(plot => {
+          plot.classList.remove('slider-bellcurve--bounce');
+          void plot.offsetWidth; // force reflow to restart animation
+          plot.classList.add('slider-bellcurve--bounce');
         });
         // Fade out hint after a few seconds
         setTimeout(() => {
@@ -2702,6 +2702,12 @@ Gaps / potential future questions:
       };
     }
 
+    // Drawn rather than typed: the ‹› glyphs sit on the text baseline, so they never
+    // centre exactly inside the ring and their size depends on the font.
+    const KNOB_CHEVRONS = '<svg viewBox="0 0 20 14" aria-hidden="true" focusable="false">' +
+      '<path d="M7 2 L2 7 L7 12 M13 2 L18 7 L13 12" fill="none" stroke="currentColor" ' +
+      'stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
     function createFactorCard({ key, label, defaults, explanation }) {
       const midpoint = ((defaults.lower + defaults.upper) / 2) * 100;
       const spread = ((defaults.upper - defaults.lower) / 2) * 100;
@@ -2723,7 +2729,13 @@ Gaps / potential future questions:
                 <span class="slider-value slider-value--percent" data-role="midpointValue" data-key="${key}" aria-label="${midpoint.toFixed(1)} percent">${midpoint.toFixed(1)}</span>
                 <span>Likely</span>
               </div>
-              <canvas class="slider-bellcurve" data-role="distributionCanvas" data-key="${key}" aria-label="Midpoint for ${label}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${midpoint.toFixed(1)}" aria-valuetext="${midpoint.toFixed(1)} percent" role="slider" tabindex="0"></canvas>
+              <div class="bellcurve-plot" data-role="bellcurvePlot" data-key="${key}">
+                <canvas class="slider-bellcurve" data-role="distributionCanvas" data-key="${key}" aria-label="Midpoint for ${label}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${midpoint.toFixed(1)}" aria-valuetext="${midpoint.toFixed(1)} percent" role="slider" tabindex="0"></canvas>
+                <!-- A visible handle for the midpoint. Visitors saw the ± slider's knob
+                     and never found out the curve itself moves. Hidden from assistive
+                     tech and out of the tab order: the canvas is already the slider. -->
+                <div class="bellcurve-knob" data-role="midpointKnob" data-key="${key}" aria-hidden="true" style="left: ${midpoint.toFixed(1)}%">${KNOB_CHEVRONS}</div>
+              </div>
             </div>
             <div class="slider-row">
               <label>
@@ -2815,6 +2827,10 @@ Gaps / potential future questions:
       const spreadValue = document.querySelector(`span[data-key="${key}"][data-role="spreadValue"]`);
 
       if (midpointRange) midpointRange.value = midpoint.toFixed(1);
+      // Moved here as well as in drawDistributions: the canvas redraw waits for the
+      // next frame, and the knob should never lag the number above it.
+      const knob = document.querySelector(`[data-role="midpointKnob"][data-key="${key}"]`);
+      if (knob) knob.style.left = `${clamp(midpoint, 0, 100)}%`;
       if (midpointValue) {
         const midpointText = midpoint.toFixed(1);
         midpointValue.textContent = midpointText;
@@ -3043,11 +3059,7 @@ Gaps / potential future questions:
       ctx.moveTo(midpointX, height);
       ctx.lineTo(midpointX, 6);
       ctx.stroke();
-
-      ctx.fillStyle = readCurveColors().handle;
-      ctx.beginPath();
-      ctx.arc(midpointX, 6, 4, 0, Math.PI * 2);
-      ctx.fill();
+      // No dot on top of the line any more: the knob under the curve is the handle.
     }
 
     function drawDistributions(factors) {
@@ -3063,6 +3075,8 @@ Gaps / potential future questions:
         const normalizedMidpoint = clamp(midpoint, 0, 100);
         const normalizedSpread = clamp(spread, 0, SPREAD_MAX);
         renderBellCurve(canvas, normalizedMidpoint, normalizedSpread);
+        const knob = document.querySelector(`[data-role="midpointKnob"][data-key="${key}"]`);
+        if (knob) knob.style.left = `${normalizedMidpoint}%`;
         const midpointText = normalizedMidpoint.toFixed(1);
         canvas.setAttribute('aria-valuenow', midpointText);
         canvas.setAttribute('aria-valuetext', `${midpointText} percent`);
@@ -3083,12 +3097,20 @@ Gaps / potential future questions:
       if (!canvas || canvas.dataset.canvasInteractive === 'true') return;
       canvas.dataset.canvasInteractive = 'true';
 
+      // The knob hangs below the canvas, so it takes the same pointer handlers.
+      // Positions are always measured against the canvas either way.
+      const knob = document.querySelector(`[data-role="midpointKnob"][data-key="${key}"]`);
+
       let pointerActive = false;
       let capturedPointerId = null;
+      let captureTarget = null;
+      // Where on the knob the pointer went down, in px from its centre. Without it
+      // a grab a few pixels off-centre would nudge the midpoint before any drag.
+      let grabOffsetX = 0;
 
       const applyMidpoint = (event) => {
         if (DIAG) diagCounts.pointer++;
-        const percent = midpointFromCanvasEvent(canvas, event.clientX);
+        const percent = midpointFromCanvasEvent(canvas, event.clientX - grabOffsetX);
         if (percent === null) return;
         updateState(key, 'midpoint', percent);
       };
@@ -3096,15 +3118,22 @@ Gaps / potential future questions:
       const handlePointerDown = (event) => {
         event.preventDefault();
         pointerActive = true;
-        if (canvas.setPointerCapture) {
+        captureTarget = event.currentTarget;
+        grabOffsetX = 0;
+        if (captureTarget === knob) {
+          const rect = knob.getBoundingClientRect();
+          grabOffsetX = event.clientX - (rect.left + rect.width / 2);
+        }
+        if (captureTarget.setPointerCapture) {
           try {
-            canvas.setPointerCapture(event.pointerId);
+            captureTarget.setPointerCapture(event.pointerId);
             capturedPointerId = event.pointerId;
           } catch (error) {
             capturedPointerId = null;
           }
         }
-        applyMidpoint(event);
+        // A tap on the knob is not a move. The canvas keeps tap-to-jump.
+        if (captureTarget !== knob) applyMidpoint(event);
       };
 
       const handlePointerMove = (event) => {
@@ -3116,36 +3145,37 @@ Gaps / potential future questions:
       const handlePointerUp = (event) => {
         if (!pointerActive) return;
         event.preventDefault();
-        applyMidpoint(event);
+        if (captureTarget !== knob) applyMidpoint(event);
         pointerActive = false;
-        if (capturedPointerId !== null && canvas.releasePointerCapture) {
+        releaseCapture();
+      };
+
+      const releaseCapture = () => {
+        if (capturedPointerId !== null && captureTarget && captureTarget.releasePointerCapture) {
           try {
-            canvas.releasePointerCapture(capturedPointerId);
+            captureTarget.releasePointerCapture(capturedPointerId);
           } catch (error) {
             // Ignore release errors
           }
-          capturedPointerId = null;
         }
+        capturedPointerId = null;
+        captureTarget = null;
+        grabOffsetX = 0;
       };
 
       const handlePointerCancel = (event) => {
         if (!pointerActive) return;
         pointerActive = false;
-        if (capturedPointerId !== null && canvas.releasePointerCapture) {
-          try {
-            canvas.releasePointerCapture(capturedPointerId);
-          } catch (error) {
-            // Ignore release errors
-          }
-          capturedPointerId = null;
-        }
+        releaseCapture();
       };
 
-      canvas.addEventListener('pointerdown', handlePointerDown);
-      canvas.addEventListener('pointermove', handlePointerMove);
-      canvas.addEventListener('pointerup', handlePointerUp);
-      canvas.addEventListener('pointerleave', handlePointerCancel);
-      canvas.addEventListener('pointercancel', handlePointerCancel);
+      [canvas, knob].filter(Boolean).forEach((target) => {
+        target.addEventListener('pointerdown', handlePointerDown);
+        target.addEventListener('pointermove', handlePointerMove);
+        target.addEventListener('pointerup', handlePointerUp);
+        target.addEventListener('pointerleave', handlePointerCancel);
+        target.addEventListener('pointercancel', handlePointerCancel);
+      });
 
       canvas.addEventListener('keydown', (event) => {
         let delta = 0;
