@@ -82,12 +82,11 @@ def main():
             if not isinstance(reaction, dict):
                 errors.append(f"{where}: {field} must be a map")
                 continue
-            for key in ("label", "quote", "context", "url", "mirror"):
+            for key in ("label", "quote", "context", "url"):
                 if not reaction.get(key):
                     errors.append(f"{where}: {field}.{key} missing")
-            for key in ("url", "mirror"):
-                if not str(reaction.get(key, "")).startswith("https://"):
-                    errors.append(f"{where}: {field}.{key} must be an HTTPS URL")
+            if not str(reaction.get("url", "")).startswith("https://"):
+                errors.append(f"{where}: {field}.url must be an HTTPS URL")
 
     print(f"{len(entries)} exhibits, {len(errors)} problems")
     for err in errors:

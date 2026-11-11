@@ -7,8 +7,9 @@
 # `link` must be powerfulAi | dangerousBehavior | globalCatastrophe, matching the
 # factor keys in index.html. `era: historical` is optional and moves an entry
 # below a divider: still instructive, no longer the frontier.
-# `implications` and `comparison` optionally explain named researchers' analysis.
-# `reaction1`/`reaction2` carry attributed excerpts, context, and verification links.
+# `implications` and `ai2027` optionally explain named researchers' analysis.
+# `reaction1`/`reaction2` carry an attributed excerpt, its context, and a link to
+# the post itself. An excerpt must not drop what its own words refer to.
 #
 # Sourcing, in order of preference:
 #   1. A primary source read directly — paper, system card, model card, lab or
@@ -126,26 +127,28 @@
   what: >
     METR's 5 November 2026 report warns of a feedback loop: better AI accelerates
     research that produces still better AI, potentially bringing extreme capabilities
-    suddenly. After eleven weeks of access at Anthropic, METR judged capabilities
-    progress on well-specified tasks to be about twice its March 2024–October 2025
-    rate, with perhaps 80% of the current acceleration attributable to AI. The
+    suddenly. After eleven weeks of access at Anthropic, most of the METR staff on
+    the project judged capabilities progress on well-specified tasks to be about
+    twice its March 2024–October 2025 rate (they "would not be surprised" by 1.3x
+    or 3x), with perhaps 80% of the current acceleration attributable to AI. The
     internal benchmark trend accelerated 1.9x (95% confidence interval 1.5–2.8x).
-    METR ruled out faster growth in training compute as the explanation, found no
-    clear bottlenecks to further acceleration, and warned that the feedback could
-    intensify over the next year.
+    METR is confident that faster growth in training compute is not the
+    explanation, identified no clear bottlenecks to further acceleration, and
+    warned of a significant risk that the feedback intensifies over the coming year.
   implications: >
-    Ajeya Cotra, writing in a personal capacity at METR on 6 November, called this
+    Ajeya Cotra of METR, writing in a personal capacity on 6 November, called this
     "the most important update we have gotten about AI risk in the last couple of
     years", outweighing even the Hugging Face attack. Her explanation: doubling
     overall progress requires a much larger boost to research labor, because
     experiments still need compute and discoveries become harder. If the feedback
     continues smoothly and overcomes bottlenecks, her naive extrapolation reaches
-    extreme superintelligence within a year. She warns that seriously misaligned
-    systems at that level could overpower human civilization and cause human
-    extinction, and that the industry's security and control measures are not ready.
+    extreme superintelligence within a year. She expects systems at that level
+    could easily overpower human civilization, and that if seriously misaligned
+    they would likely disempower humanity, which could lead to human extinction;
+    she judges the industry's security and control measures not ready.
     This is a conditional warning, not a measured countdown. Cotra did not work on
     the assessment or see its unredacted report, and was not speaking for its authors.
-  comparison: >
+  ai2027: >
     In its 10 November update, the AI Futures Project interprets METR's estimates
     as roughly 1.7x AI-attributable acceleration in overall progress. In a model
     trajectory adjusted to approximate AI 2027, that milestone occurs around April
@@ -165,26 +168,26 @@
     url: https://blog.aifutures.org/p/q35-timelines-update-looks-like-the
   reaction1:
     label: Jeffrey Ladish (@JeffLadish), 7 November 2026
-    quote: Look at this graph. Notice how it’s an exponential *on a log scale*. […] That’s fucking terrifying.
-    context: Responding to Cotra's conditional extrapolation of compounding acceleration; the graph illustrates a possible future, rather than an observed trajectory to superintelligence.
+    quote: Look at this graph. Notice how it’s an exponential *on a log scale*. I pray and hope there will be strongly diminishing returns before long in this process. But leaders at METR and Anthropic both seem to think there might not be. That’s fucking terrifying.
+    context: Ladish, of Palisade Research, was quoting Cotra's chart of her conditional extrapolation; it illustrates a possible future, not an observed trajectory to superintelligence.
     url: https://x.com/JeffLadish/status/2119179808886411316
-    mirror: https://teapawt.org/JeffLadish/status/2119179808886411316
   reaction2:
     label: Dane Sherburn (@danesherbs), 6 November 2026
     quote: I feel sick after reading today’s METR report. I’m worried for my friends and family.
-    context: Sherburn, formerly a contract researcher on OpenAI's Preparedness team, also urged people considering helping to act.
+    context: Sherburn, co-founder of P-Zero Research and formerly a contract research engineer on OpenAI's Preparedness team, also urged people considering helping to act.
     url: https://x.com/danesherbs/status/2118612981529661763
-    mirror: https://nitter.cf/danesherbs/status/2118612981529661763
   limits: >
-    The benchmark acceleration is measured; its attribution to AI and the wider
-    risk assessment are uncertain judgments. Anthropic redacted most of the
-    evidence METR found most informative. This covers one company and verifiable
-    tasks; earlier catch-up could explain some acceleration. AI still mainly
-    assists humans. METR could be missing bottlenecks, but also underestimating
-    acceleration. The one-year extrapolation and five-month comparison depend on
-    additional assumptions; social reactions convey concern, not independent
-    measurements or a consensus forecast. Post text was checked through the linked
-    public mirrors because direct X retrieval was blocked.
+    The benchmark acceleration is measured, though METR's robustness checks on it
+    range from 1.1x to 2.9x; its attribution to AI and the wider risk assessment
+    are uncertain judgments, made with "significant uncertainty and internal
+    disagreements". Anthropic could decline METR's requests, METR did not sample
+    the unreleased models, and Anthropic redacted most of the evidence METR found
+    most informative. This covers one company and well-specified, verifiable tasks;
+    Anthropic's earlier growth was below the industry frontier, which could explain
+    some of the acceleration. AI still mainly assists humans. METR could be missing
+    bottlenecks, but also underestimating acceleration. The one-year extrapolation
+    and five-month comparison depend on additional assumptions; the quoted posts
+    convey concern, not independent measurements or a consensus forecast.
 
 # --------------------------------------------------------- dangerous behavior
 

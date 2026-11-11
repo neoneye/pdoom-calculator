@@ -2434,7 +2434,7 @@ Gaps / potential future questions:
           <h4 class="exhibit__title">${escape(e.title)}</h4>
           <p class="exhibit__what">${escape(e.what)}</p>
           ${e.implications ? `<p class="exhibit__what"><strong>Why researchers are alarmed.</strong> ${escape(e.implications)}</p>` : ''}
-          ${e.comparison ? `<p class="exhibit__what"><strong>The AI 2027 comparison.</strong> ${escape(e.comparison)}</p>` : ''}
+          ${e.ai2027 ? `<p class="exhibit__what"><strong>The AI 2027 comparison.</strong> ${escape(e.ai2027)}</p>` : ''}
           <p class="exhibit__source">${escape(e.date)} &middot;
             <a href="${escape(e.source.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source.label)}</a>
             ${e.source2 ? ` &middot; <a href="${escape(e.source2.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source2.label)}</a>` : ''}
@@ -2449,7 +2449,6 @@ Gaps / potential future questions:
                   <figcaption>
                     <p class="exhibit__source">
                       <a href="${escape(reaction.url)}" target="_blank" rel="noopener noreferrer">${escape(reaction.label)}</a>
-                      &middot; <a href="${escape(reaction.mirror)}" target="_blank" rel="noopener noreferrer">Mirror used to verify text</a>
                     </p>
                     <p class="exhibit__reaction-context">${escape(reaction.context)}</p>
                   </figcaption>
