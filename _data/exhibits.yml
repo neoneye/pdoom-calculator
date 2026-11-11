@@ -117,6 +117,42 @@
     and the Hodge conjecture for CM abelian varieties, fall outside the fixed
     procedure, and the zeta writeup was human-edited.
 
+- id: metr-anthropic-rd-acceleration
+  link: powerfulAi
+  title: Anthropic's progress at about twice its earlier rate, most of it attributed to AI
+  date: 2026-11
+  what: >
+    METR spent eleven weeks at Anthropic, from 12 August to 29 October 2026,
+    assessing how far AI is accelerating AI research. Working from internal benchmark
+    scores, compute metrics, staff surveys and about fifteen interviews, most of the
+    METR staff on the project concluded that "Anthropic is likely improving the
+    capabilities of their models on well-specified tasks at around twice the rate
+    they did between March 2024 and October 2025", and "would not be surprised" by
+    1.3x or 3x. Anthropic's version of the Epoch Capabilities Index has grown at 1.9
+    times its earlier rate since October 2025 (95% interval 1.5 to 2.8), "roughly two
+    years of historical progress over the last year". METR are "confident that the
+    acceleration was not due to an acceleration in the scaling of training compute",
+    "guess that a majority (perhaps ≈80%)" of it is now due to AI, and "did not
+    identify any convincing bottlenecks to continued rapid progress". They see "a
+    significant risk that further capabilities progress could lead to even faster
+    acceleration over the coming year".
+  source:
+    label: METR, Independent Assessment of AI R&D Acceleration at Anthropic in October 2026
+    url: https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment/
+  limits: >
+    A judgement over Anthropic's own data, not a measurement. METR did not sample
+    from the unreleased models, Anthropic could decline requests and held redaction
+    rights, and it "redacted a majority of the evidence we found most informative",
+    so "the public has to rely on METR's judgment much more than would be ideal".
+    METR report "significant uncertainty and internal disagreements": the 80% share
+    is a guess, they are "not confident" in the bottleneck finding, and robustness
+    checks on the benchmark figure range from 1.1x to 2.9x. It covers one company and
+    well-specified tasks, and Anthropic's growth before late 2025 was below the
+    industry frontier, "which could explain some of the acceleration". AI still
+    assists rather than works alone: it is "not yet able to make highly significant
+    and fully autonomous contributions to the most important parts of the model
+    training process".
+
 # --------------------------------------------------------- dangerous behavior
 
 - id: openai-hugging-face-intrusion
