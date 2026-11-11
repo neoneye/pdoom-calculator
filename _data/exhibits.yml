@@ -7,6 +7,8 @@
 # `link` must be powerfulAi | dangerousBehavior | globalCatastrophe, matching the
 # factor keys in index.html. `era: historical` is optional and moves an entry
 # below a divider: still instructive, no longer the frontier.
+# `implications` and `comparison` optionally explain named researchers' analysis.
+# `reaction1`/`reaction2` carry attributed excerpts, context, and verification links.
 #
 # Sourcing, in order of preference:
 #   1. A primary source read directly — paper, system card, model card, lab or
@@ -119,39 +121,70 @@
 
 - id: metr-anthropic-rd-acceleration
   link: powerfulAi
-  title: Anthropic's progress at about twice its earlier rate, most of it attributed to AI
+  title: "AI accelerating AI research: warnings of superintelligence within a year"
   date: 2026-11
   what: >
-    METR spent eleven weeks at Anthropic, from 12 August to 29 October 2026,
-    assessing how far AI is accelerating AI research. Working from internal benchmark
-    scores, compute metrics, staff surveys and about fifteen interviews, most of the
-    METR staff on the project concluded that "Anthropic is likely improving the
-    capabilities of their models on well-specified tasks at around twice the rate
-    they did between March 2024 and October 2025", and "would not be surprised" by
-    1.3x or 3x. Anthropic's version of the Epoch Capabilities Index has grown at 1.9
-    times its earlier rate since October 2025 (95% interval 1.5 to 2.8), "roughly two
-    years of historical progress over the last year". METR are "confident that the
-    acceleration was not due to an acceleration in the scaling of training compute",
-    "guess that a majority (perhaps ≈80%)" of it is now due to AI, and "did not
-    identify any convincing bottlenecks to continued rapid progress". They see "a
-    significant risk that further capabilities progress could lead to even faster
-    acceleration over the coming year".
+    METR's 5 November 2026 report warns of a feedback loop: better AI accelerates
+    research that produces still better AI, potentially bringing extreme capabilities
+    suddenly. After eleven weeks of access at Anthropic, METR judged capabilities
+    progress on well-specified tasks to be about twice its March 2024–October 2025
+    rate, with perhaps 80% of the current acceleration attributable to AI. The
+    internal benchmark trend accelerated 1.9x (95% confidence interval 1.5–2.8x).
+    METR ruled out faster growth in training compute as the explanation, found no
+    clear bottlenecks to further acceleration, and warned that the feedback could
+    intensify over the next year.
+  implications: >
+    Ajeya Cotra, writing in a personal capacity at METR on 6 November, called this
+    "the most important update we have gotten about AI risk in the last couple of
+    years", outweighing even the Hugging Face attack. Her explanation: doubling
+    overall progress requires a much larger boost to research labor, because
+    experiments still need compute and discoveries become harder. If the feedback
+    continues smoothly and overcomes bottlenecks, her naive extrapolation reaches
+    extreme superintelligence within a year. She warns that seriously misaligned
+    systems at that level could overpower human civilization and cause human
+    extinction, and that the industry's security and control measures are not ready.
+    This is a conditional warning, not a measured countdown. Cotra did not work on
+    the assessment or see its unredacted report, and was not speaking for its authors.
+  comparison: >
+    In its 10 November update, the AI Futures Project interprets METR's estimates
+    as roughly 1.7x AI-attributable acceleration in overall progress. In a model
+    trajectory adjusted to approximate AI 2027, that milestone occurs around April
+    2027: about five months after November 2026. This comparison concerns that
+    acceleration metric, not every event in the scenario. The authors now expect
+    superhuman AI researchers in 2027 absent a substantial deliberate slowdown,
+    and call urgently for pausing or pacing frontier development because companies
+    are not on track to align such systems.
   source:
     label: METR, Independent Assessment of AI R&D Acceleration at Anthropic in October 2026
     url: https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment/
+  source2:
+    label: Ajeya Cotra, AI is dramatically accelerating AI research right now (6 November)
+    url: https://www.planned-obsolescence.org/p/ai-is-dramatically-accelerating-ai
+  source3:
+    label: AI Futures Project, Q3.5 Timelines Update (10 November)
+    url: https://blog.aifutures.org/p/q35-timelines-update-looks-like-the
+  reaction1:
+    label: Jeffrey Ladish (@JeffLadish), 7 November 2026
+    quote: Look at this graph. Notice how it’s an exponential *on a log scale*. […] That’s fucking terrifying.
+    context: Responding to Cotra's conditional extrapolation of compounding acceleration; the graph illustrates a possible future, rather than an observed trajectory to superintelligence.
+    url: https://x.com/JeffLadish/status/2119179808886411316
+    mirror: https://teapawt.org/JeffLadish/status/2119179808886411316
+  reaction2:
+    label: Dane Sherburn (@danesherbs), 6 November 2026
+    quote: I feel sick after reading today’s METR report. I’m worried for my friends and family.
+    context: Sherburn, formerly a contract researcher on OpenAI's Preparedness team, also urged people considering helping to act.
+    url: https://x.com/danesherbs/status/2118612981529661763
+    mirror: https://nitter.cf/danesherbs/status/2118612981529661763
   limits: >
-    A judgement over Anthropic's own data, not a measurement. METR did not sample
-    from the unreleased models, Anthropic could decline requests and held redaction
-    rights, and it "redacted a majority of the evidence we found most informative",
-    so "the public has to rely on METR's judgment much more than would be ideal".
-    METR report "significant uncertainty and internal disagreements": the 80% share
-    is a guess, they are "not confident" in the bottleneck finding, and robustness
-    checks on the benchmark figure range from 1.1x to 2.9x. It covers one company and
-    well-specified tasks, and Anthropic's growth before late 2025 was below the
-    industry frontier, "which could explain some of the acceleration". AI still
-    assists rather than works alone: it is "not yet able to make highly significant
-    and fully autonomous contributions to the most important parts of the model
-    training process".
+    The benchmark acceleration is measured; its attribution to AI and the wider
+    risk assessment are uncertain judgments. Anthropic redacted most of the
+    evidence METR found most informative. This covers one company and verifiable
+    tasks; earlier catch-up could explain some acceleration. AI still mainly
+    assists humans. METR could be missing bottlenecks, but also underestimating
+    acceleration. The one-year extrapolation and five-month comparison depend on
+    additional assumptions; social reactions convey concern, not independent
+    measurements or a consensus forecast. Post text was checked through the linked
+    public mirrors because direct X retrieval was blocked.
 
 # --------------------------------------------------------- dangerous behavior
 

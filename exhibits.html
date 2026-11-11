@@ -29,6 +29,7 @@ permalink: /exhibits/
           <article class="exhibit">
             <h3 class="exhibit__title">{{ e.title }}</h3>
             <p class="exhibit__what">{{ e.what }}</p>
+            {% include exhibit-context.html %}
             <p class="exhibit__source">
               {{ e.date }} &middot;
               <a href="{{ e.source.url }}" target="_blank" rel="noopener noreferrer">{{ e.source.label }}</a>
@@ -39,6 +40,7 @@ permalink: /exhibits/
                 &middot; <a href="{{ e.source3.url }}" target="_blank" rel="noopener noreferrer">{{ e.source3.label }}</a>
               {% endif %}
             </p>
+            {% include exhibit-reactions.html %}
             <p class="exhibit__limits">{{ e.limits }}</p>
           </article>
         {% endif %}
@@ -51,6 +53,7 @@ permalink: /exhibits/
             <article class="exhibit exhibit--historical">
               <h4 class="exhibit__title">{{ e.title }}</h4>
               <p class="exhibit__what">{{ e.what }}</p>
+              {% include exhibit-context.html %}
               <p class="exhibit__source">
                 {{ e.date }} &middot;
                 <a href="{{ e.source.url }}" target="_blank" rel="noopener noreferrer">{{ e.source.label }}</a>
@@ -61,6 +64,7 @@ permalink: /exhibits/
                   &middot; <a href="{{ e.source3.url }}" target="_blank" rel="noopener noreferrer">{{ e.source3.label }}</a>
                 {% endif %}
               </p>
+              {% include exhibit-reactions.html %}
               <p class="exhibit__limits">{{ e.limits }}</p>
             </article>
           {% endif %}

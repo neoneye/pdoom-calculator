@@ -1,0 +1,21 @@
+{% if e.reaction1 or e.reaction2 %}
+  <div class="exhibit__reactions">
+    <p class="exhibit__what"><strong>Researchers' public reactions</strong></p>
+    {% assign reaction_keys = "reaction1,reaction2" | split: "," %}
+    {% for reaction_key in reaction_keys %}
+      {% assign reaction = e[reaction_key] %}
+      {% if reaction %}
+        <figure class="exhibit__reaction">
+          <blockquote><p>“{{ reaction.quote | escape }}”</p></blockquote>
+          <figcaption>
+            <p class="exhibit__source">
+              <a href="{{ reaction.url | escape }}" target="_blank" rel="noopener noreferrer">{{ reaction.label | escape }}</a>
+              &middot; <a href="{{ reaction.mirror | escape }}" target="_blank" rel="noopener noreferrer">Mirror used to verify text</a>
+            </p>
+            <p class="exhibit__reaction-context">{{ reaction.context | escape }}</p>
+          </figcaption>
+        </figure>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

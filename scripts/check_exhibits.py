@@ -75,6 +75,19 @@ def main():
                     errors.append(f"{where}: {field}.label missing")
             else:
                 errors.append(f"{where}: {field} must have label and url")
+        for field in ("reaction1", "reaction2"):
+            reaction = e.get(field)
+            if reaction is None:
+                continue
+            if not isinstance(reaction, dict):
+                errors.append(f"{where}: {field} must be a map")
+                continue
+            for key in ("label", "quote", "context", "url", "mirror"):
+                if not reaction.get(key):
+                    errors.append(f"{where}: {field}.{key} missing")
+            for key in ("url", "mirror"):
+                if not str(reaction.get(key, "")).startswith("https://"):
+                    errors.append(f"{where}: {field}.{key} must be an HTTPS URL")
 
     print(f"{len(entries)} exhibits, {len(errors)} problems")
     for err in errors:
