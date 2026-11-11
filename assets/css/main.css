@@ -612,6 +612,10 @@ input[type="range"] {
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
+  /* The same chevrons as the curve's knob (KNOB_CHEVRONS in index.html, sized at
+     72% there too). A thumb is a pseudo-element and cannot hold markup, so they
+     go in as a background; the stroke is --accent, which a data URI cannot read. */
+  --thumb-chevrons: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 14'%3E%3Cpath d='M7 2 L2 7 L7 12 M13 2 L18 7 L13 12' fill='none' stroke='%239a3412' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 input[type="range"]:focus-visible {
@@ -625,7 +629,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: 28px;
   border-radius: 50%;
   border: 3px solid var(--accent);
-  background: var(--surface);
+  background: var(--surface) var(--thumb-chevrons) center / 72% auto no-repeat;
   box-shadow: 0 0 0 6px var(--accent-soft);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   margin-top: -11px;
@@ -642,7 +646,7 @@ input[type="range"]::-moz-range-thumb {
   height: 28px;
   border-radius: 50%;
   border: 3px solid var(--accent);
-  background: var(--surface);
+  background: var(--surface) var(--thumb-chevrons) center / 72% auto no-repeat;
   box-shadow: 0 0 0 6px var(--accent-soft);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
