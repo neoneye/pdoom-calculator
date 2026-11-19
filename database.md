@@ -34,7 +34,9 @@ CREATE TABLE submissions (
   signed_payload text,
   signature text,
   page_version text,
-  calibration jsonb
+  calibration jsonb,
+  interaction jsonb,
+  origin jsonb
 );
 ```
 
@@ -96,6 +98,46 @@ the visitor never moved a midpoint. The report flags those rows and gives every
 figure with and without them. `NULL` when no quiz ran, and on every row before
 this date, for which the report recomputes the proposal from `quiz_answers`.
 Diagnostic, not identity: it stays outside the signed string like `page_version`.
+
+`interaction` and `origin` were added on 19 Nov 2026. **Run this before deploying a
+page that sends them**, for the same reason as `page_version`:
+
+```sql
+ALTER TABLE submissions
+  ADD COLUMN IF NOT EXISTS interaction jsonb,
+  ADD COLUMN IF NOT EXISTS origin jsonb;
+```
+
+`interaction` counts what the visitor did to the sliders, per factor, since the
+last proposal, path reset or registered submission, whichever came last:
+
+```json
+{"since": "2026-11-19T20:14:03.118Z", "first_ms": 4210, "last_ms": 38770,
+ "factors": [{"key": "powerfulAi", "knob": 2, "track": 0, "keys": 0, "spread": 1}]}
+```
+
+A drag is one gesture however far it travels, and a gesture that ends where it
+began is not counted. `knob` is a drag on the handle under the curve, `track` a tap
+or drag on the curve itself, `keys` a key press on the focused curve, `spread` a
+release of the ± slider. `first_ms` and `last_ms` are milliseconds from `since` to
+the first and the latest gesture, `null` when nothing was touched. A row that kept
+the proposal with every count at zero never engaged with the sliders; one that
+kept it after several gestures put the number back where the page had it.
+
+`origin` records where the visit came from, read once when the page loads:
+
+```json
+{"referrer": "news.ycombinator.com", "cohort": null, "utm_source": null,
+ "tz": "Europe/Copenhagen", "tz_offset": 60, "lang": "da-DK", "langs": ["da-DK", "en"]}
+```
+
+`referrer` is the host of the referring page only, never its path or query, and is
+the site's own host when the visitor arrived from another page here. `cohort` and
+`utm_source` come from the link (`?cohort=newsletter`), lower-cased and limited to
+`a-z 0-9 _ . -`, 40 characters. `tz` is the browser's IANA zone, `tz_offset` minutes
+east of UTC, `lang` and `langs` the browser's language settings (at most three).
+The table is publicly readable, so the page says beside the submit button that
+these are stored. Both columns are diagnostic and outside the signed string.
 
 Rows submitted before this date keep `NULL` in all eight. The four gate columns
 are also `NULL` for any beginner or medium submission that never met the gate,
@@ -167,4 +209,6 @@ CREATE POLICY "Allow anonymous reads"
 | `submit_count` | int | 1-based submission number for that `visitor_key`. |
 | `signed_payload` | text | The exact string the signature covers. Stored verbatim so verification never has to reconstruct it. |
 | `signature` | text | base64url of the raw 64-byte r‖s ECDSA signature over `signed_payload`. |
+| `interaction` | jsonb | Gesture counts per slider since the last proposal, reset or submission: `{since, first_ms, last_ms, factors: [{key, knob, track, keys, spread}]}`. Not covered by the signature. `null` before 19 Nov 2026. |
+| `origin` | jsonb | Where the visit came from: `{referrer, cohort, utm_source, tz, tz_offset, lang, langs}`. Referrer is a host only. Not covered by the signature. `null` before 19 Nov 2026. |
 | `page_version` | text | The commit the page was built from (`site.github.build_revision`). Pins the option list, term list and quiz the row was answered on. Not covered by the signature. `null` before 2 Sep 2026. |

@@ -123,7 +123,8 @@ Gaps / potential future questions:
         <button class="primary-button" id="submitParametersButton" type="button">Register your prediction</button>
         <p class="submission-note">
           Your answers join a
-          <a class="stats-link" href="{{ '/stats/' | relative_url }}">public dataset</a>.
+          <a class="stats-link" href="{{ '/stats/' | relative_url }}">public dataset</a>,
+          with your timezone, browser language and the site that linked you here.
         </p>
         <p class="submission-status" id="submissionStatus" aria-live="polite"></p>
         <div class="exhibit-result" id="exhibitResult" hidden></div>
@@ -167,6 +168,82 @@ Gaps / potential future questions:
     // What the quiz proposed before the visitor touched a slider. Lives and dies
     // with latestQuizData: cleared on reset, never restored across a reload.
     let latestCalibration = null;
+
+    // How the visitor handled the sliders, counted per factor since the last
+    // proposal, path reset or registered submission, whichever came last. A
+    // drag is one gesture however far it travels. `knob` is a drag on the handle
+    // under the curve, `track` a tap or drag on the curve itself, `keys` a key
+    // press on the focused curve, `spread` a release of the ± slider. Without
+    // this a row that kept the proposal cannot be told from one that never
+    // touched anything. Diagnostic: outside the signed string.
+    let interactionLog = newInteractionLog();
+    function newInteractionLog() {
+      return { since: new Date().toISOString(), startedAt: performance.now(), firstMs: null, lastMs: null, counts: {} };
+    }
+    function resetInteractionLog() {
+      interactionLog = newInteractionLog();
+    }
+    function noteInteraction(key, kind) {
+      const counts = interactionLog.counts[key] || (interactionLog.counts[key] = { knob: 0, track: 0, keys: 0, spread: 0 });
+      if (!(kind in counts)) return;
+      counts[kind] += 1;
+      const ms = Math.round(performance.now() - interactionLog.startedAt);
+      if (interactionLog.firstMs === null) interactionLog.firstMs = ms;
+      interactionLog.lastMs = ms;
+    }
+    function buildInteractionPayload() {
+      return {
+        since: interactionLog.since,
+        // Milliseconds from `since` to the first and the latest gesture; null
+        // when no slider was touched.
+        first_ms: interactionLog.firstMs,
+        last_ms: interactionLog.lastMs,
+        factors: config.map(({ key }) => Object.assign({ key }, interactionLog.counts[key] || { knob: 0, track: 0, keys: 0, spread: 0 }))
+      };
+    }
+
+    // Where the visit came from, read once when the page loads. Only the host of
+    // the referring page is kept, never its path or query, which can carry search
+    // terms or private ids. `cohort` and `utm_source` are tags a shared link may
+    // carry (?cohort=newsletter). Timezone and language are the browser's own
+    // settings. Diagnostic: outside the signed string.
+    const visitOrigin = captureVisitOrigin();
+    function captureVisitOrigin() {
+      const tag = (value) => {
+        const cleaned = String(value || '').toLowerCase().replace(/[^a-z0-9_.-]/g, '').slice(0, 40);
+        return cleaned || null;
+      };
+      let referrer = null;
+      try {
+        if (document.referrer) referrer = new URL(document.referrer).host.slice(0, 100) || null;
+      } catch (error) {
+        referrer = null;
+      }
+      let params = null;
+      try {
+        params = new URLSearchParams(window.location.search);
+      } catch (error) {
+        params = null;
+      }
+      let tz = null;
+      try {
+        tz = Intl.DateTimeFormat().resolvedOptions().timeZone || null;
+      } catch (error) {
+        tz = null;
+      }
+      const languages = Array.isArray(navigator.languages) ? navigator.languages : [];
+      return {
+        referrer,
+        cohort: params ? tag(params.get('cohort')) : null,
+        utm_source: params ? tag(params.get('utm_source')) : null,
+        tz,
+        // Minutes east of UTC at load, so a row still places itself when the
+        // browser withholds the zone name.
+        tz_offset: -new Date().getTimezoneOffset(),
+        lang: typeof navigator.language === 'string' ? navigator.language.slice(0, 35) : null,
+        langs: languages.slice(0, 3).map((value) => String(value).slice(0, 35))
+      };
+    }
     // What the last successful submission said, minus its timestamp. Pressing the
     // button again with nothing changed would insert a byte-identical row, so the
     // button stays disabled until a slider or an answer moves. Changing your mind
@@ -1346,6 +1423,7 @@ Gaps / potential future questions:
       gateState = null;
       latestQuizData = null;
       latestCalibration = null;
+      resetInteractionLog();
       refreshSubmitAvailability();
     }
 
@@ -2289,6 +2367,9 @@ Gaps / potential future questions:
           : null,
         applied_at: new Date().toISOString()
       } : null;
+      // Counts start over with each proposal, so they describe what the visitor
+      // did to this proposal and not to an earlier one.
+      resetInteractionLog();
       const spreadText = typeof spreadToApply === 'number'
         ? ` Sliders set to ±${spreadToApply.toFixed(1)} pts.`
         : '';
@@ -2562,7 +2643,11 @@ Gaps / potential future questions:
         // What the quiz proposed before the visitor touched a slider, so a row
         // says both what the page set and what the visitor registered. Null when
         // no quiz ran. Outside the signed string for the same reason as above.
-        calibration: latestCalibration
+        calibration: latestCalibration,
+        // Gesture counts per slider and where the visit came from. Both are
+        // diagnostic and outside the signed string, like the two above.
+        interaction: buildInteractionPayload(),
+        origin: visitOrigin
       };
     }
 
@@ -2644,6 +2729,7 @@ Gaps / potential future questions:
         console.info('[developer] submission withheld, nothing sent:', draft);
         // Remembered anyway, so the duplicate guard can be exercised without a row.
         lastSubmittedKey = draftKey;
+        resetInteractionLog();
         refreshSubmitAvailability();
         setSubmissionStatus('Developer mode — nothing was sent. Payload logged to the console.', 'error');
         renderExhibits();
@@ -2682,6 +2768,8 @@ Gaps / potential future questions:
         // between their first submission and their fortieth.
         if (identity) persistSubmitCount(nextCount);
         lastSubmittedKey = key;
+        // The next row counts only what happens after this one.
+        resetInteractionLog();
         setSubmissionStatus('Submitted! Thanks for contributing.', 'success');
         renderExhibits();
       } catch (error) {
@@ -3123,6 +3211,19 @@ Gaps / potential future questions:
       // Where on the knob the pointer went down, in px from its centre. Without it
       // a grab a few pixels off-centre would nudge the midpoint before any drag.
       let grabOffsetX = 0;
+      // Midpoint when the pointer went down, so a gesture that ends where it
+      // began is not counted as one.
+      let gestureStartMidpoint = null;
+      const currentMidpoint = () => {
+        const current = state.get(key) || {};
+        return typeof current.midpoint === 'number' ? current.midpoint : null;
+      };
+      const finishGesture = () => {
+        if (gestureStartMidpoint !== null && currentMidpoint() !== gestureStartMidpoint) {
+          noteInteraction(key, captureTarget === knob ? 'knob' : 'track');
+        }
+        gestureStartMidpoint = null;
+      };
 
       const applyMidpoint = (event) => {
         if (DIAG) diagCounts.pointer++;
@@ -3136,6 +3237,7 @@ Gaps / potential future questions:
         pointerActive = true;
         captureTarget = event.currentTarget;
         grabOffsetX = 0;
+        gestureStartMidpoint = currentMidpoint();
         if (captureTarget === knob) {
           const rect = knob.getBoundingClientRect();
           grabOffsetX = event.clientX - (rect.left + rect.width / 2);
@@ -3163,6 +3265,7 @@ Gaps / potential future questions:
         event.preventDefault();
         if (captureTarget !== knob) applyMidpoint(event);
         pointerActive = false;
+        finishGesture();
         releaseCapture();
       };
 
@@ -3182,6 +3285,7 @@ Gaps / potential future questions:
       const handlePointerCancel = (event) => {
         if (!pointerActive) return;
         pointerActive = false;
+        finishGesture();
         releaseCapture();
       };
 
@@ -3206,10 +3310,12 @@ Gaps / potential future questions:
         } else if (event.key === 'Home') {
           event.preventDefault();
           updateState(key, 'midpoint', 0);
+          noteInteraction(key, 'keys');
           return;
         } else if (event.key === 'End') {
           event.preventDefault();
           updateState(key, 'midpoint', 100);
+          noteInteraction(key, 'keys');
           return;
         } else {
           return;
@@ -3219,6 +3325,7 @@ Gaps / potential future questions:
         const current = state.get(key) || {};
         const base = typeof current.midpoint === 'number' ? current.midpoint : 50;
         updateState(key, 'midpoint', clamp(base + delta, 0, 100));
+        noteInteraction(key, 'keys');
       });
     }
 
@@ -3263,6 +3370,14 @@ Gaps / potential future questions:
         if (DIAG) { diagCounts.input++; diagLog('input', { target: (event.target.tagName || '') + '#' + (event.target.id || '') + '[' + (event.target.type || '') + ']' }); }
         if (event.target.matches('input[type="range"]')) {
           handleRangeInput(event);
+        }
+      });
+
+      // `change` fires once when the ± slider is released, so a drag counts once.
+      document.addEventListener('change', (event) => {
+        const target = event.target;
+        if (target && target.matches && target.matches('input[type="range"][data-role="spread"]') && target.dataset.key) {
+          noteInteraction(target.dataset.key, 'spread');
         }
       });
 
