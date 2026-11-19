@@ -91,7 +91,7 @@ except ImportError:  # pragma: no cover - depends on the local environment
 FACTOR_KEYS = ("powerfulAi", "dangerousBehavior", "globalCatastrophe")
 QUIZ_LEVELS = ("beginner", "medium", "expert")
 
-# Entertainment options added after the quiz launched. A respondent who submitted
+# Options added after the quiz launched. A respondent who submitted
 # before an option existed never had the chance to tick it, so it is excluded from
 # that option's denominator. Refresh after adding a title with:
 #   git log --format=%ad --date=short -S'<option-id>' -- index.html | tail -1
@@ -100,6 +100,7 @@ OPTION_ADDED = {
     "entertainment-eagle-eye": "2026-08-18",
     "entertainment-dont-look-up": "2026-09-12",
     "entertainment-idiocracy": "2026-09-12",
+    "expert-research-organisations-metr": "2026-11-19",
 }
 
 # Knowledge-check terms change too. A term added later was never shown to earlier
@@ -746,11 +747,12 @@ def parse_question_options(index_html, question_id):
 def expert_breakdown(submissions, index_html):
     """Per-question tick rates for expert-quiz takers, plus each taker's name recall."""
     experts = [s for s in submissions if s.get("quiz_flow_id") == "expert"]
-    questions, name_ids = [], []
+    questions, name_ids, name_options = [], [], []
     for qid, label, kind in EXPERT_QUESTIONS:
         options = parse_question_options(index_html, qid)
         if kind == "names":
             name_ids.append(qid)
+            name_options.extend(oid for oid, _ in options)
         ticked = [len(a.get("values") or [])
                   for s in experts for a in s.get("quiz_answers") or []
                   if a["question_id"] == qid]
@@ -764,13 +766,17 @@ def expert_breakdown(submissions, index_html):
             "median": statistics.median(ticked),
             "none": sum(1 for t in ticked if t == 0),
         })
-    name_total = sum(q["opts"] for q in questions if q["kind"] == "names")
+    def names_shown(s):
+        """How many names the page listed on this row's day (see OPTION_ADDED)."""
+        day = s["submitted_at"][:10]
+        return sum(1 for oid in name_options if OPTION_ADDED.get(oid) is None or day > OPTION_ADDED[oid])
+
     people = []
     for s in experts:
         ticked = {a["question_id"]: len(a.get("values") or [])
                   for a in s.get("quiz_answers") or []}
         recalled = sum(n for qid, n in ticked.items() if qid in name_ids)
-        people.append({"names": recalled, "of": name_total,
+        people.append({"names": recalled, "of": names_shown(s),
                        "m": round(s["summary"]["midpoint"], 4),
                        # True: cleared the check. False: fell short, went on anyway.
                        # None: submitted before the check existed -- self-declared.
