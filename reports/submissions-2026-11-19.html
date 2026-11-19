@@ -1700,6 +1700,10 @@ function clusterStrips(containerId, ttId, clusters, people, opts) {
     : '<span class="t">' + h.c.label + (opts.multi ? ' · ' + h.p.k + ' of ' + opts.of + ' ticked' : '') + ' · ' + h.p.t +
       (h.p.v === true ? ' · cleared the check' : h.p.v === false ? ' · fell short of the check, continued anyway' : '') + (h.p.dup ? ' · repeat row' : '') + (h.p.mv === false ? ' · kept the proposal' : '') + '</span><br>p(doom) <b>' + pct(h.p.m) + '</b><br>p10–p90: <b>' + pct(h.p.p10) + ' – ' + pct(h.p.p90) + '</b>', hits.concat(bars));
 }
+// A written finding under a single question's charts, keyed by question id.
+const Q_NOTES = {
+  'medium-off-the-rails': '<span class="lead">The more of it they have seen, the higher the number: 49%, 63%, 70%, and 96% for the 14 who bypassed safety filters.</span>That last group is far above the other three, but most of it is the proposal. Eight of the 14 kept the page’s number, and those eight sit between 95% and 100%. The other six all moved it down, by 6 to 72 points, and landed between 0% and 64%, a median of 43%. Among movers only, the four groups read 33%, 28%, 27% and 43%: the steps disappear, and what is left is six people at the top, too few to lean on. This answer is one of three that raise the proposal, so the staircase is partly the calculator describing itself.',
+};
 {
   for (const flow of ['beginner', 'medium', 'expert']) {
     const sc = DATA.quizScore[flow];
@@ -1722,6 +1726,7 @@ function clusterStrips(containerId, ttId, clusters, people, opts) {
       split.appendChild(left); split.appendChild(right);
       const lateAdded = q.options.some(o => o.of < q.n);
       if (lateAdded) { const fn = document.createElement('p'); fn.className = 'footnote'; fn.textContent = '* option added partway through, so its denominator is smaller.'; left.appendChild(fn); }
+      if (Q_NOTES[q.id]) { const note = document.createElement('p'); note.className = 'finding'; note.innerHTML = Q_NOTES[q.id]; fig.appendChild(note); }
       box.appendChild(fig);
       const items = q.multi ? [...q.options].sort((a, b) => (b.of ? b.n / b.of : 0) - (a.of ? a.n / a.of : 0) || b.n - a.n) : q.options;
       const longest = Math.max(...q.options.map(o => o.label.length));
