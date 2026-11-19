@@ -921,7 +921,7 @@ def knowledge_check(submissions, index_html):
             # visitor registered and how it differs from the band the quiz proposed.
             "t": s["submitted_at"][:10],
             "lvl": s.get("quiz_flow_id"),
-            "mv": s.get("_moved"),
+            "mv": s.get("_moved"), "gap": s.get("_gap"),
             "rep": bool(s.get("_dup")),
             **band_fields(s),
         })
