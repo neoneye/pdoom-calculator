@@ -119,6 +119,9 @@ TERM_LIST_BY_VERSION = {v: "current" for v in (
     "d1ef5e3", "779da8b", "893e969", "1abbce5", "e3a2aa0", "dc2029b", "b7f88fb",
     "5f2a9bb", "215181a", "5100d1b", "8e4ed0b", "0653992", "3325850", "266e8c0",
     "784ada9", "e93a5e3",
+    # 15 Oct - 11 Nov 2026: reports, the beginner "shut down" wording, the midpoint
+    # knob and the METR exhibit. None touched the term list (git diff e93a5e3 996bae8).
+    "4a39f77", "25e0c03", "1ea27bd", "996bae8",
 )}
 # name -> {"added": [ids not in that list], "retired": [(id, label, aiRelated)] present then}
 TERM_LIST_DIFFS = {"current": {"added": [], "retired": []}}
