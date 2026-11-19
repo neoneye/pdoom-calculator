@@ -136,8 +136,9 @@ the site's own host when the visitor arrived from another page here. `cohort` an
 `utm_source` come from the link (`?cohort=newsletter`), lower-cased and limited to
 `a-z 0-9 _ . -`, 40 characters. `tz` is the browser's IANA zone, `tz_offset` minutes
 east of UTC, `lang` and `langs` the browser's language settings (at most three).
-The table is publicly readable, so the page says beside the submit button that
-these are stored. Both columns are diagnostic and outside the signed string.
+The table is publicly readable, and the note beside the submit button says only
+that answers join a public dataset; this file is where the stored fields are
+listed. Both columns are diagnostic and outside the signed string.
 
 Rows submitted before this date keep `NULL` in all eight. The four gate columns
 are also `NULL` for any beginner or medium submission that never met the gate,
