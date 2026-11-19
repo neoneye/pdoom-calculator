@@ -83,7 +83,7 @@
     -webkit-font-smoothing: antialiased;
   }
   a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
-  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   b, strong { font-weight: 620; }
 
   .page {
@@ -197,14 +197,11 @@
   tr.newrow td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 
   /* Every question, folded away until asked for. */
-  details.all-q { margin: 0 0 12px; border-top: 1px solid var(--line-strong); }
-  details.all-q > summary { cursor: pointer; list-style: none; padding: 14px 0; font-size: 15px; font-weight: 620; color: var(--ink); display: flex; align-items: center; gap: 10px; }
-  details.all-q > summary::-webkit-details-marker { display: none; }
-  details.all-q > summary::before { content: '+'; display: inline-grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--line-strong); border-radius: 50%; font-weight: 500; color: var(--accent); line-height: 1; }
-  details.all-q[open] > summary::before { content: '–'; }
-  details.all-q > summary span { font-weight: 400; color: var(--ink-3); font-size: 13.5px; }
-  details.all-q .qfig { margin: 18px 0 40px; }
-  details.all-q .qfig h3 { font-size: 19px; }
+  div.all-q { margin: 0 0 12px; border-top: 1px solid var(--line-strong); }
+  .all-q-head { margin: 0; padding: 14px 0; font-size: 15px; font-weight: 620; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+  .all-q-head span { font-weight: 400; color: var(--ink-3); font-size: 13.5px; }
+  .all-q .qfig { margin: 18px 0 40px; }
+  .all-q .qfig h3 { font-size: 19px; }
 
   .notes { margin: 0; padding: 0; list-style: none; counter-reset: note; max-width: 76ch; }
   .notes li { counter-increment: note; position: relative; padding: 14px 0 14px 40px; border-top: 1px solid var(--line); font-size: 15px; color: var(--ink-2); line-height: 1.62; }
@@ -455,7 +452,7 @@
         <p class="finding"><span class="lead">Pooled, the thirds sit at 57%, 55% and 51%. Among the 63 who moved a slider: 40%, 34% and 31%.</span>The pooled slope is the proposal, which rises with every box ticked; 42 of the 105 beginners kept it. Among movers a shallow slope remains, on thirds of 17 to 25 people, and it has been level or shallow at every export. One list has run the other way three exports in a row. Beginners who ticked 11 or 12 catastrophes and set their own number registered a median 27% (n = 36); the middle third 46% (n = 13); those who ticked fewest 56% (n = 14). The visitors who recognise most of the ways the world could end set the lowest number.</p>
         <p class="finding"><span class="lead">The gut-reaction question is the one that sorts.</span>"The AI can easily be shut down" goes with a median 34%, "takes some effort" with 51%, "it would likely outsmart us" with 71%; among movers 27%, 30% and 49%. It is an opinion, and it picks the band the proposal starts in, so it is close to the sliders restated. On 7 November the first answer's description was qualified to say the servers must be on the ground; seven beginner rows have arrived since, too few to see a change in who picks it.</p>
       </figure>
-      <details class="all-q"><summary>Every beginner question <span>four charts: what was ticked, and the p(doom) that went with it</span></summary><div id="questions-beginner"></div></details>
+      <div class="all-q"><p class="all-q-head">Every beginner question <span>four charts: what was ticked, and the p(doom) that went with it</span></p><div id="questions-beginner"></div></div>
     </section>
 
     <!-- ============ 5. MEDIUM ============ -->
@@ -477,7 +474,7 @@
         <div class="card" style="max-width:1022px"><div class="plot"><div id="score-medium"></div><div class="tooltip" id="tt-score-medium"></div></div></div>
         <p class="finding"><span class="lead">Among movers the thirds read 36%, 26% and 30%. At the last report they read 35%, 22% and 49%.</span>The order has changed at every export, which is what a checklist with no signal looks like when it is cut into thirds. The entries fewest recognise are side-channel attacks (65 of 150), adversarial attacks and model stealing (87 each).</p>
       </figure>
-      <details class="all-q"><summary>Every medium question <span>six charts</span></summary><div id="questions-medium"></div></details>
+      <div class="all-q"><p class="all-q-head">Every medium question <span>six charts</span></p><div id="questions-medium"></div></div>
     </section>
 
     <!-- ============ 6. EXPERT ============ -->
@@ -493,7 +490,7 @@
         <p class="finding"><span class="lead">The third who ticked most submitted a median 44%, the middle 37%, the third who ticked fewest 30%. Among movers: 42%, 25%, 27%.</span>The pooled figures now step down in order, which they did not at the last report (45%, 28%, 31%); among movers the lower two thirds are still level. The one list that sorts in both views is the campaign organisations. The 52 who recognised two or three of PauseAI, ControlAI and Microcommit submitted a median 52%; the 40 who recognised one, 34%; the 26 who recognised none, 26%. Among movers it is 42%, 23% and 23%. Knowing the organisations that campaign about AI risk and expecting a catastrophe go together, which is close to saying one thing twice.</p>
         <p class="finding"><span class="lead">The funding question spans the widest range on the site: 9% to 79%.</span>The ten who would stop funding all AI research, alignment included, registered a median 79%. The ten who would spend the alignment money on capabilities, 9%. The 77 who say too little is being spent on alignment sit at 42%. It is an opinion question, and like the others it mostly restates the sliders.</p>
       </figure>
-      <details class="all-q"><summary>Every expert question <span>eight charts</span></summary><div id="questions-expert"></div></details>
+      <div class="all-q"><p class="all-q-head">Every expert question <span>eight charts</span></p><div id="questions-expert"></div></div>
     </section>
 
     <!-- ============ 7. DUNNING-KRUGER ============ -->
@@ -1789,6 +1786,5 @@ function markScrollable() {
 markScrollable();
 window.addEventListener('resize', markScrollable);
 for (const svg of document.querySelectorAll('#chart-levels svg')) svg.style.minWidth = '290px';
-for (const d of document.querySelectorAll('details.all-q')) d.addEventListener('toggle', markScrollable);
 </script>
 </html>
